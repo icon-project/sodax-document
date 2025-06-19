@@ -28,7 +28,7 @@ const supportedReserves = sodax.moneyMarket.getSupportedReserves();
 
 Please refer to [SDK constants.ts](https://github.com/icon-project/sodax-frontend/blob/main/packages/sdk/src/constants.ts) for more.
 
-#### Initialising Spoke Provider
+### Initialising Spoke Provider
 
 Refer to Initialising Spoke Provider section to see how BSC spoke provider used as `bscSpokeProvider` can be created.
 

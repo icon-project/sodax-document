@@ -25,11 +25,11 @@ const isSolverSupportedToken: boolean = isSolverSupportedToken(spokeChainId, tok
 
 Please refer to [SDK constants.ts](https://github.com/icon-project/sodax-frontend/blob/main/packages/sdk/src/constants.ts) for more.
 
-#### Initialising Spoke Provider
+### Initialising Spoke Provider
 
 Refer to [Initialising Spoke Provider](./#initialising-spoke-provider) section to see how BSC spoke provider used as `bscSpokeProvider` can be created.
 
-#### Request a Quote
+### Request a Quote
 
 Requesting a quote should require you to just consume user input amount and converting it to the appropriate token amount (scaled by token decimals).\
 All the required configurations (chain id \[nid], token decimals and address) should be loaded as described in Load SDK Config.
@@ -72,7 +72,7 @@ const arbWbtcToken = '0x2f2a2543B76A4166549F7aaB2e75Bef0aefC5B0f'; // Address of
   }
 ```
 
-#### Token Approval Flow
+### Token Approval Flow
 
 Before creating an intent, you need to ensure that the Asset Manager contract has permission to spend your tokens. Here's how to handle the approval flow:
 
@@ -134,7 +134,7 @@ if (!isApproved.ok) {
 // ... continue with createIntent or createAndSubmitIntent ...
 ```
 
-#### Create And Submit Intent Order
+### Create And Submit Intent Order
 
 Creating Intent Order requires creating spoke provider for the chain that intent is going to be created on (`token_src_blockchain_id`).
 
@@ -200,7 +200,7 @@ Example for BSC -> ARB Intent Order:
   const [txHash, intent] = createIntentResult.value;
 ```
 
-#### Get Intent Order
+### Get Intent Order
 
 Retrieve intent data using tx hash obtained from intent creation response.
 
@@ -208,7 +208,7 @@ Retrieve intent data using tx hash obtained from intent creation response.
 const intent = await sodax.solver.getIntent(txHash, hubProvider);
 ```
 
-#### Cancel Intent Order
+### Cancel Intent Order
 
 Active Intent Order can be cancelled using Intent. See Get Intent Order on how to obtain intent.**Note** create intent functions also return intent data for convenience.
 
@@ -222,7 +222,7 @@ const result = await sodax.solver.cancelIntent(
 );
 ```
 
-#### Get Intent Status
+### Get Intent Status
 
 Retrieve status of intent.
 
@@ -232,7 +232,7 @@ const result = await sodax.solver.getStatus({
   } satisfies IntentStatusRequest);
 ```
 
-#### Get Intent Hash
+### Get Intent Hash
 
 Get Intent Hash (keccak256) used as an ID of intent in smart contract.
 
