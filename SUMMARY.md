@@ -1,7 +1,8 @@
 # Table of contents
 
-* [Sodax](README.md)
-* [Product Overview](readme-1.md)
+## WELCOME TO SODAX
+
+* [Product Overview](README.md)
 
 ## 💻 Developers
 
