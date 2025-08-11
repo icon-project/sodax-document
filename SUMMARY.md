@@ -2,8 +2,8 @@
 
 ## WELCOME TO SODAX
 
-* [Contact Form](README.md)
-* [Product Overview](<README (1).md>)
+* [Product Overview](README.md)
+* [Contact Form](<README (1).md>)
 
 ## 💻 Developers
 
