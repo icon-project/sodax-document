@@ -1,6 +1,4 @@
-# Sodax
-
-## Sodax Product Overview
+# Product Overview
 
 Sodax is a modular DeFi infrastructure stack built to abstract cross-chain complexity and unlock unified liquidity across EVM and non-EVM chains. It enables builders to integrate swapping, lending, stablecoin minting, and wallet management into their applications with minimal effort.
 
@@ -28,7 +26,7 @@ In addition to user participation, the Sodax solver system is also integrated wi
 * Multi-chain lending with single-asset supply
 * Collateralized borrowing across all chains and solver-driven liquidity usage
 * Flash loan-style interactions for execution use cases
-* Revenue shared to suppliers&#x20;
+* Revenue shared to suppliers
 
 #### Stablecoin: bnUSD
 
@@ -132,4 +130,3 @@ A high-level frontend utility package that combines the Core and Wallet SDKs. It
 * GMP Compatible: Fully abstracted message-passing layer for secure cross-chain intents
 
 ***
-

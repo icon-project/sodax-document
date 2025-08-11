@@ -1,7 +1,7 @@
 # Table of contents
 
 * [Sodax](README.md)
-* [Sodax](readme-1.md)
+* [Product Overview](readme-1.md)
 
 ## 💻 Developers
 
