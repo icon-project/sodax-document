@@ -3,13 +3,14 @@
 * [Sodax](README.md)
 * [Sodax](readme-1.md)
 
-## 💻  Developers
+## 💻 Developers
 
 * [📑 Deployments](developers/deployments/README.md)
   * [Mainnet](developers/deployments/mainnet.md)
   * [Relayer API endpoints](developers/deployments/relayer-api-endpoints.md)
   * [Solver API endpoints](developers/deployments/solver-api-endpoints.md)
   * [xCall Scanner](developers/deployments/xcall-scanner.md)
+  * [Solver: Compatible Assets](developers/deployments/solver-compatible-assets.md)
 * [🛠️ SDKs](developers/sdks/README.md)
   * [@sodax/sdk](developers/sdks/sodax-sdk/README.md)
     * [🔄 Swaps (Solver)](developers/sdks/sodax-sdk/swaps-solver.md)
