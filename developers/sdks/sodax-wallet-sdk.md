@@ -10,20 +10,18 @@ description: >-
 
 * Seamless wallet connectivity for all supported wallets in the Sodax network
   * EVM Wallets: All browser extensions that support [EIP-6963](https://eips.ethereum.org/EIPS/eip-6963) (Hana Wallet, MetaMask, Phantom, etc.) ✅
-  * Sui Wallets: ❌ Coming soon
-  * Solana Wallets: ❌ Coming soon
-  * Stellar Wallets: ❌ Coming soon
-  * Injective Wallets: ❌ Coming soon
-  * Havah Wallets: ❌ Coming soon
-  * ICON Wallets: ❌ Coming soon
+  * Sui Wallets: All browser extension that @mysten/dapp-kit supports (Hana, Sui Wallet, Suiet, etc.) ✅
+  * Solana Wallets: ✅
+  * Stellar Wallets: ✅
+  * Injective Wallets: ✅
+  * ICON Wallets: ✅ (Hana Wallet and other ICON-compatible extensions)
 * Address and connection state management
   * EVM (Arbitrum, Avalanche, Base, BSC, Optimism, Polygon) ✅
-  * Sui ❌ Coming soon
-  * Solana ❌ Coming soon
-  * Stellar ❌ Coming soon
-  * Injective ❌ Coming soon
-  * Havah ❌ Coming soon
-  * ICON ❌ Coming soon
+  * Sui ✅
+  * Solana ✅
+  * Stellar ✅
+  * Injective ✅
+  * ICON ✅
 
 ### Installation
 
@@ -54,14 +52,18 @@ This package requires the following peer dependencies:
 ```typescript
 import { XWagmiProviders, useXConnectors, useXConnect, useXAccount } from '@sodax/wallet-sdk';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import {
+  ARBITRUM_MAINNET_CHAIN_ID,
+  AVALANCHE_MAINNET_CHAIN_ID,
+  BASE_MAINNET_CHAIN_ID,
+  BSC_MAINNET_CHAIN_ID,
+  OPTIMISM_MAINNET_CHAIN_ID,
+  POLYGON_MAINNET_CHAIN_ID,
+  SONIC_MAINNET_CHAIN_ID,
+} from '@sodax/types';
 
 // Create a QueryClient instance
 const queryClient = new QueryClient();
-
-// Your wagmi configuration
-const wagmiConfig = {
-  // ... your wagmi config
-};
 
 function App() {
   return (
@@ -69,7 +71,15 @@ function App() {
       <XWagmiProviders
         config={{
           EVM: {
-            wagmiConfig: wagmiConfig,
+            chains: [
+              ARBITRUM_MAINNET_CHAIN_ID,
+              AVALANCHE_MAINNET_CHAIN_ID,
+              BASE_MAINNET_CHAIN_ID,
+              BSC_MAINNET_CHAIN_ID,
+              OPTIMISM_MAINNET_CHAIN_ID,
+              POLYGON_MAINNET_CHAIN_ID,
+              SONIC_MAINNET_CHAIN_ID,
+            ],
           },
           SUI: {
             isMainnet: true,
@@ -77,6 +87,9 @@ function App() {
           SOLANA: {
             endpoint: 'https://your-rpc-endpoint',
           },
+          ICON: {},
+          INJECTIVE: {},
+          STELLAR: {},
         }}
       >
         <WalletConnect />
@@ -190,7 +203,6 @@ This example demonstrates:
 * `StellarXConnector` - Stellar wallet connector
 * `InjectiveMetamaskXConnector` - Injective MetaMask connector
 * `InjectiveKelprXConnector` - Injective Keplr connector
-* `HavahXConnector` - Havah wallet connector
 * `IconXConnector` - ICON wallet connector
 
 ### Contributing
