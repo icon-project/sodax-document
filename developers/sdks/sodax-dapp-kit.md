@@ -16,18 +16,19 @@ dApp Kit is a collection of React components, hooks, and utilities designed to s
   * Borrow tokens from the money market (`useBorrow`)
   * Repay borrowed tokens (`useRepay`)
   * Get user reserves data (`useUserReservesData`)
-  * Calculate hub wallet address by using spoke chain id and spoke chain wallet address (`useHubWalletAddress`)
+  * Get reserves data (`useReservesData`)
+  * Check token allowance (`useMMAllowance`)
+  * Approve token spending (`useMMApprove`)
 * Swap/Intent
   * Get quote for an intent order (`useQuote`)
   * Create and submit an intent order (`useCreateIntentOrder`)
   * Get status of an intent order (`useStatus`)
+  * Check token allowance (`useSwapAllowance`)
+  * Approve token spending (`useSwapApprove`)
 * Provider
   * Get hub chain provider (`useHubProvider`)
   * Get spoke chain provider (`useSpokeProvider`)
   * Get wallet provider (`useWalletProvider`)
-* Token Management
-  * Check token allowance (`useAllowance`)
-  * Approve token spending (`useApprove`)
 
 ### Installation
 
@@ -66,7 +67,7 @@ const sodaxConfig = {
   moneyMarket: getMoneyMarketConfig(SONIC_MAINNET_CHAIN_ID),
   solver: {
     intentsContract: '0x6382D6ccD780758C5e8A6123c33ee8F4472F96ef',
-    solverApiEndpoint: 'https://staging-new-world.iconblockchain.xyz',
+    solverApiEndpoint: 'https://sodax-solver-staging.iconblockchain.xyz',
     partnerFee: {
       address: '0x0Ab764AB3816cD036Ea951bE973098510D8105A6',
       percentage: 100, // 1%
@@ -147,11 +148,11 @@ function MoneyMarketComponent() {
 }
 
 // Token Management
-import { useAllowance, useApprove } from '@sodax/dapp-kit';
+import { useMMAllowance, useApprove } from '@sodax/dapp-kit';
 
 function TokenManagementComponent() {
   // Check token allowance
-  const { data: hasAllowed } = useAllowance(token, amount);
+  const { data: hasAllowed } = useMMAllowance(token, amount);
   
   // Approve token spending
   const { approve, isLoading: isApproving } = useApprove(token);
@@ -212,20 +213,23 @@ function SwapComponent() {
 * `useRepay()` - Repay borrowed tokens
 * `useSupply()` - Supply tokens to the money market
 * `useWithdraw()` - Withdraw supplied tokens
-* `useUserReservesData()` - Get list of supplied assets
-* `useHubWalletAddress()` - Get hub wallet address for a spoke chain
+* `useUserReservesData()` - Get user's reserves data(supplied asset and debt)
+* `useReservesData()` - Get reserves data
+* `useMMAllowance()` - Check token allowance for a specific amount
+* `useMMApprove()` - Approve token spending
 
 **Swap Hooks**
 
 * `useQuote()` - Get quote for an intent order
 * `useCreateIntentOrder()` - Create and submit an intent order
 * `useStatus()` - Get status of an intent order
+* `useSwapAllowance()` - Check token allowance for an intent order
+* `useSwapApprove()` - Approve token spending
 
 **Shared Hooks**
 
 * `useSodaxContext()` - Access Sodax context and configuration
-* `useAllowance()` - Check token allowance for a specific amount
-* `useApprove()` - Approve token spending
+* `useEstimateGas()` - Estimate gas costs for transactions
 
 ### Contributing
 
