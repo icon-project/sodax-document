@@ -10,25 +10,23 @@ description: >-
 
 #### Swaps (Solver / Intents)
 
-* EVM (Arbitrum, Avalanche, Base, BSC, Optimism, Polygon) ✅
+* EVM (Arbitrum, Avalanche, Base, BSC, Optimism, Polygon, Sonic) ✅
 * Sui ✅
 * Stellar ✅
 * ICON ✅
-* Solana ❌ Coming soon
-* Injective ❌ Coming soon
-* Havah ❌ Coming soon
+* Solana ✅
+* Injective ✅
 
 [Swaps Docs.](swaps-solver.md)
 
 #### Lend and Borrow (Money Market)
 
-* EVM (Arbitrum, Avalanche, Base, BSC, Optimism, Polygon) ✅
+* EVM (Arbitrum, Avalanche, Base, BSC, Optimism, Polygon, Sonic) ✅
 * Sui ✅
 * Stellar ✅
 * ICON ✅
-* Solana ❌ Coming soon
-* Injective ❌ Coming soon
-* Havah ❌ Coming soon
+* Solana ✅
+* Injective ✅
 
 [Lend and Borrow Docs.](lend-borrow-money-market.md)
 
@@ -136,7 +134,7 @@ const partnerFeeAmount = {
 // example of custom solver config
 const customSolverConfig = {
   intentsContract: '0x6382D6ccD780758C5e8A6123c33ee8F4472F96ef',
-  solverApiEndpoint: 'https://staging-new-world.iconblockchain.xyz',
+  solverApiEndpoint: 'https://sodax-solver-staging.iconblockchain.xyz',
   partnerFee: partnerFeePercentage, // or partnerFeeAmount
 } satisfies SolverConfigParams;
 
@@ -223,31 +221,113 @@ As part of Sodax suite, xWagmi SDK is also going to be provided as one example w
 
 * Supported Wallet Provider Interface (`IWalletProvider`)
   * `IEvmWalletProvider`: EVM (Arbitrum, Avalanche, Base, BSC, Optimism, Polygon) ✅
-  * `ISuiWalletProvider`: Sui ✅
-  * `IIconWalletProvider`: ICON ✅
-  * `IStellarWalletProvider`: Stellar ✅
-  * Solana ❌ Coming soon
-  * Injective ❌ Coming soon
-  * Havah ❌ Coming soon
+    * `ISuiWalletProvider`: Sui ✅
+    * `IIconWalletProvider`: ICON ✅
+    * `IStellarWalletProvider`: Stellar ✅
+    * `ISolanaWalletProvider`: Solana ✅
+    * `IInjectiveWalletProvider`: Injective ✅
 
 #### Initialising Spoke Provider
 
-Spoke provider is a main instance used to interact with Sodax features because it contains all the relevant information we need to successfully execute features. You should generally establish SpokeProvider instances for each chain user connects wallet to.
+Spoke provider is a main instance used to interact with Sodax features because it contains all the relevant information we need to successfully execute features. You should generally establish SpokeProvider instances for each chain (e.g. evm, sui, etc..) user connects wallet to.
 
 Spoke is simply a chain you are connecting to and SpokeProvider is a container of relevant wallet provider and chain configuration.
+
+**IMPORTANT**: Sonic Spoke Provider must be instantiated as `SonicSpokeProvider` instance even though it is of `EVM` chain type. This is due to the fact that Sonic chain is a hub chain of Sodax and needs special handling under the hood.
 
 EVM Provider example:
 
 ```typescript
 import { EvmProvider, EvmHubProvider, EvmSpokeProvider, AVALANCHE_MAINNET_CHAIN_ID, SONIC_MAINNET_CHAIN_ID } from "@sodax/sdk"
 
-const evmWalletProvider: IEvmWalletProvider = // injected by xWagmi SDK or your own implementation
+const evmWalletProvider: IEvmWalletProvider = // injected by Wallet SDK or your own implementation
 
 // spoke provider represents connection to a specific chain, should be instantiated for each supported chain when user connects wallet
 const bscSpokeProvider: EvmSpokeProvider = new EvmSpokeProvider(
   evmWalletProvider, // user connected wallet
-  spokeChainConfig[BSC_MAINNET_CHAIN_ID] as EvmSpokeChainConfig, // connected chain config
+  spokeChainConfig[BSC_MAINNET_CHAIN_ID], // connected chain config
 );
+```
+
+### Estimate Gas for Raw Transactions
+
+The `estimateGas` function allows you to estimate the gas cost for raw transactions before executing them. This is particularly useful for all Sodax operations (swaps, money market operations, approvals) to provide users with accurate gas estimates.
+
+The function is available on all service classes:
+
+* `SolverService.estimateGas()` - for solver/intent operations
+* `MoneyMarketService.estimateGas()` - for money market operations
+* `SpokeService.estimateGas()` - for general spoke chain operations
+
+```typescript
+import { 
+  SolverService, 
+  MoneyMarketService, 
+  SpokeService,
+  MoneyMarketSupplyParams 
+} from "@sodax/sdk";
+
+// Example: Estimate gas for a solver swap transaction
+const createIntentResult = await sodax.solver.createIntent(
+  createIntentParams,
+  bscSpokeProvider,
+  partnerFeeAmount,
+  true, // true = get raw transaction
+);
+
+if (createIntentResult.ok) {
+  const [rawTx, intent] = createIntentResult.value;
+  
+  // Estimate gas for the raw transaction
+  const gasEstimate = await SolverService.estimateGas(rawTx, bscSpokeProvider);
+  
+  if (gasEstimate.ok) {
+    console.log('Estimated gas for swap:', gasEstimate.value);
+  } else {
+    console.error('Failed to estimate gas for swap:', gasEstimate.error);
+  }
+}
+
+// Example: Estimate gas for a money market supply transaction
+const supplyResult = await sodax.moneyMarket.createSupplyIntent(
+  supplyParams,
+  bscSpokeProvider,
+  true, // true = get raw transaction
+);
+
+if (supplyResult.ok) {
+  const rawTx = supplyResult.value;
+  
+  // Estimate gas for the raw transaction
+  const gasEstimate = await MoneyMarketService.estimateGas(rawTx, bscSpokeProvider);
+  
+  if (gasEstimate.ok) {
+    console.log('Estimated gas for supply:', gasEstimate.value);
+  } else {
+    console.error('Failed to estimate gas for supply:', gasEstimate.error);
+  }
+}
+
+// Example: Estimate gas for an approval transaction
+const approveResult = await sodax.solver.approve(
+  tokenAddress,
+  amount,
+  bscSpokeProvider,
+  true // true = get raw transaction
+);
+
+if (approveResult.ok) {
+  const rawTx = approveResult.value;
+  
+  // Estimate gas for the approval transaction
+  const gasEstimate = await SpokeService.estimateGas(rawTx, bscSpokeProvider);
+  
+  if (gasEstimate.ok) {
+    console.log('Estimated gas for approval:', gasEstimate.value);
+  } else {
+    console.error('Failed to estimate gas for approval:', gasEstimate.error);
+  }
+}
 ```
 
 ### Intent Relay API
