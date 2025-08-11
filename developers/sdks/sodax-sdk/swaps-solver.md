@@ -72,6 +72,25 @@ const arbWbtcToken = '0x2f2a2543B76A4166549F7aaB2e75Bef0aefC5B0f'; // Address of
   }
 ```
 
+### Create Intent Params
+
+```typescript
+const createIntentParams = {
+  inputToken: '0x..',  // The address of the input token on spoke chain
+  outputToken: '0x..',  // The address of the output token on spoke chain
+  inputAmount: BigInt(1000000), // The amount of input tokens
+  minOutputAmount: BigInt(900000), // min amount you are expecting to receive
+  deadline: BigInt(0), // Optional timestamp after which intent expires (0 = no deadline)
+  allowPartialFill: false, // Whether the intent can be partially filled
+  srcChain: BSC_MAINNET_CHAIN_ID, // Chain ID where input tokens originate
+  dstChain: ARBITRUM_MAINNET_CHAIN_ID, // Chain ID where output tokens should be delivered
+  srcAddress: '0x..', // Source address (original address on spoke chain)
+  dstAddress: '0x..', // Destination address (original address on spoke chain)
+  solver: '0x0000000000000000000000000000000000000000', // Optional specific solver address (address(0) = any solver)
+  data: '0x', // Additional arbitrary data
+} satisfies CreateIntentParams;
+```
+
 ### Token Approval Flow
 
 Before creating an intent, you need to ensure that the Asset Manager contract has permission to spend your tokens. Here's how to handle the approval flow:
@@ -83,26 +102,11 @@ import {
   ARBITRUM_MAINNET_CHAIN_ID
 } from "@sodax/sdk"
 
-const bscEthToken = '0x2170Ed0880ac9A755fd29B2688956BD959F933F8';  // Address of the ETH token on BSC (spoke chain)
-const arbWbtcToken = '0x2f2a2543B76A4166549F7aaB2e75Bef0aefC5B0f'; // Address of the wBTC token on ARB (spoke chain)
-const evmWalletAddressBytes = evmWalletProvider.getWalletAddressBytes();
+const evmWalletAddress = evmWalletProvider.getWalletAddress();
 
 // First check if approval is needed
 const isApproved = await sodax.solver.isAllowanceValid(
-  {
-    inputToken: bscEthToken,  // The address of the input token on spoke chain
-    outputToken: arbWbtcToken,  // The address of the output token on spoke chain
-    inputAmount: BigInt(1000000), // The amount of input tokens
-    minOutputAmount: BigInt(900000), // min amount you are expecting to receive
-    deadline: BigInt(0), // Optional timestamp after which intent expires (0 = no deadline)
-    allowPartialFill: false, // Whether the intent can be partially filled
-    srcChain: BSC_MAINNET_CHAIN_ID, // Chain ID where input tokens originate
-    dstChain: ARBITRUM_MAINNET_CHAIN_ID, // Chain ID where output tokens should be delivered
-    srcAddress: evmWalletAddressBytes, // Source address in bytes (original address on spoke chain)
-    dstAddress: evmWalletAddressBytes, // Destination address in bytes (original address on spoke chain)
-    solver: '0x0000000000000000000000000000000000000000', // Optional specific solver address (address(0) = any solver)
-    data: '0x', // Additional arbitrary data
-  },
+  createIntentParams,
   bscSpokeProvider
 );
 
@@ -110,14 +114,10 @@ if (!isApproved.ok) {
   // Handle error
   console.error('Failed to check allowance:', isApproved.error);
 } else if (!isApproved.value) {
-  // Approval needed - get the Asset Manager address from the chain config
-  const assetManagerAddress = bscSpokeProvider.chainConfig.addresses.assetManager;
-  
-  // Approve the Asset Manager to spend your tokens
+  // Approve Sodax to transfer your tokens
   const approveResult = await sodax.solver.approve(
     bscEthToken,
-    BigInt(1000000), // Amount to approve
-    assetManagerAddress,
+    createIntentParams.inputAmount, // Amount to approve
     bscSpokeProvider
   );
 
@@ -125,8 +125,7 @@ if (!isApproved.ok) {
     // Handle error
     console.error('Failed to approve tokens:', approveResult.error);
   } else {
-    // Wait for approval transaction to be mined
-    await approveResult.value.wait();
+    // wait for tx hash from approveResult.value to be mined before proceeding
   }
 }
 
@@ -134,9 +133,61 @@ if (!isApproved.ok) {
 // ... continue with createIntent or createAndSubmitIntent ...
 ```
 
+### Estimate Gas for Raw Transactions
+
+```typescript
+import {
+  SolverService,
+  BSC_MAINNET_CHAIN_ID,
+  ARBITRUM_MAINNET_CHAIN_ID
+} from "@sodax/sdk"
+
+// Example: Estimate gas for an intent creation transaction
+const createIntentResult = await sodax.solver.createIntent(
+  createIntentParams,
+  bscSpokeProvider,
+  partnerFeeAmount,
+  true, // true = get raw transaction
+);
+
+if (createIntentResult.ok) {
+  const [rawTx, intent] = createIntentResult.value;
+  
+  // Estimate gas for the raw transaction
+  const gasEstimate = await SolverService.estimateGas(rawTx, bscSpokeProvider);
+  
+  if (gasEstimate.ok) {
+    console.log('Estimated gas:', gasEstimate.value);
+  } else {
+    console.error('Failed to estimate gas:', gasEstimate.error);
+  }
+}
+
+// Example: Estimate gas for an approval transaction
+const approveResult = await sodax.solver.approve(
+  bscEthToken,
+  createIntentParams.inputAmount,
+  bscSpokeProvider,
+  true // true = get raw transaction
+);
+
+if (approveResult.ok) {
+  const rawTx = approveResult.value;
+  
+  // Estimate gas for the approval transaction
+  const gasEstimate = await SolverService.estimateGas(rawTx, bscSpokeProvider);
+  
+  if (gasEstimate.ok) {
+    console.log('Estimated gas for approval:', gasEstimate.value);
+  } else {
+    console.error('Failed to estimate gas for approval:', gasEstimate.error);
+  }
+}
+```
+
 ### Create And Submit Intent Order
 
-Creating Intent Order requires creating spoke provider for the chain that intent is going to be created on (`token_src_blockchain_id`).
+Creating Intent Order requires creating spoke provider for the chain that intent is going to be created on (`srcChain`).
 
 Example for BSC -> ARB Intent Order:
 
@@ -148,29 +199,39 @@ Example for BSC -> ARB Intent Order:
     ARBITRUM_MAINNET_CHAIN_ID
   } from "@sodax/sdk"
 
-  const bscEthToken = '0x2170Ed0880ac9A755fd29B2688956BD959F933F8';  // Address of the ETH token on BSC (spoke chain)
-  const arbWbtcToken = '0x2f2a2543B76A4166549F7aaB2e75Bef0aefC5B0f'; // Address of the wBTC token on ARB (spoke chain)
-  const evmWalletAddressBytes = evmWalletProvider.getWalletAddressBytes();
+/**
+   *
+   * Create swap which does following steps for you
+   * 1. create intent deposit tx on spoke (source) chain - createIntent function
+   * 2. submit tx hash to relayer API - submitIntent function
+   * 3. wait for relayer to relay tx data to the hub chain (Sonic) - waitUntilIntentExecuted function
+   * 4. post hub chain tx hash to the Solver API - postExecution function
+   *
+   * IMPORTANT: you should primarily swap function unless you require custom step by step handling
+  **/
 
-  const createIntentParams = {
-    inputToken: bscEthToken,  // The address of the input token on spoke chain
-    outputToken: arbWbtcToken,  // The address of the output token on spoke chain
-    inputAmount: BigInt(1000000), // The amount of input tokens
-    minOutputAmount: BigInt(900000), // min amount you are expecting to receive
-    deadline: BigInt(0), // Optional timestamp after which intent expires (0 = no deadline)
-    allowPartialFill: false, // Whether the intent can be partially filled
-    srcChain: BSC_MAINNET_CHAIN_ID, // Chain ID where input tokens originate
-    dstChain: ARBITRUM_MAINNET_CHAIN_ID, // Chain ID where output tokens should be delivered
-    srcAddress: evmWalletAddressBytes, // Source address in bytes (original address on spoke chain)
-    dstAddress: evmWalletAddressBytes, // Destination address in bytes (original address on spoke chain)
-    solver: '0x0000000000000000000000000000000000000000', // Optional specific solver address (address(0) = any solver)
-    data: '0x', // Additional arbitrary data
-  } satisfies CreateIntentParams;
+  const swapResult = await sodax.solver.swap(
+    createIntentParams,
+    bscSpokeProvider,
+  );
+
+    if (!swapResult.ok) {
+    // handle error as described in Error Handling section
+  }
+
+  // txHash and created Intent data as Intent & FeeAmount type
+  const [txHash, intent] = swapResult.value;
+
+  /**
+   *
+   * Create intent transaction or return raw transaction data
+   *
+  **/
 
   // creates and submits on-chain transaction or returns raw transaction
-  // NOTE: after intent is created on-chain it should also be posted to Solver API and submitted to Relay API
-  // see below example of createAndSubmitIntent which does that for you
-  const createIntentOnlyResult = await sodax.solver.createIntent(
+  // NOTE: after intent is created on-chain it should also be posted
+  // to Solver API and submitted to Relay API (see swap function on how it is done)
+  const createIntentResult = await sodax.solver.createIntent(
     createIntentParams,
     bscSpokeProvider,
     partnerFeeAmount,
@@ -183,21 +244,31 @@ Example for BSC -> ARB Intent Order:
 
   // txHash and created Intent data as Intent & FeeAmount type
   const [rawTx, intent] = createIntentResult.value;
+```
 
-  // create on-chain intent, post to Solver API and Submit to Relay API
-  // IMPORTANT: you should primarily use this one to create and submit intent
-  const createAndSubmitIntentResult = await sodax.solver.createAndSubmitIntent(
-    createIntentParams,
-    bscSpokeProvider,
-    partnerFeeAmount,
-  );
+### Submit Intent to Relay API
 
-    if (!createAndSubmitIntentResult.ok) {
-    // handle error
-  }
+Submit the spoke chain transaction hash to the relay API for processing. This step is required after creating an intent on the spoke chain.
 
-  // txHash and created Intent data as Intent & FeeAmount type
-  const [txHash, intent] = createIntentResult.value;
+```typescript
+const submitPayload = {
+  action: 'submit',
+  params: {
+    chain_id: '0x38.bsc', // Chain ID where the intent was created
+    tx_hash: '0xba3dce19347264db32ced212ff1a2036f20d9d2c7493d06af15027970be061af', // Transaction hash from createIntent
+  },
+} satisfies IntentRelayRequest<'submit'>;
+
+const submitResult = await sodax.solver.submitIntent(submitPayload);
+
+if (submitResult.ok) {
+  const { success, message } = submitResult.value;
+  console.log('[submitIntent] success:', success);
+  console.log('[submitIntent] message:', message);
+} else {
+  // handle error
+  console.error('[submitIntent] error:', submitResult.error);
+}
 ```
 
 ### Get Intent Order
@@ -220,6 +291,13 @@ const result = await sodax.solver.cancelIntent(
   hubProvider,
   false, // true = get raw transaction, false = execute and return tx hash
 );
+
+if (result.ok) {
+  console.log('[cancelIntent] txHash', txResult.value);
+} else {
+  // handle error
+  console.error('[cancelIntent] error', txResult.error);
+}
 ```
 
 ### Get Intent Status
@@ -238,4 +316,122 @@ Get Intent Hash (keccak256) used as an ID of intent in smart contract.
 
 ```typescript
 const intentHash = sodax.solver.getIntentHash(intent);
+```
+
+### Error Handling
+
+Error handling for Solver operations is more complex due to the multi-step nature of cross-chain intent creation and execution. The SDK provides specific error types and helper functions to help you handle different failure scenarios appropriately.
+
+#### Error Types and Helper Functions
+
+The SDK provides several helper functions to check error types:
+
+```typescript
+import {
+  isIntentCreationFailedError,
+  isIntentSubmitTxFailedError,
+  isIntentPostExecutionFailedError,
+  isWaitUntilIntentExecutedFailed,
+  type IntentError,
+  type IntentErrorCode
+} from "@sodax/sdk";
+```
+
+### Handling `swap` (a.k.a. createAndSubmitIntent) Errors
+
+The `swap` function performs multiple operations in sequence, and each step can fail. The returned error type can be checked using the helper functions:
+
+```typescript
+const swapResult = await sodax.solver.swap(createIntentParams, bscSpokeProvider);
+
+if (!swapResult.ok) {
+  const error = swapResult.error;
+  
+  if (isIntentCreationFailedError(error)) {
+    // Intent creation failed on the spoke chain
+    // This could be due to:
+    // - Insufficient token balance
+    // - Invalid token addresses
+    // - Network issues on the spoke chain
+    // - Invalid parameters (chain IDs, addresses, etc.)
+    console.error('Intent creation failed:', error.data.payload);
+    console.error('Original error:', error.data.error);
+    
+    // You may want to retry with different parameters or check user's balance
+  } else if (isIntentSubmitTxFailedError(error)) {
+    // Failed to submit the spoke chain transaction to the relay API
+    // IMPORTANT: This is a critical event and you should retry submit
+    //  and store relevant payload   information in localstorage or
+    // similar local permanent memory. If client leaves the session
+    // in this critical moment his funds might get stuck until
+    // successful re-submission is made.
+    //
+    // This could be due to:
+    // - Relay API being down
+    // - Invalid transaction hash
+    // - Network connectivity issues
+    console.error('Submit transaction failed:', error.data.payload);
+    console.error('Original error:', error.data.error);
+    
+    // You may want to retry the submission or check relay API status
+  } else if (isWaitUntilIntentExecutedFailed(error)) {
+    // The intent was submitted but failed to execute on the hub chain
+    // This could be due to:
+    // - Timeout waiting for execution
+    // - Hub chain congestion
+    // - Intent execution failure on hub chain
+    console.error('Intent execution timeout:', error.data.payload);
+    console.error('Original error:', error.data.error);
+    
+    // You may want to check the intent status or retry with longer timeout
+  } else if (isIntentPostExecutionFailedError(error)) {
+    // Failed to post execution data to the Solver API
+    // This could be due to:
+    // - Solver API being down
+    // - Invalid execution data
+    // - Network issues
+    console.error('Post execution failed:', error.data);
+    
+    // The intent may have executed successfully, but the API call failed
+    // You may want to check the intent status manually
+  } else {
+    // Unknown error type
+    console.error('Unknown error:', error);
+  }
+}
+```
+
+### Handling `createIntent` Errors
+
+The `createIntent` function has a simpler error structure since it only handles intent creation on spoke chain (source chain):
+
+```typescript
+const createIntentResult = await sodax.solver.createIntent(
+  createIntentParams,
+  bscSpokeProvider,
+  partnerFeeAmount,
+  false
+);
+
+if (!createIntentResult.ok) {
+  const error = createIntentResult.error;
+
+  // createIntent only returns IntentError<'CREATION_FAILED'>
+  if (isIntentCreationFailedError(error)) {
+    console.error('Intent creation failed:', error.data.payload);
+    console.error('Original error:', error.data.error);
+
+    // Common causes:
+    // - Insufficient token balance (including fee)
+    // - Invalid token addresses or chain IDs
+    // - Network issues on the spoke chain
+    // - Invalid wallet address or permissions
+    // - Contract interaction failures
+
+    // You may want to:
+    // - Check user's token balance
+    // - Verify token addresses and chain configurations
+    // - Retry with different parameters
+  }
+}
 ```
