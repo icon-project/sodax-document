@@ -21,7 +21,7 @@ dApp Kit is a collection of React components, hooks, and utilities designed to s
   * Approve token spending (`useMMApprove`)
 * Swap/Intent
   * Get quote for an intent order (`useQuote`)
-  * Create and submit an intent order (`useCreateIntentOrder`)
+  * Create and submit an swap intent order (`useSwap`)
   * Get status of an intent order (`useStatus`)
   * Check token allowance (`useSwapAllowance`)
   * Approve token spending (`useSwapApprove`)
@@ -162,7 +162,7 @@ function TokenManagementComponent() {
 }
 
 // Swap Operations
-import { useQuote, useCreateIntentOrder, useStatus } from '@sodax/dapp-kit';
+import { useQuote, useSwap, useStatus } from '@sodax/dapp-kit';
 
 function SwapComponent() {
   // Get quote for an intent order
@@ -176,9 +176,9 @@ function SwapComponent() {
   });
 
   // Create and submit an intent order
-  const { mutateAsync: createOrder, isPending: isCreating } = useCreateIntentOrder();
-  const handleCreateOrder = async () => {
-    const order = await createOrder({
+  const { mutateAsync: swap, isPending: isCreating } = useSwap();
+  const handleSwap = async () => {
+    const order = await swap({
       token_src: '0x...',
       token_src_blockchain_id: '0xa86a.avax',
       token_dst: '0x...',
@@ -221,7 +221,7 @@ function SwapComponent() {
 **Swap Hooks**
 
 * `useQuote()` - Get quote for an intent order
-* `useCreateIntentOrder()` - Create and submit an intent order
+* `useSwap()` - Create and submit an intent order
 * `useStatus()` - Get status of an intent order
 * `useSwapAllowance()` - Check token allowance for an intent order
 * `useSwapApprove()` - Approve token spending
