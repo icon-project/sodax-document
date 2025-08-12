@@ -100,7 +100,7 @@ import { SolverService } from "@sodax/sdk";
 
 // Calculate fee for a given input amount
 const inputAmount = 1000000000000000n; // 1 WETH (18 decimals)
-const fee = await sodax.solver.getFee(inputAmount);
+const fee = sodax.solver.getFee(inputAmount);
 
 console.log('Fee amount:', fee); // Fee in input token units
 console.log('Fee percentage:', Number(fee) / Number(inputAmount) * 100); // Fee as percentage
