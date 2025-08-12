@@ -91,6 +91,16 @@ const createIntentParams = {
 } satisfies CreateIntentParams;
 ```
 
+### Function Parameters Structure
+
+All solver functions use object parameters for better readability and extensibility. The common parameter structure includes:
+
+* **`intentParams`**: The `CreateIntentParams` object containing swap details
+* **`spokeProvider`**: The spoke provider instance for the source chain
+* **`fee`**: (Optional) Partner fee configuration. If not provided, uses the default partner fee from config
+* **`raw`**: (Optional) Whether to return raw transaction data instead of executing the transaction
+* **`timeout`**: (Optional) Timeout in milliseconds for relay operations (default: 60 seconds)
+
 ### Get Fee
 
 The `getFee` function allows you to calculate the partner fee for a given input amount before creating an intent. This is useful for displaying fee information to users or calculating the total cost of a swap.
@@ -122,21 +132,22 @@ import {
 const evmWalletAddress = evmWalletProvider.getWalletAddress();
 
 // First check if approval is needed
-const isApproved = await sodax.solver.isAllowanceValid(
-  createIntentParams,
-  bscSpokeProvider
-);
+const isApproved = await sodax.solver.isAllowanceValid({
+  intentParams: createIntentParams,
+  spokeProvider: bscSpokeProvider,
+  fee, // optional - uses configured partner fee if not provided
+});
 
 if (!isApproved.ok) {
   // Handle error
   console.error('Failed to check allowance:', isApproved.error);
 } else if (!isApproved.value) {
   // Approve Sodax to transfer your tokens
-  const approveResult = await sodax.solver.approve(
-    bscEthToken,
-    createIntentParams.inputAmount, // Amount to approve
-    bscSpokeProvider
-  );
+  const approveResult = await sodax.solver.approve({
+    intentParams: createIntentParams,
+    spokeProvider: bscSpokeProvider,
+    fee, // optional - uses configured partner fee if not provided
+  });
 
   if (!approveResult.ok) {
     // Handle error
@@ -152,6 +163,8 @@ if (!isApproved.ok) {
 
 ### Estimate Gas for Raw Transactions
 
+The `estimateGas` function allows you to estimate the gas cost for raw transactions before executing them. This is particularly useful for intent creation and approval transactions to provide users with accurate gas estimates.
+
 ```typescript
 import {
   SolverService,
@@ -160,12 +173,12 @@ import {
 } from "@sodax/sdk"
 
 // Example: Estimate gas for an intent creation transaction
-const createIntentResult = await sodax.solver.createIntent(
-  createIntentParams,
-  bscSpokeProvider,
-  partnerFeeAmount,
-  true, // true = get raw transaction
-);
+const createIntentResult = await sodax.solver.createIntent({
+  intentParams: createIntentParams,
+  spokeProvider: bscSpokeProvider,
+  fee, // optional - uses configured partner fee if not provided
+  raw: true, // true = get raw transaction
+});
 
 if (createIntentResult.ok) {
   const [rawTx, intent] = createIntentResult.value;
@@ -181,12 +194,12 @@ if (createIntentResult.ok) {
 }
 
 // Example: Estimate gas for an approval transaction
-const approveResult = await sodax.solver.approve(
-  bscEthToken,
-  createIntentParams.inputAmount,
-  bscSpokeProvider,
-  true // true = get raw transaction
-);
+const approveResult = await sodax.solver.approve({
+  intentParams: createIntentParams,
+  spokeProvider: bscSpokeProvider,
+  fee, // optional - uses configured partner fee if not provided
+  raw: true // true = get raw transaction
+});
 
 if (approveResult.ok) {
   const rawTx = approveResult.value;
@@ -209,7 +222,7 @@ Creating Intent Order requires creating spoke provider for the chain that intent
 Example for BSC -> ARB Intent Order:
 
 ```typescript
-  import {
+   import {
     SolverService,
     SolverConfig,
     BSC_MAINNET_CHAIN_ID,
@@ -227,17 +240,19 @@ Example for BSC -> ARB Intent Order:
    * IMPORTANT: you should primarily swap function unless you require custom step by step handling
   **/
 
-  const swapResult = await sodax.solver.swap(
-    createIntentParams,
-    bscSpokeProvider,
-  );
+  const swapResult = await sodax.solver.swap({
+    intentParams: createIntentParams,
+    spokeProvider: bscSpokeProvider,
+    fee, // optional - uses configured partner fee if not provided
+    timeout, // optional - timeout in milliseconds (default: 60 seconds)
+  });
 
     if (!swapResult.ok) {
     // handle error as described in Error Handling section
   }
 
-  // txHash and created Intent data as Intent & FeeAmount type
-  const [txHash, intent] = swapResult.value;
+  // txHash, created Intent data as Intent & FeeAmount type, and packet data from relay
+  const [txHash, intent, packetData] = swapResult.value;
 
   /**
    *
@@ -248,19 +263,19 @@ Example for BSC -> ARB Intent Order:
   // creates and submits on-chain transaction or returns raw transaction
   // NOTE: after intent is created on-chain it should also be posted
   // to Solver API and submitted to Relay API (see swap function on how it is done)
-  const createIntentResult = await sodax.solver.createIntent(
-    createIntentParams,
-    bscSpokeProvider,
-    partnerFeeAmount,
-    true, // true = get raw transaction, false = execute and return tx hash
-  );
+  const createIntentResult = await sodax.solver.createIntent({
+    intentParams: createIntentParams,
+    spokeProvider: bscSpokeProvider,
+    fee, // optional - uses configured partner fee if not provided
+    raw: true, // true = get raw transaction, false = execute and return tx hash
+  });
 
   if (!createIntentResult.ok) {
     // handle error
   }
 
-  // txHash and created Intent data as Intent & FeeAmount type
-  const [rawTx, intent] = createIntentResult.value;
+  // txHash/rawTx, Intent & FeeAmount, and packet data (Hex)
+  const [rawTx, intent, packetData] = createIntentResult.value;
 ```
 
 ### Submit Intent to Relay API
@@ -359,7 +374,12 @@ import {
 The `swap` function performs multiple operations in sequence, and each step can fail. The returned error type can be checked using the helper functions:
 
 ```typescript
-const swapResult = await sodax.solver.swap(createIntentParams, bscSpokeProvider);
+const swapResult = await sodax.solver.swap({
+  intentParams: createIntentParams,
+  spokeProvider: bscSpokeProvider,
+  fee, // optional - uses configured partner fee if not provided
+  timeout, // optional - timeout in milliseconds (default: 60 seconds)
+});
 
 if (!swapResult.ok) {
   const error = swapResult.error;
@@ -423,12 +443,12 @@ if (!swapResult.ok) {
 The `createIntent` function has a simpler error structure since it only handles intent creation on spoke chain (source chain):
 
 ```typescript
-const createIntentResult = await sodax.solver.createIntent(
-  createIntentParams,
-  bscSpokeProvider,
-  partnerFeeAmount,
-  false
-);
+const createIntentResult = await sodax.solver.createIntent({
+  intentParams: createIntentParams,
+  spokeProvider: bscSpokeProvider,
+  fee, // optional - uses configured partner fee if not provided
+  raw: false
+});
 
 if (!createIntentResult.ok) {
   const error = createIntentResult.error;
