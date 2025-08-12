@@ -91,6 +91,23 @@ const createIntentParams = {
 } satisfies CreateIntentParams;
 ```
 
+### Get Fee
+
+The `getFee` function allows you to calculate the partner fee for a given input amount before creating an intent. This is useful for displaying fee information to users or calculating the total cost of a swap.
+
+```typescript
+import { SolverService } from "@sodax/sdk";
+
+// Calculate fee for a given input amount
+const inputAmount = 1000000000000000n; // 1 WETH (18 decimals)
+const fee = await sodax.solver.getFee(inputAmount);
+
+console.log('Fee amount:', fee); // Fee in input token units
+console.log('Fee percentage:', Number(fee) / Number(inputAmount) * 100); // Fee as percentage
+```
+
+**Note**: If no partner fee is configured, the function returns `0n`.
+
 ### Token Approval Flow
 
 Before creating an intent, you need to ensure that the Asset Manager contract has permission to spend your tokens. Here's how to handle the approval flow:
