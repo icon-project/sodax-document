@@ -252,8 +252,8 @@ Example for BSC -> ARB Intent Order:
     // handle error as described in Error Handling section
   }
 
-  // txHash, created Intent data as Intent & FeeAmount type, and packet data from relay
-  const [txHash, intent, packetData] = swapResult.value;
+  // solverExecutionResponse, created Intent data, and intent delivery info
+  const [solverExecutionResponse, intent, intentDeliveryInfo] = swapResult.value;
 
   /**
    *
@@ -275,8 +275,8 @@ Example for BSC -> ARB Intent Order:
     // handle error
   }
 
-  // txHash/rawTx, Intent & FeeAmount, and packet data (Hex)
-  const [rawTx, intent, packetData] = createIntentResult.value;
+  // txHash/rawTx, Intent & FeeAmount, and create intent data (Hex) - for createIntent
+  const [rawTx, intent, intentDataHex] = createIntentResult.value;
 ```
 
 **Important**: When creating an intent, the fee is automatically deducted from the `inputAmount` specified in your `createIntentParams`. The actual amount used for the swap will be `inputAmount - feeAmount`. Make sure your `inputAmount` is sufficient to cover both the swap amount and the fee.
