@@ -18,6 +18,7 @@
     * [🔄 Swaps (Solver)](developers/sdks/sodax-sdk/swaps-solver.md)
     * [💰 Lend / Borrow (Money Market)](developers/sdks/sodax-sdk/lend-borrow-money-market.md)
     * [🌉 Bridge](developers/sdks/sodax-sdk/bridge.md)
+    * [Backend API](developers/sdks/sodax-sdk/backend-api.md)
   * [@sodax/wallet-sdk](developers/sdks/sodax-wallet-sdk.md)
   * [@sodax/dapp-kit](developers/sdks/sodax-dapp-kit.md)
 * [📖 Technical Overview](developers/technical-overview/README.md)
