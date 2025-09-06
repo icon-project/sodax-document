@@ -1,5 +1,6 @@
 ---
 description: Sodax Backend API offers access to Intent, Solver, and Money Market data.
+icon: gear-complex-code
 ---
 
 # Backend API

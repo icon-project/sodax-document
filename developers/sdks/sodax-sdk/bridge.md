@@ -1,8 +1,7 @@
 ---
 description: >-
   Bridge provides functionality to bridge tokens between different blockchain
-  chains. It supports both cross-chain transfers between spoke chains and
-  operations involving the hub chain (Sonic) using Sod
+  chains.
 ---
 
 # 🌉 Bridge
