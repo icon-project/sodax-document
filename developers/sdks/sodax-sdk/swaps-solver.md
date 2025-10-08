@@ -359,7 +359,7 @@ Gets the deadline for a swap by querying hub chain block timestamp and adding th
 
 ```typescript
 // deadline- offset in seconds for the swap to be cancelled
-const intentHash = sodax.solver.getSwapDeadline(deadline);
+const deadline = sodax.solver.getSwapDeadline(deadline);
 ```
 
 ### Error Handling
