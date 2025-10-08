@@ -80,7 +80,7 @@ const createIntentParams = {
   outputToken: '0x..',  // The address of the output token on spoke chain
   inputAmount: BigInt(1000000), // The amount of input tokens (fee will be deducted from this amount)
   minOutputAmount: BigInt(900000), // min amount you are expecting to receive
-  deadline: BigInt(0), // Optional timestamp after which intent expires (0 = no deadline)
+  deadline: BigInt(0), // Optional timestamp after which intent expires (0 = no deadline), see Get Intent (Swap) Deadline
   allowPartialFill: false, // Whether the intent can be partially filled
   srcChain: BSC_MAINNET_CHAIN_ID, // Chain ID where input tokens originate
   dstChain: ARBITRUM_MAINNET_CHAIN_ID, // Chain ID where output tokens should be delivered
@@ -351,6 +351,15 @@ Get Intent Hash (keccak256) used as an ID of intent in smart contract.
 
 ```typescript
 const intentHash = sodax.solver.getIntentHash(intent);
+```
+
+### Get Intent (Swap) Deadline
+
+Gets the deadline for a swap by querying hub chain block timestamp and adding the deadline offset.
+
+```typescript
+// deadline- offset in seconds for the swap to be cancelled
+const intentHash = sodax.solver.getSwapDeadline(deadline);
 ```
 
 ### Error Handling

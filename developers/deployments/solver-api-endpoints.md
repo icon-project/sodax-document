@@ -6,7 +6,7 @@ description: REST API endpoints of Solver backend.
 
 ### Mainnet production
 
-URL: Coming soon
+URL: [https://xcall-relay.nw.iconblockchain.xyz](https://xcall-relay.nw.iconblockchain.xyz)
 
 ### Mainnet staging
 
