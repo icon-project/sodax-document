@@ -1,0 +1,28 @@
+structure:
+  readme: README.md
+  summary: SUMMARY.md
+  folders:
+    - label: Dapp Kit
+      path: ../../linked-repositories/sodax-frontend/packages/dapp-kit
+      readme: README.md
+    - label: "@sodax/sdk"
+      path: ../../linked-repositories/sodax-frontend/packages/sdk
+      readme: README.md
+      sections:
+        - label: "Swaps (Solver)"
+          file: docs/SWAPS.md
+        - label: "Lend / Borrow (Money Market)"
+          file: docs/MONEY_MARKET.md
+        - label: "Bridge"
+          file: docs/BRIDGE.md
+        - label: "Backend API"
+          file: docs/BACKEND_API.md
+    - label: "@sodax/types"
+      path: ../../linked-repositories/sodax-frontend/packages/types
+      readme: README.md
+    - label: "@sodax/wallet-sdk-core"
+      path: ../../linked-repositories/sodax-frontend/packages/wallet-sdk-core
+      readme: README.md
+    - label: "@sodax/wallet-sdk-react"
+      path: ../../linked-repositories/sodax-frontend/packages/wallet-sdk-react
+      readme: README.md
