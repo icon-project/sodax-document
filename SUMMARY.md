@@ -13,7 +13,7 @@
   * [Solver API endpoints](developers/deployments/solver-api-endpoints.md)
   * [xCall Scanner](developers/deployments/xcall-scanner.md)
   * [Solver: Compatible Assets](developers/deployments/solver-compatible-assets.md)
-* [🛠️ SDKs](developers/sdks/README.md)
+* [🛠️ SDKs2](developers/sdks/README.md)
   * [@sodax/sdk](linked-repositories/sodax-frontend/packages/sdk/docs/README.md)
     * [🔄 Swaps (Solver)](linked-repositories/sodax-frontend/packages/sdk/docs/SWAPS.md)
     * [💰 Lend / Borrow (Money Market)](linked-repositories/sodax-frontend/packages/sdk/docs/MONEY_MARKET.md)
