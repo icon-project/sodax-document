@@ -24,7 +24,7 @@ structure:
             - solver-compatible-assets.md
 
         - label: "🛠️ SDKs"
-          path: ../linked-repositories/sodax-frontend/packages
+          path: packages
           folders:
             - label: "@sodax/sdk"
               path: sdk/docs
