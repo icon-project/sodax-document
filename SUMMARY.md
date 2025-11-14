@@ -16,7 +16,7 @@
 * [🛠️ SDKs](developers/packages/README.md)
   * [@sodax/sdk](developers/packages/sdk/README.md)
     * [🔄 Swaps (Solver)](developers/packages/sdk/docs/SWAPS.md)
-    * [💰 Lend / Borrow (Money Market)](packages/sdk/docs/MONEY_MARKET.md)
+    * [💰 Lend / Borrow (Money Market)](developers/packages/sdk/docs/MONEY_MARKET.md)
     * [🌉 Bridge](developers/packages/sdk/docs/BRIDGE.md)
     * [Backend API](developers/packages/sdk/docs/BACKEND_API.md)
   * [@sodax/wallet-sdk-core](developers/packages/wallet-sdk-core/README.md)

@@ -1,12 +1,21 @@
-# Copy only .md files from sodax-frontend/packages and its subdirectories into ./sdks folder, preserving directory structure
-# The 'cp' command by default overwrites existing files.
+set -euo pipefail
 
-find linked-repositories/sodax-frontend/packages -type f -name "*.md" -exec bash -c '
-  for filepath; do
-    relpath="${filepath#linked-repositories/sodax-frontend/packages/}"
-    targetdir="./developers/packages/$(dirname "$relpath")"
-    mkdir -p "$targetdir"
-    # The following cp will overwrite any existing file with the same name
-    cp "$filepath" "$targetdir/"
-  done
-' bash {} +
+# 1) Make sure submodule URL and pointer are up to date
+git submodule sync --recursive
+git submodule update --init --recursive linked-repositories/sodax-frontend
+
+# 2) Define paths
+SRC_BASE="linked-repositories/sodax-frontend/packages"
+DST_BASE="developers/packages"
+
+# 3) Create destination base
+mkdir -p "$DST_BASE"
+
+# 4) Copy only Markdown files, preserving directory structure
+#    This handles spaces and odd characters safely.
+find "$SRC_BASE" -type f -name '*.md' -print0 | while IFS= read -r -d '' filepath; do
+  relpath="${filepath#"$SRC_BASE"/}"
+  targetdir="$DST_BASE/$(dirname "$relpath")"
+  mkdir -p "$targetdir"
+  cp -f -- "$filepath" "$targetdir/"
+done
