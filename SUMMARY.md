@@ -19,6 +19,7 @@
     * [💰 Lend / Borrow (Money Market)](developers/packages/sdk/docs/MONEY_MARKET.md)
     * [🌉 Bridge](developers/packages/sdk/docs/BRIDGE.md)
     * [🔌 Backend API](developers/packages/sdk/docs/BACKEND_API.md)
+    * [🌱 Staking](developers/packages/sdk/docs/STAKING.md)
   * [@sodax/wallet-sdk-core](developers/packages/wallet-sdk-core/README.md)
   * [@sodax/wallet-sdk-react](developers/packages/wallet-sdk-react/README.md)
   * [@sodax/dapp-kit](developers/packages/dapp-kit/README.md)
