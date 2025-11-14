@@ -20,12 +20,12 @@ structure:
             - xcall-scanner.md
             - solver-compatible-assets.md
         - label: "🛠️ SDKs"
-          path: sdks
+          path: linked-repositories/sodax-frontend/packages
           files:
             - README.md
           folders:
             - label: "@sodax/sdk"
-              path: ../../linked-repositories/sodax-frontend/packages/sdk/docs
+              path: linked-repositories/sodax-frontend/packages/sdk/docs
               files:
                 - README.md
                 - SWAPS.md
@@ -33,15 +33,15 @@ structure:
                 - BRIDGE.md
                 - BACKEND_API.md
             - label: "@sodax/dapp-kit"
-              path: ../../linked-repositories/sodax-frontend/packages/dapp-kit
+              path: linked-repositories/sodax-frontend/packages/dapp-kit
               files:
                 - README.md
             - label: "@sodax/wallet-sdk-core"
-              path: ../../linked-repositories/sodax-frontend/packages/wallet-sdk-core
+              path: linked-repositories/sodax-frontend/packages/wallet-sdk-core
               files:
                 - README.md
             - label: "@sodax/wallet-sdk-react"
-              path: ../../linked-repositories/sodax-frontend/packages/wallet-sdk-react
+              path: linked-repositories/sodax-frontend/packages/wallet-sdk-react
               files:
                 - README.md
         - label: "📖 Technical Overview"
