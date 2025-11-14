@@ -1,8 +1,17 @@
 set -euo pipefail
 
-# 1) Make sure submodule URL and pointer are up to date
+# 1) Make sure submodule URL and pointer are up to date and fetch latest changes from origin/main
 git submodule sync --recursive
 git submodule update --init --recursive linked-repositories/sodax-frontend
+
+# Fetch the latest main branch from the submodule's origin and reset submodule worktree to origin/main
+(
+  cd linked-repositories/sodax-frontend
+  git fetch origin main
+  git checkout main
+  git reset --hard origin/main
+  git pull origin main
+)
 
 # 2) Define paths
 SRC_BASE="linked-repositories/sodax-frontend/packages"
