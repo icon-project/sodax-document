@@ -1,12 +1,15 @@
+root: ./
+
 structure:
   readme: README.md
   summary: SUMMARY.md
   folders:
-    - label: WELCOME TO SODAX
+    - label: "WELCOME TO SODAX"
       path: .
       files:
         - README.md
-        - README (1).md
+        - "README (1).md"
+
     - label: "💻 Developers"
       path: developers
       folders:
@@ -19,13 +22,12 @@ structure:
             - solver-api-endpoints.md
             - xcall-scanner.md
             - solver-compatible-assets.md
+
         - label: "🛠️ SDKs"
-          path: linked-repositories/sodax-frontend/packages
-          files:
-            - README.md
+          path: ../linked-repositories/sodax-frontend/packages
           folders:
             - label: "@sodax/sdk"
-              path: linked-repositories/sodax-frontend/packages/sdk/docs
+              path: sdk/docs
               files:
                 - README.md
                 - SWAPS.md
@@ -33,25 +35,29 @@ structure:
                 - BRIDGE.md
                 - BACKEND_API.md
             - label: "@sodax/dapp-kit"
-              path: linked-repositories/sodax-frontend/packages/dapp-kit
+              path: dapp-kit
               files:
                 - README.md
             - label: "@sodax/wallet-sdk-core"
-              path: linked-repositories/sodax-frontend/packages/wallet-sdk-core
+              path: wallet-sdk-core
               files:
                 - README.md
             - label: "@sodax/wallet-sdk-react"
-              path: linked-repositories/sodax-frontend/packages/wallet-sdk-react
+              path: wallet-sdk-react
               files:
                 - README.md
+
         - label: "📖 Technical Overview"
-          path: ../technical-overview
+          path: technical-overview
           files:
             - README.md
             - asset-manager.md
-            - vault-token.md
+            - generalized-messaging-protocol.md
             - hub-wallet-abstraction.md
             - intents.md
-            - generalized-messaging-protocol.md
+            - vault-token.md
+
         - label: "❓ FAQ"
-          path: ../faq.md
+          path: .
+          files:
+            - faq.md
