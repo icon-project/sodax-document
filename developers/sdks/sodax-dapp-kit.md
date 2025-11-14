@@ -1,0 +1,271 @@
+---
+description: >-
+  An all-in-one solution for developing React applications and decentralized
+  applications (dApps) on Sodax infrastructure.
+---
+
+# @sodax/dapp-kit
+
+dApp Kit is a collection of React components, hooks, and utilities designed to streamline dApp development within the Sodax ecosystem. It provides seamless integration with Sodax smart contracts, enabling easy data querying and transaction execution. Additionally, it offers built-in wallet connectivity for all supported wallets in the Sodax network, simplifying the user onboarding experience. Under the hood, dApp Kit leverages @sodax/wallet-kit and @sodax/sdk for seamless functionality.
+
+### Features
+
+* Money Market
+  * Supply tokens to the money market (`useSupply`)
+  * Withdraw tokens from the money market (`useWithdraw`)
+  * Borrow tokens from the money market (`useBorrow`)
+  * Repay borrowed tokens (`useRepay`)
+  * Check token allowance (`useMMAllowance`)
+  * Approve token spending (`useMMApprove`)
+  * Get user reserves data (`useUserReservesData`)
+  * Get reserves data (`useReservesData`)
+  * Get humanized reserves data (`useReservesHumanized`)
+  * Get list of reserves (`useReservesList`)
+  * Get USD formatted reserves data (`useReservesUsdFormat`)
+  * Get formatted user portfolio summary (`useUserFormattedSummary`)
+* Swap/Intent
+  * Get quote for an intent order (`useQuote`)
+  * Create and submit an swap intent order (`useSwap`)
+  * Get status of an intent order (`useStatus`)
+  * Check token allowance (`useSwapAllowance`)
+  * Approve token spending (`useSwapApprove`)
+* Provider
+  * Get hub chain provider (`useHubProvider`)
+  * Get spoke chain provider (`useSpokeProvider`)
+  * Get wallet provider (`useWalletProvider`)
+
+### Installation
+
+```bash
+npm install @sodax/dapp-kit
+# or
+yarn add @sodax/dapp-kit
+# or
+pnpm add @sodax/dapp-kit
+```
+
+### Quick Start
+
+1. First, install the required dependencies:
+
+```bash
+npm install @sodax/dapp-kit @tanstack/react-query @sodax/wallet-sdk
+```
+
+2. Set up the providers in your app:
+
+```typescript
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { XWagmiProviders } from '@sodax/wallet-sdk';
+import { SodaxProvider } from '@sodax/dapp-kit';
+import { SONIC_MAINNET_CHAIN_ID } from '@sodax/types';
+
+const queryClient = new QueryClient();
+
+// Configure Sodax
+const sodaxConfig = {
+  hubProviderConfig: {
+    hubRpcUrl: 'https://rpc.soniclabs.com',
+    chainConfig: getHubChainConfig(SONIC_MAINNET_CHAIN_ID),
+  },
+  moneyMarket: getMoneyMarketConfig(SONIC_MAINNET_CHAIN_ID),
+  solver: {
+    intentsContract: '0x6382D6ccD780758C5e8A6123c33ee8F4472F96ef',
+    solverApiEndpoint: 'https://sodax-solver-staging.iconblockchain.xyz',
+    partnerFee: {
+      address: '0x0Ab764AB3816cD036Ea951bE973098510D8105A6',
+      percentage: 100, // 1%
+    },
+  },
+  relayerApiEndpoint: 'https://xcall-relay.nw.iconblockchain.xyz',
+};
+
+function App() {
+  return (
+    <SodaxProvider testnet={false} config={sodaxConfig}>
+      <QueryClientProvider client={queryClient}>
+        <XWagmiProviders
+          config={{
+            EVM: {
+              wagmiConfig: wagmiConfig,
+            },
+            SUI: {
+              isMainnet: true,
+            },
+            SOLANA: {
+              endpoint: 'https://solana-mainnet.g.alchemy.com/v2/your-api-key',
+            },
+          }}
+        >
+          <YourApp />
+        </XWagmiProviders>
+      </QueryClientProvider>
+    </SodaxProvider>
+  );
+}
+```
+
+3. Use the hooks in your components:
+
+```typescript
+// Connect Wallet Operations
+import { useXConnectors, useXConnect, useXAccount } from '@sodax/wallet-sdk';
+const evmConnectors = useXConnectors('EVM');
+const { mutateAsync: connect, isPending } = useXConnect();
+const account = useXAccount('EVM');
+
+const handleConnect = () => {
+  connect(evmConnectors[0]);
+};
+
+return (
+  <div>
+    <button onClick={handleConnect}>Connect EVM Wallet</button>
+    <div>Connected wallet: {account.address}</div>
+  </div>
+);
+
+// Money Market Operations
+import { useSupply, useWithdraw, useBorrow, useRepay, useUserReservesData } from '@sodax/dapp-kit';
+
+function MoneyMarketComponent() {
+  // Supply tokens
+  const { mutateAsync: supply, isPending: isSupplying } = useSupply(token);
+  const handleSupply = async (amount: string) => {
+    await supply(amount);
+  };
+
+  // Withdraw tokens
+  const { mutateAsync: withdraw, isPending: isWithdrawing } = useWithdraw(token, chainId);
+  const handleWithdraw = async (amount: string) => {
+    await withdraw(amount);
+  };
+
+  // Borrow tokens
+  const { mutateAsync: borrow, isPending: isBorrowing } = useBorrow(token, chainId);
+  const handleBorrow = async (amount: string) => {
+    await borrow(amount);
+  };
+
+  // Get user's supplied assets
+  const userReserves = useUserReservesData(chainId);
+}
+
+// Token Management
+import { useMMAllowance, useApprove } from '@sodax/dapp-kit';
+
+function TokenManagementComponent() {
+  // Check token allowance
+  const { data: hasAllowed } = useMMAllowance(token, amount);
+  
+  // Approve token spending
+  const { approve, isLoading: isApproving } = useApprove(token);
+  const handleApprove = async (amount: string) => {
+    await approve(amount);
+  };
+}
+
+// Swap Operations
+import { useQuote, useSwap, useStatus } from '@sodax/dapp-kit';
+
+function SwapComponent() {
+  // Get quote for an intent order
+  const { data: quote, isLoading: isQuoteLoading } = useQuote({
+    token_src: '0x...',
+    token_src_blockchain_id: '0xa86a.avax',
+    token_dst: '0x...',
+    token_dst_blockchain_id: '0xa4b1.arbitrum',
+    amount: '1000000000000000000',
+    quote_type: 'exact_input',
+  });
+
+  // Create and submit an intent order
+  const { mutateAsync: swap, isPending: isCreating } = useSwap();
+  const handleSwap = async () => {
+    const order = await swap({
+      token_src: '0x...',
+      token_src_blockchain_id: '0xa86a.avax',
+      token_dst: '0x...',
+      token_dst_blockchain_id: '0xa4b1.arbitrum',
+      amount: '1000000000000000000',
+      quote_type: 'exact_input',
+    });
+  };
+
+  // Get status of an intent order
+  const { data: orderStatus } = useStatus('0x...');
+}
+```
+
+### Requirements
+
+* Node.js >= 18.0.0
+* React >= 19
+* TypeScript
+
+### API Reference
+
+#### Components
+
+* `SodaxProvider` - Main provider component for Sodax ecosystem integration
+
+#### Hooks
+
+**Money Market Hooks**
+
+* `useBorrow()` - Borrow tokens from the money market
+* `useRepay()` - Repay borrowed tokens
+* `useSupply()` - Supply tokens to the money market
+* `useWithdraw()` - Withdraw supplied tokens
+* `useUserReservesData()` - Get user's reserves data(supplied asset and debt)
+* `useReservesData()` - Get reserves data
+* `useMMAllowance()` - Check token allowance for a specific amount
+* `useMMApprove()` - Approve token spending
+
+**Swap Hooks**
+
+* `useQuote()` - Get quote for an intent order
+* `useSwap()` - Create and submit an intent order
+* `useStatus()` - Get status of an intent order
+* `useSwapAllowance()` - Check token allowance for an intent order
+* `useSwapApprove()` - Approve token spending
+
+**Shared Hooks**
+
+* `useSodaxContext()` - Access Sodax context and configuration
+* `useEstimateGas()` - Estimate gas costs for transactions
+
+### Contributing
+
+We welcome contributions! Please see our Contributing Guide for details.
+
+### Development
+
+```bash
+# Install dependencies
+pnpm install
+
+# Build the package
+pnpm build      
+
+# Run in development mode
+pnpm dev
+
+# Run type checking
+pnpm checkTs
+
+# Format code
+pnpm pretty
+
+# Lint code
+pnpm lint
+```
+
+### License
+
+MIT
+
+### Support
+
+* [GitHub Issues](https://github.com/icon-project/sodax-frontend/issues)
+* [Discord Community](https://discord.gg/sodax-formerly-icon-880651922682560582)
