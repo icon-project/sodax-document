@@ -1,0 +1,57 @@
+structure:
+  readme: README.md
+  summary: SUMMARY.md
+  folders:
+    - label: WELCOME TO SODAX
+      path: .
+      files:
+        - README.md
+        - README (1).md
+    - label: "💻 Developers"
+      path: developers
+      folders:
+        - label: "📑 Deployments"
+          path: deployments
+          files:
+            - README.md
+            - mainnet.md
+            - relayer-api-endpoints.md
+            - solver-api-endpoints.md
+            - xcall-scanner.md
+            - solver-compatible-assets.md
+        - label: "🛠️ SDKs"
+          path: sdks
+          files:
+            - README.md
+          folders:
+            - label: "@sodax/sdk"
+              path: ../../linked-repositories/sodax-frontend/packages/sdk/docs
+              files:
+                - README.md
+                - SWAPS.md
+                - MONEY_MARKET.md
+                - BRIDGE.md
+                - BACKEND_API.md
+            - label: "@sodax/dapp-kit"
+              path: ../../linked-repositories/sodax-frontend/packages/dapp-kit
+              files:
+                - README.md
+            - label: "@sodax/wallet-sdk-core"
+              path: ../../linked-repositories/sodax-frontend/packages/wallet-sdk-core
+              files:
+                - README.md
+            - label: "@sodax/wallet-sdk-react"
+              path: ../../linked-repositories/sodax-frontend/packages/wallet-sdk-react
+              files:
+                - README.md
+        - label: "📖 Technical Overview"
+          path: ../technical-overview
+          files:
+            - README.md
+            - asset-manager.md
+            - vault-token.md
+            - hub-wallet-abstraction.md
+            - intents.md
+            - generalized-messaging-protocol.md
+        - label: "❓ FAQ"
+          path: ../faq.md
