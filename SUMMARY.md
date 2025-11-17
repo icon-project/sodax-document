@@ -31,7 +31,7 @@
   * [Hub Wallet Abstraction](developers/technical-overview/hub-wallet-abstraction.md)
   * [Intents](developers/technical-overview/intents.md)
   * [Generalized Messaging Protocol](developers/technical-overview/generalized-messaging-protocol.md)
-* 📘 How to
+* [📘 How to](developers/how-to/README.md)
   * [Monetize SDK](developers/packages/sdk/docs/MONETIZE_SDK.md)
   * [Configure SDK](developers/packages/sdk/docs/CONFIGURE_SDK.md)
   * [Make a Swap](developers/packages/sdk/docs/HOW_TO_MAKE_A_SWAP.md)
