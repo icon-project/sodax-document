@@ -28,3 +28,15 @@ find "$SRC_BASE" -type f -name '*.md' -print0 | while IFS= read -r -d '' filepat
   mkdir -p "$targetdir"
   cp -f -- "$filepath" "$targetdir/"
 done
+
+# Also copy Markdown and PDF files from linked-repositories/Audits to developers/Audits, preserving structure
+AUDITS_SRC="linked-repositories/sodax-frontend/Audits"
+AUDITS_DST="developers/Audits"
+mkdir -p "$AUDITS_DST"
+find "$AUDITS_SRC" -type f \( -name '*.md' -o -name '*.pdf' \) -print0 | while IFS= read -r -d '' filepath; do
+  relpath="${filepath#"$AUDITS_SRC"/}"
+  targetdir="$AUDITS_DST/$(dirname "$relpath")"
+  mkdir -p "$targetdir"
+  cp -f -- "$filepath" "$targetdir/"
+done
+
