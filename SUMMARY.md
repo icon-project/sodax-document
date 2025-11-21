@@ -13,7 +13,7 @@
   * [Relayer API endpoints](developers/packages/sdk/docs/RELAYER_API_ENDPOINTS.md)
   * [Solver API endpoints](developers/packages/sdk/docs/SOLVER_API_ENDPOINTS.md)
   * [xCall Scanner](developers/deployments/xcall-scanner.md)
-  * [Solver: Compatible Assets](developers/deployments/solver-compatible-assets.md)
+  * [Swap: Compatible Assets](developers/deployments/solver-compatible-assets.md)
 * [🛠️ SDKs](developers/packages/README.md)
   * [@sodax/sdk](developers/packages/sdk/README.md)
     * [🔄 Swaps (Solver)](developers/packages/sdk/docs/SWAPS.md)

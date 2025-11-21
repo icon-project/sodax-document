@@ -2,9 +2,9 @@
 description: Assets (tokens) supported by mainnet solver (swaps).
 ---
 
-# Solver: Compatible Assets
+# Swap: Compatible Assets
 
-## Compatible Solver Assets
+
 
 ✅ => Implemented (Production + Staging)
 
@@ -134,6 +134,7 @@ description: Assets (tokens) supported by mainnet solver (swaps).
 * ✅ BTCB [`0xD8A24c71FEa5bB81c66C01e532dE7d9B11e13905`](https://sonicscan.org/address/0xD8A24c71FEa5bB81c66C01e532dE7d9B11e13905)
 * ✅ bnUSD [`0x5Ce6C1c51ff762cF3acD21396257046f694168b6`](https://sonicscan.org/address/0x5Ce6C1c51ff762cF3acD21396257046f694168b6)
 * ✅ USDC [`0x9D58508AD10d34048a11640735Ca5075bbA07b35`](https://sonicscan.org/address/0x9D58508AD10d34048a11640735Ca5075bbA07b35)
+* ✅ USDT [`0x627c7369e9cfb99e11ee7163efb23f12bfd8cce6`](https://sonicscan.org/address/0x627c7369e9cfb99e11ee7163efb23f12bfd8cce6)
 
 #### DeX
 
