@@ -2,7 +2,7 @@
 
 <a href="https://se8br1ugut6.typeform.com/to/ZV7lvNfW" class="button primary" data-icon="hand-wave">Contact Form</a>
 
-Sodax is a modular DeFi infrastructure stack built to abstract cross-chain complexity and unlock unified liquidity across EVM and non-EVM chains. It enables builders to integrate swapping, lending, stablecoin minting, and wallet management into their applications with minimal effort.
+SODAX is a modular DeFi infrastructure stack built to abstract cross-chain complexity and unlock unified liquidity across EVM and non-EVM chains. It enables builders to integrate swapping, lending, stablecoin minting, and wallet management into their applications with minimal effort.
 
 By coordinating execution through a hub-based intent system and abstracted wallets, Sodax simplifies liquidity access and execution routing across chains all while enabling partners to participate in and earn from protocol activity.
 
@@ -10,9 +10,9 @@ By coordinating execution through a hub-based intent system and abstracted walle
 
 ### Key Modules
 
-#### Cross-Chain Swaps
+#### 🔄 Swaps (Solver)
 
-Sodax enables cross-chain swaps through an intent-based execution system. Users define what they want to swap; the solver borrows liquidity, routes trades via external AMMs, and delivers the output asset to the destination chain.
+SODAX enables cross-chain swaps through an intent-based execution system. Users define what they want to swap; the solver borrows liquidity, routes trades via external AMMs, and delivers the output asset to the destination chain.
 
 * Unified swap interface across all supported chains
 * Executes through integrated AMMs (Uniswap, PancakeSwap, Raydium, etc.)
