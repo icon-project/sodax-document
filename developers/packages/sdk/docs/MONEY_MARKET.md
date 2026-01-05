@@ -1,4 +1,4 @@
-# Money Market
+# 💰 Lend / Borrow (Money Market)
 
 Money Market part of SDK provides abstractions to assist you with interacting with the cross-chain Money Market Smart Contracts.
 
@@ -18,9 +18,11 @@ const supplyResult = await sodax.moneyMarket.supply(supplyParams, spokeProvider)
 SDK includes predefined configurations of supported chains, tokens and other relevant information for the client to consume. All configurations are accessible through the `config` property of the Sodax instance (`sodax.config`), or through service-specific properties for convenience.
 
 **IMPORTANT**: If you want dynamic (backend API based - contains latest tokens) configuration, make sure to initialize the instance before usage:
+
 ```typescript
 await sodax.initialize();
 ```
+
 By default, configuration from the specific SDK version you are using is used.
 
 ```typescript
@@ -56,57 +58,63 @@ Please refer to [SDK constants.ts](https://github.com/icon-project/sodax-fronten
 All money market methods are accessible through `sodax.moneyMarket`:
 
 ### Token & Reserve Configuration
-- `getSupportedTokensByChainId(chainId)` - Get supported money market tokens for a specific chain
-- `getSupportedTokens()` - Get all supported money market tokens per chain
-- `getSupportedReserves()` - Get all supported money market reserves (hub chain addresses)
+
+* `getSupportedTokensByChainId(chainId)` - Get supported money market tokens for a specific chain
+* `getSupportedTokens()` - Get all supported money market tokens per chain
+* `getSupportedReserves()` - Get all supported money market reserves (hub chain addresses)
 
 ### Allowance & Approval
-- `isAllowanceValid(params, spokeProvider)` - Check if token approval is needed
-- `approve(params, spokeProvider, raw?)` - Approve tokens or request trustline (Stellar)
+
+* `isAllowanceValid(params, spokeProvider)` - Check if token approval is needed
+* `approve(params, spokeProvider, raw?)` - Approve tokens or request trustline (Stellar)
 
 ### Money Market Operations
-- `supply(params, spokeProvider, timeout?)` - Supply tokens (complete operation with relay)
-- `createSupplyIntent(params, spokeProvider, raw?)` - Create supply intent only
-- `borrow(params, spokeProvider, timeout?)` - Borrow tokens (complete operation with relay)
-- `createBorrowIntent(params, spokeProvider, raw?)` - Create borrow intent only
-- `withdraw(params, spokeProvider, timeout?)` - Withdraw tokens (complete operation with relay)
-- `createWithdrawIntent(params, spokeProvider, raw?)` - Create withdraw intent only
-- `repay(params, spokeProvider, timeout?)` - Repay tokens (complete operation with relay)
-- `createRepayIntent(params, spokeProvider, raw?)` - Create repay intent only
+
+* `supply(params, spokeProvider, timeout?)` - Supply tokens (complete operation with relay)
+* `createSupplyIntent(params, spokeProvider, raw?)` - Create supply intent only
+* `borrow(params, spokeProvider, timeout?)` - Borrow tokens (complete operation with relay)
+* `createBorrowIntent(params, spokeProvider, raw?)` - Create borrow intent only
+* `withdraw(params, spokeProvider, timeout?)` - Withdraw tokens (complete operation with relay)
+* `createWithdrawIntent(params, spokeProvider, raw?)` - Create withdraw intent only
+* `repay(params, spokeProvider, timeout?)` - Repay tokens (complete operation with relay)
+* `createRepayIntent(params, spokeProvider, raw?)` - Create repay intent only
 
 ### Data Retrieval & Formatting
-- `data.getReservesList()` - Get list of all reserve addresses
-- `data.getReservesData()` - Get raw aggregated reserve data
-- `data.getReservesHumanized()` - Get humanized reserve data
-- `data.getReserveData(asset)` - Get specific reserve data
-- `data.getUserReservesData(spokeProvider)` - Get raw user reserve data
-- `data.getUserReservesHumanized(spokeProvider)` - Get humanized user reserve data
-- `data.formatReservesUSD(request)` - Format reserves with USD conversions
-- `data.formatUserSummary(request)` - Format user portfolio summary with USD conversions
+
+* `data.getReservesList()` - Get list of all reserve addresses
+* `data.getReservesData()` - Get raw aggregated reserve data
+* `data.getReservesHumanized()` - Get humanized reserve data
+* `data.getReserveData(asset)` - Get specific reserve data
+* `data.getUserReservesData(spokeProvider)` - Get raw user reserve data
+* `data.getUserReservesHumanized(spokeProvider)` - Get humanized user reserve data
+* `data.formatReservesUSD(request)` - Format reserves with USD conversions
+* `data.formatUserSummary(request)` - Format user portfolio summary with USD conversions
 
 ### Utility Methods
-- `MoneyMarketService.estimateGas(rawTx, spokeProvider)` - Estimate gas for raw transactions (static method)
+
+* `MoneyMarketService.estimateGas(rawTx, spokeProvider)` - Estimate gas for raw transactions (static method)
 
 ### Initialising Spoke Provider
 
-Refer to [Initialising Spoke Provider](../README.md#initialising-spoke-provider) section to see how BSC spoke provider used as `bscSpokeProvider` can be created.
+Refer to [Initialising Spoke Provider](../#initialising-spoke-provider) section to see how BSC spoke provider used as `bscSpokeProvider` can be created.
 
 ### Function Parameters Structure
 
 All money market functions use object parameters for better readability and extensibility. The common parameter structure includes:
 
-- **`params`**: The money market operation parameters (`MoneyMarketSupplyParams`, `MoneyMarketBorrowParams`, `MoneyMarketWithdrawParams`, or `MoneyMarketRepayParams`) containing token address, amount, and action type
-- **`spokeProvider`**: The spoke provider instance for the source chain
-- **`raw`**: (Optional) Whether to return raw transaction data instead of executing the transaction. Used in `create*Intent` and `approve` methods. Default: `false`
-- **`timeout`**: (Optional) Timeout in milliseconds for relay operations (default: 60 seconds). Used in `supply`, `borrow`, `withdraw`, and `repay` methods
+* **`params`**: The money market operation parameters (`MoneyMarketSupplyParams`, `MoneyMarketBorrowParams`, `MoneyMarketWithdrawParams`, or `MoneyMarketRepayParams`) containing token address, amount, and action type
+* **`spokeProvider`**: The spoke provider instance for the source chain
+* **`raw`**: (Optional) Whether to return raw transaction data instead of executing the transaction. Used in `create*Intent` and `approve` methods. Default: `false`
+* **`timeout`**: (Optional) Timeout in milliseconds for relay operations (default: 60 seconds). Used in `supply`, `borrow`, `withdraw`, and `repay` methods
 
 ## Allowance and Approval
 
 Before making a money market action (supply, repay, withdraw, borrow), you need to ensure the money market contract has sufficient allowance to spend your tokens. The SDK provides methods to check and set allowances for different types of spoke providers.
 
 **Note**: For Stellar-based operations, the allowance and approval system works differently:
-- **Source Chain (Stellar)**: The standard `isAllowanceValid` and `approve` methods work as expected for EVM chains, but for Stellar as the source chain, these methods check and establish trustlines automatically.
-- **Destination Chain (Stellar)**: When Stellar is specified as the destination chain, frontends/clients need to manually establish trustlines before executing money market actions using `StellarSpokeService.hasSufficientTrustline` and `StellarSpokeService.requestTrustline` functions.
+
+* **Source Chain (Stellar)**: The standard `isAllowanceValid` and `approve` methods work as expected for EVM chains, but for Stellar as the source chain, these methods check and establish trustlines automatically.
+* **Destination Chain (Stellar)**: When Stellar is specified as the destination chain, frontends/clients need to manually establish trustlines before executing money market actions using `StellarSpokeService.hasSufficientTrustline` and `StellarSpokeService.requestTrustline` functions.
 
 ### Checking Allowance
 
@@ -138,8 +146,8 @@ if (!isAllowanceValid.value) {
 
 The `approve` method sets the allowance for the specified action. The spender address varies depending on the spoke provider type:
 
-- **EVM Spoke Chains**: The spender is the asset manager contract
-- **Sonic Spoke (Hub) Chain**: The spender is the user router contract (for supply/repay) or specific approval contracts (for withdraw/borrow)
+* **EVM Spoke Chains**: The spender is the asset manager contract
+* **Sonic Spoke (Hub) Chain**: The spender is the user router contract (for supply/repay) or specific approval contracts (for withdraw/borrow)
 
 ```typescript
 import { MoneyMarketSupplyParams, MoneyMarketRepayParams } from "@sodax/sdk";
@@ -182,18 +190,20 @@ if (!isAllowanceValid.value) {
 The allowance and approval system supports different actions depending on the spoke provider type:
 
 **EVM Spoke Providers:**
-- `supply` - Approves the asset manager contract to spend tokens
-- `repay` - Approves the asset manager contract to spend tokens
+
+* `supply` - Approves the asset manager contract to spend tokens
+* `repay` - Approves the asset manager contract to spend tokens
 
 **Sonic Spoke Provider (Hub Chain):**
-- `supply` - Approves the user router contract to spend tokens
-- `repay` - Approves the user router contract to spend tokens  
-- `withdraw` - Approves the withdraw operation using SonicSpokeService
-- `borrow` - Approves the borrow operation using SonicSpokeService
+
+* `supply` - Approves the user router contract to spend tokens
+* `repay` - Approves the user router contract to spend tokens
+* `withdraw` - Approves the withdraw operation using SonicSpokeService
+* `borrow` - Approves the borrow operation using SonicSpokeService
 
 ### Stellar Trustline Requirements
 
-For Stellar-based money market operations, you need to handle trustlines differently depending on whether Stellar is the source or destination chain. See [Stellar Trustline Requirements](./STELLAR_TRUSTLINE.md#money-market) for detailed information and code examples.
+For Stellar-based money market operations, you need to handle trustlines differently depending on whether Stellar is the source or destination chain. See [Stellar Trustline Requirements](STELLAR_TRUSTLINE.md#money-market) for detailed information and code examples.
 
 ### Complete Example
 
@@ -625,8 +635,9 @@ type MoneyMarketErrorCode =
 ```
 
 Where `RelayErrorCode` includes:
-- `'SUBMIT_TX_FAILED'` - Failed to submit the spoke chain transaction to the relay API
-- `'RELAY_TIMEOUT'` - Timeout waiting for transaction execution on the hub chain
+
+* `'SUBMIT_TX_FAILED'` - Failed to submit the spoke chain transaction to the relay API
+* `'RELAY_TIMEOUT'` - Timeout waiting for transaction execution on the hub chain
 
 ### Using Error Type Guards
 
@@ -799,19 +810,12 @@ type MoneyMarketUnknownError<T extends MoneyMarketUnknownErrorCode> = {
 ### Best Practices for Error Handling
 
 1. **Always check for `SUBMIT_TX_FAILED` errors**: These are critical and require immediate attention to prevent funds from getting stuck.
-
 2. **Store transaction data locally**: When a `SUBMIT_TX_FAILED` error occurs, store the transaction hash and parameters locally so you can retry submission even if the user leaves the session.
-
 3. **Use type guards**: Leverage the provided type guards to safely handle different error types without type casting.
-
 4. **Access error payloads**: Use the error payload data to provide better user feedback and debugging information.
-
 5. **Implement retry logic**: For network-related errors, implement exponential backoff retry logic.
-
 6. **Provide user feedback**: Give users clear, actionable error messages based on the error type.
-
 7. **Monitor timeouts**: Use appropriate timeout values and inform users when operations take longer than expected.
-
 8. **Check transaction status**: After timeouts, check the actual transaction status on the blockchain to determine if the operation succeeded despite the timeout.
 
 ## Data Retrieval and Formatting
@@ -823,30 +827,35 @@ The Money Market SDK provides comprehensive data retrieval and formatting capabi
 The SDK provides several methods to retrieve different types of data:
 
 #### Reserve Data
-- `getReservesList()` - Get list of all reserve addresses
-- `getReservesData()` - Get raw aggregated reserve data
-- `getReservesHumanized()` - Get humanized reserve data with normalized decimals
-- `getReserveData(asset)` - Get specific reserve data for an asset
-- `getReserveNormalizedIncome(asset)` - Get normalized income for a specific asset
+
+* `getReservesList()` - Get list of all reserve addresses
+* `getReservesData()` - Get raw aggregated reserve data
+* `getReservesHumanized()` - Get humanized reserve data with normalized decimals
+* `getReserveData(asset)` - Get specific reserve data for an asset
+* `getReserveNormalizedIncome(asset)` - Get normalized income for a specific asset
 
 #### User Data
-- `getUserReservesData(spokeProvider)` - Get raw user reserve data
-- `getUserReservesHumanized(spokeProvider)` - Get humanized user reserve data
+
+* `getUserReservesData(spokeProvider)` - Get raw user reserve data
+* `getUserReservesHumanized(spokeProvider)` - Get humanized user reserve data
 
 #### E-Mode Data
-- `getEModes()` - Get raw E-Mode data
-- `getEModesHumanized()` - Get humanized E-Mode data
+
+* `getEModes()` - Get raw E-Mode data
+* `getEModesHumanized()` - Get humanized E-Mode data
 
 ### Data Formatting
 
 The SDK provides powerful formatting capabilities to convert raw blockchain data into human-readable values with USD conversions:
 
 #### Formatting Reserve Data
-- `formatReservesUSD()` - Format reserves with USD conversions
-- `formatReserveUSD()` - Format a single reserve with USD conversion
+
+* `formatReservesUSD()` - Format reserves with USD conversions
+* `formatReserveUSD()` - Format a single reserve with USD conversion
 
 #### Formatting User Data
-- `formatUserSummary()` - Format user portfolio summary with USD conversions
+
+* `formatUserSummary()` - Format user portfolio summary with USD conversions
 
 **NOTE** if you need more customized formatting checkout [math-utils](https://github.com/icon-project/sodax-frontend/tree/main/packages/sdk/src/moneyMarket/math-utils).
 

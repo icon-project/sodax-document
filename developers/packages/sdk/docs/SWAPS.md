@@ -1,4 +1,4 @@
-# Swaps (Solver)
+# 🔄 Swaps (Solver)
 
 Swaps part of the SDK provides abstractions to assist you with interacting with the cross-chain Intent Smart Contracts, Solver and Relay API.
 
@@ -15,8 +15,7 @@ const quote = await sodax.swaps.getQuote(quoteRequest);
 
 ## Using SDK Config and Constants
 
-SDK includes predefined configurations of supported chains, tokens and other relevant information for the client to consume.
-All of the configurations are reachable through `config` property of Sodax instance (e.g. `sodax.config`)
+SDK includes predefined configurations of supported chains, tokens and other relevant information for the client to consume. All of the configurations are reachable through `config` property of Sodax instance (e.g. `sodax.config`)
 
 ```typescript
 import { SpokeChainId, Token, Sodax } from "@sodax/sdk";
@@ -49,53 +48,51 @@ All swap methods are accessible through `sodax.swaps`:
 
 ### Quote & Fee Methods
 
-- `getQuote(request)` - Request a quote from the solver API
-- `getPartnerFee(inputAmount)` - Calculate partner fee for a given input amount
-- `getSolverFee(inputAmount)` - Calculate solver fee (0.1%) for a given input amount
-- `getSwapDeadline(offset?)` - Get deadline timestamp for a swap
+* `getQuote(request)` - Request a quote from the solver API
+* `getPartnerFee(inputAmount)` - Calculate partner fee for a given input amount
+* `getSolverFee(inputAmount)` - Calculate solver fee (0.1%) for a given input amount
+* `getSwapDeadline(offset?)` - Get deadline timestamp for a swap
 
 ### Intent Creation & Execution
 
-- `swap(params)` - Complete swap operation (recommended, handles all steps automatically)
-- `createAndSubmitIntent(params)` - Create and submit intent (alternative to swap)
-- `createIntent(params)` - Create intent only (for custom handling)
-- `submitIntent(payload)` - Submit intent to relay API (for custom handling)
-- `postExecution(request)` - Post execution to Solver API(for custom handling)
+* `swap(params)` - Complete swap operation (recommended, handles all steps automatically)
+* `createAndSubmitIntent(params)` - Create and submit intent (alternative to swap)
+* `createIntent(params)` - Create intent only (for custom handling)
+* `submitIntent(payload)` - Submit intent to relay API (for custom handling)
+* `postExecution(request)` - Post execution to Solver API(for custom handling)
 
 ### Intent Management
 
-- `getIntent(txHash)` - Retrieve intent from hub chain transaction hash
-- `getFilledIntent(txHash)` - Get the filled intent state from the hub chain transaction hash by parsing the `IntentFilled` event.
-  Useful for obtaining the final exact output amount and state details after an intent has been executed.
-- `getSolvedIntentPacket(params)` - Get the intent delivery info about solved intent from the Relayer API.
-- `getIntentHash(intent)` - Get keccak256 hash of an intent
-- `getStatus(request)` - Get intent status from Solver API
-- `cancelIntent(intent, spokeProvider, raw?)` - Cancel an active intent
+* `getIntent(txHash)` - Retrieve intent from hub chain transaction hash
+* `getFilledIntent(txHash)` - Get the filled intent state from the hub chain transaction hash by parsing the `IntentFilled` event. Useful for obtaining the final exact output amount and state details after an intent has been executed.
+* `getSolvedIntentPacket(params)` - Get the intent delivery info about solved intent from the Relayer API.
+* `getIntentHash(intent)` - Get keccak256 hash of an intent
+* `getStatus(request)` - Get intent status from Solver API
+* `cancelIntent(intent, spokeProvider, raw?)` - Cancel an active intent
 
 ### Token Approval
 
-- `isAllowanceValid(params)` - Check if token approval is needed
-- `approve(params, raw?)` - Approve tokens or request trustline (Stellar)
+* `isAllowanceValid(params)` - Check if token approval is needed
+* `approve(params, raw?)` - Approve tokens or request trustline (Stellar)
 
 ### Utility Methods
 
-- `getSupportedSwapTokensByChainId(chainId)` - Get supported swap tokens for a chain
-- `getSupportedSwapTokens()` - Get all supported swap tokens per chain
-- `SwapService.estimateGas(rawTx, spokeProvider)` - Estimate gas for raw transactions (static method)
+* `getSupportedSwapTokensByChainId(chainId)` - Get supported swap tokens for a chain
+* `getSupportedSwapTokens()` - Get all supported swap tokens per chain
+* `SwapService.estimateGas(rawTx, spokeProvider)` - Estimate gas for raw transactions (static method)
 
 ### Initialising Spoke Provider
 
-Refer to [Initialising Spoke Provider](../README.md#initialising-spoke-provider) section to see how BSC spoke provider used as `bscSpokeProvider` can be created.
+Refer to [Initialising Spoke Provider](../#initialising-spoke-provider) section to see how BSC spoke provider used as `bscSpokeProvider` can be created.
 
 ### Request a Quote
 
-Requesting a quote should require you to just consume user input amount and converting it to the appropriate token amount (scaled by token decimals).
-All the required configurations (chain id [nid], token decimals and address) should be loaded as described in [Using SDK Config and Constants](#using-sdk-config-and-constants).
+Requesting a quote should require you to just consume user input amount and converting it to the appropriate token amount (scaled by token decimals). All the required configurations (chain id \[nid], token decimals and address) should be loaded as described in [Using SDK Config and Constants](SWAPS.md#using-sdk-config-and-constants).
 
 Quoting API supports different types of quotes:
 
-- "exact_input": "amount" parameter is the amount the user want's to swap (e.g. the user is asking for a quote to swap 1 WETH to xxx SUI)
-- "exact_output": "amount" parameter is the final amount the user wants. (e.g. the user want's to swap WETH for SUI, but is asking how many WETH is going to cost to have 1 SUI)
+* "exact\_input": "amount" parameter is the amount the user want's to swap (e.g. the user is asking for a quote to swap 1 WETH to xxx SUI)
+* "exact\_output": "amount" parameter is the final amount the user wants. (e.g. the user want's to swap WETH for SUI, but is asking how many WETH is going to cost to have 1 SUI)
 
 ```typescript
 import {
@@ -154,17 +151,17 @@ const createIntentParams = {
 
 All solver functions use object parameters for better readability and extensibility. The common parameter structure includes:
 
-- **`intentParams`**: The `CreateIntentParams` object containing swap details
-- **`spokeProvider`**: The spoke provider instance for the source chain. Can be a regular `SpokeProvider` (e.g., `EvmSpokeProvider`) or a raw spoke provider (e.g., `EvmRawSpokeProvider`) when you only have a wallet address. See [HOW_TO_CREATE_A_SPOKE_PROVIDER.md](./HOW_TO_CREATE_A_SPOKE_PROVIDER.md) for details on raw spoke providers.
-- **`fee`**: (Optional) Partner fee configuration. If not provided, uses the default partner fee from config. **Note**: Fees are now deducted from the input amount rather than added to it.
-- **`raw`**: (Optional) Whether to return raw transaction data instead of executing the transaction. **Note**: When using raw spoke providers, you must pass `raw: true`. Some methods like `swap` and `createAndSubmitIntent` do not support raw mode as they need to execute transactions.
-- **`timeout`**: (Optional) Timeout in milliseconds for relay operations (default: 60 seconds).
-- **`skipSimulation`**: (Optional) Whether to skip transaction simulation (default: false).
+* **`intentParams`**: The `CreateIntentParams` object containing swap details
+* **`spokeProvider`**: The spoke provider instance for the source chain. Can be a regular `SpokeProvider` (e.g., `EvmSpokeProvider`) or a raw spoke provider (e.g., `EvmRawSpokeProvider`) when you only have a wallet address. See [HOW\_TO\_CREATE\_A\_SPOKE\_PROVIDER.md](HOW_TO_CREATE_A_SPOKE_PROVIDER.md) for details on raw spoke providers.
+* **`fee`**: (Optional) Partner fee configuration. If not provided, uses the default partner fee from config. **Note**: Fees are now deducted from the input amount rather than added to it.
+* **`raw`**: (Optional) Whether to return raw transaction data instead of executing the transaction. **Note**: When using raw spoke providers, you must pass `raw: true`. Some methods like `swap` and `createAndSubmitIntent` do not support raw mode as they need to execute transactions.
+* **`timeout`**: (Optional) Timeout in milliseconds for relay operations (default: 60 seconds).
+* **`skipSimulation`**: (Optional) Whether to skip transaction simulation (default: false).
 
 **Raw Spoke Provider Support:**
 
-- **Methods that support raw mode**: `createIntent`, `approve`, `cancelIntent`
-- **Methods that do NOT support raw mode**: `swap`, `createAndSubmitIntent` (these methods need to execute transactions and submit them to the relay API)
+* **Methods that support raw mode**: `createIntent`, `approve`, `cancelIntent`
+* **Methods that do NOT support raw mode**: `swap`, `createAndSubmitIntent` (these methods need to execute transactions and submit them to the relay API)
 
 ### Get Fees
 
@@ -307,9 +304,8 @@ if (approveResult.ok) {
 
 For Stellar-based swap operations, the allowance and approval system works differently:
 
-- **Source Chain (Stellar)**: The standard `isAllowanceValid` and `approve` methods work as expected for EVM chains, but for Stellar as the source chain, these methods check and establish trustlines instead.
-
-- **Destination Chain (Stellar)**: When Stellar is specified as the destination chain, frontends/clients need to manually establish trustlines before executing swaps. See [Stellar Trustline Requirements](./STELLAR_TRUSTLINE.md#swaps) for detailed information and code examples.
+* **Source Chain (Stellar)**: The standard `isAllowanceValid` and `approve` methods work as expected for EVM chains, but for Stellar as the source chain, these methods check and establish trustlines instead.
+* **Destination Chain (Stellar)**: When Stellar is specified as the destination chain, frontends/clients need to manually establish trustlines before executing swaps. See [Stellar Trustline Requirements](STELLAR_TRUSTLINE.md#swaps) for detailed information and code examples.
 
 ### Estimate Gas for Raw Transactions
 
@@ -618,16 +614,16 @@ try {
 
 **IntentState Structure:**
 
-- `exists`: `boolean` - Whether the intent exists
-- `remainingInput`: `bigint` - Remaining input amount that hasn't been filled
-- `receivedOutput`: `bigint` - Amount of output tokens received
-- `pendingPayment`: `boolean` - Whether there is a pending payment
+* `exists`: `boolean` - Whether the intent exists
+* `remainingInput`: `bigint` - Remaining input amount that hasn't been filled
+* `receivedOutput`: `bigint` - Amount of output tokens received
+* `pendingPayment`: `boolean` - Whether there is a pending payment
 
 **Note**: This method throws an error if no filled intent is found for the given transaction hash. Make sure the transaction hash corresponds to a transaction that contains an `IntentFilled` event.
 
 ### Cancel Intent Order
 
-Active Intent Order can be cancelled using Intent. See [Get Intent Order](#get-intent-order) on how to obtain intent.
+Active Intent Order can be cancelled using Intent. See [Get Intent Order](SWAPS.md#get-intent-order) on how to obtain intent.
 
 **Note**: Create intent functions also return intent data for convenience, so you can use the intent from the creation response.
 

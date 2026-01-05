@@ -1,134 +1,124 @@
+---
+description: >-
+  SODAX is an execution coordination system that enables applications to deliver
+  reliable financial outcomes across networks. Explore the intent-based
+  architecture, unified liquidity layer, and the SDK.
+---
+
 # Product Overview
 
 <a href="https://se8br1ugut6.typeform.com/to/ZV7lvNfW" class="button primary" data-icon="hand-wave">Contact Form</a>
 
-SODAX is a modular DeFi infrastructure stack built to abstract cross-chain complexity and unlock unified liquidity across EVM and non-EVM chains. It enables builders to integrate swapping, lending, stablecoin minting, and wallet management into their applications with minimal effort.
+SODAX is an execution coordination system that enables applications to perform complex financial actions across multiple networks, without owning cross-network infrastructure.
 
-By coordinating execution through a hub-based intent system and abstracted wallets, Sodax simplifies liquidity access and execution routing across chains all while enabling partners to participate in and earn from protocol activity.
-
-***
-
-### Key Modules
-
-#### 🔄 Swaps (Solver)
-
-SODAX enables cross-chain swaps through an intent-based execution system. Users define what they want to swap; the solver borrows liquidity, routes trades via external AMMs, and delivers the output asset to the destination chain.
-
-* Unified swap interface across all supported chains
-* Executes through integrated AMMs (Uniswap, PancakeSwap, Raydium, etc.)
-* Solvers manage rebalancing and repayment
-* SDK exposes quote, route, and execute functionality
-
-#### Lending and Borrowing
-
-The Sodax money market is a multi-chain, capital-efficient lending protocol built on a fork of Aave v3. It supports single-sided liquidity provision across all supported networks, enabling users to supply assets independently of pairs and without impermanent loss. The protocol supports asset-specific interest rate strategies per chain, and the yield generated is distributed back to suppliers and the protocol treasury.
-
-In addition to user participation, the Sodax solver system is also integrated with the money market. Solvers borrow liquidity temporarily to execute cross-chain swaps or arbitrage routes, enhancing capital efficiency and utility. This borrowed liquidity is sourced directly from protocol-owned and user-supplied assets and routed through integrated AMMs such as PancakeSwap, Uniswap, and others.
-
-* Multi-chain lending with single-asset supply
-* Collateralized borrowing across all chains and solver-driven liquidity usage
-* Flash loan-style interactions for execution use cases
-* Revenue shared to suppliers
-
-#### Stablecoin: bnUSD
-
-bnUSD is a cross-chain stablecoin minted from approved collateral assets. It's used internally for routing and liquidity pairing and can also be integrated into partner ecosystems.
-
-* Overcollateralized CDP model
-* Fixed flat interest rate for minting
-* Mintable and redeemable across all supported chains
-* Integrated into swaps and lending flows
-
-#### Intent-Based Execution Engine
-
-The intent architecture allows users (or frontends) to specify what they want to do (e.g., "Swap Token A to Token B on Chain Y") and lets solvers fulfill the request using any available liquidity path.
-
-* Intents created on the hub chain
-* Solvers can fulfill from any spoke chain
-* Enables optimized routing and partial fills
-* Integrated with the cross-chain GMP layer
-
-#### Wallet Abstraction
-
-Sodax abstracts away chain-specific user wallets by creating deterministic proxy wallets for each user on the hub chain. This unlocks true chain-agnostic UX and simplifies cross-chain composability.
-
-* Deterministic CREATE3 wallets per user and chain
-* Executes payloads passed via GMP
-* Supports permissioned hooks for asset manager or custom extensions
-* Used as the default destination for bridging and execution
+Utilizing a high-performance hub-and-spoke architecture (anchored on the Sonic blockchain), SODAX abstracts the complexity of asynchronous execution. It connects EVM and non-EVM networks through a unified intent-based system, allowing builders to integrate swapping, lending, and liquidity features while retaining full control over their user experience.
 
 ***
 
-### Protocol-Owned Liquidity
+### The Core Problem
 
-Sodax currently holds over six million dollars in protocol-owned liquidity. This capital is deployed into the Sodax money market and is accessible to all partners who consume our core SDKs.
+Cross-network systems today can move assets, but they do not reliably deliver intended outcomes. Transfers succeed while liquidity fails; routes exist but execution breaks mid-flow.
 
-Partners integrating the Sodax SDKs can tap into this liquidity to facilitate trades, lending operations, or stablecoin minting across any supported chain. The solver borrows from this shared liquidity pool to execute intent-based trades, sourcing the best paths across integrated AMMs like PancakeSwap, Uniswap, Raydium, and more.
+SODAX exists to absorb this complexity into infrastructure. Instead of treating cross-network activity as a simple transfer problem, SODAX treats it as an execution problem. It coordinates liquidity, routing, and recovery paths to ensure predictable results for users and builders.
 
-This ensures that partner applications not only get best-in-class cross-chain execution but also benefit from deeply integrated, high-availability liquidity that is owned and managed by the protocol.
+### Core Components
+
+#### Intent-based execution
+
+SODAX replaces manual bridging with an intent-centric execution system powered by specialized infrastructure.
+
+* **Proprietary Solver:** SODAX operates a proprietary solver that acts as the intelligence layer for the system. It quotes and routes user intents, reasoning across networks to find the most efficient execution path.
+* **Outcome Optimization:** The system reasons across networks to find the most efficient path, utilizing the Unified Liquidity Layer or external AMMs to settle trades.
+* **Asynchronous Recovery:** SODAX explicitly manages the reality of asynchronous networks. If an intent cannot be filled instantly due to volatility, the system provides clear recovery flows rather than silent failures.
+
+#### Unified Liquidity Layer
+
+SODAX does not treat liquidity as a "black box" or a static pool mirrored across chains.
+
+* **DeFi-Native Participation:** Liquidity is sourced from a external network AMMs and a transparent, on-chain money market where capital is visible and participatory.
+* **Capital Efficiency:** Solvers utilize this layer to source inventory for cross-network trades without needing to hoard idle balances on every spoke chain.
+
+#### Smart Wallet Abstraction
+
+SODAX eliminates the fragmentation of user identity across chains by managing the complexity of cross-network accounts.
+
+* **Deterministic Proxy Wallets:** SODAX automatically generates deterministic smart wallets on the Hub. These allow users to have a consistent identity across chains without manual deployment or management.
+* **Chain Abstraction:** This infrastructure enables complex flows, such as "swap and deposit," to be coordinated across networks. The user signs a single intent, and SODAX coordinates the asynchronous steps required to complete the action.
 
 ***
 
 ### Partner Use Cases
 
-| Partner Type            | Benefits from Sodax                                      |
-| ----------------------- | -------------------------------------------------------- |
-| Wallets                 | Integrate swap, lend, and bnUSD flows with a single SDK  |
-| DEXs & Aggregators      | Access external liquidity across chains and route orders |
-| Lending Platforms       | Utilize Sodax money market or integrate bnUSD minting    |
-| Perp DEXs / Yield Apps  | Use cross-chain stablecoin and abstracted wallet flows   |
-| Protocols on new chains | Add bridging, stablecoin support, and capital sourcing   |
+SODAX is designed for composability. Each module can be used independently or in combination to solve specific integration challenges.
 
-Sodax is designed for composability. Each module can be used independently or in combination, depending on partner needs.
+<table><thead><tr><th width="222.0390625">Partner Type</th><th>What you can build with SODAX</th></tr></thead><tbody><tr><td><strong>Wallets</strong></td><td>Integrate native cross-network swaps, savings, and stablecoin transfers directly into your UI using a single SDK, without managing bridge connections or liquidity pools</td></tr><tr><td><strong>DEXs &#x26; Aggregators</strong></td><td>Route users to the best price across 12+ networks. Use SODAX liquidity as a settlement layer to fill orders that your local pools cannot support.</td></tr><tr><td><strong>Lending Protocols</strong></td><td>Enable "Cross-Network Collateral." Allow users to supply assets on one network (e.g., Ethereum) and borrow against them on another (e.g., Solana) instantly</td></tr><tr><td><strong>Perp DEXs / Yield Apps</strong></td><td>Accept deposits from any network. Users can deposit USDC from Solana, and SODAX settles it into your protocol's native asset (e.g., USDC on Sonic) automatically.</td></tr><tr><td><strong>New Networks</strong></td><td>Bootstrap initial liquidity and stablecoin utility on day one by connecting your new chain to the SODAX Hub, instantly accessing liquidity from established networks</td></tr></tbody></table>
 
-***
+<p align="center"><a href="https://se8br1ugut6.typeform.com/to/ZV7lvNfW" class="button primary" data-icon="hand-wave">Contact Form</a></p>
 
-### Why Partners Choose Sodax
+### Why Partners Choose SODAX
 
-* Composability by Design: Every module (wallets, lending, swaps, rewards) is SDK-accessible and independently usable.
-* Chain Abstraction: Works across EVM and non-EVM chains via intent-based messaging and deterministic wallets.
-* Revenue Participation: Partners can earn through fees, point systems, or solver execution.
-* Frictionless User Experience: No bridging, wrapping, or manual routing required.
-* Stability & Yield: bnUSD minting and network-owned liquidity unlock predictable yields and system sustainability.
+We position SODAX as serious infrastructure for builders who want results, not hype.
+
+* **Composability by Design:** Every component (wallets, lending, swaps) is SDK-accessible and independently usable. You don't have to adopt the whole stack to solve one problem.
+* **True Network Abstraction:** We connect EVM and non-EVM environments (like Solana and Stellar) seamlessly via intent-based messaging. Your users shouldn't have to care which network they are on.
+* **Shared Economics**: Partners participate in the value they create. We offer revenue sharing on protocol fees and solver execution for volume routed through your integration.
+* **Invisible Complexity:** We handle the routing, bridging, and error recovery in the background, so you can offer a frictionless user experience without the operational headache
 
 ***
 
-### SDK Overview
+### Developer Ecosystem
 
-Sodax offers three SDKs, allowing partners to choose the level of integration that best fits their product needs:
+The SODAX developer suite is architected as a dependency stack. Builders can choose to integrate at the foundational level for maximum control or use opinionated layers for speed.
 
-#### Sodax Core SDK
+#### 1. The Foundation: [sdk](developers/packages/sdk/ "mention")
 
-The foundation of the Sodax ecosystem. This SDK provides:
+This is the core logic layer that powers the entire ecosystem. It provides the raw functional modules required to build with SODAX programmatically.
 
-* Access to cross-chain swap routing via the intent-based solver
-* Full integration with the money market
-* Interactions with bnUSD minting and redemption
-* Coverage across all supported chains
+* **Functional Modules:**
+  * `Swaps`: Quote and execute cross-chain intents via the solver.
+  * `Lend/Borrow`: Interact directly with the SODAX money market logic.
+  * `Bridge`: Core bridging primitives for asset transfer.
+  * `Staking`: Management of SODA staking and governance positions.
+  * `Migration`: Utilities for migrating ICX to SODA tokens.
+* **Tooling Modules:**
+  * `Backend API`: Provides useful data points for each feature
+  * `Intent Relay API`: Direct access to the intent propagation network.
 
-#### Sodax Wallet SDK
+#### 2. The Connection Layer
 
-An optional module providing wallet integration across all supported chains. This SDK enables:
+Sitting above the core SDK, this package manages the complexity of connecting user wallets across heterogeneous chains (EVM, SVM, non-EVM). It is available in two flavors:
 
-* Pre-built wallet connection logic for EVM and non-EVM chains
-* Support for native wallet flows on each chain
-* Flexible use for teams that want a drop-in solution without building custom wallet logic
+* [wallet-sdk-core](developers/packages/wallet-sdk-core/ "mention") **Core (TypeScript)**: A pure TypeScript implementation of wallet providers. Use this if you are building a custom frontend framework or a non-React application.
+* [wallet-sdk-react](developers/packages/wallet-sdk-react/ "mention") **React Adapter**: An opinionated wrapper optimized for React applications, providing pre-built context providers and state management for wallet connections.
 
-#### Sodax dAppKit
+#### 3. The Experience Layer: [dapp-kit](developers/packages/dapp-kit/ "mention")
 
-A high-level frontend utility package that combines the Core and Wallet SDKs. It provides:
+The fastest way to build with SODAX. This is an opinionated collection of UI components, hooks, and utilities that leverages the layers below it.
 
-* Pre-built hooks and components for money market functions (supply, borrow, repay)
-* Swap interfaces using the solver
-* Full end-to-end dApp scaffolding support for rapid integration
+* **Under the Hood:** It automatically implements `@sodax/wallet-sdk` for connection and `@sodax/sdk` for execution.
+* **What it offers:** React based hooks, contexts, and utilities for SODAX features
 
 ***
 
-### Integration Highlights
+### Ecosystem reach
 
-* 12+ Chains Supported: ICON, Arbitrum, BNB, Avalanche, SUI, Solana, Stellar, and more
-* Native SDKs: Core SDK, Sodax Wallet SDK, and dApp Kit (for frontend builders)
-* AMMs Integrated: Uniswap V3, PancakeSwap, Raydium, Pharaoh, Cetus, DojoSwap, Soroswap
-* GMP Compatible: Fully abstracted message-passing layer for secure cross-chain intents
+* **Supported Networks:** 12+ heterogeneous environments including Arbitrum, BNB Chain, Avalanche, Sui, Solana, Stellar, and ICON.
+* **Liquidity Sources:** The proprietary solver routes execution through deep liquidity venues like Uniswap V3, PancakeSwap, Raydium, Pharaoh, Cetus, and DojoSwap.
+* **Infrastructure Compatibility:** Designed to work alongside major messaging standards (GMP) for secure intent propagation, not replace them.
+
+***
+
+### Protocol-owned Liquidity (POL)
+
+SODAX actively deploys Protocol-owned Liquidity to bootstrap the network and support solver execution.
+
+* **Bootstrapping Reliability:** By owning its own liquidity, SODAX ensures that the solver always has access to a baseline inventory for supported assets.
+* **Sustainable Yield:** Revenue generated from this liquidity flows back into the protocol, aligning the long-term health of the system with the success of its partners.
+
+***
+
+
+
+###
 
 ***

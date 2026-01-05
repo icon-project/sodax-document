@@ -1,23 +1,23 @@
-## Intent Relay API Service
+# ✉️ Intent Relay API
 
 The Intent Relay API Service provides functionality for submitting transactions and retrieving transaction packets across different chains. This service is part of the cross-chain communication infrastructure.
 
-### Available Actions
+## Available Actions
 
 1. `submit` - Submit a transaction to the intent relay service
 2. `get_transaction_packets` - Get transaction packets from the intent relay service
 3. `get_packet` - Get a specific packet from the intent relay service
 
-### Transaction Status Types
+## Transaction Status Types
 
-- `pending` - No signatures
-- `validating` - Not enough signatures
-- `executing` - Enough signatures, no confirmed txn-hash
-- `executed` - Has confirmed transaction-hash
+* `pending` - No signatures
+* `validating` - Not enough signatures
+* `executing` - Enough signatures, no confirmed txn-hash
+* `executed` - Has confirmed transaction-hash
 
-### API Examples
+## API Examples
 
-#### Submit Transaction
+### Submit Transaction
 
 ```typescript
 const request = {
@@ -36,7 +36,7 @@ const response: SubmitTxResponse = await submitTransaction(request, 'https://api
 }
 ```
 
-#### Get Transaction Packets
+### Get Transaction Packets
 
 ```typescript
 const request = {
@@ -71,7 +71,7 @@ const response: GetTransactionPacketsResponse = await getTransactionPackets(requ
 }
 ```
 
-#### Get Packet
+### Get Packet
 
 ```typescript
 const request = {
@@ -103,6 +103,6 @@ const response: GetPacketResponse = await getPacket(request, 'https://api.exampl
 }
 ```
 
-### Type Definitions
+## Type Definitions
 
 For detailed type definitions, refer to the source code in `packages/sdk/src/services/intentRelay/IntentRelayApiService.ts`.

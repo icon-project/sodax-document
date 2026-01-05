@@ -4,7 +4,7 @@
 
 This repository contains ICON's crosschain infrastructure and dapps built on it.
 
-<figure><img src="../../.gitbook/assets/image.png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (1).png" alt=""><figcaption></figcaption></figure>
 
 ### Infra Goals
 
@@ -34,7 +34,7 @@ For more detailed specifications regarding the **AssetManager**, please refer to
 With crosschain dapps there is usually lot of fragmentation. Same token represented on many chains or tokens priced very closely together such as wBTC and tBTC.\
 So we need contract and logic to unify this fragmentation in a composable way. This can be done by a Tokenized Vault built to comply with the ICON crosschain token standard. Giving us full flexibility in solving liquidity fragmentation while also being able to take any token crosschain.
 
-<figure><img src="../../.gitbook/assets/image (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 For more detailed specifications regarding the **Hub Token Management**, please refer to the full documentation [here](vault-token.md).
 
@@ -71,4 +71,3 @@ The **Connection** verifies incoming messages and acts as a gateway for chains t
 #### Relayer
 
 The **Relayer** verifies and delivers messages across blockchains, confirming events and providing necessary signatures.
-
