@@ -1,2 +1,6 @@
-# 📘 How to
+---
+icon: book
+---
+
+# How to
 

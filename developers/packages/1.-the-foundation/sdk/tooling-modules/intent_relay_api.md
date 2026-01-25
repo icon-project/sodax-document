@@ -1,4 +1,8 @@
-# ✉️ Intent Relay API
+---
+icon: envelope
+---
+
+# Intent Relay API
 
 The Intent Relay API Service provides functionality for submitting transactions and retrieving transaction packets across different chains. This service is part of the cross-chain communication infrastructure.
 

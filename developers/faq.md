@@ -1,3 +1,7 @@
-# ❓ FAQ
+---
+icon: comment-question
+---
+
+# FAQ
 
 TODO

@@ -1,4 +1,8 @@
-# 💰 Lend / Borrow (Money Market)
+---
+icon: sack-dollar
+---
+
+# Lend / Borrow (Money Market)
 
 Money Market part of SDK provides abstractions to assist you with interacting with the cross-chain Money Market Smart Contracts.
 
@@ -203,7 +207,7 @@ The allowance and approval system supports different actions depending on the sp
 
 ### Stellar Trustline Requirements
 
-For Stellar-based money market operations, you need to handle trustlines differently depending on whether Stellar is the source or destination chain. See [Stellar Trustline Requirements](STELLAR_TRUSTLINE.md#money-market) for detailed information and code examples.
+For Stellar-based money market operations, you need to handle trustlines differently depending on whether Stellar is the source or destination chain. See [Stellar Trustline Requirements](../../../sdk/docs/STELLAR_TRUSTLINE.md#money-market) for detailed information and code examples.
 
 ### Complete Example
 

@@ -1,4 +1,8 @@
-# 📖 Technical Overview
+---
+icon: book-open
+---
+
+# Technical Overview
 
 ### Overview
 

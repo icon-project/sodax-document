@@ -7,7 +7,11 @@ description: >-
 
 # Product Overview
 
-<a href="https://se8br1ugut6.typeform.com/to/ZV7lvNfW" class="button primary" data-icon="hand-wave">Contact Form</a>
+
+
+<table data-view="cards"><thead><tr><th></th><th data-hidden data-card-cover data-type="image">Cover image</th></tr></thead><tbody><tr><td>Go straight to @sodax/sdk<br><br><a href="developers/packages/1.-the-foundation/sdk/" class="button primary" data-icon="cup-straw">@sodax/sdk</a></td><td><a href=".gitbook/assets/sodax-sdk-2.jpg">sodax-sdk-2.jpg</a></td></tr><tr><td><p>View SDK breakdown<br></p><p><a href="./#developer-ecosystem" class="button primary" data-icon="chevrons-down">Scroll down</a><br></p></td><td><a href=".gitbook/assets/sodax-sdk-3.jpg">sodax-sdk-3.jpg</a></td></tr><tr><td><p>Get in touch<br></p><p><a href="https://se8br1ugut6.typeform.com/to/ZV7lvNfW" class="button primary" data-icon="hand-wave">Contact Form</a></p></td><td><a href=".gitbook/assets/sodax-sdk.jpg">sodax-sdk.jpg</a></td></tr></tbody></table>
+
+
 
 SODAX is an execution coordination system that enables applications to perform complex financial actions across multiple networks, without owning cross-network infrastructure.
 
@@ -70,7 +74,7 @@ We position SODAX as serious infrastructure for builders who want results, not h
 
 The SODAX developer suite is architected as a dependency stack. Builders can choose to integrate at the foundational level for maximum control or use opinionated layers for speed.
 
-#### 1. The Foundation: [sdk](developers/packages/sdk/ "mention")
+#### 1. The Foundation: [sdk](developers/packages/1.-the-foundation/sdk/ "mention")
 
 This is the core logic layer that powers the entire ecosystem. It provides the raw functional modules required to build with SODAX programmatically.
 
@@ -88,10 +92,10 @@ This is the core logic layer that powers the entire ecosystem. It provides the r
 
 Sitting above the core SDK, this package manages the complexity of connecting user wallets across heterogeneous chains (EVM, SVM, non-EVM). It is available in two flavors:
 
-* [wallet-sdk-core](developers/packages/wallet-sdk-core/ "mention") **Core (TypeScript)**: A pure TypeScript implementation of wallet providers. Use this if you are building a custom frontend framework or a non-React application.
-* [wallet-sdk-react](developers/packages/wallet-sdk-react/ "mention") **React Adapter**: An opinionated wrapper optimized for React applications, providing pre-built context providers and state management for wallet connections.
+* [wallet-sdk-core.md](developers/packages/2.-the-connection-layer/wallet-sdk-core.md "mention") **Core (TypeScript)**: A pure TypeScript implementation of wallet providers. Use this if you are building a custom frontend framework or a non-React application.
+* [wallet-sdk-react.md](developers/packages/2.-the-connection-layer/wallet-sdk-react.md "mention") **React Adapter**: An opinionated wrapper optimized for React applications, providing pre-built context providers and state management for wallet connections.
 
-#### 3. The Experience Layer: [dapp-kit](developers/packages/dapp-kit/ "mention")
+#### 3. The Experience Layer: [dapp-kit.md](developers/packages/3.-the-experience-layer/dapp-kit.md "mention")
 
 The fastest way to build with SODAX. This is an opinionated collection of UI components, hooks, and utilities that leverages the layers below it.
 

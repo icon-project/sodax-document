@@ -1,2 +1,6 @@
-# 📑 Deployments
+---
+icon: file
+---
+
+# Deployments
 

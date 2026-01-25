@@ -1,4 +1,8 @@
-# 🌉 Bridge
+---
+icon: bridge-suspension
+---
+
+# Bridge
 
 The `BridgeService` class reachable through `sodax.bridge` instance provides functionality to bridge tokens between different blockchain chains. It supports both cross-chain transfers between spoke chains and operations involving the hub chain (Sonic) using Soda tokens.
 
@@ -84,7 +88,7 @@ if (result.ok) {
 
 ### Stellar Trustline Requirements
 
-For Stellar-based bridge operations, you need to handle trustlines differently depending on whether Stellar is the source or destination chain. See [Stellar Trustline Requirements](STELLAR_TRUSTLINE.md#bridge) for detailed information and code examples.
+For Stellar-based bridge operations, you need to handle trustlines differently depending on whether Stellar is the source or destination chain. See [Stellar Trustline Requirements](../../../sdk/docs/STELLAR_TRUSTLINE.md#bridge) for detailed information and code examples.
 
 ### bridge
 
@@ -335,7 +339,7 @@ The typical bridge operation follows this sequence:
 
 1. **Check allowance** using `isAllowanceValid()`
 2. **Approve tokens** using `approve()` if needed
-3. **For Stellar destination chains**: Check and establish trustlines (see [Stellar Trustline Requirements](STELLAR_TRUSTLINE.md#bridge))
+3. **For Stellar destination chains**: Check and establish trustlines (see [Stellar Trustline Requirements](../../../sdk/docs/STELLAR_TRUSTLINE.md#bridge))
 4. **Execute bridge** using `bridge()` or `createBridgeIntent()` + manual relaying
 5. **Monitor progress** using the returned transaction hashes
 
