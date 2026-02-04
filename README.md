@@ -1,72 +1,81 @@
 ---
 description: >-
-  SODAX is an execution coordination system that enables applications to deliver
-  reliable financial outcomes across networks. Explore the intent-based
-  architecture, unified liquidity layer, and the SDK.
+  SODAX is execution coordination and liquidity infrastructure for modern money,
+  enabling applications to deliver real DeFi use-cases and predictable outcomes
+  across multiple networks.
 ---
 
 # Product Overview
 
+<table data-view="cards"><thead><tr><th></th><th data-hidden data-card-cover data-type="image">Cover image</th></tr></thead><tbody><tr><td>Go to @sodax/sdk<br><br><a href="developers/packages/1.-the-foundation/sdk/" class="button primary" data-icon="cup-straw">@sodax/sdk</a></td><td><a href=".gitbook/assets/sodax-sdk-2.jpg">sodax-sdk-2.jpg</a></td></tr><tr><td><p>View SDK breakdown<br></p><p><a href="./#developer-ecosystem" class="button primary" data-icon="chevrons-down">Scroll down</a></p></td><td><a href=".gitbook/assets/sodax-sdk-3.jpg">sodax-sdk-3.jpg</a></td></tr><tr><td><p>Get in touch<br></p><p><a href="https://se8br1ugut6.typeform.com/to/ZV7lvNfW" class="button primary" data-icon="hand-wave">Contact Form</a></p></td><td><a href=".gitbook/assets/sodax-sdk.jpg">sodax-sdk.jpg</a></td></tr></tbody></table>
 
+SODAX is built as infrastructure for modern money, coordinating how DeFi actions execute across multiple networks under real-world conditions.
 
-<table data-view="cards"><thead><tr><th></th><th data-hidden data-card-cover data-type="image">Cover image</th></tr></thead><tbody><tr><td>Go straight to @sodax/sdk<br><br><a href="developers/packages/1.-the-foundation/sdk/" class="button primary" data-icon="cup-straw">@sodax/sdk</a></td><td><a href=".gitbook/assets/sodax-sdk-2.jpg">sodax-sdk-2.jpg</a></td></tr><tr><td><p>View SDK breakdown<br></p><p><a href="./#developer-ecosystem" class="button primary" data-icon="chevrons-down">Scroll down</a><br></p></td><td><a href=".gitbook/assets/sodax-sdk-3.jpg">sodax-sdk-3.jpg</a></td></tr><tr><td><p>Get in touch<br></p><p><a href="https://se8br1ugut6.typeform.com/to/ZV7lvNfW" class="button primary" data-icon="hand-wave">Contact Form</a></p></td><td><a href=".gitbook/assets/sodax-sdk.jpg">sodax-sdk.jpg</a></td></tr></tbody></table>
+Instead of treating cross-network activity as asset movement, SODAX coordinates execution behavior across fragmented liquidity, asynchronous settlement, and conditional completion.
 
-
-
-SODAX is an execution coordination system that enables applications to perform complex financial actions across multiple networks, without owning cross-network infrastructure.
-
-Utilizing a high-performance hub-and-spoke architecture (anchored on the Sonic blockchain), SODAX abstracts the complexity of asynchronous execution. It connects EVM and non-EVM networks through a unified intent-based system, allowing builders to integrate swapping, lending, and liquidity features while retaining full control over their user experience.
+Applications integrate through a single SDK surface while retaining control over user experience, pricing logic, and risk parameters. SODAX handles how execution behaves when network conditions change.
 
 ***
 
 ### The Core Problem
 
-Cross-network systems today can move assets, but they do not reliably deliver intended outcomes. Transfers succeed while liquidity fails; routes exist but execution breaks mid-flow.
+Cross-network systems can move assets, but they do not reliably deliver real DeFi actions.
 
-SODAX exists to absorb this complexity into infrastructure. Instead of treating cross-network activity as a simple transfer problem, SODAX treats it as an execution problem. It coordinates liquidity, routing, and recovery paths to ensure predictable results for users and builders.
+Bridge transfers are executed successfully but get stranded due to missing liquidity. Collateral arrives on a destination network but borrowing fails. Routes quote a price that cannot be filled when execution begins.
+
+This happens because cross-network execution is:
+
+• Asynchronous by nature\
+• Dependent on fragmented liquidity across networks\
+• Exposed to volatility and partial completion
+
+SODAX exists to coordinate execution across these realities.
+
+Rather than optimizing transfers or routes in isolation, SODAX coordinates liquidity, timing, and recovery paths end to end so DeFi use-cases complete predictably under real conditions.
 
 ### Core Components
 
 #### Intent-based execution
 
-SODAX replaces manual bridging with an intent-centric execution system powered by specialized infrastructure.
+SODAX coordinates cross-network execution through an intent-centric model designed to support increasingly complex DeFi actions over time.
 
-* **Proprietary Solver:** SODAX operates a proprietary solver that acts as the intelligence layer for the system. It quotes and routes user intents, reasoning across networks to find the most efficient execution path.
-* **Outcome Optimization:** The system reasons across networks to find the most efficient path, utilizing the Unified Liquidity Layer or external AMMs to settle trades.
-* **Asynchronous Recovery:** SODAX explicitly manages the reality of asynchronous networks. If an intent cannot be filled instantly due to volatility, the system provides clear recovery flows rather than silent failures.
+* **Proprietary Solver:** Coordinates execution flows across networks based on liquidity availability, pricing conditions, network constraints, and builder-defined parameters.
+* **Outcome-oriented settlement:** Execution routes are quoted using coordinated liquidity domains or external venues based on current conditions, then executed explicitly once approved.
+* **Explicit asynchronous handling:** Multi-step execution, partial completion, and recovery paths are handled deliberately, enabling flows that cannot be assumed to complete atomically.
 
 #### Unified Liquidity Layer
 
-SODAX does not treat liquidity as a "black box" or a static pool mirrored across chains.
+SODAX treats liquidity as a unified, system-level inventory rather than isolated pools on individual networks.
 
-* **DeFi-Native Participation:** Liquidity is sourced from a external network AMMs and a transparent, on-chain money market where capital is visible and participatory.
-* **Capital Efficiency:** Solvers utilize this layer to source inventory for cross-network trades without needing to hoard idle balances on every spoke chain.
+* **Unified execution inventory:** Assets are accounted for globally and coordinated across networks to fulfill cross-network intents.
+* **Solver-accessed at execution time:** Liquidity is used by the solver when planning and executing actions, then redistributed to maintain system balance.
+* **Reduced fragmentation risk:** Execution no longer depends on liquidity being available on a specific network at a specific moment.
 
 #### Smart Wallet Abstraction
 
-SODAX eliminates the fragmentation of user identity across chains by managing the complexity of cross-network accounts.
+SODAX coordinates cross-network account state as part of the execution layer rather than relying on independently managed wallets on each network.
 
-* **Deterministic Proxy Wallets:** SODAX automatically generates deterministic smart wallets on the Hub. These allow users to have a consistent identity across chains without manual deployment or management.
-* **Chain Abstraction:** This infrastructure enables complex flows, such as "swap and deposit," to be coordinated across networks. The user signs a single intent, and SODAX coordinates the asynchronous steps required to complete the action.
+* **Deterministic execution wallets:** SODAX automatically assigns users deterministic smart wallets that act as a consistent execution identity across networks.
+* **Unified execution account:** Applications execute cross-network swaps through a single wallet context rather than managing separate accounts and approvals on each network.
+* **Simplified cross-network coordination:** SODAX handles wallet creation and execution routing so applications can focus on post-execution actions.
 
 ***
 
 ### Partner Use Cases
 
-SODAX is designed for composability. Each module can be used independently or in combination to solve specific integration challenges.
+SODAX is designed as a modular execution system. Each SDK module can be integrated independently or combined to support specific integration needs.
 
-<table><thead><tr><th width="222.0390625">Partner Type</th><th>What you can build with SODAX</th></tr></thead><tbody><tr><td><strong>Wallets</strong></td><td>Integrate native cross-network swaps, savings, and stablecoin transfers directly into your UI using a single SDK, without managing bridge connections or liquidity pools</td></tr><tr><td><strong>DEXs &#x26; Aggregators</strong></td><td>Route users to the best price across 12+ networks. Use SODAX liquidity as a settlement layer to fill orders that your local pools cannot support.</td></tr><tr><td><strong>Lending Protocols</strong></td><td>Enable "Cross-Network Collateral." Allow users to supply assets on one network (e.g., Ethereum) and borrow against them on another (e.g., Solana) instantly</td></tr><tr><td><strong>Perp DEXs / Yield Apps</strong></td><td>Accept deposits from any network. Users can deposit USDC from Solana, and SODAX settles it into your protocol's native asset (e.g., USDC on Sonic) automatically.</td></tr><tr><td><strong>New Networks</strong></td><td>Bootstrap initial liquidity and stablecoin utility on day one by connecting your new chain to the SODAX Hub, instantly accessing liquidity from established networks</td></tr></tbody></table>
+<table><thead><tr><th width="222.0390625">Partner Type</th><th>What you can build with SODAX</th></tr></thead><tbody><tr><td><strong>Wallets</strong></td><td>Use <strong>Swaps (Solver)</strong> to offer cross-network swaps in your UI, plus <strong>Bridge</strong> primitives where needed for asset transfer. Use <strong>Lend / Borrow (Money Market)</strong> to integrate lending primitives.</td></tr><tr><td><strong>DEXs &#x26; Aggregators</strong></td><td>Use <strong>Swaps (Solver)</strong> to quote and execute cross-network intents and expand routing beyond single-network liquidity</td></tr><tr><td><strong>Lending Protocols</strong></td><td>Use <strong>Lend / Borrow (Money Market)</strong> to integrate lending primitives and support multi-network user flows around collateral and borrowing.</td></tr><tr><td><strong>Perp DEXs / Yield Apps</strong></td><td>Use <strong>Swaps (Solver)</strong> to accept deposits from other networks via swap-into-your-asset flows, then complete the deposit inside your app. Use <strong>Lend / Borrow (Money Market)</strong> to enable borrowed asset deposits with user collateral on other networks.</td></tr><tr><td><strong>New Networks</strong></td><td>Integrate SODAX to provide builders with ready-made cross-network execution capabilities and liquidity access from day one.</td></tr></tbody></table>
 
 <p align="center"><a href="https://se8br1ugut6.typeform.com/to/ZV7lvNfW" class="button primary" data-icon="hand-wave">Contact Form</a></p>
 
 ### Why Partners Choose SODAX
 
-We position SODAX as serious infrastructure for builders who want results, not hype.
-
-* **Composability by Design:** Every component (wallets, lending, swaps) is SDK-accessible and independently usable. You don't have to adopt the whole stack to solve one problem.
-* **True Network Abstraction:** We connect EVM and non-EVM environments (like Solana and Stellar) seamlessly via intent-based messaging. Your users shouldn't have to care which network they are on.
-* **Shared Economics**: Partners participate in the value they create. We offer revenue sharing on protocol fees and solver execution for volume routed through your integration.
-* **Invisible Complexity:** We handle the routing, bridging, and error recovery in the background, so you can offer a frictionless user experience without the operational headache
+* **Execution beyond routing:** Routes move assets. SODAX coordinates liquidity so swaps, borrows, and deposits can actually settle across networks.
+* **Single SDK, modular usage:** Integrate `@sodax/sdk` once, then use only the modules you need, such as Swaps, Lend/Borrow, or Bridge.
+* **Designed for real execution conditions:** Cross-network execution is asynchronous by nature, with built-in timeouts and clear completion or failure handling.
+* **Builder control preserved:** Partners retain ownership of user experience, pricing logic, and risk parameters.
+* **Proven cross-network execution:** Live production flows across heterogeneous networks with solver-coordinated settlement.
 
 ***
 
@@ -106,7 +115,7 @@ The fastest way to build with SODAX. This is an opinionated collection of UI com
 
 ### Ecosystem reach
 
-* **Supported Networks:** 12+ heterogeneous environments including Arbitrum, BNB Chain, Avalanche, Sui, Solana, Stellar, and ICON.
+* **Supported Networks:** 15+ heterogeneous environments including Arbitrum, BNB Chain, Avalanche, Sui, Solana, Stellar, and ICON.
 * **Liquidity Sources:** The proprietary solver routes execution through deep liquidity venues like Uniswap V3, PancakeSwap, Raydium, Pharaoh, Cetus, and DojoSwap.
 * **Infrastructure Compatibility:** Designed to work alongside major messaging standards (GMP) for secure intent propagation, not replace them.
 
@@ -114,15 +123,14 @@ The fastest way to build with SODAX. This is an opinionated collection of UI com
 
 ### Protocol-owned Liquidity (POL)
 
-SODAX actively deploys Protocol-owned Liquidity to bootstrap the network and support solver execution.
+SODAX deploys protocol-owned liquidity as part of its unified execution inventory to ensure cross-network actions can complete reliably.
 
-* **Bootstrapping Reliability:** By owning its own liquidity, SODAX ensures that the solver always has access to a baseline inventory for supported assets.
-* **Sustainable Yield:** Revenue generated from this liquidity flows back into the protocol, aligning the long-term health of the system with the success of its partners.
+**Baseline execution inventory:** Protocol-owned assets provide the solver with guaranteed liquidity to fulfill cross-network intents when external liquidity is fragmented or unavailable.
 
-***
+**System-level balance and reliability:** Liquidity is coordinated and redistributed after execution to maintain global inventory health and reduce failed actions caused by local shortages.
 
-
-
-###
+**Aligned long-term incentives:** Revenue generated from protocol-owned liquidity supports ongoing execution reliability and system sustainability.
 
 ***
+
+Together, SODAX provides the execution infrastructure required for modern money across networks.
