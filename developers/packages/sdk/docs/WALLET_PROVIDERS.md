@@ -37,4 +37,4 @@ The `@sodax/wallet-sdk-core` package provides TypeScript implementations of wall
 * **Wallet Provider Interface**: Standardized interface for wallet connectivity across different chains
 * **Core Integration**: Seamless integration with the Core Sodax SDK
 
-For more information, see the [@sodax/wallet-sdk-core README](../../2.-the-connection-layer/wallet-sdk-core.md).
+For more information, see the [@sodax/wallet-sdk-core README](../../connection/wallet-sdk-core.md).

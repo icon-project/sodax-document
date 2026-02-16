@@ -277,8 +277,8 @@ async function swapWithStellarDestination(
 
 ## Related Documentation
 
-* [Swaps](../../1.-the-foundation/sdk/functional-modules/swaps.md) - Cross-chain intent-based swaps
-* [Money Market](../../1.-the-foundation/sdk/functional-modules/money_market.md) - Cross-chain lending and borrowing
-* [Bridge](../../1.-the-foundation/sdk/functional-modules/bridge.md) - Cross-chain token bridging
-* [Migration](../../1.-the-foundation/sdk/functional-modules/migration.md) - Token migration
-* [Staking](../../1.-the-foundation/sdk/functional-modules/staking.md) - SODA token staking
+* [Swaps](../../foundation/sdk/functional-modules/swaps.md) - Cross-chain intent-based swaps
+* [Money Market](../../foundation/sdk/functional-modules/money_market.md) - Cross-chain lending and borrowing
+* [Bridge](../../foundation/sdk/functional-modules/bridge.md) - Cross-chain token bridging
+* [Migration](../../foundation/sdk/functional-modules/migration.md) - Token migration
+* [Staking](../../foundation/sdk/functional-modules/staking.md) - SODA token staking

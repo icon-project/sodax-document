@@ -13,7 +13,7 @@ The spoke provider acts as the bridge between your application and the Sodax pro
 
 **Important**: You should create one spoke provider instance for each user wallet connection. Once created, reuse the same spoke provider instance for all Sodax feature interactions on that specific chain.
 
-For more information, refer to the [README.md](../../1.-the-foundation/sdk/#initialising-spoke-provider) section.
+For more information, refer to the [README.md](../../foundation/sdk/#initialising-spoke-provider) section.
 
 ## What is a Raw Spoke Provider?
 
@@ -47,7 +47,7 @@ Raw spoke providers are ideal for:
 
 Before creating a spoke provider, ensure you have:
 
-* A wallet provider implementation for your target chain. You can use existing wallet provider implementations from the [`@sodax/wallet-sdk-core`](https://www.npmjs.com/package/@sodax/wallet-sdk-core) npm package, or use the local package [@wallet-sdk-core](../../2.-the-connection-layer/wallet-sdk-core.md) if working within the Sodax monorepo.
+* A wallet provider implementation for your target chain. You can use existing wallet provider implementations from the [`@sodax/wallet-sdk-core`](https://www.npmjs.com/package/@sodax/wallet-sdk-core) npm package, or use the local package [@wallet-sdk-core](../../connection/wallet-sdk-core.md) if working within the Sodax monorepo.
 * The `@sodax/sdk` package installed
 * For Node.js environments: RPC URLs for the chains you're interacting with (we recommend using dedicated node providers like Alchemy, QuickNode, etc.)
 * For browser environments: Wallet extensions installed and connected (e.g., MetaMask for EVM chains)
@@ -955,7 +955,7 @@ const createIntentResult = await sodax.swaps.createIntent(
 );
 ```
 
-For detailed swap documentation, see [HOW\_TO\_MAKE\_A\_SWAP.md](HOW_TO_MAKE_A_SWAP.md) and [SWAPS.md](../../1.-the-foundation/sdk/functional-modules/swaps.md).
+For detailed swap documentation, see [HOW\_TO\_MAKE\_A\_SWAP.md](HOW_TO_MAKE_A_SWAP.md) and [SWAPS.md](../../foundation/sdk/functional-modules/swaps.md).
 
 ### Using Raw Spoke Providers with Swaps
 
@@ -1019,7 +1019,7 @@ const supplyResult = await sodax.moneyMarket.supply(
 );
 ```
 
-For detailed money market documentation, see [MONEY\_MARKET.md](../../1.-the-foundation/sdk/functional-modules/money_market.md).
+For detailed money market documentation, see [MONEY\_MARKET.md](../../foundation/sdk/functional-modules/money_market.md).
 
 ### Using with Bridge
 
@@ -1031,7 +1031,7 @@ const bridgeResult = await sodax.bridge.createBridgeIntent(
 );
 ```
 
-For detailed bridge documentation, see [BRIDGE.md](../../1.-the-foundation/sdk/functional-modules/bridge.md).
+For detailed bridge documentation, see [BRIDGE.md](../../foundation/sdk/functional-modules/bridge.md).
 
 ### Using with Staking
 
@@ -1043,7 +1043,7 @@ const stakeResult = await sodax.staking.stake(
 );
 ```
 
-For detailed staking documentation, see [STAKING.md](../../1.-the-foundation/sdk/functional-modules/staking.md).
+For detailed staking documentation, see [STAKING.md](../../foundation/sdk/functional-modules/staking.md).
 
 ## Summary
 
@@ -1088,7 +1088,7 @@ For detailed staking documentation, see [STAKING.md](../../1.-the-foundation/sdk
 For more information on specific features, refer to the respective documentation files:
 
 * [HOW\_TO\_MAKE\_A\_SWAP.md](HOW_TO_MAKE_A_SWAP.md) - Swap operations
-* [SWAPS.md](../../1.-the-foundation/sdk/functional-modules/swaps.md) - Swap API reference
-* [MONEY\_MARKET.md](../../1.-the-foundation/sdk/functional-modules/money_market.md) - Money market operations
-* [BRIDGE.md](../../1.-the-foundation/sdk/functional-modules/bridge.md) - Bridge operations
-* [STAKING.md](../../1.-the-foundation/sdk/functional-modules/staking.md) - Staking operations
+* [SWAPS.md](../../foundation/sdk/functional-modules/swaps.md) - Swap API reference
+* [MONEY\_MARKET.md](../../foundation/sdk/functional-modules/money_market.md) - Money market operations
+* [BRIDGE.md](../../foundation/sdk/functional-modules/bridge.md) - Bridge operations
+* [STAKING.md](../../foundation/sdk/functional-modules/staking.md) - Staking operations

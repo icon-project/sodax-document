@@ -7,7 +7,7 @@ description: >-
 
 # Product Overview
 
-<table data-view="cards"><thead><tr><th></th><th data-hidden data-card-cover data-type="image">Cover image</th></tr></thead><tbody><tr><td>Go to @sodax/sdk<br><br><a href="developers/packages/1.-the-foundation/sdk/" class="button primary" data-icon="cup-straw">@sodax/sdk</a></td><td><a href=".gitbook/assets/sodax-sdk-2.jpg">sodax-sdk-2.jpg</a></td></tr><tr><td><p>View SDK breakdown<br></p><p><a href="./#developer-ecosystem" class="button primary" data-icon="chevrons-down">Scroll down</a></p></td><td><a href=".gitbook/assets/sodax-sdk-3.jpg">sodax-sdk-3.jpg</a></td></tr><tr><td><p>Get in touch<br></p><p><a href="https://se8br1ugut6.typeform.com/to/ZV7lvNfW" class="button primary" data-icon="hand-wave">Contact Form</a></p></td><td><a href=".gitbook/assets/sodax-sdk.jpg">sodax-sdk.jpg</a></td></tr></tbody></table>
+<table data-view="cards"><thead><tr><th></th><th data-hidden data-card-cover data-type="image">Cover image</th></tr></thead><tbody><tr><td>Go to @sodax/sdk<br><br><a href="developers/packages/foundation/sdk/" class="button primary" data-icon="cup-straw">@sodax/sdk</a></td><td><a href=".gitbook/assets/sodax-sdk-2.jpg">sodax-sdk-2.jpg</a></td></tr><tr><td><p>View SDK breakdown<br></p><p><a href="./#developer-ecosystem" class="button primary" data-icon="chevrons-down">Scroll down</a></p></td><td><a href=".gitbook/assets/sodax-sdk-3.jpg">sodax-sdk-3.jpg</a></td></tr><tr><td><p>Get in touch<br></p><p><a href="https://se8br1ugut6.typeform.com/to/ZV7lvNfW" class="button primary" data-icon="hand-wave">Contact Form</a></p></td><td><a href=".gitbook/assets/sodax-sdk.jpg">sodax-sdk.jpg</a></td></tr></tbody></table>
 
 SODAX is built as infrastructure for modern money, coordinating how DeFi actions execute across multiple networks under real-world conditions.
 
@@ -83,7 +83,7 @@ SODAX is designed as a modular execution system. Each SDK module can be integrat
 
 The SODAX developer suite is architected as a dependency stack. Builders can choose to integrate at the foundational level for maximum control or use opinionated layers for speed.
 
-#### 1. The Foundation: [sdk](developers/packages/1.-the-foundation/sdk/ "mention")
+#### 1. The Foundation: [sdk](developers/packages/foundation/sdk/ "mention")
 
 This is the core logic layer that powers the entire ecosystem. It provides the raw functional modules required to build with SODAX programmatically.
 
@@ -101,10 +101,10 @@ This is the core logic layer that powers the entire ecosystem. It provides the r
 
 Sitting above the core SDK, this package manages the complexity of connecting user wallets across heterogeneous chains (EVM, SVM, non-EVM). It is available in two flavors:
 
-* [wallet-sdk-core.md](developers/packages/2.-the-connection-layer/wallet-sdk-core.md "mention") **Core (TypeScript)**: A pure TypeScript implementation of wallet providers. Use this if you are building a custom frontend framework or a non-React application.
-* [wallet-sdk-react.md](developers/packages/2.-the-connection-layer/wallet-sdk-react.md "mention") **React Adapter**: An opinionated wrapper optimized for React applications, providing pre-built context providers and state management for wallet connections.
+* [wallet-sdk-core.md](developers/packages/connection/wallet-sdk-core.md "mention") **Core (TypeScript)**: A pure TypeScript implementation of wallet providers. Use this if you are building a custom frontend framework or a non-React application.
+* [wallet-sdk-react.md](developers/packages/connection/wallet-sdk-react.md "mention") **React Adapter**: An opinionated wrapper optimized for React applications, providing pre-built context providers and state management for wallet connections.
 
-#### 3. The Experience Layer: [dapp-kit.md](developers/packages/3.-the-experience-layer/dapp-kit.md "mention")
+#### 3. The Experience Layer: [dapp-kit.md](developers/packages/experience/dapp-kit.md "mention")
 
 The fastest way to build with SODAX. This is an opinionated collection of UI components, hooks, and utilities that leverages the layers below it.
 
