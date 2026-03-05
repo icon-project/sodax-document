@@ -281,10 +281,10 @@ Intent Canceller: [0x7Ec046CEB0C01A2Ef16C77d2e6bB56E3AF3464cf](https://sonicscan
 
 | Token                                                                               | Address                                                                                                                |
 | ----------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------- |
-| [bnUSD(18)](https://kaiascan.io/address/0x60cc9bd812bec2fb65242e9cd0a3ead4a8bf7488) | [0x60cc9bd812bec2fb65242e9cd0a3ead4a8bf7488](https://kaiascan.io/address/0x60cc9bd812bec2fb65242e9cd0a3ead4a8bf7488) |
-| [SODA(18)](https://kaiascan.io/address/0x7c5a1f6d39befef7dd2b2be38dd98d323d42ab8d)  | [0x7c5a1f6d39befef7dd2b2be38dd98d323d42ab8d](https://kaiascan.io/address/0x7c5a1f6d39befef7dd2b2be38dd98d323d42ab8d) |
-| Kaia (Native)                                                                       | [0x1950c088bc12398240224808167a166f220c8d0e](https://kaiascan.io/address/0x1950c088bc12398240224808167a166f220c8d0e) |
-| [USDT(6)](https://kaiascan.io/address/0x99ecd19afce86766a417956971cdc5e026284454)   | [0x99ecd19afce86766a417956971cdc5e026284454](https://kaiascan.io/address/0x99ecd19afce86766a417956971cdc5e026284454) |
+| [bnUSD(18)](https://sonicscan.org/address/0x60cc9bd812bec2fb65242e9cd0a3ead4a8bf7488) | [0x60cc9bd812bec2fb65242e9cd0a3ead4a8bf7488](https://sonicscan.org/address/0x60cc9bd812bec2fb65242e9cd0a3ead4a8bf7488) |
+| [SODA(18)](https://sonicscan.org/address/0x7c5a1f6d39befef7dd2b2be38dd98d323d42ab8d)  | [0x7c5a1f6d39befef7dd2b2be38dd98d323d42ab8d](https://sonicscan.org/address/0x7c5a1f6d39befef7dd2b2be38dd98d323d42ab8d) |
+| Kaia (Native)                                                                       | [0x1950c088bc12398240224808167a166f220c8d0e](https://sonicscan.org/address/0x1950c088bc12398240224808167a166f220c8d0e) |
+| [USDT(6)](https://sonicscan.org/address/0x99ecd19afce86766a417956971cdc5e026284454)   | [0x99ecd19afce86766a417956971cdc5e026284454](https://sonicscan.org/address/0x99ecd19afce86766a417956971cdc5e026284454) |
 
 ### HyperEvm
 
