@@ -267,6 +267,25 @@ Intent Canceller: [0x7Ec046CEB0C01A2Ef16C77d2e6bB56E3AF3464cf](https://sonicscan
 | [weETH(18)](https://bscscan.com/token/0x04C0599Ae5A44757c0af6F9eC3b93da8976c150A)   | [0xc1a14e759e8c2a8128a1fe0288c12390fbaee6d2](https://sonicscan.org/address/0xc1a14e759e8c2a8128a1fe0288c12390fbaee6d2) |
 | [BSC-USD(18)](https://bscscan.com/token/0x55d398326f99059ff775485246999027b3197955) | [0x627c7369e9cfb99e11ee7163efb23f12bfd8cce6](https://sonicscan.org/address/0x627c7369e9cfb99e11ee7163efb23f12bfd8cce6) |
 
+### Kaia
+
+| Contract          | Address                                                                                                               |
+| ----------------- | --------------------------------------------------------------------------------------------------------------------- |
+| Connection        | [0x4555aC13D7338D9E671584C1D118c06B2a3C88eD](https://kaiascan.io/address/0x4555aC13D7338D9E671584C1D118c06B2a3C88eD) |
+| RateLimit         | [0xA143488cDc5B74B366231E6A4d5a55A2D9Dc8484](https://kaiascan.io/address/0xA143488cDc5B74B366231E6A4d5a55A2D9Dc8484) |
+| SpokeAssetManager | [0x6D2126DB97dd88AfA85127253807D04A066b6746](https://kaiascan.io/address/0x6D2126DB97dd88AfA85127253807D04A066b6746) |
+| SolverRouter      | [0x39E77f86C1B1f3fbAb362A82b49D2E86C09659B4](https://kaiascan.io/address/0x39E77f86C1B1f3fbAb362A82b49D2E86C09659B4) |
+| IntentFiller      | [0x3cd95C469be0EDFD12Bd4F3a4436B132B7908DF4](https://kaiascan.io/address/0x3cd95C469be0EDFD12Bd4F3a4436B132B7908DF4) |
+
+**Assets**
+
+| Token                                                                               | Address                                                                                                                |
+| ----------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------- |
+| [bnUSD(18)](https://kaiascan.io/address/0x60cc9bd812bec2fb65242e9cd0a3ead4a8bf7488) | [0x60cc9bd812bec2fb65242e9cd0a3ead4a8bf7488](https://kaiascan.io/address/0x60cc9bd812bec2fb65242e9cd0a3ead4a8bf7488) |
+| [SODA(18)](https://kaiascan.io/address/0x7c5a1f6d39befef7dd2b2be38dd98d323d42ab8d)  | [0x7c5a1f6d39befef7dd2b2be38dd98d323d42ab8d](https://kaiascan.io/address/0x7c5a1f6d39befef7dd2b2be38dd98d323d42ab8d) |
+| Kaia (Native)                                                                       | [0x1950c088bc12398240224808167a166f220c8d0e](https://kaiascan.io/address/0x1950c088bc12398240224808167a166f220c8d0e) |
+| [USDT(6)](https://kaiascan.io/address/0x99ecd19afce86766a417956971cdc5e026284454)   | [0x99ecd19afce86766a417956971cdc5e026284454](https://kaiascan.io/address/0x99ecd19afce86766a417956971cdc5e026284454) |
+
 ### HyperEvm
 
 | Contract        | Address                                                                                                              |
