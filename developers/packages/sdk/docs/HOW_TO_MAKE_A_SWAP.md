@@ -1,8 +1,8 @@
-# Make a Swap
+# How to Make a Swap
 
 This guide provides a step-by-step walkthrough for executing a cross-chain swap using the Sodax SDK. It covers everything from initializing the SDK to handling errors during the swap process.
 
-For detailed API reference, see [SWAPS.md](../../foundation/sdk/functional-modules/swaps.md).
+For detailed API reference, see [SWAPS.md](./SWAPS.md).
 
 **Example Source Code**: A complete working example can be found in [`apps/node/src/swap.ts`](../../../apps/node/src/swap.ts). This example demonstrates a full swap implementation from Arbitrum ETH to Polygon POL, including all error handling and status polling.
 
@@ -10,11 +10,11 @@ For detailed API reference, see [SWAPS.md](../../foundation/sdk/functional-modul
 
 Before you begin, ensure you have:
 
-* A wallet provider implementation (e.g., `IEvmWalletProvider` for EVM chains). You can use existing wallet provider implementations from the [`@sodax/wallet-sdk-core`](https://www.npmjs.com/package/@sodax/wallet-sdk-core) npm package, or use the local package [@wallet-sdk-core](../../connection/wallet-sdk-core.md) if working within the Sodax monorepo.
-* The `@sodax/sdk` package installed
-* Sufficient token balance to cover the swap amount and fees
-* RPC URLs for the chains you're interacting with (we recommend having dedicate node provider like Alchemy, Quicknode, etc..)
-* Private key or wallet (browser) connection for signing transactions. For React applications, you can use the [`@sodax/wallet-sdk-react`](https://www.npmjs.com/package/@sodax/wallet-sdk-react) npm package, or use the local package [@wallet-sdk-react](../../connection/wallet-sdk-react.md) if working within the Sodax monorepo.
+- A wallet provider implementation (e.g., `IEvmWalletProvider` for EVM chains). You can use existing wallet provider implementations from the [`@sodax/wallet-sdk-core`](https://www.npmjs.com/package/@sodax/wallet-sdk-core) npm package, or use the local package [@wallet-sdk-core](../../wallet-sdk-core/README.md) if working within the Sodax monorepo.
+- The `@sodax/sdk` package installed
+- Sufficient token balance to cover the swap amount and fees
+- RPC URLs for the chains you're interacting with (we recommend having dedicate node provider like Alchemy, Quicknode, etc..)
+- Private key or wallet (browser) connection for signing transactions. For React applications, you can use the [`@sodax/wallet-sdk-react`](https://www.npmjs.com/package/@sodax/wallet-sdk-react) npm package, or use the local package [@wallet-sdk-react](../../wallet-sdk-react/README.md) if working within the Sodax monorepo.
 
 ## Step 1: Initialize Sodax Instance
 
@@ -34,8 +34,8 @@ await sodax.initialize();
 
 **Note**:
 
-* The `new Sodax()` constructor defaults to mainnet configuration automatically. No configuration is required for basic usage.
-* If you skip `initialize()`, the SDK will use the configuration from the specific SDK version you're using. Initialization is recommended for production applications to ensure you have the latest supported tokens and chains.
+- The `new Sodax()` constructor defaults to mainnet configuration automatically. No configuration is required for basic usage.
+- If you skip `initialize()`, the SDK will use the configuration from the specific SDK version you're using. Initialization is recommended for production applications to ensure you have the latest supported tokens and chains.
 
 ### Optional: Custom Configuration
 
@@ -91,7 +91,7 @@ const arbSpokeProvider = new EvmSpokeProvider(
 
 **Important**: For Sonic chain, use `SonicSpokeProvider` instead of `EvmSpokeProvider`, even though it's an EVM chain. This is because Sonic is the hub chain and requires special handling.
 
-For more details on creating spoke providers for different chain types, refer to the [README.md](../../foundation/sdk/#initialising-spoke-provider) section or see the [HOW\_TO\_CREATE\_A\_SPOKE\_PROVIDER.md](HOW_TO_CREATE_A_SPOKE_PROVIDER.md) guide.
+For more details on creating spoke providers for different chain types, refer to the [README.md](../README.md#initialising-spoke-provider) section or see the [HOW_TO_CREATE_A_SPOKE_PROVIDER.md](./HOW_TO_CREATE_A_SPOKE_PROVIDER.md) guide.
 
 **Example**: See how the Arbitrum spoke provider is created in the example file: [`apps/node/src/swap.ts`](../../../apps/node/src/swap.ts#L28-L44).
 
@@ -143,7 +143,7 @@ const quoteRequest = {
   token_src_blockchain_id: ARBITRUM_MAINNET_CHAIN_ID,
   token_dst_blockchain_id: POLYGON_MAINNET_CHAIN_ID,
   amount: inputAmount,
-  quote_type: 'exact_input', // or 'exact_output'
+  quote_type: 'exact_input',
 } satisfies SolverIntentQuoteRequest;
 
 const quoteResult = await sodax.swaps.getQuote(quoteRequest);
@@ -239,10 +239,10 @@ if (!allowanceResult.value) {
 
 Now that you have approval (if needed), prepare the complete intent parameters. Make sure to:
 
-* Use the quoted amount from Step 3 to set a reasonable `minOutputAmount`
-* Set appropriate `deadline` (or use `0n` for no deadline)
-* Ensure `srcAddress` matches your wallet address
-* Set `dstAddress` to where you want to receive the output tokens
+- Use the quoted amount from Step 3 to set a reasonable `minOutputAmount`
+- Set appropriate `deadline` (or use `0n` for no deadline)
+- Ensure `srcAddress` matches your wallet address
+- Set `dstAddress` to where you want to receive the output tokens
 
 ```typescript
 // Get wallet address
@@ -427,20 +427,20 @@ await checkIntentStatus(sodax, intentDeliveryInfo.dstTxHash);
 
 **Status Codes**:
 
-* `NOT_FOUND (-1)`: Intent not found in the solver system (may appear immediately after creation). After 3 consecutive attempts, polling stops.
-* `NOT_STARTED_YET (1)`: Intent is queued and waiting to be processed (continues polling)
-* `STARTED_NOT_FINISHED (2)`: Intent is currently being processed (continues polling)
-* `SOLVED (3)`: Swap completed successfully (includes `fill_tx_hash` when available) - **Terminal state, polling stops**
-* `FAILED (4)`: Swap failed to complete - **Terminal state, polling stops**
+- `NOT_FOUND (-1)`: Intent not found in the solver system (may appear immediately after creation). After 3 consecutive attempts, polling stops.
+- `NOT_STARTED_YET (1)`: Intent is queued and waiting to be processed (continues polling)
+- `STARTED_NOT_FINISHED (2)`: Intent is currently being processed (continues polling)
+- `SOLVED (3)`: Swap completed successfully (includes `fill_tx_hash` when available) - **Terminal state, polling stops**
+- `FAILED (4)`: Swap failed to complete - **Terminal state, polling stops**
 
 **Polling Behavior**:
 
-* Polls every 5 seconds (configurable via `intervalMs` parameter)
-* Continues until a terminal state is reached (SOLVED, FAILED, or NOT\_FOUND after 3 attempts)
-* Maximum polling duration: 5 minutes (60 attempts × 5 seconds, configurable via `maxAttempts`)
-* Shows progress messages with attempt numbers
-* Logs status changes to avoid console spam
-* Handles temporary API errors gracefully by continuing to poll
+- Polls every 5 seconds (configurable via `intervalMs` parameter)
+- Continues until a terminal state is reached (SOLVED, FAILED, or NOT_FOUND after 3 attempts)
+- Maximum polling duration: 5 minutes (60 attempts × 5 seconds, configurable via `maxAttempts`)
+- Shows progress messages with attempt numbers
+- Logs status changes to avoid console spam
+- Handles temporary API errors gracefully by continuing to poll
 
 **Note**: The `fill_tx_hash` field is only present when the status is `SOLVED (3)`. This is the transaction hash of the fill transaction on the destination chain.
 
@@ -800,8 +800,8 @@ await executeSwap(evmWalletProvider, 100000000000000n); // 0.0001 ETH
 
 ## Next Steps
 
-* **See the complete example**: Check out the working implementation in [`apps/node/src/swap.ts`](../../../apps/node/src/swap.ts) for a production-ready swap example
-* Learn more about swap configuration and advanced features in [SWAPS.md](../../foundation/sdk/functional-modules/swaps.md)
-* Learn how to create spoke providers in [HOW\_TO\_CREATE\_A\_SPOKE\_PROVIDER.md](HOW_TO_CREATE_A_SPOKE_PROVIDER.md)
-* Explore other SDK features like [Money Market](../../foundation/sdk/functional-modules/money_market.md), [Bridge](../../foundation/sdk/functional-modules/bridge.md), and [Staking](../../foundation/sdk/functional-modules/staking.md)
-* Check the [README.md](../../foundation/sdk/) for general SDK usage and configuration
+- **See the complete example**: Check out the working implementation in [`apps/node/src/swap.ts`](../../../apps/node/src/swap.ts) for a production-ready swap example
+- Learn more about swap configuration and advanced features in [SWAPS.md](./SWAPS.md)
+- Learn how to create spoke providers in [HOW_TO_CREATE_A_SPOKE_PROVIDER.md](./HOW_TO_CREATE_A_SPOKE_PROVIDER.md)
+- Explore other SDK features like [Money Market](./MONEY_MARKET.md), [Bridge](./BRIDGE.md), and [Staking](./STAKING.md)
+- Check the [README.md](../README.md) for general SDK usage and configuration

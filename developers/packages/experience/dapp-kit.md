@@ -1,66 +1,68 @@
----
-icon: browser
----
-
 # @sodax/dapp-kit
 
 dApp Kit is a collection of React components, hooks, and utilities designed to streamline dApp development within the Sodax ecosystem. It provides seamless integration with Sodax smart contracts, enabling easy data querying and transaction execution. Additionally, it offers built-in wallet connectivity for all supported wallets in the Sodax network, simplifying the user onboarding experience. Under the hood, dApp Kit leverages @sodax/wallet-kit and @sodax/sdk for seamless functionality.
 
+
 ## Features
 
-* Money Market
-  * Supply tokens to the money market (`useSupply`)
-  * Withdraw tokens from the money market (`useWithdraw`)
-  * Borrow tokens from the money market (`useBorrow`)
-  * Repay borrowed tokens (`useRepay`)
-  * Check token allowance (`useMMAllowance`)
-  * Approve token spending (`useMMApprove`)
-  * Get user reserves data (`useUserReservesData`)
-  * Get reserves data (`useReservesData`)
-  * Get humanized reserves data (`useReservesHumanized`)
-  * Get list of reserves (`useReservesList`)
-  * Get USD formatted reserves data (`useReservesUsdFormat`)
-  * Get formatted user portfolio summary (`useUserFormattedSummary`)
-* Swap/Intent
-  * Get quote for an intent order (`useQuote`)
-  * Create and submit an swap intent order (`useSwap`)
-  * Get status of an intent order (`useStatus`)
-  * Check token allowance (`useSwapAllowance`)
-  * Approve token spending (`useSwapApprove`)
-  * Cancel a swap intent order (`useCancelSwap`)
-* Provider
-  * Get hub chain provider (`useHubProvider`)
-  * Get spoke chain provider (`useSpokeProvider`)
-  * Get wallet provider (`useWalletProvider`)
-* Bridge
-  * Bridge tokens between chains (`useBridge`)
-  * Check token allowance for bridging (`useBridgeAllowance`)
-  * Approve source token for bridging (`useBridgeApprove`)
-  * Get max amount available to be bridged (`useGetBridgeableAmount`)
-  * Get available destination tokens based on provided source token (`useGetBridgeableTokens`)
-* Shared
-  * Derive user wallet address for hub abstraction (`useDeriveUserWalletAddress`)
-  * Check if Stellar trustline is established for an asset (`useStellarTrustlineCheck`)
-  * Request creation of Stellar trustline line for an asset (`useRequestTrustline`)
-* Staking
-  * Stake SODA tokens to receive xSODA shares (`useStake`)
-  * Unstake xSODA shares (`useUnstake`)
-  * Instant unstake xSODA shares with penalty (`useInstantUnstake`)
-  * Claim unstaked SODA tokens after unstaking period (`useClaim`)
-  * Cancel unstake request (`useCancelUnstake`)
-  * Check SODA token allowance for staking (`useStakeAllowance`)
-  * Approve SODA token spending for staking (`useStakeApprove`)
-  * Check xSODA token allowance for unstaking (`useUnstakeAllowance`)
-  * Approve xSODA token spending for unstaking (`useUnstakeApprove`)
-  * Check xSODA token allowance for instant unstaking (`useInstantUnstakeAllowance`)
-  * Approve xSODA token spending for instant unstaking (`useInstantUnstakeApprove`)
-  * Get comprehensive staking information (`useStakingInfo`)
-  * Get unstaking information with penalty details (`useUnstakingInfoWithPenalty`)
-  * Get unstaking information (`useUnstakingInfo`)
-  * Get staking configuration (`useStakingConfig`)
-  * Get stake ratio (SODA to xSODA conversion rate) (`useStakeRatio`)
-  * Get instant unstake ratio (xSODA to SODA conversion rate with penalty) (`useInstantUnstakeRatio`)
-  * Get converted assets amount for xSODA shares (`useConvertedAssets`)
+- Money Market
+  - Supply tokens to the money market (`useSupply`)
+  - Withdraw tokens from the money market (`useWithdraw`)
+  - Borrow tokens from the money market (`useBorrow`)
+  - Repay borrowed tokens (`useRepay`)
+  - Check token allowance (`useMMAllowance`)
+  - Approve token spending (`useMMApprove`)
+  - Get user reserves data (`useUserReservesData`)
+  - Get reserves data (`useReservesData`)
+  - Get humanized reserves data (`useReservesHumanized`)
+  - Get list of reserves (`useReservesList`)
+  - Get USD formatted reserves data (`useReservesUsdFormat`)
+  - Get formatted user portfolio summary (`useUserFormattedSummary`)
+
+- Swap/Intent
+  - Get quote for an intent order (`useQuote`)
+  - Create and submit an swap intent order (`useSwap`)
+  - Get status of an intent order (`useStatus`)
+  - Check token allowance (`useSwapAllowance`)
+  - Approve token spending (`useSwapApprove`)
+  - Cancel a swap intent order (`useCancelSwap`)
+
+- Provider
+  - Get hub chain provider (`useHubProvider`)
+  - Get spoke chain provider (`useSpokeProvider`)
+  - Get wallet provider (`useWalletProvider`)
+
+- Bridge
+  - Bridge tokens between chains (`useBridge`)
+  - Check token allowance for bridging (`useBridgeAllowance`)
+  - Approve source token for bridging (`useBridgeApprove`)
+  - Get max amount available to be bridged (`useGetBridgeableAmount`)
+  - Get available destination tokens based on provided source token (`useGetBridgeableTokens`)
+
+- Shared
+  - Derive user wallet address for hub abstraction (`useDeriveUserWalletAddress`)
+  - Check if Stellar trustline is established for an asset (`useStellarTrustlineCheck`)
+  - Request creation of Stellar trustline line for an asset (`useRequestTrustline`)
+
+- Staking
+  - Stake SODA tokens to receive xSODA shares (`useStake`)
+  - Unstake xSODA shares (`useUnstake`)
+  - Instant unstake xSODA shares with penalty (`useInstantUnstake`)
+  - Claim unstaked SODA tokens after unstaking period (`useClaim`)
+  - Cancel unstake request (`useCancelUnstake`)
+  - Check SODA token allowance for staking (`useStakeAllowance`)
+  - Approve SODA token spending for staking (`useStakeApprove`)
+  - Check xSODA token allowance for unstaking (`useUnstakeAllowance`)
+  - Approve xSODA token spending for unstaking (`useUnstakeApprove`)
+  - Check xSODA token allowance for instant unstaking (`useInstantUnstakeAllowance`)
+  - Approve xSODA token spending for instant unstaking (`useInstantUnstakeApprove`)
+  - Get comprehensive staking information (`useStakingInfo`)
+  - Get unstaking information with penalty details (`useUnstakingInfoWithPenalty`)
+  - Get unstaking information (`useUnstakingInfo`)
+  - Get staking configuration (`useStakingConfig`)
+  - Get stake ratio (SODA to xSODA conversion rate) (`useStakeRatio`)
+  - Get instant unstake ratio (xSODA to SODA conversion rate with penalty) (`useInstantUnstakeRatio`)
+  - Get converted assets amount for xSODA shares (`useConvertedAssets`)
 
 ## Installation
 
@@ -124,60 +126,148 @@ function App() {
 
 ```typescript
 // Connect Wallet Operations
-import { useXConnectors, useXConnect, useXAccount } from '@sodax/wallet-sdk-react';
-const evmConnectors = useXConnectors('EVM');
-const { mutateAsync: connect, isPending } = useXConnect();
-const account = useXAccount('EVM');
-
-const handleConnect = () => {
-  connect(evmConnectors[0]);
-};
-
-return (
-  <div>
-    <button onClick={handleConnect}>Connect EVM Wallet</button>
-    <div>Connected wallet: {account.address}</div>
-  </div>
-);
-
 // Money Market Operations
-import { useSupply, useWithdraw, useBorrow, useRepay, useUserReservesData } from '@sodax/dapp-kit';
+import { useSupply, useWithdraw, useBorrow, useRepay, useUserReservesData, useMMAllowance, useMMApprove } from '@sodax/dapp-kit';
+import { parseUnits } from 'viem';
+import { useMemo, useState } from 'react';
 
 function MoneyMarketComponent() {
+  const [amount, setAmount] = useState<string>('');
+  const spokeProvider = useSpokeProvider(chainId, walletProvider);
+
   // Supply tokens
-  const { mutateAsync: supply, isPending: isSupplying } = useSupply(token);
-  const handleSupply = async (amount: string) => {
-    await supply(amount);
+  const supplyParams = useMemo(() => {
+    if (!amount) return undefined;
+    return {
+      token: token.address,
+      amount: parseUnits(amount, token.decimals),
+      action: 'supply' as const,
+    };
+  }, [token.address, token.decimals, amount]);
+
+  const { data: hasSupplyAllowed, isLoading: isSupplyAllowanceLoading } = useMMAllowance(supplyParams, spokeProvider);
+  const { mutateAsync: approveSupply, isPending: isApprovingSupply, error: approveSupplyError } = useMMApprove();
+  const { mutateAsync: supply, isPending: isSupplying, error: supplyError } = useSupply();
+
+  const handleApproveSupply = async () => {
+    if (!spokeProvider || !supplyParams) return;
+    try {
+      await approveSupply({ params: supplyParams, spokeProvider });
+    } catch (err) {
+      console.error('Error approving supply:', err);
+    }
+  };
+
+  const handleSupply = async () => {
+    if (!spokeProvider || !supplyParams) return;
+    try {
+      await supply({ params: supplyParams, spokeProvider });
+    } catch (err) {
+      console.error('Error supplying:', err);
+    }
   };
 
   // Withdraw tokens
-  const { mutateAsync: withdraw, isPending: isWithdrawing } = useWithdraw(token, chainId);
-  const handleWithdraw = async (amount: string) => {
-    await withdraw(amount);
+  const withdrawParams = useMemo(() => {
+    if (!amount) return undefined;
+    return {
+      token: token.address,
+      amount: parseUnits(amount, 18), // vault token on hub chain decimals is 18
+      action: 'withdraw' as const,
+    };
+  }, [token.address, amount]);
+
+  const { data: hasWithdrawAllowed, isLoading: isWithdrawAllowanceLoading } = useMMAllowance(withdrawParams, spokeProvider);
+const { data: hasWithdrawAllowed, isLoading: isWithdrawAllowanceLoading } = useMMAllowance({ params: withdrawParams, spokeProvider });
+
+  const { mutateAsync: approveWithdraw, isPending: isApprovingWithdraw, error: approveWithdrawError } = useMMApprove();
+  const { mutateAsync: withdraw, isPending: isWithdrawing, error: withdrawError } = useWithdraw();
+
+  const handleApproveWithdraw = async () => {
+    if (!spokeProvider || !withdrawParams) return;
+    try {
+      await approveWithdraw({ params: withdrawParams, spokeProvider });
+    } catch (err) {
+      console.error('Error approving withdraw:', err);
+    }
+  };
+
+  const handleWithdraw = async () => {
+    if (!spokeProvider || !withdrawParams) return;
+    try {
+      await withdraw({ params: withdrawParams, spokeProvider });
+    } catch (err) {
+      console.error('Error withdrawing:', err);
+    }
   };
 
   // Borrow tokens
-  const { mutateAsync: borrow, isPending: isBorrowing } = useBorrow(token, chainId);
-  const handleBorrow = async (amount: string) => {
-    await borrow(amount);
+  const borrowParams = useMemo(() => {
+    if (!amount) return undefined;
+    return {
+      token: token.address,
+      amount: parseUnits(amount, 18),
+      action: 'borrow' as const,
+    };
+  }, [token.address, amount]);
+
+  const { data: hasBorrowAllowed, isLoading: isBorrowAllowanceLoading } = useMMAllowance({ params: borrowParams, spokeProvider });
+  const { mutateAsync: approveBorrow, isPending: isApprovingBorrow, error: approveBorrowError } = useMMApprove();
+  const { mutateAsync: borrow, isPending: isBorrowing, error: borrowError } = useBorrow();
+
+  const handleApproveBorrow = async () => {
+    if (!spokeProvider || !borrowParams) return;
+    try {
+      await approveBorrow({ params: borrowParams, spokeProvider });
+    } catch (err) {
+      console.error('Error approving borrow:', err);
+    }
+  };
+
+  const handleBorrow = async () => {
+    if (!spokeProvider || !borrowParams) return;
+    try {
+      await borrow({ params: borrowParams, spokeProvider });
+    } catch (err) {
+      console.error('Error borrowing:', err);
+    }
+  };
+
+  // Repay tokens
+  const repayParams = useMemo(() => {
+    if (!amount) return undefined;
+    return {
+      token: token.address,
+      amount: parseUnits(amount, token.decimals),
+      action: 'repay' as const,
+    };
+  }, [token.address, token.decimals, amount]);
+
+  const { data: hasRepayAllowed, isLoading: isRepayAllowanceLoading } = useMMAllowance({ params: repayParams, spokeProvider });
+  const { mutateAsync: approveRepay, isPending: isApprovingRepay, error: approveRepayError } = useMMApprove();
+  const { mutateAsync: repay, isPending: isRepaying, error: repayError } = useRepay();
+
+  const handleApproveRepay = async () => {
+    if (!spokeProvider || !repayParams) return;
+    try {
+      await approveRepay({ params: repayParams, spokeProvider });
+    } catch (err) {
+      console.error('Error approving repay:', err);
+    }
+  };
+
+  const handleRepay = async () => {
+    if (!spokeProvider || !repayParams) return;
+    try {
+      await repay({ params: repayParams, spokeProvider });
+    } catch (err) {
+      console.error('Error repaying:', err);
+    }
   };
 
   // Get user's supplied assets
-  const userReserves = useUserReservesData(chainId);
-}
-
-// Token Management
-import { useMMAllowance, useApprove } from '@sodax/dapp-kit';
-
-function TokenManagementComponent() {
-  // Check token allowance
-  const { data: hasAllowed } = useMMAllowance(token, amount);
-  
-  // Approve token spending
-  const { approve, isLoading: isApproving } = useApprove(token);
-  const handleApprove = async (amount: string) => {
-    await approve(amount);
-  };
+  const { address } = useXAccount(chainId);
+  const { data: userReserves } = useUserReservesData({ spokeChainId: chainId, userAddress: address });
 }
 
 // Wallet Address Derivation
@@ -279,56 +369,56 @@ function BridgeComponent() {
 
 ## Requirements
 
-* Node.js >= 18.0.0
-* React >= 19
-* TypeScript
+- Node.js >= 18.0.0
+- React >= 19
+- TypeScript
 
 ## API Reference
 
 ### Components
 
-* [`SodaxProvider`](https://github.com/icon-project/sodax-frontend/tree/main/packages/dapp-kit/src/providers/SodaxProvider.tsx) - Main provider component for Sodax ecosystem integration
+- [`SodaxProvider`](https://github.com/icon-project/sodax-frontend/tree/main/packages/dapp-kit/src/providers/SodaxProvider.tsx) - Main provider component for Sodax ecosystem integration
 
 ### Hooks
 
 #### Money Market Hooks
-
-* [`useBorrow()`](https://github.com/icon-project/sodax-frontend/tree/main/packages/dapp-kit/src/hooks/mm/useBorrow.ts) - Borrow tokens from the money market
-* [`useRepay()`](https://github.com/icon-project/sodax-frontend/tree/main/packages/dapp-kit/src/hooks/mm/useRepay.ts) - Repay borrowed tokens
-* [`useSupply()`](https://github.com/icon-project/sodax-frontend/tree/main/packages/dapp-kit/src/hooks/mm/useSupply.ts) - Supply tokens to the money market
-* [`useWithdraw()`](https://github.com/icon-project/sodax-frontend/tree/main/packages/dapp-kit/src/hooks/mm/useWithdraw.ts) - Withdraw supplied tokens
-* [`useUserReservesData()`](https://github.com/icon-project/sodax-frontend/tree/main/packages/dapp-kit/src/hooks/mm/useUserReservesData.ts) - Get user's reserves data(supplied asset and debt)
-* [`useReservesData()`](https://github.com/icon-project/sodax-frontend/tree/main/packages/dapp-kit/src/hooks/mm/useReservesData.ts) - Get reserves data
-* [`useMMAllowance()`](https://github.com/icon-project/sodax-frontend/tree/main/packages/dapp-kit/src/hooks/mm/useMMAllowance.ts) - Check token allowance for a specific amount
-* [`useMMApprove()`](https://github.com/icon-project/sodax-frontend/tree/main/packages/dapp-kit/src/hooks/mm/useMMApprove.ts) - Approve token spending
-* [`useAToken()`](https://github.com/icon-project/sodax-frontend/tree/main/packages/dapp-kit/src/hooks/mm/useAToken.ts) - Fetch aToken token data
+- [`useBorrow()`](https://github.com/icon-project/sodax-frontend/tree/main/packages/dapp-kit/src/hooks/mm/useBorrow.ts) - Borrow tokens from the money market
+- [`useRepay()`](https://github.com/icon-project/sodax-frontend/tree/main/packages/dapp-kit/src/hooks/mm/useRepay.ts) - Repay borrowed tokens
+- [`useSupply()`](https://github.com/icon-project/sodax-frontend/tree/main/packages/dapp-kit/src/hooks/mm/useSupply.ts) - Supply tokens to the money market
+- [`useWithdraw()`](https://github.com/icon-project/sodax-frontend/tree/main/packages/dapp-kit/src/hooks/mm/useWithdraw.ts) - Withdraw supplied tokens
+- [`useUserReservesData()`](https://github.com/icon-project/sodax-frontend/tree/main/packages/dapp-kit/src/hooks/mm/useUserReservesData.ts) - Get user's reserves data(supplied asset and debt)
+- [`useReservesData()`](https://github.com/icon-project/sodax-frontend/tree/main/packages/dapp-kit/src/hooks/mm/useReservesData.ts) - Get reserves data
+- [`useMMAllowance()`](https://github.com/icon-project/sodax-frontend/tree/main/packages/dapp-kit/src/hooks/mm/useMMAllowance.ts) - Check token allowance for a specific amount
+- [`useMMApprove()`](https://github.com/icon-project/sodax-frontend/tree/main/packages/dapp-kit/src/hooks/mm/useMMApprove.ts) - Approve token spending
+- [`useAToken()`](https://github.com/icon-project/sodax-frontend/tree/main/packages/dapp-kit/src/hooks/mm/useAToken.ts) - Fetch aToken token data
 
 #### Swap Hooks
-
-* [`useQuote()`](https://github.com/icon-project/sodax-frontend/tree/main/packages/dapp-kit/src/hooks/swap/useQuote.ts) - Get quote for an intent order
-* [`useSwap()`](https://github.com/icon-project/sodax-frontend/tree/main/packages/dapp-kit/src/hooks/swap/useSwap.ts) - Create and submit an intent order
-* [`useStatus()`](https://github.com/icon-project/sodax-frontend/tree/main/packages/dapp-kit/src/hooks/swap/useStatus.ts) - Get status of an intent order
-* [`useSwapAllowance()`](https://github.com/icon-project/sodax-frontend/tree/main/packages/dapp-kit/src/hooks/swap/useSwapAllowance.ts) - Check token allowance for an intent order
-* [`useSwapApprove()`](https://github.com/icon-project/sodax-frontend/tree/main/packages/dapp-kit/src/hooks/swap/useSwapApprove.ts) - Approve token spending
-* [`useCancelSwap()`](https://github.com/icon-project/sodax-frontend/tree/main/packages/dapp-kit/src/hooks/swap/useCancelSwap.ts) - Cancel a swap intent order
+- [`useQuote()`](https://github.com/icon-project/sodax-frontend/tree/main/packages/dapp-kit/src/hooks/swap/useQuote.ts) - Get quote for an intent order
+- [`useSwap()`](https://github.com/icon-project/sodax-frontend/tree/main/packages/dapp-kit/src/hooks/swap/useSwap.ts) - Create and submit an intent order
+- [`useCreateLimitOrder()`](https://github.com/icon-project/sodax-frontend/tree/main/packages/dapp-kit/src/hooks/swap/useCreateLimitOrder.ts) - Create a limit order intent (no deadline, must be cancelled manually)
+- **Note**: Limit orders use `useSwapAllowance()` for checking token allowance (same as swaps)
+- **Note**: Limit orders use `useSwapApprove()` for approving token spending (same as swaps)
+- **Note**: Limit orders use `useCancelSwap()` for cancelling (same as swaps)
+- [`useStatus()`](https://github.com/icon-project/sodax-frontend/tree/main/packages/dapp-kit/src/hooks/swap/useStatus.ts) - Get status of an intent order
+- [`useSwapAllowance()`](https://github.com/icon-project/sodax-frontend/tree/main/packages/dapp-kit/src/hooks/swap/useSwapAllowance.ts) - Check token allowance for an intent order
+- [`useSwapApprove()`](https://github.com/icon-project/sodax-frontend/tree/main/packages/dapp-kit/src/hooks/swap/useSwapApprove.ts) - Approve token spending
+- [`useCancelSwap()`](https://github.com/icon-project/sodax-frontend/tree/main/packages/dapp-kit/src/hooks/swap/useCancelSwap.ts) - Cancel a swap intent order
 
 #### Shared Hooks
-
-* [`useSodaxContext()`](https://github.com/icon-project/sodax-frontend/tree/main/packages/dapp-kit/src/hooks/shared/useSodaxContext.ts) - Access Sodax context and configuration
-* [`useEstimateGas()`](https://github.com/icon-project/sodax-frontend/tree/main/packages/dapp-kit/src/hooks/shared/useEstimateGas.ts) - Estimate gas costs for transactions
-* [`useDeriveUserWalletAddress()`](https://github.com/icon-project/sodax-frontend/tree/main/packages/dapp-kit/src/hooks/shared/useDeriveUserWalletAddress.ts) - Derive user wallet address for hub abstraction
+- [`useSodaxContext()`](https://github.com/icon-project/sodax-frontend/tree/main/packages/dapp-kit/src/hooks/shared/useSodaxContext.ts) - Access Sodax context and configuration
+- [`useEstimateGas()`](https://github.com/icon-project/sodax-frontend/tree/main/packages/dapp-kit/src/hooks/shared/useEstimateGas.ts) - Estimate gas costs for transactions
+- [`useDeriveUserWalletAddress()`](https://github.com/icon-project/sodax-frontend/tree/main/packages/dapp-kit/src/hooks/shared/useDeriveUserWalletAddress.ts) - Derive user wallet address for hub abstraction
 
 #### Bridge Hooks
-
-* [`useBridge()`](https://github.com/icon-project/sodax-frontend/tree/main/packages/dapp-kit/src/hooks/bridge/useBridge.ts) - Execute bridge transactions to transfer tokens between chains
-* [`useBridgeAllowance()`](https://github.com/icon-project/sodax-frontend/tree/main/packages/dapp-kit/src/hooks/bridge/useBridgeAllowance.ts) - Check token allowance for bridge operations
-* [`useBridgeApprove()`](https://github.com/icon-project/sodax-frontend/tree/main/packages/dapp-kit/src/hooks/bridge/useBridgeApprove.ts) - Approve token spending for bridge actions
-* [`useGetBridgeableAmount()`](https://github.com/icon-project/sodax-frontend/tree/main/packages/dapp-kit/src/hooks/bridge/useGetBridgeableAmount.ts) - Get maximum amount available to be bridged
-* [`useGetBridgeableTokens()`](https://github.com/icon-project/sodax-frontend/tree/main/packages/dapp-kit/src/hooks/bridge/useGetBridgeableTokens.ts) - Get available destination tokens for bridging
+- [`useBridge()`](https://github.com/icon-project/sodax-frontend/tree/main/packages/dapp-kit/src/hooks/bridge/useBridge.ts) - Execute bridge transactions to transfer tokens between chains
+- [`useBridgeAllowance()`](https://github.com/icon-project/sodax-frontend/tree/main/packages/dapp-kit/src/hooks/bridge/useBridgeAllowance.ts) - Check token allowance for bridge operations
+- [`useBridgeApprove()`](https://github.com/icon-project/sodax-frontend/tree/main/packages/dapp-kit/src/hooks/bridge/useBridgeApprove.ts) - Approve token spending for bridge actions
+- [`useGetBridgeableAmount()`](https://github.com/icon-project/sodax-frontend/tree/main/packages/dapp-kit/src/hooks/bridge/useGetBridgeableAmount.ts) - Get maximum amount available to be bridged
+- [`useGetBridgeableTokens()`](https://github.com/icon-project/sodax-frontend/tree/main/packages/dapp-kit/src/hooks/bridge/useGetBridgeableTokens.ts) - Get available destination tokens for bridging
 
 ## Contributing
 
-We welcome contributions! Please see our [Contributing Guide](../dapp-kit/CONTRIBUTING.md) for details.
+We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) for details.
 
 ## Development
 
@@ -354,9 +444,9 @@ pnpm lint
 
 ## License
 
-[MIT](../dapp-kit/LICENSE/)
+[MIT](LICENSE)
 
 ## Support
 
-* [GitHub Issues](https://github.com/icon-project/sodax-frontend/issues)
-* [Discord Community](https://discord.gg/sodax-formerly-icon-880651922682560582)
+- [GitHub Issues](https://github.com/icon-project/sodax-frontend/issues)
+- [Discord Community](https://discord.gg/sodax-formerly-icon-880651922682560582)
