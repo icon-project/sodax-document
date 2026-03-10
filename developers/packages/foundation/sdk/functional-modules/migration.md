@@ -30,7 +30,7 @@ Please refer to [SDK constants.ts](https://github.com/icon-project/sodax-fronten
 
 ### Initialising Providers
 
-Refer to [Initialising Spoke Provider](../#initialising-spoke-provider) section to see how IconSpokeProvider and SonicSpokeProvider can be created.
+Refer to [Initialising Spoke Provider](https://docs.sodax.com/developers/how-to/how_to_create_a_spoke_provider) section to see how IconSpokeProvider and SonicSpokeProvider can be created.
 
 ## Migration Types
 
@@ -48,9 +48,8 @@ The MigrationService supports multiple types of migrations:
 Before creating migration intents, you should check if the allowance is valid. For forward migrations (ICX/wICX, bnUSD, BALN), no allowance is required as these tokens do not require approval.
 
 **Note**: For Stellar-based operations, the allowance system works differently:
-
-* **Source Chain (Stellar)**: The standard `isAllowanceValid` method works as expected for EVM chains, but for Stellar as the source chain, this method checks and establishes trustlines instead.
-* **Destination Chain (Stellar)**: When Stellar is specified as the destination chain, frontends/clients need to manually check trustlines using `StellarSpokeService.hasSufficientTrustline` before executing migration operations.
+- **Source Chain (Stellar)**: The standard `isAllowanceValid` method works as expected for EVM chains, but for Stellar as the source chain, this method checks and establishes trustlines instead.
+- **Destination Chain (Stellar)**: When Stellar is specified as the destination chain, frontends/clients need to manually check trustlines using `StellarSpokeService.hasSufficientTrustline` before executing migration operations.
 
 ```typescript
 const sodax = new Sodax();
@@ -102,9 +101,8 @@ if (!isAllowedRevert.ok) {
 For reverse migrations, if the allowance check returns false, you need to approve the tokens before creating the revert migration intent.
 
 **Note**: For Stellar-based operations, the approval system works differently:
-
-* **Source Chain (Stellar)**: The standard `approve` method works as expected for EVM chains, but for Stellar as the source chain, this method establishes trustlines instead.
-* **Destination Chain (Stellar)**: When Stellar is specified as the destination chain, frontends/clients need to manually establish trustlines using `StellarSpokeService.requestTrustline` before executing migration operations.
+- **Source Chain (Stellar)**: The standard `approve` method works as expected for EVM chains, but for Stellar as the source chain, this method establishes trustlines instead.
+- **Destination Chain (Stellar)**: When Stellar is specified as the destination chain, frontends/clients need to manually establish trustlines using `StellarSpokeService.requestTrustline` before executing migration operations.
 
 ```typescript
 const sodax = new Sodax();
@@ -134,7 +132,7 @@ if (approveResult.ok) {
 
 ### Stellar Trustline Requirements
 
-For Stellar-based migration operations, you need to handle trustlines differently depending on whether Stellar is the source or destination chain. See [Stellar Trustline Requirements](../../../sdk/docs/STELLAR_TRUSTLINE.md#migration) for detailed information and code examples.
+For Stellar-based migration operations, you need to handle trustlines differently depending on whether Stellar is the source or destination chain. See [Stellar Trustline Requirements](https://github.com/icon-project/sodax-frontend/blob/main/packages/sdk/docs/STELLAR_TRUSTLINE.md#migration) for detailed information and code examples.
 
 ## ICX Migration (ICX/wICX → SODA)
 
@@ -547,11 +545,11 @@ await migrateBaln(BigInt(1000000000000000000), '0x123456789012345678901234567890
 
 The MigrationService returns `Result` types that can contain various error codes:
 
-* `MIGRATION_FAILED`: General migration failure
-* `CREATE_MIGRATION_INTENT_FAILED`: Failed to create migration intent
-* `CREATE_REVERT_MIGRATION_INTENT_FAILED`: Failed to create revert migration intent
-* `REVERT_MIGRATION_FAILED`: General revert migration failure
-* `RelayError`: Errors from the relay service
+- `MIGRATION_FAILED`: General migration failure
+- `CREATE_MIGRATION_INTENT_FAILED`: Failed to create migration intent
+- `CREATE_REVERT_MIGRATION_INTENT_FAILED`: Failed to create revert migration intent
+- `REVERT_MIGRATION_FAILED`: General revert migration failure
+- `RelayError`: Errors from the relay service
 
 Each error includes the original parameters and the underlying error for debugging purposes.
 
@@ -568,6 +566,5 @@ const migrationService = new MigrationService(hubProvider, {
 ```
 
 Default configuration:
-
-* `relayerApiEndpoint`: `https://relay.soniclabs.com`
-* `timeout`: 60000ms (60 seconds)
+- `relayerApiEndpoint`: `https://relay.soniclabs.com`
+- `timeout`: 60000ms (60 seconds)

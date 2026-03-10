@@ -14,29 +14,89 @@ git submodule update --init --recursive linked-repositories/sodax-frontend
 )
 
 # 2) Define paths
-SRC_BASE="linked-repositories/sodax-frontend/packages"
-DST_BASE="developers/packages"
+SRC="linked-repositories/sodax-frontend"
+DST="developers"
 
-# 3) Create destination base
-mkdir -p "$DST_BASE"
+# Helper: copy a single file, creating parent directories as needed
+copy_file() {
+  mkdir -p "$(dirname "$2")"
+  cp -f "$1" "$2"
+}
 
-# 4) Copy only Markdown files, preserving directory structure
-#    This handles spaces and odd characters safely.
-find "$SRC_BASE" -type f -name '*.md' -print0 | while IFS= read -r -d '' filepath; do
-  relpath="${filepath#"$SRC_BASE"/}"
-  targetdir="$DST_BASE/$(dirname "$relpath")"
-  mkdir -p "$targetdir"
-  cp -f -- "$filepath" "$targetdir/"
+# Helper: prepend GitBook frontmatter to a file (only icon, or icon + description)
+# Usage: inject_frontmatter <file> <icon> [description]
+inject_frontmatter() {
+  local file="$1" icon="$2" desc="${3:-}"
+  local tmp
+  tmp=$(mktemp)
+  {
+    echo "---"
+    if [ -n "$desc" ]; then
+      echo "description: >-"
+      echo "  $desc"
+    fi
+    echo "icon: $icon"
+    echo "---"
+    echo ""
+    cat "$file"
+  } > "$tmp"
+  mv "$tmp" "$file"
+}
+
+# 3) Remove stale files from old flat-copy sync (not in SUMMARY.md, not from sodax-frontend)
+rm -f "$DST/packages/types/README.md"
+rm -f "$DST/packages/RELEASE_INSTRUCTIONS.md"
+rm -rf "$DST/packages/dapp-kit/src"
+
+# 4) SDK README → Foundation layer
+copy_file "$SRC/packages/sdk/README.md" "$DST/packages/foundation/sdk/README.md"
+inject_frontmatter "$DST/packages/foundation/sdk/README.md" "cup-straw" \
+  "The SODAX SDK provides a comprehensive interface for interacting with the SODAX protocol, enabling cross-chain swaps, money market, cross-chain bridging, migration and staking SODA token."
+
+# 5) Functional modules (sdk/docs → foundation/sdk/functional-modules, lowercased)
+copy_file "$SRC/packages/sdk/docs/SWAPS.md"        "$DST/packages/foundation/sdk/functional-modules/swaps.md"
+copy_file "$SRC/packages/sdk/docs/MONEY_MARKET.md"  "$DST/packages/foundation/sdk/functional-modules/money_market.md"
+copy_file "$SRC/packages/sdk/docs/BRIDGE.md"        "$DST/packages/foundation/sdk/functional-modules/bridge.md"
+copy_file "$SRC/packages/sdk/docs/STAKING.md"       "$DST/packages/foundation/sdk/functional-modules/staking.md"
+copy_file "$SRC/packages/sdk/docs/MIGRATION.md"     "$DST/packages/foundation/sdk/functional-modules/migration.md"
+
+inject_frontmatter "$DST/packages/foundation/sdk/functional-modules/swaps.md"        "rotate"
+inject_frontmatter "$DST/packages/foundation/sdk/functional-modules/money_market.md"  "sack-dollar"
+inject_frontmatter "$DST/packages/foundation/sdk/functional-modules/bridge.md"        "bridge-suspension"
+inject_frontmatter "$DST/packages/foundation/sdk/functional-modules/staking.md"       "seedling"
+inject_frontmatter "$DST/packages/foundation/sdk/functional-modules/migration.md"     "truck"
+
+# 6) Tooling modules (sdk/docs → foundation/sdk/tooling-modules, lowercased)
+copy_file "$SRC/packages/sdk/docs/BACKEND_API.md"      "$DST/packages/foundation/sdk/tooling-modules/backend_api.md"
+copy_file "$SRC/packages/sdk/docs/INTENT_RELAY_API.md"  "$DST/packages/foundation/sdk/tooling-modules/intent_relay_api.md"
+
+inject_frontmatter "$DST/packages/foundation/sdk/tooling-modules/backend_api.md"      "plug"
+inject_frontmatter "$DST/packages/foundation/sdk/tooling-modules/intent_relay_api.md"  "envelope"
+
+# 7) How-to guides (stay at sdk/docs/, preserve names — no frontmatter needed)
+for f in CONFIGURE_SDK ESTIMATE_GAS HOW_TO_MAKE_A_SWAP HOW_TO_CREATE_A_SPOKE_PROVIDER \
+         MONETIZE_SDK WALLET_PROVIDERS STELLAR_TRUSTLINE \
+         RELAYER_API_ENDPOINTS SOLVER_API_ENDPOINTS; do
+  copy_file "$SRC/packages/sdk/docs/${f}.md" "$DST/packages/sdk/docs/${f}.md"
 done
+copy_file "$SRC/packages/sdk/docs/installation/nextjs.md" "$DST/packages/sdk/docs/installation/nextjs.md"
 
-# Also copy Markdown and PDF files from linked-repositories/Audits to developers/Audits, preserving structure
-AUDITS_SRC="linked-repositories/sodax-frontend/Audits"
-AUDITS_DST="developers/Audits"
-mkdir -p "$AUDITS_DST"
+# 8) Connection layer
+copy_file "$SRC/packages/wallet-sdk-core/README.md"  "$DST/packages/connection/wallet-sdk-core.md"
+copy_file "$SRC/packages/wallet-sdk-react/README.md" "$DST/packages/connection/wallet-sdk-react.md"
+
+inject_frontmatter "$DST/packages/connection/wallet-sdk-core.md"  "wallet"
+inject_frontmatter "$DST/packages/connection/wallet-sdk-react.md" "react"
+
+# 9) Experience layer
+copy_file "$SRC/packages/dapp-kit/README.md" "$DST/packages/experience/dapp-kit.md"
+
+inject_frontmatter "$DST/packages/experience/dapp-kit.md" "browser"
+
+# 10) Audits (Markdown + PDF files, preserving directory structure)
+AUDITS_SRC="$SRC/Audits"
+AUDITS_DST="$DST/Audits"
 find "$AUDITS_SRC" -type f \( -name '*.md' -o -name '*.pdf' \) -print0 | while IFS= read -r -d '' filepath; do
   relpath="${filepath#"$AUDITS_SRC"/}"
-  targetdir="$AUDITS_DST/$(dirname "$relpath")"
-  mkdir -p "$targetdir"
-  cp -f -- "$filepath" "$targetdir/"
+  copy_file "$filepath" "$AUDITS_DST/$relpath"
 done
-

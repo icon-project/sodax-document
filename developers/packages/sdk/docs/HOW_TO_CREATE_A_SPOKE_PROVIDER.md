@@ -1,4 +1,4 @@
-# Create a Spoke Provider
+# How to Create a Spoke Provider
 
 This guide provides comprehensive instructions for creating spoke providers for all supported chain types in the Sodax SDK. A spoke provider is a container that combines a wallet provider with chain-specific configuration, enabling interaction with Sodax features on different blockchains.
 
@@ -6,51 +6,89 @@ This guide provides comprehensive instructions for creating spoke providers for 
 
 A **Spoke Provider** is an instance that contains:
 
-* A **wallet provider** implementation (e.g., `IEvmWalletProvider`, `ISuiWalletProvider`) that handles wallet interactions
-* A **chain configuration** object that contains chain-specific settings, addresses, and metadata
+- A **wallet provider** implementation (e.g., `IEvmWalletProvider`, `ISuiWalletProvider`) that handles wallet interactions
+- A **chain configuration** object that contains chain-specific settings, addresses, and metadata
 
 The spoke provider acts as the bridge between your application and the Sodax protocol, allowing you to interact with swaps, money market operations, bridging, and staking features.
 
 **Important**: You should create one spoke provider instance for each user wallet connection. Once created, reuse the same spoke provider instance for all Sodax feature interactions on that specific chain.
 
-For more information, refer to the [README.md](../../foundation/sdk/#initialising-spoke-provider) section.
+For more information, refer to the [README.md](https://github.com/icon-project/sodax-frontend/blob/main/packages/sdk/README.md#initialising-spoke-provider) section.
 
 ## What is a Raw Spoke Provider?
 
 A **Raw Spoke Provider** is a special type of spoke provider that is used when you only have a user's wallet address and cannot create a full wallet provider instance. Unlike regular spoke providers, raw spoke providers:
 
-* **Do not require a wallet provider** - They only need the user's wallet address
-* **Cannot sign transactions** - They are read-only and used for generating raw transaction data
-* **Return raw transaction data** - When used with Sodax features, they return unsigned transaction payloads instead of executing transactions
+- **Do not require a wallet provider** - They only need the user's wallet address
+- **Cannot sign transactions** - They are read-only and used for generating raw transaction data
+- **Return raw transaction data** - When used with Sodax features, they return unsigned transaction payloads instead of executing transactions
 
 ### When to Use Raw Spoke Providers
 
 Raw spoke providers are ideal for:
 
-* **Backend services** - When creating transaction payloads on the server side where wallet providers cannot be instantiated
-* **Transaction preparation** - When you need to prepare raw transaction data for users to sign later
-* **Gas estimation** - When estimating transaction costs without executing transactions
-* **Multi-step flows** - When separating transaction creation from transaction signing/execution
+- **Backend services** - When creating transaction payloads on the server side where wallet providers cannot be instantiated
+- **Transaction preparation** - When you need to prepare raw transaction data for users to sign later
+- **Gas estimation** - When estimating transaction costs without executing transactions
+- **Multi-step flows** - When separating transaction creation from transaction signing/execution
 
 ### Key Differences from Regular Spoke Providers
 
-| Feature             | Regular Spoke Provider         | Raw Spoke Provider                 |
-| ------------------- | ------------------------------ | ---------------------------------- |
-| Wallet Provider     | Required (full implementation) | Not required (only address needed) |
-| Transaction Signing | Can sign and execute           | Cannot sign (read-only)            |
-| Return Type         | Transaction hash (string)      | Raw transaction data object        |
-| Use Case            | Frontend/browser with wallet   | Backend/server-side preparation    |
+| Feature | Regular Spoke Provider | Raw Spoke Provider |
+|---------|----------------------|-------------------|
+| Wallet Provider | Required (full implementation) | Not required (only address needed) |
+| Transaction Signing | Can sign and execute | Cannot sign (read-only) |
+| Return Type | Transaction hash (string) | Raw transaction data object |
+| Use Case | Frontend/browser with wallet | Backend/server-side preparation |
 
 **Note**: When using raw spoke providers with Sodax features, you must pass the `raw: true` flag to methods like `createIntent()`, `supply()`, etc. This ensures the methods return raw transaction data instead of attempting to execute transactions.
+
+### Constructing a Raw Spoke Provider from Config
+
+When you have a generic config object (e.g. from API or runtime) and want a single entry point to build the correct raw spoke provider for any supported chain, use the **`constructRawSpokeProvider`** helper. It dispatches on `config.chainConfig.chain.type` and returns the appropriate raw spoke provider instance.
+
+**Signature**
+
+```typescript
+function constructRawSpokeProvider(config: RawSpokeProviderConfig): RawSpokeProvider
+```
+
+- **Parameter**: `config` — A chain-specific raw spoke provider config (`EvmRawSpokeProviderConfig`, `SonicRawSpokeProviderConfig`, `StellarRawSpokeProviderConfig`, `SolanaRawSpokeProviderConfig`, `IconRawSpokeProviderConfig`, `InjectiveRawSpokeProviderConfig`, or `SuiRawSpokeProviderConfig`). The config must include `chainConfig` with `chain.type` set to one of: `EVM`, `STELLAR`, `SOLANA`, `ICON`, `INJECTIVE`, `SUI`. For Sonic, use EVM config with `chain.id === SONIC_MAINNET_CHAIN_ID`.
+- **Returns**: A `RawSpokeProvider` instance (e.g. `EvmRawSpokeProvider`, `StellarRawSpokeProvider`, `SolanaRawSpokeProvider`, etc.).
+- **Throws**: `Error` with message `Unsupported chain type: ${chainType}` if `chain.type` is not supported.
+
+**Example**
+
+```typescript
+import {
+  constructRawSpokeProvider,
+  spokeChainConfig,
+  ARBITRUM_MAINNET_CHAIN_ID,
+  type RawSpokeProviderConfig,
+  type EvmRawSpokeProviderConfig,
+} from "@sodax/sdk";
+
+// Config might come from API or be built at runtime
+const config: EvmRawSpokeProviderConfig = {
+  walletAddress: "0x...",
+  chainConfig: spokeChainConfig[ARBITRUM_MAINNET_CHAIN_ID],
+  rpcUrl: "https://arb1.arbitrum.io/rpc",
+};
+
+const rawSpokeProvider = constructRawSpokeProvider(config);
+// rawSpokeProvider is EvmRawSpokeProvider — use with Sodax features and raw: true
+```
+
+Use `constructRawSpokeProvider` when the chain type is determined at runtime or when you want one code path that works for all supported chains. For a known chain type, you can still instantiate the specific raw spoke provider class directly (e.g. `new EvmRawSpokeProvider(...)`) as shown in the chain-specific sections below.
 
 ## Prerequisites
 
 Before creating a spoke provider, ensure you have:
 
-* A wallet provider implementation for your target chain. You can use existing wallet provider implementations from the [`@sodax/wallet-sdk-core`](https://www.npmjs.com/package/@sodax/wallet-sdk-core) npm package, or use the local package [@wallet-sdk-core](../../connection/wallet-sdk-core.md) if working within the Sodax monorepo.
-* The `@sodax/sdk` package installed
-* For Node.js environments: RPC URLs for the chains you're interacting with (we recommend using dedicated node providers like Alchemy, QuickNode, etc.)
-* For browser environments: Wallet extensions installed and connected (e.g., MetaMask for EVM chains)
+- A wallet provider implementation for your target chain. You can use existing wallet provider implementations from the [`@sodax/wallet-sdk-core`](https://www.npmjs.com/package/@sodax/wallet-sdk-core) npm package, or use the local package [@wallet-sdk-core](https://github.com/icon-project/sodax-frontend/blob/main/packages/wallet-sdk-core/README.md) if working within the Sodax monorepo.
+- The `@sodax/sdk` package installed
+- For Node.js environments: RPC URLs for the chains you're interacting with (we recommend using dedicated node providers like Alchemy, QuickNode, etc.)
+- For browser environments: Wallet extensions installed and connected (e.g., MetaMask for EVM chains)
 
 ## Getting Chain Configuration
 
@@ -74,18 +112,22 @@ await sodax.initialize(); // Fetches latest configuration from backend API
 
 ## EVM Chains
 
-EVM chains include Arbitrum, Avalanche, Base, BSC, Optimism, Polygon, Lightlink, and HyperEVM. For these chains, use the `EvmSpokeProvider` class.
+EVM chains include Arbitrum, Avalanche, Base, BSC, Optimism, Polygon, Sonic, Lightlink, HyperEVM, Ethereum, Redbelly, and Kaia. For these chains, use the `EvmSpokeProvider` class.
 
 **Supported EVM Chains**:
 
-* Arbitrum (`ARBITRUM_MAINNET_CHAIN_ID`)
-* Avalanche (`AVALANCHE_MAINNET_CHAIN_ID`)
-* Base (`BASE_MAINNET_CHAIN_ID`)
-* BSC (`BSC_MAINNET_CHAIN_ID`)
-* Optimism (`OPTIMISM_MAINNET_CHAIN_ID`)
-* Polygon (`POLYGON_MAINNET_CHAIN_ID`)
-* Lightlink (`LIGHTLINK_MAINNET_CHAIN_ID`)
-* HyperEVM (`HYPEREVM_MAINNET_CHAIN_ID`)
+- Arbitrum (`ARBITRUM_MAINNET_CHAIN_ID`)
+- Avalanche (`AVALANCHE_MAINNET_CHAIN_ID`)
+- Base (`BASE_MAINNET_CHAIN_ID`)
+- BSC (`BSC_MAINNET_CHAIN_ID`)
+- Optimism (`OPTIMISM_MAINNET_CHAIN_ID`)
+- Polygon (`POLYGON_MAINNET_CHAIN_ID`)
+- Sonic (`SONIC_MAINNET_CHAIN_ID`)
+- Lightlink (`LIGHTLINK_MAINNET_CHAIN_ID`)
+- HyperEVM (`HYPEREVM_MAINNET_CHAIN_ID`)
+- Ethereum (`ETHEREUM_MAINNET_CHAIN_ID`)
+- Redbelly (`REDBELLY_MAINNET_CHAIN_ID`)
+- Kaia (`KAIA_MAINNET_CHAIN_ID`)
 
 ### Constructor Signature
 
@@ -955,7 +997,7 @@ const createIntentResult = await sodax.swaps.createIntent(
 );
 ```
 
-For detailed swap documentation, see [HOW\_TO\_MAKE\_A\_SWAP.md](HOW_TO_MAKE_A_SWAP.md) and [SWAPS.md](../../foundation/sdk/functional-modules/swaps.md).
+For detailed swap documentation, see [HOW_TO_MAKE_A_SWAP.md](https://github.com/icon-project/sodax-frontend/blob/main/packages/sdk/docs/HOW_TO_MAKE_A_SWAP.md) and [SWAPS.md](https://github.com/icon-project/sodax-frontend/blob/main/packages/sdk/docs/SWAPS.md).
 
 ### Using Raw Spoke Providers with Swaps
 
@@ -1004,10 +1046,10 @@ if (createIntentResult.ok) {
 
 **Key differences when using raw spoke providers:**
 
-* Return type is a raw transaction data object `{ from, to, value, data }` instead of a transaction hash
-* Transactions are not executed automatically
-* Useful for backend services that prepare transactions for frontend signing
-* Can be used for gas estimation without executing transactions
+- Return type is a raw transaction data object `{ from, to, value, data }` instead of a transaction hash
+- Transactions are not executed automatically
+- Useful for backend services that prepare transactions for frontend signing
+- Can be used for gas estimation without executing transactions
 
 ### Using with Money Market
 
@@ -1019,7 +1061,7 @@ const supplyResult = await sodax.moneyMarket.supply(
 );
 ```
 
-For detailed money market documentation, see [MONEY\_MARKET.md](../../foundation/sdk/functional-modules/money_market.md).
+For detailed money market documentation, see [MONEY_MARKET.md](https://github.com/icon-project/sodax-frontend/blob/main/packages/sdk/docs/MONEY_MARKET.md).
 
 ### Using with Bridge
 
@@ -1031,7 +1073,7 @@ const bridgeResult = await sodax.bridge.createBridgeIntent(
 );
 ```
 
-For detailed bridge documentation, see [BRIDGE.md](../../foundation/sdk/functional-modules/bridge.md).
+For detailed bridge documentation, see [BRIDGE.md](https://github.com/icon-project/sodax-frontend/blob/main/packages/sdk/docs/BRIDGE.md).
 
 ### Using with Staking
 
@@ -1043,52 +1085,54 @@ const stakeResult = await sodax.staking.stake(
 );
 ```
 
-For detailed staking documentation, see [STAKING.md](../../foundation/sdk/functional-modules/staking.md).
+For detailed staking documentation, see [STAKING.md](https://github.com/icon-project/sodax-frontend/blob/main/packages/sdk/docs/STAKING.md).
 
 ## Summary
 
-* **Spoke Provider** is a container that combines wallet provider and chain configuration
-* **Raw Spoke Provider** is used when only a wallet address is available (backend scenarios, transaction preparation)
-* Create **one spoke provider per wallet connection** and reuse it for all operations
-*   Use the appropriate provider class for each chain type:
+- **Spoke Provider** is a container that combines wallet provider and chain configuration
+- **Raw Spoke Provider** is used when only a wallet address is available (backend scenarios, transaction preparation)
+- Create **one spoke provider per wallet connection** and reuse it for all operations
+- Use the appropriate provider class for each chain type:
 
-    **Regular Spoke Providers** (require full wallet provider):
+  **Regular Spoke Providers** (require full wallet provider):
+  - `EvmSpokeProvider` for EVM chains (Arbitrum, Polygon, BSC, etc.)
+  - `SonicSpokeProvider` for Sonic chain (special case - hub chain)
+  - `SuiSpokeProvider` for Sui blockchain
+  - `StellarSpokeProvider` for Stellar blockchain
+  - `InjectiveSpokeProvider` for Injective blockchain
+  - `IconSpokeProvider` for ICON blockchain
+  - `SolanaSpokeProvider` for Solana blockchain
 
-    * `EvmSpokeProvider` for EVM chains (Arbitrum, Polygon, BSC, etc.)
-    * `SonicSpokeProvider` for Sonic chain (special case - hub chain)
-    * `SuiSpokeProvider` for Sui blockchain
-    * `StellarSpokeProvider` for Stellar blockchain
-    * `InjectiveSpokeProvider` for Injective blockchain
-    * `IconSpokeProvider` for ICON blockchain
-    * `SolanaSpokeProvider` for Solana blockchain
+  **Raw Spoke Providers** (only require wallet address):
+  - `EvmRawSpokeProvider` for EVM chains
+  - `SonicRawSpokeProvider` for Sonic chain
+  - `SuiRawSpokeProvider` for Sui blockchain
+  - `StellarRawSpokeProvider` for Stellar blockchain
+  - `InjectiveRawSpokeProvider` for Injective blockchain
+  - `IconRawSpokeProvider` for ICON blockchain
+  - `SolanaRawSpokeProvider` for Solana blockchain
+  - **`constructRawSpokeProvider(config)`** — builds the correct raw spoke provider from a `RawSpokeProviderConfig` based on `chainConfig.chain.type` (use when chain is chosen at runtime).
 
-    **Raw Spoke Providers** (only require wallet address):
+- **When to use Raw Spoke Providers:**
+  - Backend services creating transaction payloads
+  - Transaction preparation without signing
+  - Gas estimation without execution
+  - Multi-step flows separating creation from signing
 
-    * `EvmRawSpokeProvider` for EVM chains
-    * `SonicRawSpokeProvider` for Sonic chain
-    * `SuiRawSpokeProvider` for Sui blockchain
-    * `StellarRawSpokeProvider` for Stellar blockchain
-    * `InjectiveRawSpokeProvider` for Injective blockchain
-    * `IconRawSpokeProvider` for ICON blockchain
-    * `SolanaRawSpokeProvider` for Solana blockchain
-* **When to use Raw Spoke Providers:**
-  * Backend services creating transaction payloads
-  * Transaction preparation without signing
-  * Gas estimation without execution
-  * Multi-step flows separating creation from signing
-* **When to use Regular Spoke Providers:**
-  * Frontend/browser applications with wallet connections
-  * When you need to sign and execute transactions
-  * Interactive user flows
-* Initialize Sodax before creating spoke providers for latest configuration
-* Use proper TypeScript types for type safety
-* Reuse the same spoke provider instance for all operations on that chain
-* When using raw spoke providers with Sodax features, always pass `raw: true` to get raw transaction data
+- **When to use Regular Spoke Providers:**
+  - Frontend/browser applications with wallet connections
+  - When you need to sign and execute transactions
+  - Interactive user flows
+
+- Initialize Sodax before creating spoke providers for latest configuration
+- Use proper TypeScript types for type safety
+- Reuse the same spoke provider instance for all operations on that chain
+- When using raw spoke providers with Sodax features, always pass `raw: true` to get raw transaction data
 
 For more information on specific features, refer to the respective documentation files:
 
-* [HOW\_TO\_MAKE\_A\_SWAP.md](HOW_TO_MAKE_A_SWAP.md) - Swap operations
-* [SWAPS.md](../../foundation/sdk/functional-modules/swaps.md) - Swap API reference
-* [MONEY\_MARKET.md](../../foundation/sdk/functional-modules/money_market.md) - Money market operations
-* [BRIDGE.md](../../foundation/sdk/functional-modules/bridge.md) - Bridge operations
-* [STAKING.md](../../foundation/sdk/functional-modules/staking.md) - Staking operations
+- [HOW_TO_MAKE_A_SWAP.md](https://github.com/icon-project/sodax-frontend/blob/main/packages/sdk/docs/HOW_TO_MAKE_A_SWAP.md) - Swap operations
+- [SWAPS.md](https://github.com/icon-project/sodax-frontend/blob/main/packages/sdk/docs/SWAPS.md) - Swap API reference
+- [MONEY_MARKET.md](https://github.com/icon-project/sodax-frontend/blob/main/packages/sdk/docs/MONEY_MARKET.md) - Money market operations
+- [BRIDGE.md](https://github.com/icon-project/sodax-frontend/blob/main/packages/sdk/docs/BRIDGE.md) - Bridge operations
+- [STAKING.md](https://github.com/icon-project/sodax-frontend/blob/main/packages/sdk/docs/STAKING.md) - Staking operations

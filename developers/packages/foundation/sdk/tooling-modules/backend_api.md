@@ -2,19 +2,19 @@
 icon: plug
 ---
 
-# Backend API
+# Backend API Service Documentation
 
 The BackendApiService provides a comprehensive interface to interact with the Sodax Backend API, offering access to Intent, Solver, and Money Market data. This service is automatically initialized when creating a Sodax instance and can be accessed through the `backendApiService` property.
 
 ## Table of Contents
 
-* [Initialization](backend_api.md#initialization)
-* [Configuration](backend_api.md#configuration)
-* [Intent Endpoints](backend_api.md#intent-endpoints)
-* [Solver Endpoints](backend_api.md#solver-endpoints)
-* [Money Market Endpoints](backend_api.md#money-market-endpoints)
-* [Error Handling](backend_api.md#error-handling)
-* [Examples](backend_api.md#examples)
+- [Initialization](#initialization)
+- [Configuration](#configuration)
+- [Intent Endpoints](#intent-endpoints)
+- [Solver Endpoints](#solver-endpoints)
+- [Money Market Endpoints](#money-market-endpoints)
+- [Error Handling](#error-handling)
+- [Examples](#examples)
 
 ## Initialization
 
@@ -83,13 +83,11 @@ const intent = await sodax.backendApi.getIntentByTxHash('0x123...abc');
 ```
 
 **Request:**
-
-* **Method:** GET
-* **Endpoint:** `/intent/tx/{txHash}`
-* **Parameters:** `txHash` (string) - The transaction hash
+- **Method:** GET
+- **Endpoint:** `/intent/tx/{txHash}`
+- **Parameters:** `txHash` (string) - The transaction hash
 
 **Response:**
-
 ```typescript
 interface IntentResponse {
   intentHash: string;
@@ -119,7 +117,6 @@ interface IntentResponse {
 ```
 
 **Example Response:**
-
 ```json
 {
   "intentHash": "0x456...def",
@@ -157,10 +154,9 @@ const intent = await sodax.backendApi.getIntentByHash('0x456...def');
 ```
 
 **Request:**
-
-* **Method:** GET
-* **Endpoint:** `/intent/{intentHash}`
-* **Parameters:** `intentHash` (string) - The intent hash
+- **Method:** GET
+- **Endpoint:** `/intent/{intentHash}`
+- **Parameters:** `intentHash` (string) - The intent hash
 
 **Response:** Same as `getIntentByTxHash`
 
@@ -178,15 +174,13 @@ const orderbook = await sodax.backendApi.getOrderbook({
 ```
 
 **Request:**
-
-* **Method:** GET
-* **Endpoint:** `/solver/orderbook?offset={offset}&limit={limit}`
-* **Parameters:**
-  * `offset` (string) - Starting position for pagination
-  * `limit` (string) - Maximum number of items to return
+- **Method:** GET
+- **Endpoint:** `/solver/orderbook?offset={offset}&limit={limit}`
+- **Parameters:**
+  - `offset` (string) - Starting position for pagination
+  - `limit` (string) - Maximum number of items to return
 
 **Response:**
-
 ```typescript
 interface OrderbookResponse {
   total: number;
@@ -221,7 +215,6 @@ interface OrderbookResponse {
 ```
 
 **Example Response:**
-
 ```json
 {
   "total": 25,
@@ -268,13 +261,11 @@ const position = await sodax.backendApi.getMoneyMarketPosition('0x789...ghi');
 ```
 
 **Request:**
-
-* **Method:** GET
-* **Endpoint:** `/moneymarket/position/{userAddress}`
-* **Parameters:** `userAddress` (string) - User's wallet address
+- **Method:** GET
+- **Endpoint:** `/moneymarket/position/{userAddress}`
+- **Parameters:** `userAddress` (string) - User's wallet address
 
 **Response:**
-
 ```typescript
 interface MoneyMarketPosition {
   userAddress: string;
@@ -290,7 +281,6 @@ interface MoneyMarketPosition {
 ```
 
 **Example Response:**
-
 ```json
 {
   "userAddress": "0x789...ghi",
@@ -316,12 +306,10 @@ const assets = await sodax.backendApi.getAllMoneyMarketAssets();
 ```
 
 **Request:**
-
-* **Method:** GET
-* **Endpoint:** `/moneymarket/asset/all`
+- **Method:** GET
+- **Endpoint:** `/moneymarket/asset/all`
 
 **Response:**
-
 ```typescript
 interface MoneyMarketAsset {
   reserveAddress: string;
@@ -342,7 +330,6 @@ interface MoneyMarketAsset {
 ```
 
 **Example Response:**
-
 ```json
 [
   {
@@ -373,10 +360,9 @@ const asset = await sodax.backendApi.getMoneyMarketAsset('0xabc...123');
 ```
 
 **Request:**
-
-* **Method:** GET
-* **Endpoint:** `/moneymarket/asset/{reserveAddress}`
-* **Parameters:** `reserveAddress` (string) - Reserve contract address
+- **Method:** GET
+- **Endpoint:** `/moneymarket/asset/{reserveAddress}`
+- **Parameters:** `reserveAddress` (string) - Reserve contract address
 
 **Response:** Same as `MoneyMarketAsset` interface
 
@@ -392,16 +378,14 @@ const borrowers = await sodax.backendApi.getMoneyMarketAssetBorrowers(
 ```
 
 **Request:**
-
-* **Method:** GET
-* **Endpoint:** `/moneymarket/asset/{reserveAddress}/borrowers?offset={offset}&limit={limit}`
-* **Parameters:**
-  * `reserveAddress` (string) - Reserve contract address
-  * `offset` (string) - Starting position for pagination
-  * `limit` (string) - Maximum number of items to return
+- **Method:** GET
+- **Endpoint:** `/moneymarket/asset/{reserveAddress}/borrowers?offset={offset}&limit={limit}`
+- **Parameters:**
+  - `reserveAddress` (string) - Reserve contract address
+  - `offset` (string) - Starting position for pagination
+  - `limit` (string) - Maximum number of items to return
 
 **Response:**
-
 ```typescript
 interface MoneyMarketAssetBorrowers {
   borrowers: string[];
@@ -412,7 +396,6 @@ interface MoneyMarketAssetBorrowers {
 ```
 
 **Example Response:**
-
 ```json
 {
   "borrowers": [
@@ -438,16 +421,14 @@ const suppliers = await sodax.backendApi.getMoneyMarketAssetSuppliers(
 ```
 
 **Request:**
-
-* **Method:** GET
-* **Endpoint:** `/moneymarket/asset/{reserveAddress}/suppliers?offset={offset}&limit={limit}`
-* **Parameters:**
-  * `reserveAddress` (string) - Reserve contract address
-  * `offset` (string) - Starting position for pagination
-  * `limit` (string) - Maximum number of items to return
+- **Method:** GET
+- **Endpoint:** `/moneymarket/asset/{reserveAddress}/suppliers?offset={offset}&limit={limit}`
+- **Parameters:**
+  - `reserveAddress` (string) - Reserve contract address
+  - `offset` (string) - Starting position for pagination
+  - `limit` (string) - Maximum number of items to return
 
 **Response:**
-
 ```typescript
 interface MoneyMarketAssetSuppliers {
   suppliers: string[];
@@ -458,7 +439,6 @@ interface MoneyMarketAssetSuppliers {
 ```
 
 **Example Response:**
-
 ```json
 {
   "suppliers": [
@@ -484,15 +464,13 @@ const allBorrowers = await sodax.backendApi.getAllMoneyMarketBorrowers({
 ```
 
 **Request:**
-
-* **Method:** GET
-* **Endpoint:** `/moneymarket/borrowers?offset={offset}&limit={limit}`
-* **Parameters:**
-  * `offset` (string) - Starting position for pagination
-  * `limit` (string) - Maximum number of items to return
+- **Method:** GET
+- **Endpoint:** `/moneymarket/borrowers?offset={offset}&limit={limit}`
+- **Parameters:**
+  - `offset` (string) - Starting position for pagination
+  - `limit` (string) - Maximum number of items to return
 
 **Response:**
-
 ```typescript
 interface MoneyMarketBorrowers {
   borrowers: string[];
@@ -507,7 +485,6 @@ interface MoneyMarketBorrowers {
 The BackendApiService includes comprehensive error handling for various scenarios:
 
 ### Timeout Errors
-
 ```typescript
 try {
   const result = await sodax.backendApi.getOrderbook({ offset: '0', limit: '10' });
@@ -519,7 +496,6 @@ try {
 ```
 
 ### HTTP Errors
-
 ```typescript
 try {
   const result = await sodax.backendApi.getIntentByTxHash('invalid-hash');
@@ -533,7 +509,6 @@ try {
 ```
 
 ### Network Errors
-
 ```typescript
 try {
   const result = await sodax.backendApi.getAllMoneyMarketAssets();
@@ -615,8 +590,8 @@ example();
 
 ## Notes
 
-* All string amounts in responses are in wei format (18 decimals)
-* Pagination parameters (`offset` and `limit`) are strings, not numbers
-* The service automatically handles request timeouts and retries
-* All endpoints return JSON responses
-* Error messages include HTTP status codes for better debugging
+- All string amounts in responses are in wei format (18 decimals)
+- Pagination parameters (`offset` and `limit`) are strings, not numbers
+- The service automatically handles request timeouts and retries
+- All endpoints return JSON responses
+- Error messages include HTTP status codes for better debugging

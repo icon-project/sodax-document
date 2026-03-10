@@ -1,8 +1,6 @@
 ---
 description: >-
-  The SODAX SDK provides a comprehensive interface for interacting with the
-  SODAX protocol, enabling cross-chain swaps, money market, cross-chain
-  bridging, migration and staking SODA token.
+  The SODAX SDK provides a comprehensive interface for interacting with the SODAX protocol, enabling cross-chain swaps, money market, cross-chain bridging, migration and staking SODA token.
 icon: cup-straw
 ---
 
@@ -55,8 +53,6 @@ How to setup local development
 * Solana ✅
 * Injective ✅
 
-
-
 <a href="https://docs.sodax.com/developers/packages/sdk/money_market" class="button secondary" data-icon="sack-dollar">Lend / Borrow (Money Market)</a>- Cross-chain lending and borrowing
 
 * EVM (Arbitrum, Avalanche, Base, BSC, Optimism, Polygon, Sonic, HyperEVM, Lightlink) ✅
@@ -65,8 +61,6 @@ How to setup local development
 * ICON ✅
 * Solana ✅
 * Injective ✅
-
-
 
 <a href="https://docs.sodax.com/developers/packages/sdk/bridge" class="button secondary" data-icon="bridge-suspension">Bridge</a>- Cross-chain token bridging
 
@@ -77,11 +71,7 @@ How to setup local development
 * Solana ✅
 * Injective ✅
 
-
-
 <a href="https://docs.sodax.com/developers/packages/sdk/migration" class="button secondary" data-icon="truck">Migration</a>- Token migration (ICX, bnUSD, BALN)
-
-
 
 <a href="https://docs.sodax.com/developers/packages/sdk/staking" class="button secondary" data-icon="seedling">Staking</a>- SODA token staking
 
@@ -98,15 +88,11 @@ How to setup local development
 
 <a href="https://docs.sodax.com/developers/packages/sdk/intent_relay_api" class="button secondary" data-icon="envelope">Intent Relay API</a>- Relayer API endpoint documentation
 
-
-
 ***
 
 ## Contributing
 
-We welcome contributions! Please see our [Contributing Guide](../../sdk/CONTRIBUTING.md) for details.
-
-
+We welcome contributions! Please see our [Contributing Guide](https://github.com/icon-project/sodax-document/blob/main/developers/packages/sdk/CONTRIBUTING.md) for details.
 
 ***
 
@@ -132,13 +118,11 @@ pnpm pretty
 pnpm lint
 ```
 
-
-
 ***
 
 ## License
 
-* [MIT](../../sdk/LICENSE/)
+* [MIT](https://github.com/icon-project/sodax-document/blob/main/developers/packages/sdk/LICENSE/README.md)
 
 ***
 

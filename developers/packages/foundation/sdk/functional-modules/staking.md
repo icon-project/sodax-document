@@ -2,7 +2,7 @@
 icon: seedling
 ---
 
-# Staking
+# Staking Documentation
 
 The `StakingService` class reachable through `sodax.staking` instance provides functionality for staking SODA tokens, unstaking, claiming rewards, and retrieving staking information. It supports operations across different blockchain chains with automatic hub chain integration.
 
@@ -13,19 +13,16 @@ The `StakingService` class reachable through `sodax.staking` instance provides f
 Checks if the current allowance is sufficient for the staking operations.
 
 **Parameters:**
-
-* `params`: Staking parameters including action type and amount
-* `spokeProvider`: The spoke chain provider instance
+- `params`: Staking parameters including action type and amount
+- `spokeProvider`: The spoke chain provider instance
 
 **Returns:** `Promise<Result<boolean, StakingError<'ALLOWANCE_CHECK_FAILED'>>>`
 
 **Note**: For Stellar-based operations, the allowance system works differently:
-
-* **Source Chain (Stellar)**: The standard `isAllowanceValid` method works as expected for EVM chains, but for Stellar as the source chain, this method checks and establishes trustlines automatically.
-* **Staking Flow**: Staking operations always flow from spoke chains (including Stellar) to the hub chain (Sonic), so Stellar is only used as a source chain for staking operations.
+- **Source Chain (Stellar)**: The standard `isAllowanceValid` method works as expected for EVM chains, but for Stellar as the source chain, this method checks and establishes trustlines automatically.
+- **Staking Flow**: Staking operations always flow from spoke chains (including Stellar) to the hub chain (Sonic), so Stellar is only used as a source chain for staking operations.
 
 **Example:**
-
 ```typescript
 const result = await sodax.staking.isAllowanceValid({
   params: {
@@ -49,20 +46,17 @@ if (result.ok && result.value) {
 Approves token spending for the staking operations. This method is only supported for EVM-based spoke chains.
 
 **Parameters:**
-
-* `params`: Staking parameters
-* `spokeProvider`: The spoke provider instance
-* `raw`: Whether to return raw transaction data (optional, default: false)
+- `params`: Staking parameters
+- `spokeProvider`: The spoke provider instance
+- `raw`: Whether to return raw transaction data (optional, default: false)
 
 **Returns:** `Promise<Result<TxReturnType<S, R>, StakingError<'APPROVAL_FAILED'>>>`
 
 **Note**: For Stellar-based operations, the approval system works differently:
-
-* **Source Chain (Stellar)**: The standard `approve` method works as expected for EVM chains, but for Stellar as the source chain, this method establishes trustlines automatically.
-* **Staking Flow**: Staking operations always flow from spoke chains (including Stellar) to the hub chain (Sonic), so Stellar is only used as a source chain for staking operations.
+- **Source Chain (Stellar)**: The standard `approve` method works as expected for EVM chains, but for Stellar as the source chain, this method establishes trustlines automatically.
+- **Staking Flow**: Staking operations always flow from spoke chains (including Stellar) to the hub chain (Sonic), so Stellar is only used as a source chain for staking operations.
 
 **Example:**
-
 ```typescript
 const result = await sodax.staking.approve({
   params: {
@@ -84,7 +78,7 @@ if (result.ok) {
 
 ### Stellar Trustline Requirements
 
-For Stellar-based staking operations, you need to handle trustlines when Stellar is used as the source chain. See [Stellar Trustline Requirements](../../../sdk/docs/STELLAR_TRUSTLINE.md#staking) for detailed information and code examples.
+For Stellar-based staking operations, you need to handle trustlines when Stellar is used as the source chain. See [Stellar Trustline Requirements](https://github.com/icon-project/sodax-frontend/blob/main/packages/sdk/docs/STELLAR_TRUSTLINE.md#staking) for detailed information and code examples.
 
 **Note**: Staking operations always flow from spoke chains (including Stellar) to the hub chain (Sonic), so Stellar is only used as a source chain for staking operations.
 
@@ -93,15 +87,13 @@ For Stellar-based staking operations, you need to handle trustlines when Stellar
 Executes a complete stake transaction, including creating the stake intent and relaying it to the hub chain.
 
 **Parameters:**
-
-* `params`: Stake parameters including amount, minimum receive amount, and account
-* `spokeProvider`: The spoke chain provider instance
-* `timeout`: Optional timeout in milliseconds (default: 60 seconds)
+- `params`: Stake parameters including amount, minimum receive amount, and account
+- `spokeProvider`: The spoke chain provider instance
+- `timeout`: Optional timeout in milliseconds (default: 60 seconds)
 
 **Returns:** `Promise<Result<[SpokeTxHash, HubTxHash], StakingError<'STAKE_FAILED'> | RelayError>>`
 
 **Example:**
-
 ```typescript
 const result = await sodax.staking.stake(
   {
@@ -127,15 +119,13 @@ if (result.ok) {
 Creates a stake intent on the spoke chain without relaying it to the hub. This is useful for advanced users who want to handle the relaying process manually.
 
 **Parameters:**
-
-* `params`: Stake parameters including amount, minimum receive amount, and account
-* `spokeProvider`: The spoke chain provider instance
-* `raw`: Whether to return raw transaction data (optional, default: false)
+- `params`: Stake parameters including amount, minimum receive amount, and account
+- `spokeProvider`: The spoke chain provider instance
+- `raw`: Whether to return raw transaction data (optional, default: false)
 
 **Returns:** `Promise<Result<TxReturnType<S, R>, StakingError<'STAKE_FAILED'>> & { data?: { address: string; payload: Hex } }>`
 
 **Example:**
-
 ```typescript
 const result = await sodax.staking.createStakeIntent({
   params: {
@@ -157,7 +147,6 @@ if (result.ok) {
 ```
 
 **Note:** This method only executes the transaction on the spoke chain and creates the stake intent. To successfully stake tokens, you need to:
-
 1. Check if the allowance is sufficient using `isAllowanceValid`
 2. Approve the appropriate contract to spend the tokens using `approve`
 3. Create the stake intent using this method
@@ -168,15 +157,13 @@ if (result.ok) {
 Executes a complete unstake transaction for unstaking xSoda shares.
 
 **Parameters:**
-
-* `params`: Unstake parameters including amount and account
-* `spokeProvider`: The spoke chain provider instance
-* `timeout`: Optional timeout in milliseconds (default: 60 seconds)
+- `params`: Unstake parameters including amount and account
+- `spokeProvider`: The spoke chain provider instance
+- `timeout`: Optional timeout in milliseconds (default: 60 seconds)
 
 **Returns:** `Promise<Result<[SpokeTxHash, HubTxHash], StakingError<'UNSTAKE_FAILED'> | RelayError>>`
 
 **Example:**
-
 ```typescript
 const result = await sodax.staking.unstake(
   {
@@ -201,15 +188,13 @@ if (result.ok) {
 Creates an unstake intent on the spoke chain without relaying it to the hub.
 
 **Parameters:**
-
-* `params`: Unstake parameters including amount and account
-* `spokeProvider`: The spoke chain provider instance
-* `raw`: Whether to return raw transaction data (optional, default: false)
+- `params`: Unstake parameters including amount and account
+- `spokeProvider`: The spoke chain provider instance
+- `raw`: Whether to return raw transaction data (optional, default: false)
 
 **Returns:** `Promise<Result<TxReturnType<S, R>, StakingError<'UNSTAKE_FAILED'>> & { data?: { address: string; payload: Hex } }>`
 
 **Example:**
-
 ```typescript
 const result = await sodax.staking.createUnstakeIntent({
   params: {
@@ -230,7 +215,6 @@ if (result.ok) {
 ```
 
 **Note:** This method only executes the transaction on the spoke chain and creates the unstake intent. To successfully unstake tokens, you need to:
-
 1. Check if the allowance is sufficient using `isAllowanceValid`
 2. Approve the appropriate contract to spend the tokens using `approve`
 3. Create the unstake intent using this method
@@ -241,15 +225,13 @@ if (result.ok) {
 Executes a complete instant unstake transaction for instantly unstaking xSoda shares.
 
 **Parameters:**
-
-* `params`: Instant unstake parameters including amount, minimum amount, and account
-* `spokeProvider`: The spoke chain provider instance
-* `timeout`: Optional timeout in milliseconds (default: 60 seconds)
+- `params`: Instant unstake parameters including amount, minimum amount, and account
+- `spokeProvider`: The spoke chain provider instance
+- `timeout`: Optional timeout in milliseconds (default: 60 seconds)
 
 **Returns:** `Promise<Result<[SpokeTxHash, HubTxHash], StakingError<'INSTANT_UNSTAKE_FAILED'> | RelayError>>`
 
 **Example:**
-
 ```typescript
 const result = await sodax.staking.instantUnstake(
   {
@@ -275,15 +257,13 @@ if (result.ok) {
 Creates an instant unstake intent on the spoke chain without relaying it to the hub.
 
 **Parameters:**
-
-* `params`: Instant unstake parameters including amount, minimum amount, and account
-* `spokeProvider`: The spoke chain provider instance
-* `raw`: Whether to return raw transaction data (optional, default: false)
+- `params`: Instant unstake parameters including amount, minimum amount, and account
+- `spokeProvider`: The spoke chain provider instance
+- `raw`: Whether to return raw transaction data (optional, default: false)
 
 **Returns:** `Promise<Result<TxReturnType<S, R>, StakingError<'INSTANT_UNSTAKE_FAILED'>> & { data?: { address: string; payload: Hex } }>`
 
 **Example:**
-
 ```typescript
 const result = await sodax.staking.createInstantUnstakeIntent({
   params: {
@@ -305,7 +285,6 @@ if (result.ok) {
 ```
 
 **Note:** This method only executes the transaction on the spoke chain and creates the instant unstake intent. To successfully instant unstake tokens, you need to:
-
 1. Create the instant unstake intent using this method
 2. Relay the transaction to the hub and await completion using the `instantUnstake` method
 
@@ -314,15 +293,13 @@ if (result.ok) {
 Executes a complete claim transaction for claiming unstaked tokens after the unstaking period.
 
 **Parameters:**
-
-* `params`: Claim parameters including requestId and claimable amount
-* `spokeProvider`: The spoke chain provider instance
-* `timeout`: Optional timeout in milliseconds (default: 60 seconds)
+- `params`: Claim parameters including requestId and claimable amount
+- `spokeProvider`: The spoke chain provider instance
+- `timeout`: Optional timeout in milliseconds (default: 60 seconds)
 
 **Returns:** `Promise<Result<[SpokeTxHash, HubTxHash], StakingError<'CLAIM_FAILED'> | RelayError>>`
 
 **Example:**
-
 ```typescript
 const result = await sodax.staking.claim(
   {
@@ -347,15 +324,13 @@ if (result.ok) {
 Creates a claim intent on the spoke chain without relaying it to the hub.
 
 **Parameters:**
-
-* `params`: Claim parameters including requestId and claimable amount
-* `spokeProvider`: The spoke chain provider instance
-* `raw`: Whether to return raw transaction data (optional, default: false)
+- `params`: Claim parameters including requestId and claimable amount
+- `spokeProvider`: The spoke chain provider instance
+- `raw`: Whether to return raw transaction data (optional, default: false)
 
 **Returns:** `Promise<Result<TxReturnType<S, R>, StakingError<'CLAIM_FAILED'>> & { data?: { address: string; payload: Hex } }>`
 
 **Example:**
-
 ```typescript
 const result = await sodax.staking.createClaimIntent({
   params: {
@@ -376,7 +351,6 @@ if (result.ok) {
 ```
 
 **Note:** This method only executes the transaction on the spoke chain and creates the claim intent. To successfully claim tokens, you need to:
-
 1. Create the claim intent using this method
 2. Relay the transaction to the hub and await completion using the `claim` method
 
@@ -385,15 +359,13 @@ if (result.ok) {
 Executes a complete cancel unstake transaction for cancelling an unstake request.
 
 **Parameters:**
-
-* `params`: Cancel unstake parameters including requestId
-* `spokeProvider`: The spoke chain provider instance
-* `timeout`: Optional timeout in milliseconds (default: 60 seconds)
+- `params`: Cancel unstake parameters including requestId
+- `spokeProvider`: The spoke chain provider instance
+- `timeout`: Optional timeout in milliseconds (default: 60 seconds)
 
 **Returns:** `Promise<Result<[SpokeTxHash, HubTxHash], StakingError<'CANCEL_UNSTAKE_FAILED'> | RelayError>>`
 
 **Example:**
-
 ```typescript
 const result = await sodax.staking.cancelUnstake(
   {
@@ -417,15 +389,13 @@ if (result.ok) {
 Creates a cancel unstake intent on the spoke chain without relaying it to the hub.
 
 **Parameters:**
-
-* `params`: Cancel unstake parameters including requestId
-* `spokeProvider`: The spoke chain provider instance
-* `raw`: Whether to return raw transaction data (optional, default: false)
+- `params`: Cancel unstake parameters including requestId
+- `spokeProvider`: The spoke chain provider instance
+- `raw`: Whether to return raw transaction data (optional, default: false)
 
 **Returns:** `Promise<Result<TxReturnType<S, R>, StakingError<'CANCEL_UNSTAKE_FAILED'>> & { data?: { address: string; payload: Hex } }>`
 
 **Example:**
-
 ```typescript
 const result = await sodax.staking.createCancelUnstakeIntent({
   params: {
@@ -445,7 +415,6 @@ if (result.ok) {
 ```
 
 **Note:** This method only executes the transaction on the spoke chain and creates the cancel unstake intent. To successfully cancel an unstake request, you need to:
-
 1. Create the cancel unstake intent using this method
 2. Relay the transaction to the hub and await completion using the `cancelUnstake` method
 
@@ -454,13 +423,11 @@ if (result.ok) {
 Retrieves comprehensive staking information for a user using spoke provider.
 
 **Parameters:**
-
-* `spokeProvider`: The spoke chain provider instance
+- `spokeProvider`: The spoke chain provider instance
 
 **Returns:** `Promise<Result<StakingInfo, StakingError<'INFO_FETCH_FAILED'>>>`
 
 **Example:**
-
 ```typescript
 const result = await sodax.staking.getStakingInfoFromSpoke(baseSpokeProvider);
 
@@ -479,13 +446,11 @@ if (result.ok) {
 Retrieves comprehensive staking information for a user by address.
 
 **Parameters:**
-
-* `userAddress`: The user's address
+- `userAddress`: The user's address
 
 **Returns:** `Promise<Result<StakingInfo, StakingError<'INFO_FETCH_FAILED'>>>`
 
 **Example:**
-
 ```typescript
 const result = await sodax.staking.getStakingInfo('0x1234567890abcdef...');
 
@@ -504,13 +469,11 @@ if (result.ok) {
 Retrieves unstaking information for a user.
 
 **Parameters:**
-
-* `param`: The user's address or spoke provider
+- `param`: The user's address or spoke provider
 
 **Returns:** `Promise<Result<UnstakingInfo, StakingError<'INFO_FETCH_FAILED'>>>`
 
 **Example:**
-
 ```typescript
 const result = await sodax.staking.getUnstakingInfo(baseSpokeProvider);
 
@@ -528,13 +491,11 @@ if (result.ok) {
 Retrieves unstaking information with penalty calculations for a user.
 
 **Parameters:**
-
-* `param`: The user's address or spoke provider
+- `param`: The user's address or spoke provider
 
 **Returns:** `Promise<Result<UnstakingInfo & { requestsWithPenalty: UnstakeRequestWithPenalty[] }, StakingError<'INFO_FETCH_FAILED'>>>`
 
 **Example:**
-
 ```typescript
 const result = await sodax.staking.getUnstakingInfoWithPenalty(baseSpokeProvider);
 
@@ -561,7 +522,6 @@ Retrieves staking configuration from the stakedSoda contract.
 **Returns:** `Promise<Result<StakingConfig, StakingError<'INFO_FETCH_FAILED'>>>`
 
 **Example:**
-
 ```typescript
 const result = await sodax.staking.getStakingConfig();
 
@@ -580,13 +540,11 @@ if (result.ok) {
 Retrieves the instant unstake ratio for a given amount.
 
 **Parameters:**
-
-* `amount`: The amount of xSoda to estimate instant unstake for
+- `amount`: The amount of xSoda to estimate instant unstake for
 
 **Returns:** `Promise<Result<bigint, StakingError<'INFO_FETCH_FAILED'>>>`
 
 **Example:**
-
 ```typescript
 const result = await sodax.staking.getInstantUnstakeRatio(1000000000000000000n);
 
@@ -602,13 +560,11 @@ if (result.ok) {
 Retrieves converted assets amount for xSODA shares.
 
 **Parameters:**
-
-* `amount`: The amount of xSoda shares to convert
+- `amount`: The amount of xSoda shares to convert
 
 **Returns:** `Promise<Result<bigint, StakingError<'INFO_FETCH_FAILED'>>>`
 
 **Example:**
-
 ```typescript
 const result = await sodax.staking.getConvertedAssets(1000000000000000000n);
 
@@ -624,13 +580,11 @@ if (result.ok) {
 Retrieves stake ratio for a given amount (xSoda amount and preview deposit).
 
 **Parameters:**
-
-* `amount`: The amount of SODA to estimate stake for
+- `amount`: The amount of SODA to estimate stake for
 
 **Returns:** `Promise<Result<[bigint, bigint], StakingError<'INFO_FETCH_FAILED'>>>`
 
 **Example:**
-
 ```typescript
 const result = await sodax.staking.getStakeRatio(1000000000000000000n);
 
@@ -754,15 +708,14 @@ type Result<T, E> =
 ```
 
 Common error codes include:
-
-* `STAKE_FAILED`: Stake transaction failed
-* `UNSTAKE_FAILED`: Unstake transaction failed
-* `INSTANT_UNSTAKE_FAILED`: Instant unstake transaction failed
-* `CLAIM_FAILED`: Claim transaction failed
-* `CANCEL_UNSTAKE_FAILED`: Cancel unstake transaction failed
-* `INFO_FETCH_FAILED`: Failed to fetch staking information
-* `ALLOWANCE_CHECK_FAILED`: Insufficient allowance for the transaction
-* `APPROVAL_FAILED`: Token approval transaction failed
+- `STAKE_FAILED`: Stake transaction failed
+- `UNSTAKE_FAILED`: Unstake transaction failed
+- `INSTANT_UNSTAKE_FAILED`: Instant unstake transaction failed
+- `CLAIM_FAILED`: Claim transaction failed
+- `CANCEL_UNSTAKE_FAILED`: Cancel unstake transaction failed
+- `INFO_FETCH_FAILED`: Failed to fetch staking information
+- `ALLOWANCE_CHECK_FAILED`: Insufficient allowance for the transaction
+- `APPROVAL_FAILED`: Token approval transaction failed
 
 ## Usage Flow
 
@@ -770,17 +723,16 @@ The typical staking operation follows this sequence:
 
 1. **Check allowance** using `isAllowanceValid()`
 2. **Approve tokens** using `approve()` if needed
-3. **For Stellar source chains**: Check and establish trustlines (see [Stellar Trustline Requirements](../../../sdk/docs/STELLAR_TRUSTLINE.md#staking))
+3. **For Stellar source chains**: Check and establish trustlines (see [Stellar Trustline Requirements](https://github.com/icon-project/sodax-frontend/blob/main/packages/sdk/docs/STELLAR_TRUSTLINE.md#staking))
 4. **Execute staking operation** using `stake()`, `unstake()`, `instantUnstake()`, `claim()`, or `cancelUnstake()`
 5. **Monitor progress** using the returned transaction hashes
 
 ## Supported Chains
 
 The service supports various blockchain networks as source chains for staking operations:
-
-* EVM chains (Ethereum, Polygon, Base, etc.)
-* Sonic (hub chain - can be both source and destination)
-* Non-EVM chains (Icon, Sui, Stellar, etc.)
+- EVM chains (Ethereum, Polygon, Base, etc.)
+- Sonic (hub chain - can be both source and destination)
+- Non-EVM chains (Icon, Sui, Stellar, etc.)
 
 **Note**: All staking operations flow from spoke chains (including Stellar) to the hub chain (Sonic). Stellar and other non-EVM chains can only be used as source chains for staking operations.
 
@@ -788,9 +740,9 @@ The service supports various blockchain networks as source chains for staking op
 
 The staking system includes a penalty mechanism for early unstaking:
 
-* **Minimum Unstaking Period**: No penalty if unstaking after this period
-* **Maximum Penalty**: Applied if unstaking before the minimum period
-* **Reduction Period**: Penalty gradually reduces between minimum and full unstaking periods
+- **Minimum Unstaking Period**: No penalty if unstaking after this period
+- **Maximum Penalty**: Applied if unstaking before the minimum period
+- **Reduction Period**: Penalty gradually reduces between minimum and full unstaking periods
 
 The penalty is calculated based on the time elapsed since the unstake request was initiated.
 

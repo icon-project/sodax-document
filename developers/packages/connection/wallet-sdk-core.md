@@ -21,18 +21,17 @@ yarn add @sodax/wallet-sdk-core
 
 ## Features
 
-* **Multi-chain Support**: Wallet provider implementations for multiple blockchain networks
-* **TypeScript Compatibility**: Fully typed implementations compatible with @sodax/sdk
-* **Wallet Provider Interface**: Standardized interface for wallet connectivity across different chains
-* **Core Integration**: Seamless integration with the Core Sodax SDK
+- **Multi-chain Support**: Wallet provider implementations for multiple blockchain networks
+- **TypeScript Compatibility**: Fully typed implementations compatible with @sodax/sdk
+- **Wallet Provider Interface**: Standardized interface for wallet connectivity across different chains
+- **Core Integration**: Seamless integration with the Core Sodax SDK
 
 ## Supported Wallet Providers
 
 The package includes wallet provider implementations for:
-
-* EVM-compatible chains ✅
-* Solana ✅
-* Sui ✅
-* Stellar ✅
-* ICON ✅
-* Injective ✅
+- EVM-compatible chains ✅
+- Solana ✅
+- Sui ✅
+- Stellar ✅
+- ICON ✅
+- Injective ✅

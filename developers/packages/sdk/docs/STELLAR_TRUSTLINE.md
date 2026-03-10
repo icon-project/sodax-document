@@ -1,4 +1,4 @@
-# Handle Stellar Trustline
+# Stellar Trustline Requirements
 
 Stellar blockchain requires trustlines to be established before you can receive or hold tokens. This document explains how to handle trustlines when using Stellar with the Sodax SDK across different operations.
 
@@ -6,17 +6,17 @@ Stellar blockchain requires trustlines to be established before you can receive 
 
 In Stellar, trustlines are required to:
 
-* **Receive tokens**: You must establish a trustline before receiving any token on Stellar
-* **Hold tokens**: You cannot hold tokens without an active trustline
+- **Receive tokens**: You must establish a trustline before receiving any token on Stellar
+- **Hold tokens**: You cannot hold tokens without an active trustline
 
 The SDK handles trustlines differently depending on whether Stellar is used as the source chain or destination chain:
 
-* **Source Chain (Stellar)**: The SDK automatically handles trustlines through the standard `isAllowanceValid` and `approve` methods
-* **Destination Chain (Stellar)**: You must manually check and establish trustlines before executing operations
+- **Source Chain (Stellar)**: The SDK automatically handles trustlines through the standard `isAllowanceValid` and `approve` methods
+- **Destination Chain (Stellar)**: You must manually check and establish trustlines before executing operations
 
 ## StellarSpokeService Methods
 
-The SDK provides two methods for managing Stellar trustlines:
+The SDK provides three methods for managing Stellar trustlines:
 
 ### hasSufficientTrustline
 
@@ -29,6 +29,23 @@ const hasTrustline = await StellarSpokeService.hasSufficientTrustline(
   tokenAddress,    // The Stellar token address
   amount,          // The amount you need to receive
   stellarSpokeProvider
+);
+```
+
+**Returns:** `Promise<boolean>` - `true` if trustline exists and has sufficient limit, `false` otherwise
+
+### walletHasSufficientTrustline
+
+Checks if a specific Stellar wallet has a sufficient trustline for a given token and amount without requiring a `StellarSpokeProvider`.
+
+```typescript
+import { StellarSpokeService } from "@sodax/sdk";
+
+const hasTrustline = await StellarSpokeService.walletHasSufficientTrustline(
+  tokenAddress,    // The Stellar token address
+  amount,          // The amount you need to receive
+  walletAddress,   // The Stellar wallet address to check
+  horizonRpcUrl    // Horizon RPC URL to query account balances
 );
 ```
 
@@ -57,8 +74,8 @@ const trustlineResult = await StellarSpokeService.requestTrustline(
 
 For Stellar-based swap operations:
 
-* **Source Chain (Stellar)**: Trustlines are automatically handled by `isAllowanceValid` and `approve` methods
-* **Destination Chain (Stellar)**: You must manually establish trustlines before executing swaps
+- **Source Chain (Stellar)**: Trustlines are automatically handled by `isAllowanceValid` and `approve` methods
+- **Destination Chain (Stellar)**: You must manually establish trustlines before executing swaps
 
 ```typescript
 import { StellarSpokeService } from "@sodax/sdk";
@@ -91,8 +108,8 @@ if (isStellarDestination) {
 
 For Stellar-based money market operations:
 
-* **Source Chain (Stellar)**: Trustlines are automatically handled by `isAllowanceValid` and `approve` methods
-* **Destination Chain (Stellar)**: You must manually establish trustlines before executing money market actions
+- **Source Chain (Stellar)**: Trustlines are automatically handled by `isAllowanceValid` and `approve` methods
+- **Destination Chain (Stellar)**: You must manually establish trustlines before executing money market actions
 
 ```typescript
 import { StellarSpokeService } from "@sodax/sdk";
@@ -125,8 +142,8 @@ if (isStellarDestination) {
 
 For Stellar-based bridge operations:
 
-* **Source Chain (Stellar)**: Trustlines are automatically handled by `isAllowanceValid` and `approve` methods
-* **Destination Chain (Stellar)**: You must manually establish trustlines before executing bridge operations
+- **Source Chain (Stellar)**: Trustlines are automatically handled by `isAllowanceValid` and `approve` methods
+- **Destination Chain (Stellar)**: You must manually establish trustlines before executing bridge operations
 
 ```typescript
 import { StellarSpokeService } from "@sodax/sdk";
@@ -159,8 +176,8 @@ if (isStellarDestination) {
 
 For Stellar-based migration operations:
 
-* **Source Chain (Stellar)**: Trustlines are automatically handled by `isAllowanceValid` and `approve` methods
-* **Destination Chain (Stellar)**: You must manually establish trustlines before executing migration operations
+- **Source Chain (Stellar)**: Trustlines are automatically handled by `isAllowanceValid` and `approve` methods
+- **Destination Chain (Stellar)**: You must manually establish trustlines before executing migration operations
 
 ```typescript
 import { StellarSpokeService } from "@sodax/sdk";
@@ -193,8 +210,8 @@ if (isStellarDestination) {
 
 For Stellar-based staking operations:
 
-* **Source Chain (Stellar)**: Trustlines are automatically handled by `isAllowanceValid` and `approve` methods
-* **Note**: Staking operations always flow from spoke chains (including Stellar) to the hub chain (Sonic), so Stellar is only used as a source chain for staking operations
+- **Source Chain (Stellar)**: Trustlines are automatically handled by `isAllowanceValid` and `approve` methods
+- **Note**: Staking operations always flow from spoke chains (including Stellar) to the hub chain (Sonic), so Stellar is only used as a source chain for staking operations
 
 ```typescript
 import { StellarSpokeService } from "@sodax/sdk";
@@ -226,9 +243,13 @@ if (isStellarSource) {
 ## Best Practices
 
 1. **Always check trustlines before operations**: Use `hasSufficientTrustline` to verify trustline status before executing any operation where Stellar is the destination chain
+
 2. **Set appropriate trustline limits**: When establishing a trustline, set the limit to at least the amount you expect to receive, with some buffer for safety
+
 3. **Wait for confirmation**: Always wait for the trustline transaction to be confirmed before proceeding with the main operation
+
 4. **Handle errors gracefully**: Trustline establishment can fail due to network issues or insufficient XLM balance (required for transaction fees)
+
 5. **Reuse trustlines**: Once established, trustlines persist, so you don't need to recreate them for subsequent operations with the same token
 
 ## Common Patterns
@@ -277,8 +298,8 @@ async function swapWithStellarDestination(
 
 ## Related Documentation
 
-* [Swaps](../../foundation/sdk/functional-modules/swaps.md) - Cross-chain intent-based swaps
-* [Money Market](../../foundation/sdk/functional-modules/money_market.md) - Cross-chain lending and borrowing
-* [Bridge](../../foundation/sdk/functional-modules/bridge.md) - Cross-chain token bridging
-* [Migration](../../foundation/sdk/functional-modules/migration.md) - Token migration
-* [Staking](../../foundation/sdk/functional-modules/staking.md) - SODA token staking
+- [Swaps](https://github.com/icon-project/sodax-frontend/blob/main/packages/sdk/docs/SWAPS.md) - Cross-chain intent-based swaps
+- [Money Market](https://github.com/icon-project/sodax-frontend/blob/main/packages/sdk/docs/MONEY_MARKET.md) - Cross-chain lending and borrowing
+- [Bridge](https://github.com/icon-project/sodax-frontend/blob/main/packages/sdk/docs/BRIDGE.md) - Cross-chain token bridging
+- [Migration](https://github.com/icon-project/sodax-frontend/blob/main/packages/sdk/docs/MIGRATION.md) - Token migration
+- [Staking](https://github.com/icon-project/sodax-frontend/blob/main/packages/sdk/docs/STAKING.md) - SODA token staking
