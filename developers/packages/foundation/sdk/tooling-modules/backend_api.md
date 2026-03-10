@@ -1,3 +1,7 @@
+---
+icon: plug
+---
+
 # Backend API Service Documentation
 
 The BackendApiService provides a comprehensive interface to interact with the Sodax Backend API, offering access to Intent, Solver, and Money Market data. This service is automatically initialized when creating a Sodax instance and can be accessed through the `backendApiService` property.

@@ -1,3 +1,7 @@
+---
+icon: rotate
+---
+
 # Swaps (Solver)
 
 Swaps part of the SDK provides abstractions to assist you with interacting with the cross-chain Intent Smart Contracts, Solver and Relay API.

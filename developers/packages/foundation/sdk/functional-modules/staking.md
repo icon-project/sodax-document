@@ -1,3 +1,7 @@
+---
+icon: seedling
+---
+
 # Staking Documentation
 
 The `StakingService` class reachable through `sodax.staking` instance provides functionality for staking SODA tokens, unstaking, claiming rewards, and retrieving staking information. It supports operations across different blockchain chains with automatic hub chain integration.

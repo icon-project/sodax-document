@@ -1,3 +1,7 @@
+---
+icon: sack-dollar
+---
+
 # Money Market
 
 Money Market part of SDK provides abstractions to assist you with interacting with the cross-chain Money Market Smart Contracts.

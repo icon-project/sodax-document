@@ -1,3 +1,7 @@
+---
+icon: truck
+---
+
 # Migration
 
 Migration part of the SDK provides abstractions to assist you with migrating tokens between ICON and the hub chain (Sonic). The service supports multiple migration types including ICX/wICX → SODA, bnUSD legacy → new bnUSD, BALN → SODA, and their reverse operations.

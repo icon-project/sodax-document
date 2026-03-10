@@ -1,3 +1,7 @@
+---
+icon: wallet
+---
+
 # @sodax/wallet-sdk-core
 
 The Sodax wallet-sdk-core is a core wallet SDK package containing implementations of wallet providers that enable multi-chain wallet connectivity. This package provides TypeScript implementations of wallet providers for various blockchain networks, making them compatible with the Core Sodax SDK (@sodax/sdk).

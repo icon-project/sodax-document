@@ -1,3 +1,9 @@
+---
+description: >-
+  The SODAX SDK provides a comprehensive interface for interacting with the SODAX protocol, enabling cross-chain swaps, money market, cross-chain bridging, migration and staking SODA token.
+icon: cup-straw
+---
+
 # Sodax SDK
 
 The Sodax SDK provides a comprehensive interface for interacting with the Sodax protocol, enabling cross-chain swaps, money market, cross-chain bridging, migration and staking SODA token.
