@@ -43,6 +43,26 @@ inject_frontmatter() {
   mv "$tmp" "$file"
 }
 
+# Helper: prepend GitBook frontmatter (description only, no icon) and a title heading.
+# Strips any existing top-level heading (# ...) from the source to avoid duplicates.
+# Usage: inject_description_frontmatter <file> <description> <title>
+inject_description_frontmatter() {
+  local file="$1" desc="$2" title="$3"
+  local tmp
+  tmp=$(mktemp)
+  {
+    echo "---"
+    echo "description: $desc"
+    echo "---"
+    echo ""
+    echo "# $title"
+    echo ""
+    # Strip first line if it's a top-level heading
+    sed '1{/^# /d;}' "$file"
+  } > "$tmp"
+  mv "$tmp" "$file"
+}
+
 # 3) Remove stale files from old flat-copy sync (not in SUMMARY.md, not from sodax-frontend)
 rm -f "$DST/packages/types/README.md"
 rm -f "$DST/packages/RELEASE_INSTRUCTIONS.md"
@@ -100,3 +120,18 @@ find "$AUDITS_SRC" -type f \( -name '*.md' -o -name '*.pdf' \) -print0 | while I
   relpath="${filepath#"$AUDITS_SRC"/}"
   copy_file "$filepath" "$AUDITS_DST/$relpath"
 done
+
+# 11) GitHub Wiki pages → Deployments
+WIKI_TMP=$(mktemp -d)
+trap 'rm -rf "$WIKI_TMP"' EXIT
+
+git clone --depth 1 git@github.com:icon-project/sodax-contracts.wiki.git "$WIKI_TMP/sodax-contracts-wiki"
+git clone --depth 1 git@github.com:icon-project/sodax-solver.wiki.git   "$WIKI_TMP/sodax-solver-wiki"
+
+copy_file "$WIKI_TMP/sodax-contracts-wiki/Mainnet.md"                "$DST/deployments/mainnet.md"
+copy_file "$WIKI_TMP/sodax-solver-wiki/Solver:-Compatible-Assets.md" "$DST/deployments/solver-compatible-assets.md"
+
+inject_description_frontmatter "$DST/deployments/mainnet.md" \
+  "Mainnet smart contract deployments." "Mainnet"
+inject_description_frontmatter "$DST/deployments/solver-compatible-assets.md" \
+  "Assets (tokens) supported by mainnet solver (swaps)." "Swap: Compatible Assets"
