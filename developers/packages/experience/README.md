@@ -6,4 +6,4 @@ description: >-
 
 # 3. The Experience Layer
 
-<a href="https://docs.sodax.com/developers/packages/dapp-kit" class="button secondary" data-icon="browser">dApp kit</a>
+<a href="https://docs.sodax.com/developers/packages/experience/dapp-kit" class="button secondary" data-icon="browser">dApp kit</a>

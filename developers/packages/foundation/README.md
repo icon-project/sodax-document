@@ -14,18 +14,18 @@ Get started: <a href="sdk/" class="button primary" data-icon="cup-straw">@sodax/
 
 #### Functional Modules inside [sdk](sdk/ "mention")
 
-<a href="https://docs.sodax.com/developers/packages/sdk/swaps" class="button secondary" data-icon="rotate">Swaps (Solver)</a>
+<a href="https://docs.sodax.com/developers/packages/foundation/sdk/functional-modules/swaps" class="button secondary" data-icon="rotate">Swaps (Solver)</a>
 
-<a href="https://docs.sodax.com/developers/packages/sdk/money_market" class="button secondary" data-icon="sack-dollar">Lend / Borrow (Money Market)</a>
+<a href="https://docs.sodax.com/developers/packages/foundation/sdk/functional-modules/money_market" class="button secondary" data-icon="sack-dollar">Lend / Borrow (Money Market)</a>
 
-<a href="https://docs.sodax.com/developers/packages/sdk/bridge" class="button secondary" data-icon="bridge-suspension">Bridge</a>
+<a href="https://docs.sodax.com/developers/packages/foundation/sdk/functional-modules/bridge" class="button secondary" data-icon="bridge-suspension">Bridge</a>
 
-<a href="https://docs.sodax.com/developers/packages/sdk/staking" class="button secondary" data-icon="seedling">Staking</a>
+<a href="https://docs.sodax.com/developers/packages/foundation/sdk/functional-modules/staking" class="button secondary" data-icon="seedling">Staking</a>
 
-<a href="https://docs.sodax.com/developers/packages/sdk/migration" class="button secondary" data-icon="truck">Migration</a>
+<a href="https://docs.sodax.com/developers/packages/foundation/sdk/functional-modules/migration" class="button secondary" data-icon="truck">Migration</a>
 
 #### Tooling Modules inside [sdk](sdk/ "mention")
 
-<a href="https://docs.sodax.com/developers/packages/sdk/backend_api" class="button secondary" data-icon="plug">Backend API</a>
+<a href="https://docs.sodax.com/developers/packages/foundation/sdk/tooling-modules/backend_api" class="button secondary" data-icon="plug">Backend API</a>
 
-<a href="https://docs.sodax.com/developers/packages/intent_relay_api" class="button secondary" data-icon="envelope">Intent Relay API</a>
+<a href="https://docs.sodax.com/developers/packages/foundation/sdk/tooling-modules/intent_relay_api" class="button secondary" data-icon="envelope">Intent Relay API</a>

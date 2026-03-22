@@ -8,7 +8,7 @@ description: >-
 
 
 
-<a href="https://docs.sodax.com/developers/packages/wallet-sdk-core" class="button secondary" data-icon="wallet">Wallet SDK Core (Typescript)</a>
+<a href="https://docs.sodax.com/developers/packages/connection/wallet-sdk-core" class="button secondary" data-icon="wallet">Wallet SDK Core (Typescript)</a>
 
-<a href="https://docs.sodax.com/developers/packages/sdk/money_market" class="button secondary" data-icon="react">Wallet SDK React</a>
+<a href="https://docs.sodax.com/developers/packages/connection/wallet-sdk-react" class="button secondary" data-icon="react">Wallet SDK React</a>
 

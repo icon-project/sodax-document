@@ -73,6 +73,14 @@ fix_synced_links() {
     -e 's|\./developers/how-to/how_to_create_a_spoke_provider|https://docs.sodax.com/developers/packages/sdk/docs/HOW_TO_CREATE_A_SPOKE_PROVIDER|g' \
     -e 's|https://github.com/icon-project/sodax-document/blob/main/developers/packages/sdk/CONTRIBUTING.md|https://github.com/icon-project/sodax-frontend/blob/main/CONTRIBUTING.md|g' \
     -e 's|https://github.com/icon-project/sodax-document/blob/main/developers/packages/sdk/LICENSE/README.md|https://github.com/icon-project/sodax-frontend/blob/main/LICENSE|g' \
+    -e 's|https://docs.sodax.com/developers/packages/sdk/swaps|https://docs.sodax.com/developers/packages/foundation/sdk/functional-modules/swaps|g' \
+    -e 's|https://docs.sodax.com/developers/packages/sdk/money_market|https://docs.sodax.com/developers/packages/foundation/sdk/functional-modules/money_market|g' \
+    -e 's|https://docs.sodax.com/developers/packages/sdk/bridge|https://docs.sodax.com/developers/packages/foundation/sdk/functional-modules/bridge|g' \
+    -e 's|https://docs.sodax.com/developers/packages/sdk/staking|https://docs.sodax.com/developers/packages/foundation/sdk/functional-modules/staking|g' \
+    -e 's|https://docs.sodax.com/developers/packages/sdk/migration|https://docs.sodax.com/developers/packages/foundation/sdk/functional-modules/migration|g' \
+    -e 's|https://docs.sodax.com/developers/packages/sdk/backend_api|https://docs.sodax.com/developers/packages/foundation/sdk/tooling-modules/backend_api|g' \
+    -e 's|https://docs.sodax.com/developers/packages/sdk/intent_relay_api|https://docs.sodax.com/developers/packages/foundation/sdk/tooling-modules/intent_relay_api|g' \
+    -e 's|https://docs.sodax.com/developers/packages/intent_relay_api|https://docs.sodax.com/developers/packages/foundation/sdk/tooling-modules/intent_relay_api|g' \
     "$file" > "$tmp"
   mv "$tmp" "$file"
 }
@@ -134,7 +142,7 @@ inject_frontmatter "$DST/packages/experience/dapp-kit.md" "browser"
 
 # 10) Audits (Markdown + PDF files, preserving directory structure)
 AUDITS_SRC="$SRC/Audits"
-AUDITS_DST="$DST/Audits"
+AUDITS_DST="$DST/audits"
 find "$AUDITS_SRC" -type f \( -name '*.md' -o -name '*.pdf' \) -print0 | while IFS= read -r -d '' filepath; do
   relpath="${filepath#"$AUDITS_SRC"/}"
   copy_file "$filepath" "$AUDITS_DST/$relpath"
