@@ -1,0 +1,4 @@
+redirects:
+  developers/packages/connection/wallet-kit: developers/packages/connection/wallet-sdk-core
+  developers/packages/foundation/sdk/getting-started: developers/packages/foundation/sdk
+  developers/packages/connection/wallet-kit-react: developers/packages/connection/wallet-sdk-react

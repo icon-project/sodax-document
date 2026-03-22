@@ -63,6 +63,20 @@ inject_description_frontmatter() {
   mv "$tmp" "$file"
 }
 
+# Helper: fix known broken links in synced files so they resolve correctly in GitBook
+fix_synced_links() {
+  local file="$1"
+  local tmp
+  tmp=$(mktemp)
+  sed \
+    -e 's|https://docs.sodax.com/developers/how-to/how_to_create_a_spoke_provider|https://docs.sodax.com/developers/packages/sdk/docs/HOW_TO_CREATE_A_SPOKE_PROVIDER|g' \
+    -e 's|\./developers/how-to/how_to_create_a_spoke_provider|https://docs.sodax.com/developers/packages/sdk/docs/HOW_TO_CREATE_A_SPOKE_PROVIDER|g' \
+    -e 's|https://github.com/icon-project/sodax-document/blob/main/developers/packages/sdk/CONTRIBUTING.md|https://github.com/icon-project/sodax-frontend/blob/main/CONTRIBUTING.md|g' \
+    -e 's|https://github.com/icon-project/sodax-document/blob/main/developers/packages/sdk/LICENSE/README.md|https://github.com/icon-project/sodax-frontend/blob/main/LICENSE|g' \
+    "$file" > "$tmp"
+  mv "$tmp" "$file"
+}
+
 # 3) Remove stale files from old flat-copy sync (not in SUMMARY.md, not from sodax-frontend)
 rm -f "$DST/packages/types/README.md"
 rm -f "$DST/packages/RELEASE_INSTRUCTIONS.md"
@@ -72,6 +86,7 @@ rm -rf "$DST/packages/dapp-kit/src"
 copy_file "$SRC/packages/sdk/README.md" "$DST/packages/foundation/sdk/README.md"
 inject_frontmatter "$DST/packages/foundation/sdk/README.md" "cup-straw" \
   "The SODAX SDK provides a comprehensive interface for interacting with the SODAX protocol, enabling cross-chain swaps, money market, cross-chain bridging, migration and staking SODA token."
+fix_synced_links "$DST/packages/foundation/sdk/README.md"
 
 # 5) Functional modules (sdk/docs → foundation/sdk/functional-modules, lowercased)
 copy_file "$SRC/packages/sdk/docs/SWAPS.md"        "$DST/packages/foundation/sdk/functional-modules/swaps.md"
@@ -85,6 +100,10 @@ inject_frontmatter "$DST/packages/foundation/sdk/functional-modules/money_market
 inject_frontmatter "$DST/packages/foundation/sdk/functional-modules/bridge.md"        "bridge-suspension"
 inject_frontmatter "$DST/packages/foundation/sdk/functional-modules/staking.md"       "seedling"
 inject_frontmatter "$DST/packages/foundation/sdk/functional-modules/migration.md"     "truck"
+
+for f in swaps.md money_market.md bridge.md staking.md migration.md; do
+  fix_synced_links "$DST/packages/foundation/sdk/functional-modules/$f"
+done
 
 # 6) Tooling modules (sdk/docs → foundation/sdk/tooling-modules, lowercased)
 copy_file "$SRC/packages/sdk/docs/BACKEND_API.md"      "$DST/packages/foundation/sdk/tooling-modules/backend_api.md"
