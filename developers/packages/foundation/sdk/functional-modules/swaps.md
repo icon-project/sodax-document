@@ -92,7 +92,7 @@ All swap methods are accessible through `sodax.swaps`:
 
 ### Initialising Spoke Provider
 
-Refer to [Initialising Spoke Provider](https://docs.sodax.com/developers/how-to/how_to_create_a_spoke_provider) section to see how BSC spoke provider used as `bscSpokeProvider` can be created.
+Refer to [Initialising Spoke Provider](https://docs.sodax.com/developers/packages/sdk/docs/HOW_TO_CREATE_A_SPOKE_PROVIDER) section to see how BSC spoke provider used as `bscSpokeProvider` can be created.
 
 ### Request a Quote
 

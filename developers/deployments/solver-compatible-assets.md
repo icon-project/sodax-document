@@ -192,6 +192,18 @@ description: Assets (tokens) supported by mainnet solver (swaps).
 
 ---
 
+## Stacks
+- ✅ STX [`0x30b3b1a3e4f1235472772e60a8cd9c0165db641e`](https://sonicscan.org/address/0x30b3b1a3e4f1235472772e60a8cd9c0165db641e)
+- ✅ sBTC [`0x6f6c039b07e25bb86d8223643a84122404963d9b`](https://sonicscan.org/address/0x6f6c039b07e25bb86d8223643a84122404963d9b)
+- ✅ USDCx [`0x2336917df30f3417986a29ec384274a83adbef16`](https://sonicscan.org/address/0x2336917df30f3417986a29ec384274a83adbef16)
+- ✅ SODA [`0xebd34ddf9f47f9bcdf706e87206d40a579c34822`](https://sonicscan.org/address/0xebd34ddf9f47f9bcdf706e87206d40a579c34822)
+- ✅ bnUSD [`0x78093c056fb37ffc1a9ae96daa0a7dd9d372b64d`](https://sonicscan.org/address/0x78093c056fb37ffc1a9ae96daa0a7dd9d372b64d)
+
+### DeX
+- ✅ [Bitflow](https://docs.bitflow.finance/bitflow-documentation)
+
+---
+
 ## Solana
 - ✅ SOL [`0x0c09e69a4528945de6d16c7e469dea6996fdf636`](https://sonicscan.org/address/0x0c09e69a4528945de6d16c7e469dea6996fdf636)
 - ✅ bnUSD [`0x14C65b1CDc0B821569081b1F77342dA0D0CbF439`](https://sonicscan.org/address/0x14C65b1CDc0B821569081b1F77342dA0D0CbF439)
