@@ -458,7 +458,7 @@ function BridgeComponent() {
 
 ## Contributing
 
-We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) for details.
+We welcome contributions! Please see our [Contributing Guide](https://github.com/icon-project/sodax-frontend/blob/main/CONTRIBUTING.md) for details.
 
 ## Development
 
@@ -484,7 +484,7 @@ pnpm lint
 
 ## License
 
-[MIT](LICENSE)
+[MIT](https://github.com/icon-project/sodax-frontend/blob/main/LICENSE)
 
 ## Support
 
