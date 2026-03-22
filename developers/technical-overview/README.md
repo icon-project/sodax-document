@@ -46,7 +46,7 @@ For more detailed specifications regarding the **Hub Token Management**, please 
 
 The Wallet abstraction module's goal is to map each user on each chain to a wallet on the HUB. Making it a default entry point for users interacting from different ecosystems. This also gives us a flexible tool to integrate other interop solutions or bridges to use in our ecosystem, by giving them access to integrate into the wallet implementation.
 
-For more detailed specifications regarding the **Wallet Abstraction**, please refer to the full documentation here.
+For more detailed specifications regarding the **Wallet Abstraction**, please refer to the full documentation [here](hub-wallet-abstraction.md).
 
 ### Intents
 

@@ -1,79 +1,46 @@
 ---
 name: GitBook URL routing and sync link verification
-description: How GitBook routes URLs based on SUMMARY.md hierarchy (not file paths), how the sync script rewrites links, and how to verify links after syncing.
+description: How GitBook routes URLs for this site, how the sync script rewrites links, and how to verify links after syncing. Verified 2026-03-22.
 type: reference
 ---
 
-# GitBook URL Routing vs File Paths
+# GitBook URL Routing for docs.sodax.com
 
-GitBook does NOT route pages by their file path. It routes by the **SUMMARY.md nesting hierarchy**.
+## Two URL patterns coexist
 
-## The Key Rule
+1. **Pages whose file path matches their SUMMARY.md parent** — URL = file path with `.md` stripped.
+   Example: `developers/packages/foundation/sdk/functional-modules/swaps.md` → `/developers/packages/foundation/sdk/functional-modules/swaps`
 
-A file's live URL is determined by its **parent page path in SUMMARY.md** + the **lowercased filename slug**, regardless of where the `.md` file actually lives on disk.
+2. **Pages whose file lives in a different directory than their SUMMARY.md parent** — URL = parent's URL path + lowercased filename slug.
+   Example: `developers/packages/sdk/docs/MONETIZE_SDK.md` is nested under `developers/how-to/README.md` in SUMMARY.md → `/developers/how-to/monetize_sdk`
 
-### Example: How-to guides
-
-In SUMMARY.md:
-```
-* [How to](developers/how-to/README.md)           ← parent URL: /developers/how-to
-  * [Monetize SDK](developers/packages/sdk/docs/MONETIZE_SDK.md)
-```
-
-- File path: `developers/packages/sdk/docs/MONETIZE_SDK.md`
-- Live URL: `https://docs.sodax.com/developers/how-to/monetize_sdk` (NOT `/developers/packages/sdk/docs/MONETIZE_SDK`)
-
-### Example: Relayer/Solver API endpoints
-
-In SUMMARY.md:
-```
-* [Deployments](developers/deployments/README.md)  ← parent URL: /developers/deployments
-  * [Relayer API endpoints](developers/packages/sdk/docs/RELAYER_API_ENDPOINTS.md)
-```
-
-- File path: `developers/packages/sdk/docs/RELAYER_API_ENDPOINTS.md`
-- Live URL: `https://docs.sodax.com/developers/deployments/relayer_api_endpoints`
-
-### Example: Audits
-
-In SUMMARY.md:
-```
-## WELCOME TO SODAX
-* [Audits](developers/audits/Readme.md)
-```
-
-- Live URL: `https://docs.sodax.com/welcome-to-sodax/audits` (section name becomes URL prefix)
-
-## Complete URL Mapping (SUMMARY.md → Live URL)
+## Verified URL Mapping (all confirmed 200 on 2026-03-22)
 
 | SUMMARY.md file path | Live URL path |
 |---|---|
-| `README.md` | `/` |
-| `README (1).md` | `/welcome-to-sodax/contact-form` |
-| `developers/audits/Readme.md` | `/welcome-to-sodax/audits` |
 | `developers/deployments/README.md` | `/developers/deployments` |
 | `developers/deployments/mainnet.md` | `/developers/deployments/mainnet` |
 | `developers/packages/sdk/docs/RELAYER_API_ENDPOINTS.md` | `/developers/deployments/relayer_api_endpoints` |
 | `developers/packages/sdk/docs/SOLVER_API_ENDPOINTS.md` | `/developers/deployments/solver_api_endpoints` |
 | `developers/deployments/xcall-scanner.md` | `/developers/deployments/xcall-scanner` |
 | `developers/deployments/solver-compatible-assets.md` | `/developers/deployments/solver-compatible-assets` |
-| `developers/packages/README.md` | `/developers/sdks` |
-| `developers/packages/foundation/README.md` | `/developers/sdks/1.-the-foundation` |
-| `developers/packages/foundation/sdk/README.md` | `/developers/sdks/1.-the-foundation/sodax-sdk` |
-| `developers/packages/foundation/sdk/functional-modules/README.md` | `/developers/sdks/1.-the-foundation/sodax-sdk/functional-modules` |
-| `developers/packages/foundation/sdk/functional-modules/swaps.md` | `/developers/sdks/1.-the-foundation/sodax-sdk/functional-modules/swaps` |
-| `developers/packages/foundation/sdk/functional-modules/money_market.md` | `/developers/sdks/1.-the-foundation/sodax-sdk/functional-modules/money_market` |
-| `developers/packages/foundation/sdk/functional-modules/bridge.md` | `/developers/sdks/1.-the-foundation/sodax-sdk/functional-modules/bridge` |
-| `developers/packages/foundation/sdk/functional-modules/staking.md` | `/developers/sdks/1.-the-foundation/sodax-sdk/functional-modules/staking` |
-| `developers/packages/foundation/sdk/functional-modules/migration.md` | `/developers/sdks/1.-the-foundation/sodax-sdk/functional-modules/migration` |
-| `developers/packages/foundation/sdk/tooling-modules/README.md` | `/developers/sdks/1.-the-foundation/sodax-sdk/tooling-modules` |
-| `developers/packages/foundation/sdk/tooling-modules/backend_api.md` | `/developers/sdks/1.-the-foundation/sodax-sdk/tooling-modules/backend_api` |
-| `developers/packages/foundation/sdk/tooling-modules/intent_relay_api.md` | `/developers/sdks/1.-the-foundation/sodax-sdk/tooling-modules/intent_relay_api` |
-| `developers/packages/connection/README.md` | `/developers/sdks/2.-the-connection-layer` |
-| `developers/packages/connection/wallet-sdk-core.md` | `/developers/sdks/2.-the-connection-layer/sodax-wallet-sdk-core` |
-| `developers/packages/connection/wallet-sdk-react.md` | `/developers/sdks/2.-the-connection-layer/sodax-wallet-sdk-react` |
-| `developers/packages/experience/README.md` | `/developers/sdks/3.-the-experience-layer` |
-| `developers/packages/experience/dapp-kit.md` | `/developers/sdks/3.-the-experience-layer/sodax-dapp-kit` |
+| `developers/packages/README.md` | `/developers/packages` |
+| `developers/packages/foundation/README.md` | `/developers/packages/foundation` |
+| `developers/packages/foundation/sdk/README.md` | `/developers/packages/foundation/sdk` |
+| `developers/packages/foundation/sdk/functional-modules/README.md` | `/developers/packages/foundation/sdk/functional-modules` |
+| `developers/packages/foundation/sdk/functional-modules/swaps.md` | `/developers/packages/foundation/sdk/functional-modules/swaps` |
+| `developers/packages/foundation/sdk/functional-modules/money_market.md` | `/developers/packages/foundation/sdk/functional-modules/money_market` |
+| `developers/packages/foundation/sdk/functional-modules/bridge.md` | `/developers/packages/foundation/sdk/functional-modules/bridge` |
+| `developers/packages/foundation/sdk/functional-modules/staking.md` | `/developers/packages/foundation/sdk/functional-modules/staking` |
+| `developers/packages/foundation/sdk/functional-modules/migration.md` | `/developers/packages/foundation/sdk/functional-modules/migration` |
+| `developers/packages/foundation/sdk/tooling-modules/README.md` | `/developers/packages/foundation/sdk/tooling-modules` |
+| `developers/packages/foundation/sdk/tooling-modules/backend_api.md` | `/developers/packages/foundation/sdk/tooling-modules/backend_api` |
+| `developers/packages/foundation/sdk/tooling-modules/intent_relay_api.md` | `/developers/packages/foundation/sdk/tooling-modules/intent_relay_api` |
+| `developers/packages/connection/README.md` | `/developers/packages/connection` |
+| `developers/packages/connection/wallet-sdk-core.md` | `/developers/packages/connection/wallet-sdk-core` |
+| `developers/packages/connection/wallet-sdk-react.md` | `/developers/packages/connection/wallet-sdk-react` |
+| `developers/packages/experience/README.md` | `/developers/packages/experience` |
+| `developers/packages/experience/dapp-kit.md` | `/developers/packages/experience/dapp-kit` |
 | `developers/technical-overview/README.md` | `/developers/technical-overview` |
 | `developers/technical-overview/asset-manager.md` | `/developers/technical-overview/asset-manager` |
 | `developers/technical-overview/vault-token.md` | `/developers/technical-overview/vault-token` |
@@ -89,8 +56,7 @@ In SUMMARY.md:
 | `developers/packages/sdk/docs/ESTIMATE_GAS.md` | `/developers/how-to/estimate_gas` |
 | `developers/packages/sdk/docs/STELLAR_TRUSTLINE.md` | `/developers/how-to/stellar_trustline` |
 | `developers/faq.md` | `/developers/faq` |
-
-**How to apply:** When checking if a `docs.sodax.com` link is correct, look up the target page in SUMMARY.md and derive the URL from its nesting, NOT from its file path. The URL mapping table above can be used to verify directly, but may become stale if SUMMARY.md changes — always cross-reference with SUMMARY.md.
+| `developers/audits/Readme.md` | `/welcome-to-sodax/audits` |
 
 ## Sync Script Link Rewriting
 
@@ -109,7 +75,7 @@ Rewrites:
 
 ## How to Verify Links After Syncing
 
-1. Grep all synced files for `docs.sodax.com` URLs
-2. For each URL found, check it against the URL mapping table above — the path after `docs.sodax.com` must match a known live URL path
-3. Grep for relative links `](CONTRIBUTING`, `](LICENSE`, `](./` — these break on GitBook since it resolves them against the docs repo, not the source repo
-4. Spot-check with `WebFetch` on any suspicious URLs to confirm they don't 404
+1. Grep synced files for `docs.sodax.com` URLs — each must match a verified live URL path from the table above
+2. Grep for relative links `](CONTRIBUTING`, `](LICENSE`, `](./` — these break on GitBook
+3. Check `developers/technical-overview/README.md` for internal relative links (this file is hand-edited, not synced)
+4. Spot-check suspicious URLs with `WebFetch` to confirm no 404s
