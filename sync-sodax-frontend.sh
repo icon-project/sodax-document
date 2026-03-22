@@ -63,14 +63,25 @@ inject_description_frontmatter() {
   mv "$tmp" "$file"
 }
 
+# Helper: fix relative CONTRIBUTING.md and LICENSE links that GitBook mis-resolves
+fix_relative_repo_links() {
+  local file="$1"
+  local tmp
+  tmp=$(mktemp)
+  sed \
+    -e 's|\[Contributing Guide\](CONTRIBUTING.md)|[Contributing Guide](https://github.com/icon-project/sodax-frontend/blob/main/CONTRIBUTING.md)|g' \
+    -e 's|\[MIT\](LICENSE)|[MIT](https://github.com/icon-project/sodax-frontend/blob/main/LICENSE)|g' \
+    "$file" > "$tmp"
+  mv "$tmp" "$file"
+}
+
 # Helper: fix known broken links in synced files so they resolve correctly in GitBook
 fix_synced_links() {
   local file="$1"
   local tmp
   tmp=$(mktemp)
   sed \
-    -e 's|https://docs.sodax.com/developers/how-to/how_to_create_a_spoke_provider|https://docs.sodax.com/developers/packages/sdk/docs/HOW_TO_CREATE_A_SPOKE_PROVIDER|g' \
-    -e 's|\./developers/how-to/how_to_create_a_spoke_provider|https://docs.sodax.com/developers/packages/sdk/docs/HOW_TO_CREATE_A_SPOKE_PROVIDER|g' \
+    -e 's|\./developers/how-to/how_to_create_a_spoke_provider|https://docs.sodax.com/developers/how-to/how_to_create_a_spoke_provider|g' \
     -e 's|https://github.com/icon-project/sodax-document/blob/main/developers/packages/sdk/CONTRIBUTING.md|https://github.com/icon-project/sodax-frontend/blob/main/CONTRIBUTING.md|g' \
     -e 's|https://github.com/icon-project/sodax-document/blob/main/developers/packages/sdk/LICENSE/README.md|https://github.com/icon-project/sodax-frontend/blob/main/LICENSE|g' \
     -e 's|https://docs.sodax.com/developers/packages/sdk/swaps|https://docs.sodax.com/developers/packages/foundation/sdk/functional-modules/swaps|g' \
@@ -135,10 +146,14 @@ copy_file "$SRC/packages/wallet-sdk-react/README.md" "$DST/packages/connection/w
 inject_frontmatter "$DST/packages/connection/wallet-sdk-core.md"  "wallet"
 inject_frontmatter "$DST/packages/connection/wallet-sdk-react.md" "react"
 
+fix_relative_repo_links "$DST/packages/connection/wallet-sdk-react.md"
+
 # 9) Experience layer
 copy_file "$SRC/packages/dapp-kit/README.md" "$DST/packages/experience/dapp-kit.md"
 
 inject_frontmatter "$DST/packages/experience/dapp-kit.md" "browser"
+
+fix_relative_repo_links "$DST/packages/experience/dapp-kit.md"
 
 # 10) Audits (Markdown + PDF files, preserving directory structure)
 AUDITS_SRC="$SRC/Audits"
