@@ -1,7 +1,4 @@
 # Contact Form
 
-Please **complete the form below to reach** **the SODAX integrations team**. We will return your contact promptly to answer your queries around the SODAX SDK or your own integration. Alternatively, you can reach out directly via [our Discord server.](https://www.sodax.com/discord)
+Want to integrate with SODAX or explore a partnership? Visit our [partners page](https://sodax.com/partners) for an overview of integration options, or reach out directly at [partnerships@sodax.com](mailto:partnerships@sodax.com).
 
-{% embed url="https://se8br1ugut6.typeform.com/to/ZV7lvNfW" %}
-
-You can then continue to navigate our documentation from the side-bar, or below.

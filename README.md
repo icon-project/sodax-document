@@ -67,7 +67,7 @@ SODAX is designed as a modular execution system. Each SDK module can be integrat
 
 <table><thead><tr><th width="222.0390625">Partner Type</th><th>What you can build with SODAX</th></tr></thead><tbody><tr><td><strong>Wallets</strong></td><td>Use <strong>Swaps (Solver)</strong> to offer cross-network swaps in your UI, plus <strong>Bridge</strong> primitives where needed for asset transfer. Use <strong>Lend / Borrow (Money Market)</strong> to integrate lending primitives.</td></tr><tr><td><strong>DEXs &#x26; Aggregators</strong></td><td>Use <strong>Swaps (Solver)</strong> to quote and execute cross-network intents and expand routing beyond single-network liquidity</td></tr><tr><td><strong>Lending Protocols</strong></td><td>Use <strong>Lend / Borrow (Money Market)</strong> to integrate lending primitives and support multi-network user flows around collateral and borrowing.</td></tr><tr><td><strong>Perp DEXs / Yield Apps</strong></td><td>Use <strong>Swaps (Solver)</strong> to accept deposits from other networks via swap-into-your-asset flows, then complete the deposit inside your app. Use <strong>Lend / Borrow (Money Market)</strong> to enable borrowed asset deposits with user collateral on other networks.</td></tr><tr><td><strong>New Networks</strong></td><td>Integrate SODAX to provide builders with ready-made cross-network execution capabilities and liquidity access from day one.</td></tr></tbody></table>
 
-<p align="center"><a href="https://se8br1ugut6.typeform.com/to/ZV7lvNfW" class="button primary" data-icon="hand-wave">Contact Form</a></p>
+<p align="center"><a href="https://sodax.com/partners" class="button primary" data-icon="handshake">Go to partners</a></p>
 
 ### Why Partners Choose SODAX
 
