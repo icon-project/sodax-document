@@ -472,7 +472,8 @@ Intent Canceller: [0x7Ec046CEB0C01A2Ef16C77d2e6bB56E3AF3464cf](https://sonicscan
 | [yapSUI(9)](https://suivision.xyz/coin/0x83f1bb8c91ecd1fd313344058b0eed94d63c54e41d8d1ae5bff1353443517d65::yap_sui::YAP_SUI) | [0xac509404f3a3ca3f7766baf65be45a52b1cfccd7](https://sonicscan.org/address/0xac509404f3a3ca3f7766baf65be45a52b1cfccd7)  |
 | [trivenSUI(9)](https://suivision.xyz/coin/0x502867b177303bf1bf226245fcdd3403c177e78d175a55a56c0602c7ff51c7fa::trevin_sui::TREVIN_SUI) | [0x514569c788b096595672e0f68ec72387a22ac67b](https://sonicscan.org/address/0x514569c788b096595672e0f68ec72387a22ac67b)  |
 | legacy bnUSD(9) | [0xddf6ad38f9c9451c1f4cdf369040f6869e37393e](https://sonicscan.org/address/0xddf6ad38f9c9451c1f4cdf369040f6869e37393e)|
-
+| [WAL(9)](https://suivision.xyz/coin/0x356a26eb9e012a68958082340d4c4116e7f55615cf27affcff209cf0ae544f59::wal::WAL) | [0x72a726ab67c382e8946a79e9872ea32695661e11](https://sonicscan.org/address/0x72a726ab67c382e8946a79e9872ea32695661e11)  |
+| [DEEP(6)](https://suivision.xyz/coin/0xdeeb7a4662eec9f2f3def03fb937a663dddaa2e215b8078a284d026b7946c270::deep::DEEP) | [0x93057085a4627cec26b31477a02f62412cc0485f](https://sonicscan.org/address/0x93057085a4627cec26b31477a02f62412cc0485f)  |
 
 ## Bitcoin [Encoding=utf8]
 | Contract | Address |
