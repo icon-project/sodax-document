@@ -10,14 +10,14 @@ This is a **GitBook documentation repository** for the SODAX SDK ecosystem, publ
 
 Most content is **auto-synced from external sources** and should not be manually edited here. The sync script handles three sources:
 
-1. **`sodax-frontend` submodule** (`linked-repositories/sodax-frontend`) — SDK docs, how-to guides, wallet/dapp-kit READMEs, and audit reports.
+1. **`sodax-sdks` submodule** (`linked-repositories/sodax-sdks`) — SDK docs, how-to guides, wallet/dapp-kit READMEs, Bitcoin Integration guide, and audit reports.
 2. **`sodax-contracts.wiki`** GitHub wiki — `developers/deployments/mainnet.md`
 3. **`sodax-solver.wiki`** GitHub wiki — `developers/deployments/solver-compatible-assets.md`
 
 To sync all sources:
 
 ```bash
-bash sync-sodax-frontend.sh
+bash sync-sodax-sdks.sh
 ```
 
 This pulls the latest `origin/main` of the submodule and clones the wikis (requires SSH access to `icon-project/sodax-contracts.wiki` and `icon-project/sodax-solver.wiki`). It also injects GitBook frontmatter (icons, descriptions) into copied files.
@@ -25,9 +25,10 @@ This pulls the latest `origin/main` of the submodule and clones the wikis (requi
 ### What NOT to edit (synced content, will be overwritten)
 
 - `developers/packages/**` — all SDK, wallet, and dapp-kit docs
+- `developers/how-to/bitcoin-integration.md` — from `sodax-sdks/packages/sdk/docs/BITCOIN_INTEGRATION.md`
 - `developers/deployments/mainnet.md` — from contracts wiki
 - `developers/deployments/solver-compatible-assets.md` — from solver wiki
-- `developers/Audits/**` — from sodax-frontend repo
+- `developers/audits/**` — from sodax-sdks repo
 
 Edit the source in the respective upstream repo instead.
 

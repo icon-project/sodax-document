@@ -2,11 +2,11 @@ set -euo pipefail
 
 # 1) Make sure submodule URL and pointer are up to date and fetch latest changes from origin/main
 git submodule sync --recursive
-git submodule update --init --recursive linked-repositories/sodax-frontend
+git submodule update --init --recursive linked-repositories/sodax-sdks
 
 # Fetch the latest main branch from the submodule's origin and reset submodule worktree to origin/main
 (
-  cd linked-repositories/sodax-frontend
+  cd linked-repositories/sodax-sdks
   git fetch origin main
   git checkout main
   git reset --hard origin/main
@@ -14,7 +14,7 @@ git submodule update --init --recursive linked-repositories/sodax-frontend
 )
 
 # 2) Define paths
-SRC="linked-repositories/sodax-frontend"
+SRC="linked-repositories/sodax-sdks"
 DST="developers"
 
 # Helper: copy a single file, creating parent directories as needed
@@ -69,8 +69,8 @@ fix_relative_repo_links() {
   local tmp
   tmp=$(mktemp)
   sed \
-    -e 's|\[Contributing Guide\](CONTRIBUTING.md)|[Contributing Guide](https://github.com/icon-project/sodax-frontend/blob/main/CONTRIBUTING.md)|g' \
-    -e 's|\[MIT\](LICENSE)|[MIT](https://github.com/icon-project/sodax-frontend/blob/main/LICENSE)|g' \
+    -e 's|\[Contributing Guide\](CONTRIBUTING.md)|[Contributing Guide](https://github.com/icon-project/sodax-sdks/blob/main/CONTRIBUTING.md)|g' \
+    -e 's|\[MIT\](LICENSE)|[MIT](https://github.com/icon-project/sodax-sdks/blob/main/LICENSE)|g' \
     "$file" > "$tmp"
   mv "$tmp" "$file"
 }
@@ -82,8 +82,8 @@ fix_synced_links() {
   tmp=$(mktemp)
   sed \
     -e 's|\./developers/how-to/how_to_create_a_spoke_provider|https://docs.sodax.com/developers/how-to/how_to_create_a_spoke_provider|g' \
-    -e 's|https://github.com/icon-project/sodax-document/blob/main/developers/packages/sdk/CONTRIBUTING.md|https://github.com/icon-project/sodax-frontend/blob/main/CONTRIBUTING.md|g' \
-    -e 's|https://github.com/icon-project/sodax-document/blob/main/developers/packages/sdk/LICENSE/README.md|https://github.com/icon-project/sodax-frontend/blob/main/LICENSE|g' \
+    -e 's|https://github.com/icon-project/sodax-document/blob/main/developers/packages/sdk/CONTRIBUTING.md|https://github.com/icon-project/sodax-sdks/blob/main/CONTRIBUTING.md|g' \
+    -e 's|https://github.com/icon-project/sodax-document/blob/main/developers/packages/sdk/LICENSE/README.md|https://github.com/icon-project/sodax-sdks/blob/main/LICENSE|g' \
     -e 's|https://docs.sodax.com/developers/packages/sdk/swaps|https://docs.sodax.com/developers/packages/foundation/sdk/functional-modules/swaps|g' \
     -e 's|https://docs.sodax.com/developers/packages/sdk/money_market|https://docs.sodax.com/developers/packages/foundation/sdk/functional-modules/money_market|g' \
     -e 's|https://docs.sodax.com/developers/packages/sdk/bridge|https://docs.sodax.com/developers/packages/foundation/sdk/functional-modules/bridge|g' \
@@ -92,11 +92,12 @@ fix_synced_links() {
     -e 's|https://docs.sodax.com/developers/packages/sdk/backend_api|https://docs.sodax.com/developers/packages/foundation/sdk/tooling-modules/backend_api|g' \
     -e 's|https://docs.sodax.com/developers/packages/sdk/intent_relay_api|https://docs.sodax.com/developers/packages/foundation/sdk/tooling-modules/intent_relay_api|g' \
     -e 's|https://docs.sodax.com/developers/packages/intent_relay_api|https://docs.sodax.com/developers/packages/foundation/sdk/tooling-modules/intent_relay_api|g' \
+    -e 's|https://github.com/icon-project/sodax-frontend/|https://github.com/icon-project/sodax-sdks/|g' \
     "$file" > "$tmp"
   mv "$tmp" "$file"
 }
 
-# 3) Remove stale files from old flat-copy sync (not in SUMMARY.md, not from sodax-frontend)
+# 3) Remove stale files from old flat-copy sync (not in SUMMARY.md, not from sodax-sdks)
 rm -f "$DST/packages/types/README.md"
 rm -f "$DST/packages/RELEASE_INSTRUCTIONS.md"
 rm -rf "$DST/packages/dapp-kit/src"
@@ -132,12 +133,21 @@ inject_frontmatter "$DST/packages/foundation/sdk/tooling-modules/backend_api.md"
 inject_frontmatter "$DST/packages/foundation/sdk/tooling-modules/intent_relay_api.md"  "envelope"
 
 # 7) How-to guides (stay at sdk/docs/, preserve names — no frontmatter needed)
-for f in CONFIGURE_SDK ESTIMATE_GAS HOW_TO_MAKE_A_SWAP HOW_TO_CREATE_A_SPOKE_PROVIDER \
+# Note: HOW_TO_CREATE_A_SPOKE_PROVIDER.md is no longer present in sodax-sdks.
+for f in CONFIGURE_SDK ESTIMATE_GAS HOW_TO_MAKE_A_SWAP \
          MONETIZE_SDK WALLET_PROVIDERS STELLAR_TRUSTLINE \
          RELAYER_API_ENDPOINTS SOLVER_API_ENDPOINTS; do
   copy_file "$SRC/packages/sdk/docs/${f}.md" "$DST/packages/sdk/docs/${f}.md"
 done
 copy_file "$SRC/packages/sdk/docs/installation/nextjs.md" "$DST/packages/sdk/docs/installation/nextjs.md"
+
+# 7b) Bitcoin Integration (sdk/docs/BITCOIN_INTEGRATION.md → how-to/bitcoin-integration.md)
+# Lives under how-to/ to preserve the public docs.sodax.com URL.
+copy_file "$SRC/packages/sdk/docs/BITCOIN_INTEGRATION.md" "$DST/how-to/bitcoin-integration.md"
+inject_description_frontmatter "$DST/how-to/bitcoin-integration.md" \
+  "This guide is a step-by-step walkthrough for integrating Bitcoin as a source or destination chain in a SODAX-powered dApp." \
+  "Bitcoin Integration"
+fix_synced_links "$DST/how-to/bitcoin-integration.md"
 
 # 8) Connection layer
 copy_file "$SRC/packages/wallet-sdk-core/README.md"  "$DST/packages/connection/wallet-sdk-core.md"

@@ -1,10 +1,9 @@
 ---
-description: >-
-  This guide is a step-by-step walkthrough for integrating Bitcoin as a source
-  or destination chain in a SODAX-powered dApp.
+description: This guide is a step-by-step walkthrough for integrating Bitcoin as a source or destination chain in a SODAX-powered dApp.
 ---
 
 # Bitcoin Integration
+
 
 ### Why Bitcoin is different
 
@@ -16,7 +15,7 @@ The trade-off is the one-time setup (sign in + fund) and a custody disclosure to
 
 The transaction-signing partner is [**Radfi**](https://radfi.co). SDK hook names and config URLs reflect this integration (`useRadfiSession`, `useRadfiWithdraw`, `api.radfi.co`, etc.). For the rest of this guide, "the partner" refers to Radfi.
 
-For the generic intent flow, see [SWAPS.md](https://github.com/icon-project/sodax-frontend/blob/main/packages/sdk/docs/SWAPS.md) and [BRIDGE.md](https://github.com/icon-project/sodax-frontend/blob/main/packages/sdk/docs/BRIDGE.md). This guide only covers Bitcoin-specific differences.
+For the generic intent flow, see [SWAPS.md](https://github.com/icon-project/sodax-sdks/blob/main/packages/sdk/docs/SWAPS.md) and [BRIDGE.md](https://github.com/icon-project/sodax-sdks/blob/main/packages/sdk/docs/BRIDGE.md). This guide only covers Bitcoin-specific differences.
 
 > **IMPORTANT — Before you start**
 >
@@ -293,4 +292,22 @@ if (expiredUtxos?.length) {
 
 ### Reference Implementation
 
-A complete working example is in [`apps/demo/src/components/solver/SwapCard.tsx`](https://github.com/icon-project/sodax-frontend/blob/main/apps/demo/src/components/solver/SwapCard.tsx) — it composes the readiness gate, applies the three intent-param overrides, and gates the swap button. Run `pnpm dev:demo` (on port 1993) to try it locally.
+A complete working example is in [`apps/demo/src/components/solver/SwapCard.tsx`](https://github.com/icon-project/sodax-sdks/blob/main/apps/demo/src/components/solver/SwapCard.tsx) — it composes the readiness gate, applies the three intent-param overrides, and gates the swap button. Run `pnpm dev:demo` (on port 1993) to try it locally.
+
+
+---
+
+# Agent Instructions: Querying This Documentation
+
+If you need additional information that is not directly available in this page, you can query the documentation dynamically by asking a question.
+
+Perform an HTTP GET request on the current page URL with the `ask` query parameter:
+
+```
+GET https://docs.sodax.com/developers/how-to/bitcoin-integration.md?ask=<question>
+```
+
+The question should be specific, self-contained, and written in natural language.
+The response will contain a direct answer to the question and relevant excerpts and sources from the documentation.
+
+Use this mechanism when the answer is not explicitly present in the current page, you need clarification or additional context, or you want to retrieve related documentation sections.

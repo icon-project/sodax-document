@@ -4,17 +4,28 @@ icon: sack-dollar
 
 # Money Market
 
+> **Error handling conventions:** This module uses the canonical `SodaxError<MoneyMarketErrorCode>` shape (same family as the swap module). Discriminate on `result.error.code` (e.g. `'RELAY_TIMEOUT'`, `'EXECUTION_FAILED'`); structured details live on `result.error.context` (`action`, `phase`, `relayCode`, `field`). See the **Error Handling** section below for the full per-method code table and migration notes from the legacy `error.message`-based pattern.
+
 Money Market part of SDK provides abstractions to assist you with interacting with the cross-chain Money Market Smart Contracts.
 
 All money market operations are accessed through the `moneyMarket` property of a `Sodax` instance:
 
 ```typescript
-import { Sodax, type SpokeChainId, type Token } from "@sodax/sdk";
+import { Sodax, ChainKeys } from '@sodax/sdk';
 
 const sodax = new Sodax();
 
 // All money market methods are available through sodax.moneyMarket
-const supplyResult = await sodax.moneyMarket.supply(supplyParams, spokeProvider);
+const supplyResult = await sodax.moneyMarket.supply({
+  params: {
+    srcChainKey: ChainKeys.BSC_MAINNET,
+    srcAddress: '0x...',
+    token: '0x...',
+    amount: 1000n,
+    action: 'supply',
+  },
+  walletProvider: evmWalletProvider,
+});
 ```
 
 ## Using SDK Config and Constants
@@ -23,21 +34,21 @@ SDK includes predefined configurations of supported chains, tokens and other rel
 
 **IMPORTANT**: If you want dynamic (backend API based - contains latest tokens) configuration, make sure to initialize the instance before usage:
 ```typescript
-await sodax.initialize();
+await sodax.config.initialize();
 ```
 By default, configuration from the specific SDK version you are using is used.
 
 ```typescript
-import { Sodax, type SpokeChainId, type Token, type Address } from "@sodax/sdk";
+import { Sodax, ChainKeys, type SpokeChainKey, type Token, type Address } from '@sodax/sdk';
 
 const sodax = new Sodax();
-await sodax.initialize(); // Initialize for dynamic config (optional)
+await sodax.config.initialize(); // Initialize for dynamic config (optional)
 
 // All supported spoke chains (general config)
-const spokeChains: SpokeChainId[] = sodax.config.getSupportedSpokeChains();
+const spokeChains: SpokeChainKey[] = sodax.config.getSupportedSpokeChains();
 
 // Get supported money market tokens for a specific chain
-const supportedMoneyMarketTokens: readonly Token[] = sodax.moneyMarket.getSupportedTokensByChainId(chainId);
+const supportedMoneyMarketTokens = sodax.moneyMarket.getSupportedTokensByChainId(ChainKeys.BSC_MAINNET);
 
 // Get all supported money market tokens per chain
 const allMoneyMarketTokens = sodax.moneyMarket.getSupportedTokens();
@@ -45,88 +56,99 @@ const allMoneyMarketTokens = sodax.moneyMarket.getSupportedTokens();
 // Get all supported reserves (hub chain token addresses, i.e. money market on Sonic chain)
 const supportedReserves: readonly Address[] = sodax.moneyMarket.getSupportedReserves();
 
-// Check if token address for given spoke chain id is supported (through config service)
-const isMoneyMarketSupportedToken: boolean = sodax.config.isMoneyMarketSupportedToken(chainId, token);
+// Check if token address for given spoke chain key is supported (through config service)
+const isMoneyMarketSupportedToken: boolean = sodax.config.isMoneyMarketSupportedToken(ChainKeys.BSC_MAINNET, tokenAddress);
 
 // Alternative: Access through config service
-const moneyMarketTokensFromConfig: readonly Token[] = sodax.config.getSupportedMoneyMarketTokensByChainId(chainId);
+const moneyMarketTokensFromConfig = sodax.config.getSupportedMoneyMarketTokensByChainId(ChainKeys.BSC_MAINNET);
 const allMoneyMarketTokensFromConfig = sodax.config.getSupportedMoneyMarketTokens();
 ```
 
-Please refer to [SDK constants.ts](https://github.com/icon-project/sodax-frontend/blob/main/packages/types/src/constants/index.ts) for additional static constants and configurations.
+Chain constants are available under the `ChainKeys` namespace (e.g. `ChainKeys.BSC_MAINNET`, `ChainKeys.SONIC_MAINNET`). The old `*_CHAIN_ID` constants have been replaced — see `packages/sdk/CHAIN_ID_MIGRATION.md` for the full rename mapping.
 
 ## Available Methods
 
 All money market methods are accessible through `sodax.moneyMarket`:
 
 ### Token & Reserve Configuration
-- `getSupportedTokensByChainId(chainId)` - Get supported money market tokens for a specific chain
+- `getSupportedTokensByChainId(chainKey)` - Get supported money market tokens for a specific chain
 - `getSupportedTokens()` - Get all supported money market tokens per chain
 - `getSupportedReserves()` - Get all supported money market reserves (hub chain addresses)
 
 ### Allowance & Approval
-- `isAllowanceValid(params, spokeProvider)` - Check if token approval is needed
-- `approve(params, spokeProvider, raw?)` - Approve tokens or request trustline (Stellar)
+- `isAllowanceValid({ params })` - Check if token approval/trustline is sufficient
+- `approve({ params, walletProvider, raw? })` - Approve tokens or establish Stellar trustline
 
 ### Money Market Operations
-- `supply(params, spokeProvider, timeout?)` - Supply tokens (complete operation with relay)
-- `createSupplyIntent(params, spokeProvider, raw?)` - Create supply intent only
-- `borrow(params, spokeProvider, timeout?)` - Borrow tokens (complete operation with relay)
-- `createBorrowIntent(params, spokeProvider, raw?)` - Create borrow intent only
-- `withdraw(params, spokeProvider, timeout?)` - Withdraw tokens (complete operation with relay)
-- `createWithdrawIntent(params, spokeProvider, raw?)` - Create withdraw intent only
-- `repay(params, spokeProvider, timeout?)` - Repay tokens (complete operation with relay)
-- `createRepayIntent(params, spokeProvider, raw?)` - Create repay intent only
+- `supply({ params, walletProvider, timeout? })` - Supply tokens (complete operation with relay)
+- `createSupplyIntent({ params, walletProvider?, raw?, skipSimulation? })` - Create supply intent only
+- `borrow({ params, walletProvider, timeout? })` - Borrow tokens (complete operation with relay)
+- `createBorrowIntent({ params, walletProvider?, raw?, skipSimulation? })` - Create borrow intent only
+- `withdraw({ params, walletProvider, timeout? })` - Withdraw tokens (complete operation with relay)
+- `createWithdrawIntent({ params, walletProvider?, raw?, skipSimulation? })` - Create withdraw intent only
+- `repay({ params, walletProvider, timeout? })` - Repay tokens (complete operation with relay)
+- `createRepayIntent({ params, walletProvider?, raw?, skipSimulation? })` - Create repay intent only
+
+### Gas Estimation
+- `estimateGas(params)` - Estimate gas for an encoded transaction on a given spoke chain
 
 ### Data Retrieval & Formatting
 - `data.getReservesList()` - Get list of all reserve addresses
 - `data.getReservesData()` - Get raw aggregated reserve data
 - `data.getReservesHumanized()` - Get humanized reserve data
 - `data.getReserveData(asset)` - Get specific reserve data
-- `data.getUserReservesData(spokeChainId, userAddress)` - Get raw user reserve data
-- `data.getUserReservesHumanized(spokeChainId, userAddress)` - Get humanized user reserve data
+- `data.getReserveNormalizedIncome(asset)` - Get normalized income for a specific asset (RAY precision)
+- `data.getUserReservesData(spokeChainKey, userAddress)` - Get raw user reserve data
+- `data.getUserReservesHumanized(spokeChainKey, userAddress)` - Get humanized user reserve data
+- `data.getEModes()` - Get raw E-Mode data
+- `data.getEModesHumanized()` - Get humanized E-Mode data
 - `data.formatReservesUSD(request)` - Format reserves with USD conversions
+- `data.formatReserveUSD(request)` - Format a single reserve with USD conversion
 - `data.formatUserSummary(request)` - Format user portfolio summary with USD conversions
-
-### Utility Methods
-- `MoneyMarketService.estimateGas(rawTx, spokeProvider)` - Estimate gas for raw transactions (static method)
-
-### Initialising Spoke Provider
-
-Refer to [Initialising Spoke Provider](https://docs.sodax.com/developers/how-to/how_to_create_a_spoke_provider) section to see how BSC spoke provider used as `bscSpokeProvider` can be created.
 
 ### Function Parameters Structure
 
-All money market functions use object parameters for better readability and extensibility. The common parameter structure includes:
+All money market exec methods use a single `SpokeExecActionParams`-shaped object:
 
-- **`params`**: The money market operation parameters (`MoneyMarketSupplyParams`, `MoneyMarketBorrowParams`, `MoneyMarketWithdrawParams`, or `MoneyMarketRepayParams`) containing token address, amount, and action type
-- **`spokeProvider`**: The spoke provider instance for the source chain
-- **`raw`**: (Optional) Whether to return raw transaction data instead of executing the transaction. Used in `create*Intent` and `approve` methods. Default: `false`
-- **`timeout`**: (Optional) Timeout in milliseconds for relay operations (default: 60 seconds). Used in `supply`, `borrow`, `withdraw`, and `repay` methods
+- **`params`**: The money market operation parameters (`MoneyMarketSupplyParams`, `MoneyMarketBorrowParams`, `MoneyMarketWithdrawParams`, or `MoneyMarketRepayParams`). Every params type carries:
+  - `srcChainKey: K` — the source spoke chain (drives TypeScript narrowing of `walletProvider`)
+  - `srcAddress: string` — the caller's address on the source chain
+  - `token: string` — token address on the source chain (or destination chain for borrow/withdraw)
+  - `amount: bigint` — amount in token's native decimals
+  - `action: 'supply' | 'borrow' | 'withdraw' | 'repay'`
+  - `dstChainKey?: SpokeChainKey` — optional destination chain (defaults to `srcChainKey`)
+  - `dstAddress?: string` — optional destination address (defaults to `srcAddress`)
+- **`walletProvider`**: The wallet provider for the source chain. Required when `raw` is `false` (or omitted); forbidden when `raw: true`. The type is automatically narrowed to the correct interface for the given `srcChainKey` (e.g. `IEvmWalletProvider` for EVM chains).
+- **`raw`**: (Optional, default `false`) When `true`, returns unsigned transaction data instead of executing. When `true`, `walletProvider` must not be passed. Used in `create*Intent` and `approve` methods.
+- **`skipSimulation`**: (Optional, default `false`) Skip transaction simulation before broadcast. Used in `create*Intent` methods.
+- **`timeout`**: (Optional, default: `DEFAULT_RELAY_TX_TIMEOUT` = 60 seconds) Timeout in milliseconds for relay operations. Used in `supply`, `borrow`, `withdraw`, and `repay` methods.
 
 ## Allowance and Approval
 
-Before making a money market action (supply, repay, withdraw, borrow), you need to ensure the money market contract has sufficient allowance to spend your tokens. The SDK provides methods to check and set allowances for different types of spoke providers.
+Before making a money market action (supply, repay), you need to ensure the money market contract has sufficient allowance to spend your tokens. The SDK provides methods to check and set allowances for different types of spoke providers.
 
 **Note**: For Stellar-based operations, the allowance and approval system works differently:
-- **Source Chain (Stellar)**: The standard `isAllowanceValid` and `approve` methods work as expected for EVM chains, but for Stellar as the source chain, these methods check and establish trustlines automatically.
-- **Destination Chain (Stellar)**: When Stellar is specified as the destination chain, frontends/clients need to manually establish trustlines before executing money market actions using `StellarSpokeService.hasSufficientTrustline` and `StellarSpokeService.requestTrustline` functions.
+- **Source Chain (Stellar)**: The standard `isAllowanceValid` and `approve` methods check and establish trustlines automatically.
+- **Destination Chain (Stellar)**: When Stellar is specified as the destination chain, the SDK checks both the sender's and recipient's trustlines via `isAllowanceValid`.
+
+**Withdraw and borrow**: No on-chain approval is required for these actions. `isAllowanceValid` always returns `true` for them (though it validates the token is supported on the destination chain).
 
 ### Checking Allowance
 
 The `isAllowanceValid` method checks if the current allowance is sufficient for the specified action:
 
 ```typescript
-import { MoneyMarketSupplyParams, MoneyMarketRepayParams } from "@sodax/sdk";
+import { type MoneyMarketSupplyParams, ChainKeys } from '@sodax/sdk';
 
-// Check if allowance is sufficient for supply
 const supplyParams: MoneyMarketSupplyParams = {
+  srcChainKey: ChainKeys.BSC_MAINNET,
+  srcAddress: '0x...', // Caller's address on the source chain
   token: '0x...', // Address of the token (spoke chain) to supply
   amount: 1000n, // Amount to supply (in token decimals)
   action: 'supply',
 };
 
-const isAllowanceValid = await sodax.moneyMarket.isAllowanceValid(supplyParams, spokeProvider);
+const isAllowanceValid = await sodax.moneyMarket.isAllowanceValid({ params: supplyParams });
 
 if (!isAllowanceValid.ok) {
   // Handle error
@@ -134,29 +156,31 @@ if (!isAllowanceValid.ok) {
 }
 
 if (!isAllowanceValid.value) {
-  // Need to approve - allowance is insufficient
+  // Need to approve — allowance is insufficient
 }
 ```
 
 ### Setting Allowance
 
-The `approve` method sets the allowance for the specified action. The spender address varies depending on the spoke provider type:
+The `approve` method sets the allowance for the specified action. The spender address is resolved internally based on the chain:
 
-- **EVM Spoke Chains**: The spender is the asset manager contract
-- **Sonic Spoke (Hub) Chain**: The spender is the user router contract (for supply/repay) or specific approval contracts (for withdraw/borrow)
+- **EVM Spoke Chains**: The spender is the spoke asset manager contract
+- **Sonic (Hub) Chain**: The spender is the user's hub router contract
+- **Stellar**: Creates/updates the required trustline
 
 ```typescript
-import { MoneyMarketSupplyParams, MoneyMarketRepayParams } from "@sodax/sdk";
+import { type MoneyMarketSupplyParams, ChainKeys } from '@sodax/sdk';
 
-// Parameters for supply operation
 const supplyParams: MoneyMarketSupplyParams = {
-  token: '0x...', // Address of the token (spoke chain) to supply
-  amount: 1000n, // Amount to supply (in token decimals)
+  srcChainKey: ChainKeys.BSC_MAINNET,
+  srcAddress: '0x...',
+  token: '0x...',
+  amount: 1000n,
   action: 'supply',
 };
 
 // First check if allowance is sufficient
-const isAllowanceValid = await sodax.moneyMarket.isAllowanceValid(supplyParams, spokeProvider);
+const isAllowanceValid = await sodax.moneyMarket.isAllowanceValid({ params: supplyParams });
 
 if (!isAllowanceValid.ok) {
   // Handle error
@@ -164,56 +188,74 @@ if (!isAllowanceValid.ok) {
 }
 
 if (!isAllowanceValid.value) {
-  // Approve the money market contract to spend tokens
-  const approveResult = await sodax.moneyMarket.approve(
-    supplyParams,
-    spokeProvider,
-    false // Optional: true = return raw transaction data, false = execute and return transaction hash (default: false)
-  );
+  // Approve — signed execution (raw: false or omitted)
+  const approveResult = await sodax.moneyMarket.approve({
+    params: supplyParams,
+    walletProvider: evmWalletProvider,
+  });
 
   if (!approveResult.ok) {
     // Handle approval error
     return;
   }
 
-  // Transaction hash or raw transaction data
-  const txResult = approveResult.value;
+  // Transaction hash
+  const txHash = approveResult.value;
+}
+```
+
+To obtain unsigned approval calldata without broadcasting:
+
+```typescript
+// Raw transaction — walletProvider must NOT be passed
+const rawApproveResult = await sodax.moneyMarket.approve({
+  params: supplyParams,
+  raw: true,
+});
+
+if (rawApproveResult.ok) {
+  const rawTx = rawApproveResult.value; // EvmRawTransaction (or chain-specific equivalent)
 }
 ```
 
 ### Supported Actions by Provider Type
 
-The allowance and approval system supports different actions depending on the spoke provider type:
+The allowance and approval system supports different actions depending on the spoke chain type:
 
 **EVM Spoke Providers:**
 - `supply` - Approves the asset manager contract to spend tokens
 - `repay` - Approves the asset manager contract to spend tokens
 
 **Sonic Spoke Provider (Hub Chain):**
-- `supply` - Approves the user router contract to spend tokens
-- `repay` - Approves the user router contract to spend tokens  
-- `withdraw` - Approves the withdraw operation using SonicSpokeService
-- `borrow` - Approves the borrow operation using SonicSpokeService
+- `supply` - Approves the user hub router to spend tokens
+- `repay` - Approves the user hub router to spend tokens
+
+**Stellar:**
+- `supply` / `repay` / `withdraw` / `borrow` — Checks and establishes trustlines
+
+**Borrow and withdraw on EVM/hub chains do not require approval.**
 
 ### Stellar Trustline Requirements
 
-For Stellar-based money market operations, you need to handle trustlines differently depending on whether Stellar is the source or destination chain. See [Stellar Trustline Requirements](https://github.com/icon-project/sodax-frontend/blob/main/packages/sdk/docs/STELLAR_TRUSTLINE.md#money-market) for detailed information and code examples.
+For Stellar-based money market operations, you need to handle trustlines differently depending on whether Stellar is the source or destination chain. See [Stellar Trustline Requirements](https://github.com/icon-project/sodax-sdks/blob/main/packages/sdk/docs/STELLAR_TRUSTLINE.md#money-market) for detailed information and code examples.
 
 ### Complete Example
 
 Here's a complete example showing the allowance check and approval flow:
 
 ```typescript
-import { MoneyMarketSupplyParams } from "@sodax/sdk";
+import { type MoneyMarketSupplyParams, ChainKeys } from '@sodax/sdk';
 
 const supplyParams: MoneyMarketSupplyParams = {
-  token: '0x...', // Address of the token (spoke chain) to supply
-  amount: 1000n, // Amount to supply (in token decimals)
+  srcChainKey: ChainKeys.BSC_MAINNET,
+  srcAddress: '0x...',
+  token: '0x...',
+  amount: 1000n,
   action: 'supply',
 };
 
 // Step 1: Check if allowance is sufficient
-const allowanceCheck = await sodax.moneyMarket.isAllowanceValid(supplyParams, spokeProvider);
+const allowanceCheck = await sodax.moneyMarket.isAllowanceValid({ params: supplyParams });
 
 if (!allowanceCheck.ok) {
   console.error('Allowance check failed:', allowanceCheck.error);
@@ -223,23 +265,29 @@ if (!allowanceCheck.ok) {
 // Step 2: Approve if allowance is insufficient
 if (!allowanceCheck.value) {
   console.log('Insufficient allowance, approving...');
-  
-  const approveResult = await sodax.moneyMarket.approve(supplyParams, spokeProvider);
-  
+
+  const approveResult = await sodax.moneyMarket.approve({
+    params: supplyParams,
+    walletProvider: evmWalletProvider,
+  });
+
   if (!approveResult.ok) {
     console.error('Approval failed:', approveResult.error);
     return;
   }
-  
+
   console.log('Approval successful:', approveResult.value);
 }
 
 // Step 3: Now you can proceed with supply
-const supplyResult = await sodax.moneyMarket.supply(supplyParams, spokeProvider);
+const supplyResult = await sodax.moneyMarket.supply({
+  params: supplyParams,
+  walletProvider: evmWalletProvider,
+});
 
 if (supplyResult.ok) {
-  const [spokeTxHash, hubTxHash] = supplyResult.value;
-  console.log('Supply successful:', { spokeTxHash, hubTxHash });
+  const { srcChainTxHash, dstChainTxHash } = supplyResult.value;
+  console.log('Supply successful:', { srcChainTxHash, dstChainTxHash });
 } else {
   console.error('Supply failed:', supplyResult.error);
 }
@@ -247,109 +295,27 @@ if (supplyResult.ok) {
 
 ### Estimate Gas for Raw Transactions
 
-The `estimateGas` function allows you to estimate the gas cost for raw transactions before executing them. This is particularly useful for money market operations (supply, borrow, withdraw, repay) and approval transactions to provide users with accurate gas estimates.
+The `estimateGas` method estimates gas for an already-encoded transaction on a given spoke chain. Use this after obtaining a raw transaction from a `create*Intent` or `approve` call.
 
 ```typescript
-import { MoneyMarketService, MoneyMarketSupplyParams } from "@sodax/sdk";
+import { type MoneyMarketSupplyParams, ChainKeys } from '@sodax/sdk';
 
-// Example: Estimate gas for a supply transaction
-const supplyResult = await sodax.moneyMarket.createSupplyIntent(
-  supplyParams,
-  spokeProvider,
-  true, // true = get raw transaction
-);
+// Example: Get raw supply transaction, then estimate its gas
+const supplyIntentResult = await sodax.moneyMarket.createSupplyIntent({
+  params: supplyParams,
+  raw: true, // walletProvider must not be passed
+});
 
-if (supplyResult.ok) {
-  const rawTx = supplyResult.value;
-  
-  // Estimate gas for the raw transaction (static method)
-  // Note: MoneyMarketService.estimateGas is a static method
-  const gasEstimate = await MoneyMarketService.estimateGas(rawTx, spokeProvider);
-  
+if (supplyIntentResult.ok) {
+  const { tx: rawTx } = supplyIntentResult.value;
+
+  const gasEstimate = await sodax.moneyMarket.estimateGas({
+    srcChainKey: ChainKeys.BSC_MAINNET,
+    // ... encoded calldata fields
+  });
+
   if (gasEstimate.ok) {
     console.log('Estimated gas for supply:', gasEstimate.value);
-  } else {
-    console.error('Failed to estimate gas for supply:', gasEstimate.error);
-  }
-}
-
-// Example: Estimate gas for an approval transaction
-const approveResult = await sodax.moneyMarket.approve(
-  supplyParams,
-  spokeProvider,
-  true // true = get raw transaction
-);
-
-if (approveResult.ok) {
-  const rawTx = approveResult.value;
-  
-  // Estimate gas for the approval transaction (static method)
-  const gasEstimate = await MoneyMarketService.estimateGas(rawTx, spokeProvider);
-  
-  if (gasEstimate.ok) {
-    console.log('Estimated gas for approval:', gasEstimate.value);
-  } else {
-    console.error('Failed to estimate gas for approval:', gasEstimate.error);
-  }
-}
-
-// Example: Estimate gas for a borrow transaction
-const borrowResult = await sodax.moneyMarket.createBorrowIntent(
-  borrowParams,
-  spokeProvider,
-  true // true = get raw transaction
-);
-
-if (borrowResult.ok) {
-  const rawTx = borrowResult.value;
-  
-  // Estimate gas for the borrow transaction
-  const gasEstimate = await MoneyMarketService.estimateGas(rawTx, spokeProvider);
-  
-  if (gasEstimate.ok) {
-    console.log('Estimated gas for borrow:', gasEstimate.value);
-  } else {
-    console.error('Failed to estimate gas for borrow:', gasEstimate.error);
-  }
-}
-
-// Example: Estimate gas for a withdraw transaction
-const withdrawResult = await sodax.moneyMarket.createWithdrawIntent(
-  withdrawParams,
-  spokeProvider,
-  true // true = get raw transaction
-);
-
-if (withdrawResult.ok) {
-  const rawTx = withdrawResult.value;
-  
-  // Estimate gas for the withdraw transaction
-  const gasEstimate = await MoneyMarketService.estimateGas(rawTx, spokeProvider);
-  
-  if (gasEstimate.ok) {
-    console.log('Estimated gas for withdraw:', gasEstimate.value);
-  } else {
-    console.error('Failed to estimate gas for withdraw:', gasEstimate.error);
-  }
-}
-
-// Example: Estimate gas for a repay transaction
-const repayResult = await sodax.moneyMarket.createRepayIntent(
-  repayParams,
-  spokeProvider,
-  true // true = get raw transaction
-);
-
-if (repayResult.ok) {
-  const rawTx = repayResult.value;
-  
-  // Estimate gas for the repay transaction
-  const gasEstimate = await MoneyMarketService.estimateGas(rawTx, spokeProvider);
-  
-  if (gasEstimate.ok) {
-    console.log('Estimated gas for repay:', gasEstimate.value);
-  } else {
-    console.error('Failed to estimate gas for repay:', gasEstimate.error);
   }
 }
 ```
@@ -358,484 +324,437 @@ if (repayResult.ok) {
 
 Supply tokens to the money market pool. There are two methods available:
 
-1. `supply`: Supply tokens to the money market pool, relay the transaction to the hub and submit the intent to the Solver API
-2. `createSupplyIntent`: Create supply intent only (without relay and submit to Solver API)
+1. `supply`: Executes the spoke-side deposit, relays to the hub, and waits for the relay to settle.
+2. `createSupplyIntent`: Builds (and optionally broadcasts) only the spoke-side transaction without waiting for the relay. Useful when you need manual relay control.
 
 ```typescript
-import { MoneyMarketSupplyParams, DEFAULT_RELAY_TX_TIMEOUT } from "@sodax/sdk";
+import { type MoneyMarketSupplyParams, DEFAULT_RELAY_TX_TIMEOUT, ChainKeys } from '@sodax/sdk';
 
-// Parameters for supply operation
 const supplyParams: MoneyMarketSupplyParams = {
-  token: '0x...', // Address of the token (spoke chain) to supply
-  amount: 1000n, // Amount to supply (in token decimals)
+  srcChainKey: ChainKeys.BSC_MAINNET,
+  srcAddress: '0x...',
+  token: '0x...',
+  amount: 1000n,
   action: 'supply',
 };
 
 // First check and set allowance if needed
-const isAllowanceValid = await sodax.moneyMarket.isAllowanceValid(supplyParams, spokeProvider);
+const isAllowanceValid = await sodax.moneyMarket.isAllowanceValid({ params: supplyParams });
 
 if (!isAllowanceValid.ok) {
-  // Handle error
   console.error('Allowance check failed:', isAllowanceValid.error);
   return;
 }
 
 if (!isAllowanceValid.value) {
-  // Approve the money market contract to spend tokens
-  const approveResult = await sodax.moneyMarket.approve(
-    supplyParams,
-    spokeProvider,
-    false // Optional: true = return raw transaction, false = execute and return tx hash (default: false)
-  );
+  const approveResult = await sodax.moneyMarket.approve({
+    params: supplyParams,
+    walletProvider: evmWalletProvider,
+  });
 
   if (!approveResult.ok) {
-    // Handle approval error
     console.error('Approval failed:', approveResult.error);
     return;
   }
 
-  // Wait for approval transaction to be confirmed before proceeding
-  const txHash = approveResult.value;
-  console.log('Approval transaction:', txHash);
+  console.log('Approval transaction:', approveResult.value);
 }
 
-// Supply and submit to Solver API (complete operation)
-const supplyAndSubmitResult = await sodax.moneyMarket.supply(
-  supplyParams,
-  spokeProvider,
-  DEFAULT_RELAY_TX_TIMEOUT // Optional: timeout in milliseconds (default: 60 seconds)
-);
+// Supply and relay (complete operation)
+const supplyAndSubmitResult = await sodax.moneyMarket.supply({
+  params: supplyParams,
+  walletProvider: evmWalletProvider,
+  timeout: DEFAULT_RELAY_TX_TIMEOUT, // Optional: timeout in milliseconds (default: 60 seconds)
+});
 
 if (supplyAndSubmitResult.ok) {
-  const [spokeTxHash, hubTxHash] = supplyAndSubmitResult.value;
-  console.log('Supply successful:', { spokeTxHash, hubTxHash });
+  const { srcChainTxHash, dstChainTxHash } = supplyAndSubmitResult.value;
+  console.log('Supply successful:', { srcChainTxHash, dstChainTxHash });
 } else {
-  // Handle error
   console.error('Supply failed:', supplyAndSubmitResult.error);
 }
 
-// Create supply intent only (without submitting to Solver API)
-const supplyResult = await sodax.moneyMarket.createSupplyIntent(
-  supplyParams,
-  spokeProvider,
-  false // Optional: whether to return raw transaction (default: false)
-);
+// Create supply intent only (no relay wait)
+const supplyIntentResult = await sodax.moneyMarket.createSupplyIntent({
+  params: supplyParams,
+  walletProvider: evmWalletProvider,
+});
 
-if (supplyResult.ok) {
-  const txHash = supplyResult.value;
+if (supplyIntentResult.ok) {
+  const { tx: txHash, relayData } = supplyIntentResult.value;
   console.log('Supply intent created:', txHash);
 } else {
-  // Handle error
-  console.error('Supply intent creation failed:', supplyResult.error);
+  console.error('Supply intent creation failed:', supplyIntentResult.error);
+}
+
+// Get raw supply calldata (no wallet, no broadcast)
+const rawSupplyResult = await sodax.moneyMarket.createSupplyIntent({
+  params: supplyParams,
+  raw: true,
+});
+
+if (rawSupplyResult.ok) {
+  const { tx: rawTx, relayData } = rawSupplyResult.value;
+  console.log('Raw supply tx:', rawTx);
 }
 ```
 
 ## Borrow Tokens
 
-Borrow tokens from the money market pool. There are two methods available:
+Borrow tokens from the money market pool. Borrowed tokens can be delivered to a different spoke chain by specifying `dstChainKey` and `dstAddress`.
 
-1. `borrow`: Borrow tokens from the money market pool, relay the transaction to the hub and submit the intent to the Solver API
-2. `createBorrowIntent`: Create borrow intent only (without relay and submit to Solver API)
+1. `borrow`: Executes the spoke-side message, relays to the hub, and waits for the relay to settle.
+2. `createBorrowIntent`: Builds (and optionally broadcasts) only the spoke-side transaction without waiting for the relay.
 
 ```typescript
-import { MoneyMarketBorrowParams, DEFAULT_RELAY_TX_TIMEOUT } from "@sodax/sdk";
+import { type MoneyMarketBorrowParams, DEFAULT_RELAY_TX_TIMEOUT, ChainKeys } from '@sodax/sdk';
 
-// Parameters for borrow operation
 const borrowParams: MoneyMarketBorrowParams = {
-  token: '0x...', // Address of the token (spoke chain) to borrow
-  amount: 1000n, // Amount to borrow (in token decimals)
+  srcChainKey: ChainKeys.BSC_MAINNET,
+  srcAddress: '0x...',
+  token: '0x...', // Token address on the destination chain (defaults to srcChainKey)
+  amount: 1000n,
   action: 'borrow',
+  // Optional: deliver borrowed tokens to a different chain
+  // dstChainKey: ChainKeys.ETHEREUM_MAINNET,
+  // dstAddress: '0x...',
 };
 
-// Borrow and submit to Solver API (complete operation)
-const borrowAndSubmitResult = await sodax.moneyMarket.borrow(
-  borrowParams,
-  spokeProvider,
-  DEFAULT_RELAY_TX_TIMEOUT // Optional: timeout in milliseconds (default: 60 seconds)
-);
+// Borrow and relay (complete operation)
+const borrowAndSubmitResult = await sodax.moneyMarket.borrow({
+  params: borrowParams,
+  walletProvider: evmWalletProvider,
+  timeout: DEFAULT_RELAY_TX_TIMEOUT,
+});
 
 if (borrowAndSubmitResult.ok) {
-  const [spokeTxHash, hubTxHash] = borrowAndSubmitResult.value;
-  console.log('Borrow successful:', { spokeTxHash, hubTxHash });
+  const { srcChainTxHash, dstChainTxHash } = borrowAndSubmitResult.value;
+  console.log('Borrow successful:', { srcChainTxHash, dstChainTxHash });
 } else {
-  // Handle error
   console.error('Borrow failed:', borrowAndSubmitResult.error);
 }
 
-// Create borrow intent only (without submitting to Solver API)
-const borrowResult = await sodax.moneyMarket.createBorrowIntent(
-  borrowParams,
-  spokeProvider,
-  false // Optional: whether to return raw transaction (default: false)
-);
+// Create borrow intent only (no relay wait)
+const borrowIntentResult = await sodax.moneyMarket.createBorrowIntent({
+  params: borrowParams,
+  walletProvider: evmWalletProvider,
+});
 
-if (borrowResult.ok) {
-  const txHash = borrowResult.value;
+if (borrowIntentResult.ok) {
+  const { tx: txHash, relayData } = borrowIntentResult.value;
   console.log('Borrow intent created:', txHash);
 } else {
-  // Handle error
-  console.error('Borrow intent creation failed:', borrowResult.error);
+  console.error('Borrow intent creation failed:', borrowIntentResult.error);
 }
 ```
 
 ## Withdraw Tokens
 
-Withdraw tokens from the money market pool. There are two methods available:
+Withdraw previously supplied tokens from the money market pool. Withdrawn tokens can be delivered to a different spoke chain by specifying `dstChainKey` and `dstAddress`.
 
-1. `withdraw`: Withdraw tokens from the money market pool, relay the transaction to the hub and submit the intent to the Solver API
-2. `createWithdrawIntent`: Create withdraw intent only (without relay and submit to Solver API)
+1. `withdraw`: Executes the spoke-side message, relays to the hub, and waits for the relay to settle.
+2. `createWithdrawIntent`: Builds (and optionally broadcasts) only the spoke-side transaction without waiting for the relay.
 
 ```typescript
-import { MoneyMarketWithdrawParams, DEFAULT_RELAY_TX_TIMEOUT } from "@sodax/sdk";
+import { type MoneyMarketWithdrawParams, DEFAULT_RELAY_TX_TIMEOUT, ChainKeys } from '@sodax/sdk';
 
-// Parameters for withdraw operation
 const withdrawParams: MoneyMarketWithdrawParams = {
-  token: '0x...', // Address of the token (spoke chain) to withdraw
-  amount: 1000n, // Amount to withdraw (in token decimals)
+  srcChainKey: ChainKeys.BSC_MAINNET,
+  srcAddress: '0x...',
+  token: '0x...', // Token address on the destination chain (defaults to srcChainKey)
+  amount: 1000n,
   action: 'withdraw',
 };
 
-// Withdraw and submit to Solver API (complete operation)
-const withdrawAndSubmitResult = await sodax.moneyMarket.withdraw(
-  withdrawParams,
-  spokeProvider,
-  DEFAULT_RELAY_TX_TIMEOUT // Optional: timeout in milliseconds (default: 60 seconds)
-);
+// Withdraw and relay (complete operation)
+const withdrawAndSubmitResult = await sodax.moneyMarket.withdraw({
+  params: withdrawParams,
+  walletProvider: evmWalletProvider,
+  timeout: DEFAULT_RELAY_TX_TIMEOUT,
+});
 
 if (withdrawAndSubmitResult.ok) {
-  const [spokeTxHash, hubTxHash] = withdrawAndSubmitResult.value;
-  console.log('Withdraw successful:', { spokeTxHash, hubTxHash });
+  const { srcChainTxHash, dstChainTxHash } = withdrawAndSubmitResult.value;
+  console.log('Withdraw successful:', { srcChainTxHash, dstChainTxHash });
 } else {
-  // Handle error
   console.error('Withdraw failed:', withdrawAndSubmitResult.error);
 }
 
-// Create withdraw intent only (without submitting to Solver API)
-const withdrawResult = await sodax.moneyMarket.createWithdrawIntent(
-  withdrawParams,
-  spokeProvider,
-  false // Optional: whether to return raw transaction (default: false)
-);
+// Create withdraw intent only (no relay wait)
+const withdrawIntentResult = await sodax.moneyMarket.createWithdrawIntent({
+  params: withdrawParams,
+  walletProvider: evmWalletProvider,
+});
 
-if (withdrawResult.ok) {
-  const txHash = withdrawResult.value;
+if (withdrawIntentResult.ok) {
+  const { tx: txHash, relayData } = withdrawIntentResult.value;
   console.log('Withdraw intent created:', txHash);
 } else {
-  // Handle error
-  console.error('Withdraw intent creation failed:', withdrawResult.error);
+  console.error('Withdraw intent creation failed:', withdrawIntentResult.error);
 }
 ```
 
 ## Repay Tokens
 
-Repay tokens to the money market pool. There are two methods available:
+Repay a borrowed position in the money market pool.
 
-1. `repay`: Repay tokens to the money market pool, relay the transaction to the hub and submit the intent to the Solver API
-2. `createRepayIntent`: Create repay intent only (without relay and submit to Solver API)
+1. `repay`: Executes the spoke-side deposit, relays to the hub, and waits for the relay to settle.
+2. `createRepayIntent`: Builds (and optionally broadcasts) only the spoke-side transaction without waiting for the relay.
 
 ```typescript
-import { MoneyMarketRepayParams, DEFAULT_RELAY_TX_TIMEOUT } from "@sodax/sdk";
+import { type MoneyMarketRepayParams, DEFAULT_RELAY_TX_TIMEOUT, ChainKeys } from '@sodax/sdk';
 
-// Parameters for repay operation
 const repayParams: MoneyMarketRepayParams = {
-  token: '0x...', // Address of the token (spoke chain) to repay
-  amount: 1000n, // Amount to repay (in token decimals)
+  srcChainKey: ChainKeys.BSC_MAINNET,
+  srcAddress: '0x...',
+  token: '0x...',
+  amount: 1000n,
   action: 'repay',
 };
 
 // First check and set allowance if needed
-const isAllowanceValid = await sodax.moneyMarket.isAllowanceValid(repayParams, spokeProvider);
+const isAllowanceValid = await sodax.moneyMarket.isAllowanceValid({ params: repayParams });
 
 if (!isAllowanceValid.ok) {
-  // Handle error
   console.error('Allowance check failed:', isAllowanceValid.error);
   return;
 }
 
 if (!isAllowanceValid.value) {
-  // Approve the money market contract to spend tokens
-  const approveResult = await sodax.moneyMarket.approve(
-    repayParams,
-    spokeProvider,
-    false // Optional: true = return raw transaction, false = execute and return tx hash (default: false)
-  );
+  const approveResult = await sodax.moneyMarket.approve({
+    params: repayParams,
+    walletProvider: evmWalletProvider,
+  });
 
   if (!approveResult.ok) {
-    // Handle approval error
     console.error('Approval failed:', approveResult.error);
     return;
   }
 
-  // Wait for approval transaction to be confirmed before proceeding
-  const txHash = approveResult.value;
-  console.log('Approval transaction:', txHash);
+  console.log('Approval transaction:', approveResult.value);
 }
 
-// Repay and submit to Solver API (complete operation)
-const repayAndSubmitResult = await sodax.moneyMarket.repay(
-  repayParams,
-  spokeProvider,
-  DEFAULT_RELAY_TX_TIMEOUT // Optional: timeout in milliseconds (default: 60 seconds)
-);
+// Repay and relay (complete operation)
+const repayAndSubmitResult = await sodax.moneyMarket.repay({
+  params: repayParams,
+  walletProvider: evmWalletProvider,
+  timeout: DEFAULT_RELAY_TX_TIMEOUT,
+});
 
 if (repayAndSubmitResult.ok) {
-  const [spokeTxHash, hubTxHash] = repayAndSubmitResult.value;
-  console.log('Repay successful:', { spokeTxHash, hubTxHash });
+  const { srcChainTxHash, dstChainTxHash } = repayAndSubmitResult.value;
+  console.log('Repay successful:', { srcChainTxHash, dstChainTxHash });
 } else {
-  // Handle error
   console.error('Repay failed:', repayAndSubmitResult.error);
 }
 
-// Create repay intent only (without submitting to Solver API)
-const repayResult = await sodax.moneyMarket.createRepayIntent(
-  repayParams,
-  spokeProvider,
-  false // Optional: whether to return raw transaction (default: false)
-);
+// Create repay intent only (no relay wait)
+const repayIntentResult = await sodax.moneyMarket.createRepayIntent({
+  params: repayParams,
+  walletProvider: evmWalletProvider,
+});
 
-if (repayResult.ok) {
-  const txHash = repayResult.value;
+if (repayIntentResult.ok) {
+  const { tx: txHash, relayData } = repayIntentResult.value;
   console.log('Repay intent created:', txHash);
 } else {
-  // Handle error
-  console.error('Repay intent creation failed:', repayResult.error);
+  console.error('Repay intent creation failed:', repayIntentResult.error);
 }
 ```
 
 ## Error Handling
 
-Error handling for Money Market operations is complex due to the multi-step nature of cross-chain transactions. The SDK provides specific error types and type guards to help you handle different failure scenarios appropriately.
+The Money Market module's user-facing methods return `Promise<Result<T, SodaxError<NarrowCode>>>`. Discriminate on `result.error.code` (a string literal) — never on `result.error.message`. This is the same canonical shape used by the swap module.
 
-### Error Types
+### The canonical error: `SodaxError<C>`
 
-All Money Market methods return a `Result` type that can be either successful or contain an error:
+All MM-module errors are instances of `SodaxError`, exported from `@sodax/sdk`:
 
 ```typescript
-type MoneyMarketError<T extends MoneyMarketErrorCode> = {
-  code: T;
-  data: GetMoneyMarketError<T>;
-};
+import { SodaxError, isSodaxError } from '@sodax/sdk';
 
-type MoneyMarketErrorCode =
-  | RelayErrorCode
-  | 'CREATE_SUPPLY_INTENT_FAILED'
-  | 'CREATE_BORROW_INTENT_FAILED'
-  | 'CREATE_WITHDRAW_INTENT_FAILED'
-  | 'CREATE_REPAY_INTENT_FAILED'
-  | 'SUPPLY_UNKNOWN_ERROR'
-  | 'BORROW_UNKNOWN_ERROR'
-  | 'WITHDRAW_UNKNOWN_ERROR'
-  | 'REPAY_UNKNOWN_ERROR';
+class SodaxError<C extends string = string> extends Error {
+  readonly code: C;                         // string-literal discriminator
+  readonly cause?: unknown;                 // ES2022 cause chain
+  readonly context?: Record<string, unknown>;
+  toJSON(): { name, code, message, stack, context, cause };
+}
 ```
 
-Where `RelayErrorCode` includes:
-- `'SUBMIT_TX_FAILED'` - Failed to submit the spoke chain transaction to the relay API
-- `'RELAY_TIMEOUT'` - Timeout waiting for transaction execution on the hub chain
+**Rules:**
 
-### Using Error Type Guards
+- Discriminate on `error.code` — never on `error.message` (which is human-readable, may change).
+- `error.cause` walks the underlying error chain (loggers like Sentry/Pino/Datadog walk this automatically).
+- `error.context` carries structured metadata: `srcChainKey`, `dstChainKey`, `action`, `phase`, plus per-code extras (`relayCode`, `field`, …).
+- `error.toJSON()` is the canonical logger surface; `JSON.stringify(error)` invokes it automatically and produces a logger-safe payload (bigints in `context` are coerced to strings, cause walked depth-3, no circular hazards).
+- Use `isMoneyMarketError(e)` / `is<Op>Error(e)` from `@sodax/sdk` instead of `instanceof SodaxError` in dapp/app code (bundle-safe).
 
-The SDK provides type guards to help you narrow down error types safely:
+### Per-method error code unions
+
+| Method | Codes |
+|---|---|
+| `supply` | `VALIDATION_FAILED`, `INTENT_CREATION_FAILED`, `TX_VERIFICATION_FAILED`, `TX_SUBMIT_FAILED`, `RELAY_TIMEOUT`, `RELAY_FAILED`, `EXECUTION_FAILED`, `UNKNOWN` |
+| `borrow` | same shape, `OrchestrationErrorCode` with `context.action: 'borrow'` |
+| `withdraw` | same shape, `OrchestrationErrorCode` with `context.action: 'withdraw'` |
+| `repay` | same shape, `OrchestrationErrorCode` with `context.action: 'repay'` |
+| `createSupplyIntent` | `VALIDATION_FAILED`, `INTENT_CREATION_FAILED`, `UNKNOWN` |
+| `createBorrowIntent` / `createWithdrawIntent` / `createRepayIntent` | same, per-op intent-creation code |
+| `approve` | `VALIDATION_FAILED`, `APPROVE_FAILED`, `UNKNOWN` |
+| `isAllowanceValid` | `VALIDATION_FAILED`, `ALLOWANCE_CHECK_FAILED`, `UNKNOWN` |
+| `estimateGas` | `VALIDATION_FAILED`, `GAS_ESTIMATION_FAILED`, `UNKNOWN` |
+
+Each method's narrow type alias is exported (`SupplyError`, `BorrowError`, `CreateSupplyIntentError`, etc.) along with a matching `is<Op>Error` type guard.
+
+### Standard `context` fields
 
 ```typescript
-import {
-  isMoneyMarketSubmitTxFailedError,
-  isMoneyMarketRelayTimeoutError,
-  isMoneyMarketCreateSupplyIntentFailedError,
-  isMoneyMarketCreateBorrowIntentFailedError,
-  isMoneyMarketCreateWithdrawIntentFailedError,
-  isMoneyMarketCreateRepayIntentFailedError,
-  isMoneyMarketSupplyUnknownError,
-  isMoneyMarketBorrowUnknownError,
-  isMoneyMarketWithdrawUnknownError,
-  isMoneyMarketRepayUnknownError,
-} from '@sodax/sdk';
+{
+  srcChainKey?: SpokeChainKey;
+  dstChainKey?: SpokeChainKey;
+  action?: 'supply' | 'borrow' | 'withdraw' | 'repay';  // on relay/verify codes
+  phase?: 'validate' | 'intentCreation' | 'verify' | 'submit' | 'relay' |
+          'approve' | 'allowanceCheck' | 'gasEstimation';
+  relayCode?: 'SUBMIT_TX_FAILED' | 'RELAY_TIMEOUT' | 'RELAY_POLLING_FAILED' | 'UNKNOWN';
+  field?: string;     // on VALIDATION_FAILED
+  reason?: string;
+}
 ```
 
-### Handling Money Market Operation Errors
-
-Money Market operations (supply, borrow, withdraw, repay) perform multiple operations in sequence, and each step can fail. Use the type guards to handle errors safely:
+### Discrimination example
 
 ```typescript
-const result = await sodax.moneyMarket.supply(params, spokeProvider);
+import { isMoneyMarketError, isSupplyError } from '@sodax/sdk';
+
+const result = await sodax.moneyMarket.supply({
+  params: supplyParams,
+  walletProvider: evmWalletProvider,
+});
 
 if (!result.ok) {
-  const error = result.error;
-  
-  if (isMoneyMarketSubmitTxFailedError(error)) {
-    // Failed to submit the spoke chain transaction to the relay API
-    // IMPORTANT: This is a critical event and you should retry submit
-    // and store relevant payload information in localStorage or
-    // similar local permanent memory. If client leaves the session
-    // in this critical moment their funds might get stuck until
-    // successful re-submission is made.
-    //
-    // This could be due to:
-    // - Relay API being down
-    // - Invalid transaction hash
-    // - Network connectivity issues
-    console.error('Submit transaction failed:', error.data.error);
-    console.log('Transaction hash that failed to submit:', error.data.payload);
-    
-    // You may want to retry the submission or check relay API status
-  } else if (isMoneyMarketRelayTimeoutError(error)) {
-    // The transaction was submitted but failed to execute on the hub chain
-    // This could be due to:
-    // - Timeout waiting for execution
-    // - Hub chain congestion
-    // - Transaction execution failure on hub chain
-    console.error('Transaction execution timeout:', error.data.error);
-    console.log('Transaction hash that timed out:', error.data.payload);
-    
-    // You may want to check the transaction status or retry with longer timeout
-  } else if (isMoneyMarketSupplyUnknownError(error)) {
-    // Handle supply-specific unknown errors
-    console.error('Supply operation failed:', error.data.error);
-    console.log('Supply parameters:', error.data.payload);
-  } else if (isMoneyMarketBorrowUnknownError(error)) {
-    // Handle borrow-specific unknown errors
-    console.error('Borrow operation failed:', error.data.error);
-    console.log('Borrow parameters:', error.data.payload);
-  } else if (isMoneyMarketWithdrawUnknownError(error)) {
-    // Handle withdraw-specific unknown errors
-    console.error('Withdraw operation failed:', error.data.error);
-    console.log('Withdraw parameters:', error.data.payload);
-  } else if (isMoneyMarketRepayUnknownError(error)) {
-    // Handle repay-specific unknown errors
-    console.error('Repay operation failed:', error.data.error);
-    console.log('Repay parameters:', error.data.payload);
-  } else {
-    // Handle other error cases
-    console.error('Unexpected error:', error);
+  // result.error is SupplyError = SodaxError<SupplyErrorCode>
+  switch (result.error.code) {
+    case 'VALIDATION_FAILED':
+      // Bad input — error.message is human-readable; error.context.field tells you which.
+      console.error('Bad input:', result.error.message);
+      break;
+
+    case 'INTENT_CREATION_FAILED':
+      // Spoke deposit failed.
+      console.error('Intent creation failed:', result.error.cause);
+      break;
+
+    case 'TX_VERIFICATION_FAILED':
+      // Spoke tx couldn't be verified on-chain.
+      break;
+
+    case 'TX_SUBMIT_FAILED':
+      // CRITICAL: spoke tx landed but the relay submission failed. Funds may be in flight.
+      // Persist the original supply params (or just the spoke tx hash) and retry submission.
+      console.error('Relay submit failed; retry needed:', result.error.context?.relayCode);
+      break;
+
+    case 'RELAY_TIMEOUT':
+      // Relay packet didn't confirm in time. Check intent status and retry with longer timeout.
+      break;
+
+    case 'RELAY_FAILED':
+      // Other relay failure. error.context.relayCode disambiguates:
+      //   'RELAY_POLLING_FAILED' — polling endpoint outage; query hub directly to confirm packet status.
+      //   'UNKNOWN' — forward-compat fallback for new relay error codes.
+      break;
+
+    case 'EXECUTION_FAILED':
+      // Catch-all for the supply orchestration; cause has the original.
+      console.error('Supply failed:', result.error.cause);
+      break;
+
+    case 'UNKNOWN':
+      console.error('Unexpected:', result.error.cause);
+      break;
   }
 }
 ```
 
-### Handling Create Intent Errors
+### Handling create-intent errors
 
-The `create*Intent` methods (createSupplyIntent, createBorrowIntent, etc.) have a simpler error structure since they only handle transaction creation on the spoke chain:
+`create*Intent` methods only cover the spoke-side transaction. Their narrow union excludes relay/verify codes:
 
 ```typescript
-const createIntentResult = await sodax.moneyMarket.createSupplyIntent(
-  supplyParams,
-  spokeProvider,
-  false
-);
+const r = await sodax.moneyMarket.createSupplyIntent({
+  params: supplyParams,
+  walletProvider: evmWalletProvider,
+});
 
-if (!createIntentResult.ok) {
-  const error = createIntentResult.error;
-
-  if (isMoneyMarketCreateSupplyIntentFailedError(error)) {
-    console.error('Supply intent creation failed:', error.data.error);
-    console.log('Supply parameters:', error.data.payload);
-    
-    // Common causes:
-    // - Insufficient token balance (including fee)
-    // - Invalid token addresses or chain IDs
-    // - Network issues on the spoke chain
-    // - Invalid wallet address or permissions
-    // - Contract interaction failures
-    
-    // You may want to:
-    // - Check user's token balance
-    // - Verify token addresses and chain configurations
-    // - Retry with different parameters
-  } else if (isMoneyMarketCreateBorrowIntentFailedError(error)) {
-    console.error('Borrow intent creation failed:', error.data.error);
-    console.log('Borrow parameters:', error.data.payload);
-  } else if (isMoneyMarketCreateWithdrawIntentFailedError(error)) {
-    console.error('Withdraw intent creation failed:', error.data.error);
-    console.log('Withdraw parameters:', error.data.payload);
-  } else if (isMoneyMarketCreateRepayIntentFailedError(error)) {
-    console.error('Repay intent creation failed:', error.data.error);
-    console.log('Repay parameters:', error.data.payload);
-  } else {
-    console.error('Unexpected error:', error);
+if (!r.ok) {
+  switch (r.error.code) {
+    case 'VALIDATION_FAILED':
+      // Input validation: bad amount, unsupported token, wrong wallet provider type.
+      break;
+    case 'INTENT_CREATION_FAILED':
+      // Spoke deposit failed (insufficient balance, network issues, simulation revert).
+      break;
+    case 'UNKNOWN':
+      break;
   }
 }
 ```
 
-### Handling Allowance and Approval Errors
-
-Allowance and approval operations have simpler error handling:
+### Handling allowance + approval errors
 
 ```typescript
-const allowanceCheck = await sodax.moneyMarket.isAllowanceValid(params, spokeProvider);
-
-if (!allowanceCheck.ok) {
-  console.error('Allowance check failed:', allowanceCheck.error);
-  // Handle error - could be network issues, invalid parameters, etc.
+const a = await sodax.moneyMarket.isAllowanceValid({ params: supplyParams });
+if (!a.ok && a.error.code === 'ALLOWANCE_CHECK_FAILED') {
+  // Network / RPC issue; surface to user, retry.
 }
 
-if (!allowanceCheck.value) {
-  const approveResult = await sodax.moneyMarket.approve(params, spokeProvider);
-  
-  if (!approveResult.ok) {
-    console.error('Approval failed:', approveResult.error);
-    // Handle approval error - could be insufficient balance, network issues, etc.
+if (a.ok && !a.value) {
+  const ap = await sodax.moneyMarket.approve({ params: supplyParams, walletProvider: evmWalletProvider });
+  if (!ap.ok && ap.error.code === 'APPROVE_FAILED') {
+    // Approval transaction failed.
   }
 }
 ```
 
-### Error Data Structure
+### Migration from the legacy `error.message`-based pattern
 
-Each error type contains specific data that can help with debugging and error handling:
+If you were on the previous CODE-string-on-`error.message` pattern (or the older `MoneyMarketError<Code>` typed shape that the public docs at <https://docs.sodax.com/developers/packages/foundation/sdk/functional-modules/money_market#error-handling> document), here are the mappings:
 
-```typescript
-// Relay errors (SUBMIT_TX_FAILED, RELAY_TIMEOUT)
-type MoneyMarketSubmitTxFailedError = {
-  error: RelayError;
-  payload: SpokeTxHash; // The transaction hash that failed
-};
+| Before | After |
+|---|---|
+| `error.message === 'SUBMIT_TX_FAILED'` | `error.code === 'TX_SUBMIT_FAILED'` |
+| `error.message === 'RELAY_TIMEOUT'` | `error.code === 'RELAY_TIMEOUT'` |
+| `error.message === 'CREATE_SUPPLY_INTENT_FAILED'` | `error.code === 'INTENT_CREATION_FAILED'` |
+| `error.message === 'CREATE_BORROW_INTENT_FAILED'` etc. | `error.code === 'INTENT_CREATION_FAILED'` etc. |
+| `error.message === 'SUPPLY_UNKNOWN_ERROR'` etc. | `error.code === 'EXECUTION_FAILED'` etc. (with cause) |
+| `isMoneyMarketSubmitTxFailedError(e)` | `e.code === 'TX_SUBMIT_FAILED'` (after `isSupplyError(e)` etc.) |
+| Prose `error.message` for invariants | `error.code === 'VALIDATION_FAILED'`; the prose stays on `error.message` |
+| `error.data.payload` (historical) | **Not preserved.** Capture input params before calling if you need them for retry; this is the one departure from the historical published guidance. |
 
-// Create intent errors
-type MoneyMarketSupplyFailedError = {
-  error: unknown;
-  payload: MoneyMarketSupplyParams; // The original parameters
-};
+### Best practices
 
-// Unknown errors
-type MoneyMarketUnknownError<T extends MoneyMarketUnknownErrorCode> = {
-  error: unknown;
-  payload: GetMoneyMarketParams<T>; // The original parameters
-};
-```
-
-### Best Practices for Error Handling
-
-1. **Always check for `SUBMIT_TX_FAILED` errors**: These are critical and require immediate attention to prevent funds from getting stuck.
-
-2. **Store transaction data locally**: When a `SUBMIT_TX_FAILED` error occurs, store the transaction hash and parameters locally so you can retry submission even if the user leaves the session.
-
-3. **Use type guards**: Leverage the provided type guards to safely handle different error types without type casting.
-
-4. **Access error payloads**: Use the error payload data to provide better user feedback and debugging information.
-
-5. **Implement retry logic**: For network-related errors, implement exponential backoff retry logic.
-
-6. **Provide user feedback**: Give users clear, actionable error messages based on the error type.
-
-7. **Monitor timeouts**: Use appropriate timeout values and inform users when operations take longer than expected.
-
-8. **Check transaction status**: After timeouts, check the actual transaction status on the blockchain to determine if the operation succeeded despite the timeout.
+1. **Always handle `TX_SUBMIT_FAILED`**. Critical — the spoke tx landed but the relay submission failed. Funds may be in flight; persist the user's input and retry.
+2. **Handle `RELAY_TIMEOUT` gracefully**. The spoke tx succeeded; the relay just didn't deliver in time. Check on-chain status before retrying.
+3. **Discriminate `RELAY_FAILED` via `context.relayCode`**. `'RELAY_POLLING_FAILED'` (polling outage — packet status unknown) needs different UX from generic `'UNKNOWN'`.
+4. **Use `error.cause` for forensics**. Every wrapped error preserves the original on `cause`. Loggers walk it automatically.
+5. **Use `JSON.stringify(error)` for logging**. The `toJSON()` method handles bigint coercion + cause-chain truncation safely.
+6. **Type-guard, don't `as`-cast**. Use `is<Op>Error(error)` to narrow; an `as <Op>Error` cast after a generic `isSodaxError` check would silently widen the contract.
 
 ## Data Retrieval and Formatting
 
-The Money Market SDK provides comprehensive data retrieval and formatting capabilities through the `MoneyMarketDataService`. This service allows you to fetch reserve data, user data, and format them into human-readable values with USD conversions.
+The Money Market SDK provides comprehensive data retrieval and formatting capabilities through the `MoneyMarketDataService`, accessible as `sodax.moneyMarket.data`. This service allows you to fetch reserve data, user data, and format them into human-readable values with USD conversions.
 
 ### Available Data Methods
 
-The SDK provides several methods to retrieve different types of data:
-
 #### Reserve Data
-- `getReservesList()` - Get list of all reserve addresses
-- `getReservesData()` - Get raw aggregated reserve data
-- `getReservesHumanized()` - Get humanized reserve data with normalized decimals
+- `getReservesList(unfiltered?)` - Get list of all reserve addresses (bnUSD debt reserve filtered by default)
+- `getReservesData()` - Get raw aggregated reserve data (bigint fields)
+- `getReservesHumanized()` - Get humanized reserve data with decimal strings
 - `getReserveData(asset)` - Get specific reserve data for an asset
-- `getReserveNormalizedIncome(asset)` - Get normalized income for a specific asset
+- `getReserveNormalizedIncome(asset)` - Get normalized income for a specific asset (RAY precision)
 
 #### User Data
-- `getUserReservesData(spokeChainId, userAddress)` - Get raw user reserve data
-- `getUserReservesHumanized(spokeChainId, userAddress)` - Get humanized user reserve data
+- `getUserReservesData(spokeChainKey, userAddress)` - Get raw user reserve data
+- `getUserReservesHumanized(spokeChainKey, userAddress)` - Get humanized user reserve data
 
 #### E-Mode Data
 - `getEModes()` - Get raw E-Mode data
@@ -843,22 +762,20 @@ The SDK provides several methods to retrieve different types of data:
 
 ### Data Formatting
 
-The SDK provides powerful formatting capabilities to convert raw blockchain data into human-readable values with USD conversions:
-
 #### Formatting Reserve Data
-- `formatReservesUSD()` - Format reserves with USD conversions
-- `formatReserveUSD()` - Format a single reserve with USD conversion
+- `formatReservesUSD(request)` - Format an array of reserves with USD conversions
+- `formatReserveUSD(request)` - Format a single reserve with USD conversion
 
 #### Formatting User Data
-- `formatUserSummary()` - Format user portfolio summary with USD conversions
+- `formatUserSummary(request)` - Format user portfolio summary with USD conversions
 
-**NOTE** if you need more customized formatting checkout [math-utils](https://github.com/icon-project/sodax-frontend/tree/main/packages/sdk/src/moneyMarket/math-utils).
+**NOTE**: If you need more customized formatting, see [math-utils](https://github.com/icon-project/sodax-sdks/tree/main/packages/sdk/src/moneyMarket/math-utils).
 
 ### Complete Example: Fetching and Formatting Data
 
-Here's a complete example showing how to retrieve and format money market data:
-
 ```typescript
+import { ChainKeys } from '@sodax/sdk';
+
 // Fetch reserves data
 const reserves = await sodax.moneyMarket.data.getReservesHumanized();
 
@@ -868,14 +785,16 @@ const formattedReserves = sodax.moneyMarket.data.formatReservesUSD(
 );
 
 // Fetch user reserves data
-const userReserves = await sodax.moneyMarket.data.getUserReservesHumanized(spokeChainId, userAddress);
+const userReserves = await sodax.moneyMarket.data.getUserReservesHumanized(
+  ChainKeys.BSC_MAINNET,
+  userAddress,
+);
 
 // Format user summary with USD conversions
 const userSummary = sodax.moneyMarket.data.formatUserSummary(
   sodax.moneyMarket.data.buildUserSummaryRequest(reserves, formattedReserves, userReserves),
 );
 
-// Display formatted data
 console.log('formattedReserves:', formattedReserves);
 console.log('userSummary:', userSummary);
 ```
@@ -884,19 +803,20 @@ console.log('userSummary:', userSummary);
 
 #### 1. Fetch Raw Data
 
-First, retrieve the raw data from the blockchain:
-
 ```typescript
-// Get humanized reserves data (normalized decimals)
+import { ChainKeys } from '@sodax/sdk';
+
+// Get humanized reserves data (decimal strings, no bigint)
 const reserves = await sodax.moneyMarket.data.getReservesHumanized();
 
-// Get user reserves data for a specific spoke provider
-const userReserves = await sodax.moneyMarket.data.getUserReservesHumanized(spokeChainId, userAddress);
+// Get user reserves data for a specific spoke chain
+const userReserves = await sodax.moneyMarket.data.getUserReservesHumanized(
+  ChainKeys.BSC_MAINNET,
+  userAddress,
+);
 ```
 
 #### 2. Build Formatting Requests
-
-Use the helper methods to build the formatting requests:
 
 ```typescript
 // Build request for reserve formatting
@@ -912,8 +832,6 @@ const userSummaryRequest = sodax.moneyMarket.data.buildUserSummaryRequest(
 
 #### 3. Format Data
 
-Apply the formatting to get human-readable values with USD conversions:
-
 ```typescript
 // Format reserves with USD values
 const formattedReserves = sodax.moneyMarket.data.formatReservesUSD(reserveFormatRequest);
@@ -926,53 +844,30 @@ const userSummary = sodax.moneyMarket.data.formatUserSummary(userSummaryRequest)
 
 #### Formatted Reserve Data
 
-The `formattedReserves` array contains objects with the following structure:
+The `formattedReserves` array entries extend the humanized reserve shape with USD-denominated fields computed by `formatReservesUSD`:
 
 ```typescript
-type FormattedReserve = {
-  // Basic reserve information
-  symbol: string;
-  name: string;
-  decimals: number;
-  address: string;
-  
-  // Supply information
-  totalScaledVariableDebt: string;
-  availableLiquidity: string;
-  totalPrincipalStableDebt: string;
-  averageStableRate: string;
-  liquidityIndex: string;
-  variableBorrowIndex: string;
-  lastUpdateTimestamp: number;
-  
-  // USD values
+// Key USD-formatted fields added by formatReservesUSD:
+{
+  // Supply / borrow APY as decimal strings
+  supplyAPY: string;
+  variableBorrowAPY: string;
+
+  // USD totals as decimal strings
   totalLiquidityUSD: string;
   totalVariableDebtUSD: string;
-  totalStableDebtUSD: string;
   availableLiquidityUSD: string;
-  
-  // Rates and factors
-  liquidityRate: string;
-  variableBorrowRate: string;
-  stableBorrowRate: string;
-  averageStableRate: string;
-  liquidityIndex: string;
-  variableBorrowIndex: string;
-  
-  // Configuration
-  usageAsCollateralEnabledOnUser: boolean;
-  borrowingEnabled: boolean;
-  stableBorrowRateEnabled: boolean;
-  isActive: boolean;
-  isFrozen: boolean;
-  
-  // E-Mode
-  eModeCategoryId: number;
-  
-  // Price information
+
+  // Utilisation as decimal string
+  utilizationRate: string;
+
+  // Price from base currency
   priceInMarketReferenceCurrency: string;
-  priceInUsd: string;
-};
+  priceInUSD: string;
+
+  // Original humanized fields (symbol, decimals, rates as decimal strings, etc.)
+  // are preserved on the same object
+}
 ```
 
 #### Formatted User Summary
@@ -980,35 +875,17 @@ type FormattedReserve = {
 The `userSummary` object contains the user's portfolio information:
 
 ```typescript
-type FormattedUserSummary = {
-  // Total portfolio values
+// Key fields in FormatUserSummaryResponse:
+{
   totalCollateralUSD: string;
   totalBorrowsUSD: string;
   totalLiquidityUSD: string;
-  totalFeesUSD: string;
-  totalRewardsUSD: string;
-  
-  // Health factor and borrowing power
   healthFactor: string;
   availableBorrowsUSD: string;
-  availableBorrowsMarketReferenceCurrency: string;
-  
-  // Liquidation information
-  totalCollateralMarketReferenceCurrency: string;
-  totalBorrowsMarketReferenceCurrency: string;
-  totalFeesMarketReferenceCurrency: string;
-  totalRewardsMarketReferenceCurrency: string;
-  
-  // Current timestamp
   currentTimestamp: number;
-  
-  // Market reference currency info
-  marketReferenceCurrencyDecimals: number;
-  marketReferenceCurrencyPriceInUsd: string;
-  
-  // E-Mode information
   userEmodeCategoryId: number;
-};
+  // ... additional fields
+}
 ```
 
 ### Utility Functions
@@ -1018,20 +895,11 @@ The SDK also provides utility functions for formatting specific values:
 ```typescript
 import { formatPercentage, formatBasisPoints } from '@sodax/sdk';
 
-// Format percentage values (e.g., interest rates)
-// rateValue is a bigint representing the rate with 27 decimals
-const rateValue = 52500000000000000000000000n; // 5.25% with 27 decimals
+// Format RAY-precision (27 decimal) rate as a percentage string
+const rateValue = 52500000000000000000000000n; // 5.25% in RAY
 const formattedRate = formatPercentage(rateValue, 27); // Returns "5.25%"
 
-// Format basis points
-// basisPointsValue is a bigint representing basis points (1 basis point = 0.01%)
-const basisPointsValue = 250n; // 250 basis points = 2.50%
+// Format basis points (1 bp = 0.01%) as a percentage string
+const basisPointsValue = 250n; // 250 bps = 2.50%
 const formattedBasisPoints = formatBasisPoints(basisPointsValue); // Returns "2.50%"
-
-// Example with different values
-const highRate = 150000000000000000000000000n; // 15% with 27 decimals
-const highRateFormatted = formatPercentage(highRate, 27); // Returns "15.00%"
-
-const lowBasisPoints = 50n; // 50 basis points = 0.50%
-const lowBasisPointsFormatted = formatBasisPoints(lowBasisPoints); // Returns "0.50%"
 ```
