@@ -41,7 +41,6 @@
   * [Monetize SDK](developers/packages/sdk/docs/MONETIZE_SDK.md)
   * [Configure SDK](developers/packages/sdk/docs/CONFIGURE_SDK.md)
   * [Make a Swap](developers/packages/sdk/docs/HOW_TO_MAKE_A_SWAP.md)
-  * [Create a Spoke Provider](developers/packages/sdk/docs/HOW_TO_CREATE_A_SPOKE_PROVIDER.md)
   * [Setup Wallet Providers](developers/packages/sdk/docs/WALLET_PROVIDERS.md)
   * [Estimate Gas](developers/packages/sdk/docs/ESTIMATE_GAS.md)
   * [Handle Stellar Trustline](developers/packages/sdk/docs/STELLAR_TRUSTLINE.md)

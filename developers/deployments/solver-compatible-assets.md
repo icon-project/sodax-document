@@ -224,6 +224,8 @@ description: Assets (tokens) supported by mainnet solver (swaps).
 - ✅ vSUI [`0x025715bcda08db06c795cd5bf944e2081468d99a`](https://sonicscan.org/address/0x025715bcda08db06c795cd5bf944e2081468d99a)
 - ✅ yapSUI [`0xac509404f3a3ca3f7766baf65be45a52b1cfccd7`](https://sonicscan.org/address/0xac509404f3a3ca3f7766baf65be45a52b1cfccd7)
 - ✅ trevinSUI [`0x514569c788b096595672e0f68ec72387a22ac67b`](https://sonicscan.org/address/0x514569c788b096595672e0f68ec72387a22ac67b)
+- 🟨 WAL [`0x72a726ab67c382e8946a79e9872ea32695661e11`](https://sonicscan.org/address/0x72a726ab67c382e8946a79e9872ea32695661e11)
+- 🟨 DEEP [`0x93057085a4627cec26b31477a02f62412cc0485f`](https://sonicscan.org/address/0x93057085a4627cec26b31477a02f62412cc0485f)
 
 ### DeX
 - ✅ [Cetus V3](https://app.cetus.zone/swap)

@@ -39,7 +39,7 @@ Intent Canceller: [0x7Ec046CEB0C01A2Ef16C77d2e6bB56E3AF3464cf](https://sonicscan
 | Savings (pending ownership) | [0xBda7F133f99D20c9B8F59660e7Ee9303c76641ce](https://sonicscan.org/address/0xBda7F133f99D20c9B8F59660e7Ee9303c76641ce) |
 | ProtocolIntents (pending ownership) | [0xaFf2EDb3057ed6f9C1dA6c930b8ddDf2beE573A5](https://sonicscan.org/address/0xaFf2EDb3057ed6f9C1dA6c930b8ddDf2beE573A5) |
 | FeeTreasury (pending ownership) | [0xf2E26765949731f251D5d15f30f483b7a321b3A4](https://sonicscan.org/address/0xf2E26765949731f251D5d15f30f483b7a321b3A4) |
-| Trickler (pending ownership) | [0x1E8A0571E841B46531a5bc73e0b8442ab0E1D375](https://sonicscan.org/address/0x1E8A0571E841B46531a5bc73e0b8442ab0E1D375) |
+| Trickler (pending ownership) | [0xFB64C51484B7E0B0aAc3bb05f9a4425bf39d6176](https://sonicscan.org/address/0xFB64C51484B7E0B0aAc3bb05f9a4425bf39d6176) |
 | Spokes Manager | [0x84173cB4dc74686fD15054eDC7AdE9BD3b66cB77](https://sonicscan.org/address/0x84173cB4dc74686fD15054eDC7AdE9BD3b66cB77) |
 
 # SodaTokens (Vault tokens)
@@ -177,7 +177,7 @@ Intent Canceller: [0x7Ec046CEB0C01A2Ef16C77d2e6bB56E3AF3464cf](https://sonicscan
 |-------|---------|
 | ETH(18) | [0xdcd9578b51ef55239b6e68629d822a8d97c95b86](https://sonicscan.org/address/0xdcd9578b51ef55239b6e68629d822a8d97c95b86) |
 | [bnUSD(18)](https://arbiscan.io/address/0xA256dd181C3f6E5eC68C6869f5D50a712d47212e) | [0x419cA9054E44E94ceAb52846eCdC3997439BBcA6](https://sonicscan.org/address/0x419cA9054E44E94ceAb52846eCdC3997439BBcA6) |
-| [Soda(18)](https://arbiscan.io/address/0x6958a4CBFe11406E2a1c1d3a71A1971aD8B3b92F) | [0x93a367e5b37a1b9e8d04ef25a6af40d181a3dfff](https://sonicscan.org/address/0x93a367e5b37a1b9e8d04ef25a6af40d181a3dfff) |
+| [Soda(18)](https://arbiscan.io/address/0x5bda87f18109CA85fa7ADDf1D48B97734e9dc6F5) | [0x66be65dd6d2401c179a2f7ab2d5cdfb040567727](https://sonicscan.org/address/0x93a367e5b37a1b9e8d04ef25a6af40d181a3dfff) |
 | [wBTC(8)](https://arbiscan.io/address/0x2f2a2543B76A4166549F7aaB2e75Bef0aefC5B0f) | [0xfB0ACB1b2720B620935F50a6dd3F7FEA52b2FCBe](https://sonicscan.org/address/0xfB0ACB1b2720B620935F50a6dd3F7FEA52b2FCBe) |
 | [weETH(18)](https://arbiscan.io/address/0x35751007a407ca6FEFfE80b3cB397736D2cf4dbe) | [0x08D5cf039De35627fD5C0f48B8AF4a1647a462E8](https://sonicscan.org/address/0x08D5cf039De35627fD5C0f48B8AF4a1647a462E8) |
 | [wstETH(18)](https://arbiscan.io/address/0x5979D7b546E38E414F7E9822514be443A4800529) | [0x2D5A7837D68b0c2CC4b14C2af2a1F0Ef420DDDc5](https://sonicscan.org/address/0x2D5A7837D68b0c2CC4b14C2af2a1F0Ef420DDDc5) |
@@ -552,7 +552,7 @@ USD Feed: [0x79fa150c700adeaf618475E8CB17933e7A9c3214](https://sonicscan.org/add
 |sftUSD/USD | Redmption (Fixed to USDC, not ftUSD) | [0x7c97cd6bf7fa9e4a21ba23ef0d8202e5409df6f2](https://sonicscan.org/address/0x7c97cd6bf7fa9e4a21ba23ef0d8202e5409df6f2) | 
 |STX/USD | 0xec7a775f46379b5e943c3526b1c8d54cd49749176b0b98e02dde68d1bd335c17 | [0xa5217f64b1bf0b4200e68446af053ee8e8d95e38](https://sonicscan.org/address/0xa5217f64b1bf0b4200e68446af053ee8e8d95e38) | 
 |LL/USD | 0x2805c8894235111024c54253267f2b325be23763d534d2051742e39234b5835a | [0x616e8ffc3fd58901dbc76ea88d3255c5f6f8d819](https://sonicscan.org/address/0x616e8ffc3fd58901dbc76ea88d3255c5f6f8d819) | 
-
+|HyTbills | Redmeption | [0x270e3677f93709ba67411b4273a1dfddf9aa689b](https://sonicscan.org/address/0x270e3677f93709ba67411b4273a1dfddf9aa689b) |
 
 # Money Market
 
