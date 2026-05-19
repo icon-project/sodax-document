@@ -149,6 +149,11 @@ inject_description_frontmatter "$DST/how-to/bitcoin-integration.md" \
   "Bitcoin Integration"
 fix_synced_links "$DST/how-to/bitcoin-integration.md"
 
+# 7c) AI Integration (sodax-sdks/docs/ai-integration-guide.md → developers/ai-integration/README.md)
+copy_file "$SRC/docs/ai-integration-guide.md" "$DST/ai-integration/README.md"
+inject_frontmatter "$DST/ai-integration/README.md" "robot" \
+  "Every @sodax/* package on npm ships AI-readable docs at ai-exported/. Point Cursor, Claude Code, Copilot, or another coding agent at those files for v2-correct SDK code on the first try."
+
 # 8) Connection layer
 copy_file "$SRC/packages/wallet-sdk-core/README.md"  "$DST/packages/connection/wallet-sdk-core.md"
 copy_file "$SRC/packages/wallet-sdk-react/README.md" "$DST/packages/connection/wallet-sdk-react.md"
