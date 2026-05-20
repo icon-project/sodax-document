@@ -21,7 +21,7 @@
         * [Swaps (Solver)](developers/packages/foundation/sdk/functional-modules/swaps.md)
         * [Lend / Borrow (Money Market)](developers/packages/foundation/sdk/functional-modules/money_market.md)
         * [Bridge](developers/packages/foundation/sdk/functional-modules/bridge.md)
-        * [Staking](developers/packages/foundation/sdk/functional-modules/staking.md)
+        * [Staking (SODA asset)](developers/packages/foundation/sdk/functional-modules/staking.md)
         * [Migration](developers/packages/foundation/sdk/functional-modules/migration.md)
       * [Tooling Modules](developers/packages/foundation/sdk/tooling-modules/README.md)
         * [Backend API](developers/packages/foundation/sdk/tooling-modules/backend_api.md)
