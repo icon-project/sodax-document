@@ -18,7 +18,7 @@ description: >-
 
 <table data-card-size="large" data-view="cards"><thead><tr><th></th><th data-hidden data-card-cover data-type="image">Cover image</th></tr></thead><tbody><tr><td>Integrate the SODAX SDK and get access to all networks<br><a href="developers/packages/foundation/sdk/" class="button primary" data-icon="cup-straw">@sodax/sdk</a></td><td><a href=".gitbook/assets/sodax-sdk-2.jpg">sodax-sdk-2.jpg</a></td></tr><tr><td><p>Integrate Bitcoin as a source or destination chain</p><p><a href="https://docs.sodax.com/developers/how-to/bitcoin-integration" class="button primary" data-icon="bitcoin">Bitcoin Integration</a></p></td><td><a href=".gitbook/assets/1779804933397-Blog__56_.webp">1779804933397-Blog__56_.webp</a></td></tr></tbody></table>
 
-### WHAT SODAX GIVES YOU
+### What SODAX gives you
 
 SODAX is execution infrastructure for modern money. You integrate one SDK, and your app can exchange, lend, borrow, and settle across blockchain networks as if there were no boundaries.
 
@@ -34,7 +34,7 @@ Three things you get out of one integration:
 
 ***
 
-### THE SDK STACK
+### The SDK stack
 
 The SODAX developer suite is a dependency stack. Integrate at the foundation for maximum control, or use the higher layers for speed.
 
@@ -71,7 +71,7 @@ The highest-level layer, built for speed. An opinionated set of UI components, h
 
 ***
 
-### HOW EXECUTION WORKS (was "Core Components")
+### How execution works
 
 Cross-network execution is asynchronous by nature, depends on liquidity fragmented across networks, and is exposed to volatility and partial completion. Asset transfers can succeed while the action they were meant to enable fails: collateral arrives but the borrow does not fill, a quoted price cannot be filled when execution begins.
 
@@ -103,7 +103,7 @@ SODAX coordinates cross-network account state as part of the execution layer, ra
 
 ***
 
-### WHAT YOU CAN BUILD
+### What you can build
 
 SODAX is a modular execution system. Integrate each SDK module on its own, or combine them.
 
@@ -111,7 +111,7 @@ SODAX is a modular execution system. Integrate each SDK module on its own, or co
 
 <p align="center"><a href="https://sodax.com/partners" class="button primary" data-icon="handshake">Go to sodax.com/partners</a></p>
 
-### WHY BUILD ON SODAX
+### Why build with SODAX
 
 * **Execution beyond routing.** Routes move assets. SODAX coordinates liquidity so swaps, borrows, and deposits actually settle across networks.
 * **One SDK, modular usage.** Integrate @sodax/sdk once, then use only the modules you need.
@@ -121,7 +121,7 @@ SODAX is a modular execution system. Integrate each SDK module on its own, or co
 
 ***
 
-### ECOSYSTEM REACH
+### Ecosystem reach
 
 * **Networks:** 18+ networks spanning EVM and non-EVM environments, including Ethereum, Arbitrum, Base, BNB Chain, Avalanche, Optimism, Polygon, Solana, Sui, Stellar, Injective, and ICON.
 * **Money market:** 26 assets available for lending and borrowing across networks.
@@ -130,7 +130,7 @@ SODAX is a modular execution system. Integrate each SDK module on its own, or co
 
 ***
 
-### PROTOCOL-OWNED LIQUIDITY (POL)
+### Protocol-owned liquidity (POL)
 
 SODAX deploys protocol-owned liquidity as part of its unified execution inventory, so cross-network actions can complete reliably.
 
@@ -142,7 +142,7 @@ Together, these provide the execution infrastructure modern money needs across n
 
 ***
 
-### NEXT
+### Next
 
 * Install [@sodax/sdk](./#id-1.-foundation-sodax-sdk) and ship your first cross-network action.
 * Or scope it first: run the [Builders MCP](https://builders.sodax.com/) against your repo.
