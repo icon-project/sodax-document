@@ -47,3 +47,7 @@
   * [Bitcoin Integration](developers/how-to/bitcoin-integration.md)
 * [AI Integration](developers/ai-integration/README.md)
 * [FAQ](developers/faq.md)
+
+***
+
+* [SODAX MCP Server | Cross-Network (Cross-Chain) DeFi API Data & SDK Docs](sodax-mcp-server-or-cross-network-cross-chain-defi-api-data-and-sdk-docs.md)
