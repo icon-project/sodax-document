@@ -16,7 +16,7 @@ description: >-
 
 ***
 
-<table data-view="cards"><thead><tr><th></th><th data-hidden data-card-cover data-type="image">Cover image</th></tr></thead><tbody><tr><td>Go to @sodax/sdk<br><br><a href="developers/packages/foundation/sdk/" class="button primary" data-icon="cup-straw">@sodax/sdk</a></td><td><a href=".gitbook/assets/sodax-sdk-2.jpg">sodax-sdk-2.jpg</a></td></tr><tr><td><p>View SDK breakdown<br></p><p><a href="./#developer-ecosystem" class="button primary" data-icon="chevrons-down">Scroll down</a></p></td><td><a href=".gitbook/assets/sodax-sdk-3.jpg">sodax-sdk-3.jpg</a></td></tr><tr><td><p>Get in touch<br></p><p><a href="https://sodax.com/partners" class="button primary" data-icon="handshake">Go to partners</a></p></td><td><a href=".gitbook/assets/sodax-sdk.jpg">sodax-sdk.jpg</a></td></tr></tbody></table>
+<table data-card-size="large" data-view="cards"><thead><tr><th></th><th data-hidden data-card-cover data-type="image">Cover image</th></tr></thead><tbody><tr><td>Go to @sodax/sdk<br><br><a href="developers/packages/foundation/sdk/" class="button primary" data-icon="cup-straw">@sodax/sdk</a></td><td><a href=".gitbook/assets/sodax-sdk-2.jpg">sodax-sdk-2.jpg</a></td></tr><tr><td><p>Integrate Bitcoin as a source or destination chain</p><p><a href="https://docs.sodax.com/developers/how-to/bitcoin-integration" class="button primary" data-icon="bitcoin">Bitcoin Integration</a></p></td><td><a href=".gitbook/assets/1779804933397-Blog__56_.webp">1779804933397-Blog__56_.webp</a></td></tr></tbody></table>
 
 SODAX is built as infrastructure for modern money, coordinating how DeFi actions execute across multiple networks under real-world conditions.
 
