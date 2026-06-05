@@ -1,17 +1,18 @@
 ---
 description: >-
-  SODAX is execution coordination and liquidity infrastructure for modern money,
-  enabling applications to deliver real DeFi use-cases and predictable outcomes
-  across multiple networks.
+  One SDK. Every network. Scope the integration from your own repo before you
+  commit.
 ---
 
-# Product Overview
+# Build with SODAX
 
-{% hint style="info" %}
-**Scope your integration before you commit.** Run the SODAX Builders MCP locally against your own codebase. Your AI assistant reads your repo and tells you exactly what a SODAX integration looks like and how light the lift actually is. No call required.
+{% hint style="success" %}
+**See what integration takes before you commit.** Run the SODAX Builders MCP locally against your own codebase. Your AI assistant reads your repo and maps exactly what a SODAX integration looks like and how light the work is. One integration reaches all networks. No call required.
 
-[Try the Builders MCP](https://docs.sodax.com)
+[Try the Builders MCP](https://builders.sodax.com/)
 {% endhint %}
+
+{% embed url="https://gist.github.com/DavidFBD/5317ad739330cecd497010655187b8bc" %}
 
 ***
 
