@@ -36,11 +36,14 @@ Intent Canceller: [0x7Ec046CEB0C01A2Ef16C77d2e6bB56E3AF3464cf](https://sonicscan
 | sodaVault  | [0x21685E341DE7844135329914Be6Bd8D16982d834](https://sonicscan.org/address/0x21685E341DE7844135329914Be6Bd8D16982d834) |
 | stSoda  | [0x4333B324102d00392038ca92537DfbB8CB0DAc68](https://sonicscan.org/address/0x4333B324102d00392038ca92537DfbB8CB0DAc68) |
 | xSoda  | [0xADC6561Cc8FC31767B4917CCc97F510D411378d9](https://sonicscan.org/address/0xADC6561Cc8FC31767B4917CCc97F510D411378d9) |
-| Savings (pending ownership) | [0xBda7F133f99D20c9B8F59660e7Ee9303c76641ce](https://sonicscan.org/address/0xBda7F133f99D20c9B8F59660e7Ee9303c76641ce) |
 | ProtocolIntents (pending ownership) | [0xaFf2EDb3057ed6f9C1dA6c930b8ddDf2beE573A5](https://sonicscan.org/address/0xaFf2EDb3057ed6f9C1dA6c930b8ddDf2beE573A5) |
-| FeeTreasury (pending ownership) | [0xf2E26765949731f251D5d15f30f483b7a321b3A4](https://sonicscan.org/address/0xf2E26765949731f251D5d15f30f483b7a321b3A4) |
-| Trickler (pending ownership) | [0xFB64C51484B7E0B0aAc3bb05f9a4425bf39d6176](https://sonicscan.org/address/0xFB64C51484B7E0B0aAc3bb05f9a4425bf39d6176) |
+| FeeTreasury (pending ownership) (pending feem) | [0xf2E26765949731f251D5d15f30f483b7a321b3A4](https://sonicscan.org/address/0xf2E26765949731f251D5d15f30f483b7a321b3A4) |
+| Trickler  | [0xFB64C51484B7E0B0aAc3bb05f9a4425bf39d6176](https://sonicscan.org/address/0xFB64C51484B7E0B0aAc3bb05f9a4425bf39d6176) |
 | Spokes Manager | [0x84173cB4dc74686fD15054eDC7AdE9BD3b66cB77](https://sonicscan.org/address/0x84173cB4dc74686fD15054eDC7AdE9BD3b66cB77) |
+| Liquidator  (pending Ownership and Feem)| [0xc3297fbe4c404b3902852c227fefcccfa48fb7ec](https://sonicscan.org/address/0xc3297fbe4c404b3902852c227fefcccfa48fb7ec) |
+| MarketMaking (pending Ownership and Feem)| [0x44f5830bed0916e26746095aac195794ecad1e07](https://sonicscan.org/address/0x44f5830bed0916e26746095aac195794ecad1e07) |
+
+
 
 # SodaTokens (Vault tokens)
 | Token | Address | Assets |
@@ -48,7 +51,9 @@ Intent Canceller: [0x7Ec046CEB0C01A2Ef16C77d2e6bB56E3AF3464cf](https://sonicscan
 | sodaBNB | [0x40Cd41b35DB9e5109ae7E54b44De8625dB320E6b](https://sonicscan.org/address/0x40Cd41b35DB9e5109ae7E54b44De8625dB320E6b) | BNB
 | sodaAVAX | [0x14238D267557E9d799016ad635B53CD15935d290](https://sonicscan.org/address/0x14238D267557E9d799016ad635B53CD15935d290) | AVAX|
 | sodaETH | [0x4effB5813271699683C25c734F4daBc45B363709](https://sonicscan.org/address/0x4effB5813271699683C25c734F4daBc45B363709) | ETH, ETHB, Sonic WETH |
-| sodaBTC | [0x7A1A5555842Ad2D0eD274d09b5c4406a95799D5d](https://sonicscan.org/address/0x7A1A5555842Ad2D0eD274d09b5c4406a95799D5d) | cbBTC, tBTC, wBTC, BTCB|
+| sodaBTC | [0x7A1A5555842Ad2D0eD274d09b5c4406a95799D5d](https://sonicscan.org/address/0x7A1A5555842Ad2D0eD274d09b5c4406a95799D5d) | BTC, BTCB, cbBTC, tBTC, BTC.LL, rBTC (wBTC/WBTC deposits paused — moved to sodaWBTC)|
+|sodaWBTC| [0x811C3fCc13f9c2a23AE2Ae2DCadacFAC6eb5f0eB](https://sonicscan.org/address/0x811C3fCc13f9c2a23AE2Ae2DCadacFAC6eb5f0eB) | wBTC (Arbitrum), WBTC (Ethereum) |
+|sodaHASUI| [0x1F489952aCa084a5594cF3c206a47d63782E9e66](https://sonicscan.org/address/0x1F489952aCa084a5594cF3c206a47d63782E9e66) | haSUI |
 | sodaSOL | [0xdEa692287E2cE8Cb08FA52917Be0F16b1DACDC87](https://sonicscan.org/address/0xdEa692287E2cE8Cb08FA52917Be0F16b1DACDC87) |SOL
 | sodaXLM | [0x6BC8C37cba91F76E68C9e6d689A9C21E4d32079B](https://sonicscan.org/address/0x6BC8C37cba91F76E68C9e6d689A9C21E4d32079B) |XLM|
 | sodaINJ | [0x1f22279C89B213944b7Ea41daCB0a868DdCDFd13](https://sonicscan.org/address/0x1f22279C89B213944b7Ea41daCB0a868DdCDFd13) | INJ |
@@ -71,6 +76,7 @@ Intent Canceller: [0x7Ec046CEB0C01A2Ef16C77d2e6bB56E3AF3464cf](https://sonicscan
 |sodaSUSDS| [0x243b0c26c8b38793908d7C64e8510f21B19B4613](https://sonicscan.org/address/0x243b0c26c8b38793908d7C64e8510f21B19B4613) | sUSDS |
 |sodaSTX| [0x1Fbe5229e9d189F26bEE77E5bFa24309FdA90483](https://sonicscan.org/address/0x1Fbe5229e9d189F26bEE77E5bFa24309FdA90483) | STX |
 |sodastfUSD| [0x0902B2Bc326AB373bE4fE20605690b0422998685](https://sonicscan.org/address/0x0902B2Bc326AB373bE4fE20605690b0422998685) | stfUSD |
+|sodaHBAR| [0x3BB956cc8922E1Ba4148dc10eD1b4Fa19aa599c4](https://sonicscan.org/address/0x3BB956cc8922E1Ba4148dc10eD1b4Fa19aa599c4) | HBAR |
 
 # Spokes
 ## Sonic
@@ -292,6 +298,21 @@ Intent Canceller: [0x7Ec046CEB0C01A2Ef16C77d2e6bB56E3AF3464cf](https://sonicscan
 | [USDC(6)](https://purrsec.com/address/0xb88339CB7199b77E23DB6E890353E22632Ba630f) | [0x0f78b995d113712deeb17d96638e9d7525d409c6](https://sonicscan.org/address/0x0f78b995d113712deeb17d96638e9d7525d409c6)  |
 | [USDT(6)](https://purrsec.com/address/0xb8ce59fc3717ada4c02eadf9682a9e934f625ebb) | [0x87f73744d919447e6f8220f268bcbbfa0cbfafa3](https://sonicscan.org/address/0x87f73744d919447e6f8220f268bcbbfa0cbfafa3)  |
 
+## Hedera
+### Core Contracts
+| Contract | Address |
+|----------|---------|
+| Connection | [0x4555aC13D7338D9E671584C1D118c06B2a3C88eD](https://hashscan.io/mainnet/contract/0x4555aC13D7338D9E671584C1D118c06B2a3C88eD) |
+| RateLimit | [0x6d2126db97dd88afa85127253807d04a066b6746](https://hashscan.io/mainnet/contract/0x6d2126db97dd88afa85127253807d04a066b6746) |
+| SpokeAssetManager | [0x0df73542cc68bdc01b361d231c60f726b0e0bc05](https://hashscan.io/mainnet/contract/0x0df73542cc68bdc01b361d231c60f726b0e0bc05) |
+
+### Assets
+| Token | Hedera Address | Asset Address |
+|-------|----------------|---------------|
+| HBAR (Native, 8) | — | [0x5c18c543b6B6EA97dE739F48C49CfC291B3AD465](https://sonicscan.org/address/0x5c18c543b6B6EA97dE739F48C49CfC291B3AD465) |
+| [bnUSD (8)](https://hashscan.io/mainnet/token/0.0.10496106) | [0x0000000000000000000000000000000000a0286a](https://hashscan.io/mainnet/contract/0x0000000000000000000000000000000000a0286a) | [0x44be1984cd279334a630469fa357305c7dba2837](https://sonicscan.org/address/0x44be1984cd279334a630469fa357305c7dba2837) |
+| [SODA (8)](https://hashscan.io/mainnet/token/0.0.10496105) | [0x0000000000000000000000000000000000a02869](https://hashscan.io/mainnet/contract/0x0000000000000000000000000000000000a02869) | [0x1217721376839dbffe78093ddd5d8e50d0239b3f](https://sonicscan.org/address/0x1217721376839dbffe78093ddd5d8e50d0239b3f) |
+| [USDC (6)](https://hashscan.io/mainnet/token/0.0.456858) | [0x000000000000000000000000000000000006f89a](https://hashscan.io/mainnet/contract/0x000000000000000000000000000000000006f89a) | [0xafafae0c1476424c4b81f09095bd7dcb858047c8](https://sonicscan.org/address/0xafafae0c1476424c4b81f09095bd7dcb858047c8) |
 
 ## Lightlink
 | Contract | Address |
@@ -478,7 +499,7 @@ Intent Canceller: [0x7Ec046CEB0C01A2Ef16C77d2e6bB56E3AF3464cf](https://sonicscan
 ## Bitcoin [Encoding=utf8]
 | Contract | Address |
 |----------|---------|
-| AssetManager (Staging) | [bc1p4z9555xw0266vhq2x5un4zdmm9dt9zyet32fs7wa7u5ckdxusd9qsw4xfx](https://mempool.space/address/bc1p4z9555xw0266vhq2x5un4zdmm9dt9zyet32fs7wa7u5ckdxusd9qsw4xfx) |
+| AssetManager (Staging) | [bc1pcz4pyrfgv7v6tx8a404mafyvt73cnm80yuv8tqwrywxmqxpja8ys4pjyl5](https://mempool.space/address/bc1pcz4pyrfgv7v6tx8a404mafyvt73cnm80yuv8tqwrywxmqxpja8ys4pjyl5) |
 | BTC_Registry | [0xe242683faACEB5D2586a6c89e30c533D41FAA2a2](0x0c09e69a4528945de6d16c7e469dea6996fdf636](https://sonicscan.org/address/0xe242683faACEB5D2586a6c89e30c533D41FAA2a2) |
 
 #### Assets
@@ -553,7 +574,9 @@ USD Feed: [0x79fa150c700adeaf618475E8CB17933e7A9c3214](https://sonicscan.org/add
 |STX/USD | 0xec7a775f46379b5e943c3526b1c8d54cd49749176b0b98e02dde68d1bd335c17 | [0xa5217f64b1bf0b4200e68446af053ee8e8d95e38](https://sonicscan.org/address/0xa5217f64b1bf0b4200e68446af053ee8e8d95e38) | 
 |LL/USD | 0x2805c8894235111024c54253267f2b325be23763d534d2051742e39234b5835a | [0x616e8ffc3fd58901dbc76ea88d3255c5f6f8d819](https://sonicscan.org/address/0x616e8ffc3fd58901dbc76ea88d3255c5f6f8d819) | 
 |HyTbills | Redmeption | [0x270e3677f93709ba67411b4273a1dfddf9aa689b](https://sonicscan.org/address/0x270e3677f93709ba67411b4273a1dfddf9aa689b) |
-
+| JitoSOL/USD | Redemption | [0xee9a7f4d1771d6f6c4c31f15edf42bab4201def2](https://sonicscan.org/address/0xee9a7f4d1771d6f6c4c31f15edf42bab4201def2) |
+|JitoSOL/SOL | 0x01d577b07031e12635d2fb86af6ae938bdc2b6dba9602d8e8af34d44587566fc | [0xefac93e112ce6579e4ea2fca01f46f52aacf11bd](https://sonicscan.org/address/0xefac93e112ce6579e4ea2fca01f46f52aacf11bd) | 
+|WBTC/USD | 0xc9d8b075a5c69303365ae23633d4e085199bf5c520a3b90fed1322a0342ffc33 | [0xfc35fddde7d5a55ce4e569a7e4290ac60b9b68f9](https://sonicscan.org/address/0xfc35fddde7d5a55ce4e569a7e4290ac60b9b68f9) | 
 # Money Market
 
 | Contract | Address |
