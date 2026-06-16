@@ -14,7 +14,7 @@ description: >-
 
 ***
 
-<table data-card-size="large" data-view="cards"><thead><tr><th></th><th data-hidden data-card-cover data-type="image">Cover image</th></tr></thead><tbody><tr><td>Integrate the SODAX SDK and launch swaps with xStocks<br><a href="developers/packages/sdk/docs/HOW_TO_MAKE_A_SWAP.md" class="button primary" data-icon="magnifying-glass-arrows-rotate">Make a swap</a></td><td><a href=".gitbook/assets/SodaxSDKCarousel4.png">SodaxSDKCarousel4.png</a></td></tr><tr><td><p>Integrate Bitcoin as a source or destination network</p><p><a href="https://docs.sodax.com/developers/how-to/bitcoin-integration" class="button primary" data-icon="bitcoin">Bitcoin Integration</a></p></td><td><a href=".gitbook/assets/1779804933397-Blog__56_.webp">1779804933397-Blog__56_.webp</a></td></tr></tbody></table>
+<table data-card-size="large" data-view="cards"><thead><tr><th></th><th data-hidden data-card-cover data-type="image">Cover image</th></tr></thead><tbody><tr><td>Integrate the SODAX SDK to launch swaps to xStocks<br><a href="developers/packages/sdk/docs/HOW_TO_MAKE_A_SWAP.md" class="button primary" data-icon="magnifying-glass-arrows-rotate">Make a swap</a></td><td><a href=".gitbook/assets/SodaxSDKCarousel4.png">SodaxSDKCarousel4.png</a></td></tr><tr><td><p>Integrate Bitcoin as a source or destination network</p><p><a href="https://docs.sodax.com/developers/how-to/bitcoin-integration" class="button primary" data-icon="bitcoin">Bitcoin Integration</a></p></td><td><a href=".gitbook/assets/1779804933397-Blog__56_.webp">1779804933397-Blog__56_.webp</a></td></tr></tbody></table>
 
 ***
 
