@@ -18,20 +18,6 @@ description: >-
 
 ***
 
-{% columns %}
-{% column %}
-### SODAX NEWS
-
-_from https://sodax.com/news_
-{% endcolumn %}
-
-{% column %}
-{% embed url="https://gist.github.com/DavidFBD/5317ad739330cecd497010655187b8bc" %}
-
-
-{% endcolumn %}
-{% endcolumns %}
-
 ### What SODAX gives you
 
 SODAX is execution infrastructure for modern money. You integrate one SDK, and your app can exchange, lend, borrow, and settle across blockchain networks as if there were no boundaries.
