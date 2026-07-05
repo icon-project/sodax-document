@@ -148,6 +148,7 @@ Intent Canceller: [0x7Ec046CEB0C01A2Ef16C77d2e6bB56E3AF3464cf](https://sonicscan
 | [wstETH(18)](https://basescan.org/address/0xc1CBa3fCea344f92D9239c08C0568f6F2F0ee452) | [0x494aaEaEfDF5964d4Ed400174e8c5b98C00957aA](https://sonicscan.org/address/0x494aaEaEfDF5964d4Ed400174e8c5b98C00957aA) |
 | [cbBTC(8)](https://basescan.org/address/0xcbB7C0000aB88B473b1f5aFd9ef808440eed33Bf) | [0x2803a23a3BA6b09e57D1c71deC0D9eFdBB00A27F](https://sonicscan.org/address/0x2803a23a3BA6b09e57D1c71deC0D9eFdBB00A27F) |
 | [USDT(6)](https://basescan.org/token/0xfde4c96c8593536e31f229ea8f37b2ada2699bb2) | [0x23889bd0e8e718d47a72fdd8b82da39ec856240f](https://sonicscan.org/address/0x23889bd0e8e718d47a72fdd8b82da39ec856240f) |
+| [AERO(18)](https://basescan.org/token/0x940181a94A35A4569E4529A3CDfB74e38FD98631) | [0x348e086ab6f424dfc575a325c28624ed23973173](https://sonicscan.org/address/0x348e086ab6f424dfc575a325c28624ed23973173) |
 
 
 ## Optimism
@@ -530,6 +531,19 @@ Intent Canceller: [0x7Ec046CEB0C01A2Ef16C77d2e6bB56E3AF3464cf](https://sonicscan
 | [SODA(6)](https://explorer.hiro.so/token/SP3031RGK734636C8KGW2Y76TEQBTVX59Q472EQH0.soda?chain=mainnet) | [0xebd34ddf9f47f9bcdf706e87206d40a579c34822](https://sonicscan.org/address/0xebd34ddf9f47f9bcdf706e87206d40a579c34822) |
 | [sBTC(8)](https://explorer.hiro.so/token/SM3VDXK3WZZSA84XXFKAFAF15NNZX32CTSG82JFQ4.sbtc-token?chain=mainnet) | [0x6f6c039b07e25bb86d8223643a84122404963d9b](https://sonicscan.org/address/0x6f6c039b07e25bb86d8223643a84122404963d9b) |
 | [USDC(6)](https://explorer.hiro.so/token/SP120SBRBQJ00MCWS7TM5R8WJNTTKD5K0HFRC2CNE.usdcx?chain=mainnet) | [0x2336917df30f3417986a29ec384274a83adbef16](https://sonicscan.org/address/0x2336917df30f3417986a29ec384274a83adbef16) |
+
+## Tron
+Internal chain id (NID): `1953656686`
+
+| Contract | Tron Address | EVM Address (hex) |
+|----------|--------------|-------------------|
+| Connection (v3) | [TYKiFusswwe3FTp9GwY61wwxtr2sVyxrVq](https://tronscan.org/#/contract/TYKiFusswwe3FTp9GwY61wwxtr2sVyxrVq) | `0xf533821bd00e66a993218829e7e1d37f0225b096` |
+| RateLimit | [TKuLbpwBzTMwtfvRXATFhx39eLRNzUuQqY](https://tronscan.org/#/contract/TKuLbpwBzTMwtfvRXATFhx39eLRNzUuQqY) | `0x6cf5f00cbea9bbef20d05498a335b21b3f7bf425` |
+| SpokeAssetManager | [THxCcZAuGAnSD8aCit9mX7c9tHhdcTNAAL](https://tronscan.org/#/contract/THxCcZAuGAnSD8aCit9mX7c9tHhdcTNAAL) | `0x57904434b635c26a523cfc9c7ec14b738f764a81` |
+
+### Assets
+_Pending hub registration (native TRX / USDT)._
+
 # Pyth setup
 
 Adapter factory: [0x67F0848F787a30dD278dcF451Ae47e79aF026d56](https://sonicscan.org/address/0x67F0848F787a30dD278dcF451Ae47e79aF026d56)

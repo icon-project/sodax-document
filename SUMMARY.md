@@ -20,6 +20,8 @@
       * [Functional Modules](developers/packages/foundation/sdk/functional-modules/README.md)
         * [Swaps (Solver)](developers/packages/foundation/sdk/functional-modules/swaps.md)
         * [Lend / Borrow (Money Market)](developers/packages/foundation/sdk/functional-modules/money_market.md)
+        * [Leverage Yield](developers/packages/foundation/sdk/functional-modules/leverage_yield.md)
+          * [Effective APR](developers/packages/foundation/sdk/functional-modules/leverage_yield_apr.md)
         * [Bridge](developers/packages/foundation/sdk/functional-modules/bridge.md)
         * [Staking (SODA asset)](developers/packages/foundation/sdk/functional-modules/staking.md)
         * [Migration](developers/packages/foundation/sdk/functional-modules/migration.md)
