@@ -49,6 +49,7 @@
   * [Estimate Gas](developers/packages/sdk/docs/ESTIMATE_GAS.md)
   * [Handle Stellar Trustline](developers/packages/sdk/docs/STELLAR_TRUSTLINE.md)
   * [Bitcoin Integration](developers/how-to/bitcoin-integration.md)
+  * [Is SODAX on Testnet?](developers/how-to/testnet.md)
 * [AI Integration](developers/ai-integration/README.md)
 * [FAQ](developers/faq.md)
 
