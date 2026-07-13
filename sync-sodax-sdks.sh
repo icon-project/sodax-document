@@ -108,6 +108,12 @@ inject_frontmatter "$DST/packages/foundation/sdk/README.md" "cup-straw" \
   "The SODAX SDK provides a comprehensive interface for interacting with the SODAX protocol, enabling cross-chain swaps, money market, cross-chain bridging, migration and staking SODA token."
 fix_synced_links "$DST/packages/foundation/sdk/README.md"
 
+# 4b) swaps-api README → Foundation layer (standalone Swaps API v2 wire client)
+copy_file "$SRC/packages/swaps-api/README.md" "$DST/packages/foundation/swaps-api.md"
+inject_frontmatter "$DST/packages/foundation/swaps-api.md" "plug" \
+  "Minimal, type-safe HTTP client for the SODAX backend Swaps API v2 — the wire client that @sodax/sdk's sodax.api.swaps wraps."
+fix_synced_links "$DST/packages/foundation/swaps-api.md"
+
 # 5) Functional modules (sdk/docs → foundation/sdk/functional-modules, lowercased)
 copy_file "$SRC/packages/sdk/docs/SWAPS.md"        "$DST/packages/foundation/sdk/functional-modules/swaps.md"
 copy_file "$SRC/packages/sdk/docs/MONEY_MARKET.md"  "$DST/packages/foundation/sdk/functional-modules/money_market.md"
@@ -173,6 +179,12 @@ copy_file "$SRC/packages/dapp-kit/README.md" "$DST/packages/experience/dapp-kit.
 inject_frontmatter "$DST/packages/experience/dapp-kit.md" "browser"
 
 fix_relative_repo_links "$DST/packages/experience/dapp-kit.md"
+
+# 9b) skills README → Experience layer (AI-agent skills bundle)
+copy_file "$SRC/packages/skills/README.md" "$DST/packages/experience/skills.md"
+inject_frontmatter "$DST/packages/experience/skills.md" "robot" \
+  "Consumer-facing AI skills and knowledge so coding agents (Claude Code, Cursor, Copilot, Codex) write v2-correct @sodax/* SDK code."
+fix_relative_repo_links "$DST/packages/experience/skills.md"
 
 # 10) Audits (Markdown + PDF files, preserving directory structure)
 AUDITS_SRC="$SRC/Audits"
