@@ -1,6 +1,6 @@
-# How to Make a Swap
+# Make a Swap
 
-> **Error handling conventions:** The swap module returns `SodaxError<SwapErrorCode>` from `swap`, `createIntent`, `postExecution`, `createLimitOrder`, and `createLimitOrderIntent`. Discriminate on `result.error.code` (e.g. `'RELAY_TIMEOUT'`) — not `result.error.message`. See [SWAPS.md](./SWAPS.md#error-handling) for the full per-method code unions. The lower-level methods (`getQuote`, `getStatus`, `submitIntent`, `getSolvedIntentPacket`, `cancelIntent`, …) still return `Result<T, SolverErrorResponse>` or `Result<T, Error | unknown>` — `cancelIntent`/`cancelLimitOrder` were not migrated to `SodaxError`, so don't `switch (error.code)` on those.
+> **Error handling conventions:** The swap module returns `SodaxError<SwapErrorCode>` from `swap`, `createIntent`, `postExecution`, `createLimitOrder`, and `createLimitOrderIntent`. Discriminate on `result.error.code` (e.g. `'RELAY_TIMEOUT'`) — not `result.error.message`. See [SWAPS.md](https://github.com/icon-project/sodax-document/blob/main/developers/packages/sdk/docs/SWAPS.md#error-handling) for the full per-method code unions. The lower-level methods (`getQuote`, `getStatus`, `submitIntent`, `getSolvedIntentPacket`, `cancelIntent`, …) still return `Result<T, SolverErrorResponse>` or `Result<T, Error | unknown>` — `cancelIntent`/`cancelLimitOrder` were not migrated to `SodaxError`, so don't `switch (error.code)` on those.
 
 This guide provides a step-by-step walkthrough for executing a cross-chain swap using the Sodax SDK. It covers everything from initializing the SDK to handling errors during the swap process.
 
@@ -12,11 +12,11 @@ For detailed API reference, see [SWAPS.md](https://github.com/icon-project/sodax
 
 Before you begin, ensure you have:
 
-- A wallet provider implementation (e.g., `IEvmWalletProvider` for EVM chains). You can use existing wallet provider implementations from the [`@sodax/wallet-sdk-core`](https://www.npmjs.com/package/@sodax/wallet-sdk-core) npm package, or use the local package [@wallet-sdk-core](https://github.com/icon-project/sodax-sdks/blob/main/packages/wallet-sdk-core/README.md) if working within the Sodax monorepo.
-- The `@sodax/sdk` package installed
-- Sufficient token balance to cover the swap amount and fees
-- RPC URLs for the chains you're interacting with (we recommend having a dedicated node provider like Alchemy, Quicknode, etc.)
-- Private key or wallet (browser) connection for signing transactions. For React applications, you can use the [`@sodax/wallet-sdk-react`](https://www.npmjs.com/package/@sodax/wallet-sdk-react) npm package, or use the local package [@wallet-sdk-react](https://github.com/icon-project/sodax-sdks/blob/main/packages/wallet-sdk-react/README.md) if working within the Sodax monorepo.
+* A wallet provider implementation (e.g., `IEvmWalletProvider` for EVM chains). You can use existing wallet provider implementations from the [`@sodax/wallet-sdk-core`](https://www.npmjs.com/package/@sodax/wallet-sdk-core) npm package, or use the local package [@wallet-sdk-core](https://github.com/icon-project/sodax-sdks/blob/main/packages/wallet-sdk-core/README.md) if working within the Sodax monorepo.
+* The `@sodax/sdk` package installed
+* Sufficient token balance to cover the swap amount and fees
+* RPC URLs for the chains you're interacting with (we recommend having a dedicated node provider like Alchemy, Quicknode, etc.)
+* Private key or wallet (browser) connection for signing transactions. For React applications, you can use the [`@sodax/wallet-sdk-react`](https://www.npmjs.com/package/@sodax/wallet-sdk-react) npm package, or use the local package [@wallet-sdk-react](https://github.com/icon-project/sodax-sdks/blob/main/packages/wallet-sdk-react/README.md) if working within the Sodax monorepo.
 
 ## Step 1: Initialize Sodax Instance
 
@@ -41,9 +41,9 @@ if (!initResult.ok) {
 
 **Note**:
 
-- The `new Sodax()` constructor defaults to mainnet configuration automatically. No configuration is required for basic usage.
-- `initialize()` returns `Promise<Result<void>>`. If it fails the SDK falls back to the configuration packaged with the SDK version you installed.
-- If you skip `initialize()`, the SDK will use the configuration from the specific SDK version you're using. Initialization is recommended for production applications to ensure you have the latest supported tokens and chains.
+* The `new Sodax()` constructor defaults to mainnet configuration automatically. No configuration is required for basic usage.
+* `initialize()` returns `Promise<Result<void>>`. If it fails the SDK falls back to the configuration packaged with the SDK version you installed.
+* If you skip `initialize()`, the SDK will use the configuration from the specific SDK version you're using. Initialization is recommended for production applications to ensure you have the latest supported tokens and chains.
 
 ### Optional: Custom Configuration
 
@@ -65,7 +65,7 @@ if (!initResult.ok) {
 }
 ```
 
-See [CONFIGURE_SDK.md](./CONFIGURE_SDK.md) for the full `SodaxConfig` shape and canonical override patterns.
+See [CONFIGURE\_SDK.md](CONFIGURE_SDK.md) for the full `SodaxConfig` shape and canonical override patterns.
 
 ## Step 2: Obtain a Wallet Provider
 
@@ -251,10 +251,10 @@ const rawApproveResult = await sodax.swaps.approve({
 
 Now that you have approval (if needed), prepare the complete intent parameters. Make sure to:
 
-- Use the quoted amount from Step 3 to set a reasonable `minOutputAmount`
-- Set an appropriate `deadline` (or use `0n` for no deadline / limit-order behavior)
-- Ensure `srcAddress` matches your wallet address
-- Set `dstAddress` to where you want to receive the output tokens
+* Use the quoted amount from Step 3 to set a reasonable `minOutputAmount`
+* Set an appropriate `deadline` (or use `0n` for no deadline / limit-order behavior)
+* Ensure `srcAddress` matches your wallet address
+* Set `dstAddress` to where you want to receive the output tokens
 
 ```typescript
 // Optionally get a deadline (5 minutes from now by default)
@@ -412,18 +412,18 @@ await checkIntentStatus(sodax, intentDeliveryInfo.dstTxHash);
 
 **Status Codes**:
 
-- `NOT_FOUND (-1)`: Intent not found in the solver system (may appear immediately after creation). After 3 consecutive NOT_FOUND responses, polling stops.
-- `NOT_STARTED_YET (1)`: Intent is queued and waiting to be processed (continues polling)
-- `STARTED_NOT_FINISHED (2)`: Intent is currently being processed (continues polling)
-- `SOLVED (3)`: Swap completed successfully (includes `fill_tx_hash` when available) — **Terminal state**
-- `FAILED (4)`: Swap failed to complete — **Terminal state**
+* `NOT_FOUND (-1)`: Intent not found in the solver system (may appear immediately after creation). After 3 consecutive NOT\_FOUND responses, polling stops.
+* `NOT_STARTED_YET (1)`: Intent is queued and waiting to be processed (continues polling)
+* `STARTED_NOT_FINISHED (2)`: Intent is currently being processed (continues polling)
+* `SOLVED (3)`: Swap completed successfully (includes `fill_tx_hash` when available) — **Terminal state**
+* `FAILED (4)`: Swap failed to complete — **Terminal state**
 
 **Polling Behavior**:
 
-- Polls every 5 seconds (configurable via `intervalMs` parameter)
-- Continues until a terminal state is reached (SOLVED, FAILED, or NOT_FOUND after 3 attempts)
-- Maximum polling duration: 5 minutes by default (60 attempts × 5 seconds, configurable via `maxAttempts`)
-- Handles temporary API errors gracefully by continuing to poll
+* Polls every 5 seconds (configurable via `intervalMs` parameter)
+* Continues until a terminal state is reached (SOLVED, FAILED, or NOT\_FOUND after 3 attempts)
+* Maximum polling duration: 5 minutes by default (60 attempts × 5 seconds, configurable via `maxAttempts`)
+* Handles temporary API errors gracefully by continuing to poll
 
 **Note**: The `fill_tx_hash` field is only present when the status is `SOLVED (3)`. This is the transaction hash of the fill transaction on the destination chain.
 
@@ -431,7 +431,7 @@ await checkIntentStatus(sodax, intentDeliveryInfo.dstTxHash);
 
 All swap methods return `Result<T, SodaxError<SwapErrorCode>>`. Discriminate on **`result.error.code`** (a closed reason-only union), never on `error.message` (human-readable, may change). The original lower-level failure is preserved on `error.cause`; structured metadata is on `error.context`.
 
-See [SWAPS.md](./SWAPS.md#error-handling) for the full per-method code unions and `context` schema.
+See [SWAPS.md](https://github.com/icon-project/sodax-document/blob/main/developers/packages/sdk/docs/SWAPS.md#error-handling) for the full per-method code unions and `context` schema.
 
 ```typescript
 if (!swapResult.ok) {
@@ -476,7 +476,7 @@ if (!swapResult.ok) {
 }
 ```
 
-**Note**: The swap module exports narrow guards `isSwapError`, `isSwapCreateIntentError`, `isPostExecutionError` from `@sodax/sdk`. Use them in `catch` blocks for cross-bundle type safety; see [SWAPS.md](./SWAPS.md#error-handling).
+**Note**: The swap module exports narrow guards `isSwapError`, `isSwapCreateIntentError`, `isPostExecutionError` from `@sodax/sdk`. Use them in `catch` blocks for cross-bundle type safety; see [SWAPS.md](https://github.com/icon-project/sodax-document/blob/main/developers/packages/sdk/docs/SWAPS.md#error-handling).
 
 ## Complete Example
 
@@ -719,8 +719,8 @@ await executeSwap(evmWalletProvider, 100000000000000n); // 0.0001 ETH
 
 ## Next Steps
 
-- **See the complete example**: Check out the working implementation in [`apps/node/src/swap.ts`](https://github.com/icon-project/sodax-sdks/blob/main/apps/node/src/swap.ts) for a production-ready swap example
-- Learn more about swap configuration and advanced features in [SWAPS.md](https://github.com/icon-project/sodax-sdks/blob/main/packages/sdk/docs/SWAPS.md)
-- Explore other SDK features like [Money Market](https://github.com/icon-project/sodax-sdks/blob/main/packages/sdk/docs/MONEY_MARKET.md), [Bridge](https://github.com/icon-project/sodax-sdks/blob/main/packages/sdk/docs/BRIDGE.md), and [Staking](https://github.com/icon-project/sodax-sdks/blob/main/packages/sdk/docs/STAKING.md)
-- Check the [README.md](https://github.com/icon-project/sodax-sdks/blob/main/packages/sdk/README.md) for general SDK usage and configuration
-- Read [ARCHITECTURE_REFACTOR_SUMMARY.md](https://github.com/icon-project/sodax-sdks/blob/main/packages/sdk/docs/ARCHITECTURE_REFACTOR_SUMMARY.md) for the full architecture reference
+* **See the complete example**: Check out the working implementation in [`apps/node/src/swap.ts`](https://github.com/icon-project/sodax-sdks/blob/main/apps/node/src/swap.ts) for a production-ready swap example
+* Learn more about swap configuration and advanced features in [SWAPS.md](https://github.com/icon-project/sodax-sdks/blob/main/packages/sdk/docs/SWAPS.md)
+* Explore other SDK features like [Money Market](https://github.com/icon-project/sodax-sdks/blob/main/packages/sdk/docs/MONEY_MARKET.md), [Bridge](https://github.com/icon-project/sodax-sdks/blob/main/packages/sdk/docs/BRIDGE.md), and [Staking](https://github.com/icon-project/sodax-sdks/blob/main/packages/sdk/docs/STAKING.md)
+* Check the [README.md](https://github.com/icon-project/sodax-sdks/blob/main/packages/sdk/README.md) for general SDK usage and configuration
+* Read [ARCHITECTURE\_REFACTOR\_SUMMARY.md](https://github.com/icon-project/sodax-sdks/blob/main/packages/sdk/docs/ARCHITECTURE_REFACTOR_SUMMARY.md) for the full architecture reference
