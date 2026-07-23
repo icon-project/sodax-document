@@ -52,4 +52,10 @@
 
 ## Solana
 
-* [Solana](solana/README.md)
+* [Build with SODAX on Solana](solana/README.md)
+  * [Quickstart](solana/quickstart.md)
+  * [Swaps on Solana](solana/swaps.md)
+  * [Money Market on Solana](solana/money-market.md)
+  * [Wallets](solana/wallets.md)
+  * [Networks & Assets](solana/networks-and-assets.md)
+  * [Solana FAQ](solana/faq.md)
