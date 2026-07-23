@@ -5,9 +5,9 @@ icon: comment-question
 
 # Solana FAQ
 
-#### Do I need to deploy new programs?
+#### Do I need to write or deploy any smart contracts?
 
-No new programs. SODAX's Solana programs are already deployed and audited; your integration is TypeScript against `@sodax/sdk` (or the React packages on top of it). You do not write Anchor code, manage PDAs, or take on program upgrade authority for any part of the flow.
+No. SODAX's smart contracts on Solana are already deployed and audited; your integration is TypeScript against `@sodax/sdk` (or the React packages on top of it). You write no on-chain code and take on no upgrade authority for any part of the flow.
 
 #### How does a swap from Solana actually settle?
 
@@ -39,7 +39,7 @@ Every SDK method returns `Result<T>` rather than throwing. Core swap and money m
 
 #### Where are the audits?
 
-The Solana programs have their own published report: [SODAX (Solana) Smart Contract Audit (Final Report v2)](https://github.com/icon-project/sodax-sdks/blob/main/Audits/Sodax%20%28Solana%29%20Smart%20Contract%20Audit%20Report%20-%20Final%20Report%20v2%20%281%29.pdf). Audits for the rest of the protocol are collected on the [Audits](https://docs.sodax.com/welcome-to-sodax/audits) page.
+SODAX's Solana contracts have their own published report: [SODAX (Solana) Smart Contract Audit (Final Report v2)](https://github.com/icon-project/sodax-sdks/blob/main/Audits/Sodax%20%28Solana%29%20Smart%20Contract%20Audit%20Report%20-%20Final%20Report%20v2%20%281%29.pdf). Audits for the rest of the protocol are collected on the [Audits](https://docs.sodax.com/welcome-to-sodax/audits) page.
 
 #### I want a plan specific to my protocol. Who do I talk to?
 

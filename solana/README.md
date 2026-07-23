@@ -1,7 +1,7 @@
 ---
 description: >-
   Reach the users and liquidity of every SODAX network from your Solana
-  product. No new programs.
+  product, without writing or deploying any smart contracts.
 icon: code
 cover: .gitbook/assets/hero-aurora.jpg
 coverY: 0
@@ -10,7 +10,7 @@ coverY: 0
 # SODAX for Solana
 
 {% hint style="success" %}
-**No new programs.** Solana is a live, first-class SODAX network, with programs deployed and [independently audited](https://github.com/icon-project/sodax-sdks/blob/main/Audits/Sodax%20%28Solana%29%20Smart%20Contract%20Audit%20Report%20-%20Final%20Report%20v2%20%281%29.pdf). Your users sign familiar Solana transactions, and SODAX coordinates cross-network execution, routing, and recovery behind the scenes.
+**No smart contracts to write or deploy.** SODAX's contracts on Solana are already live and [independently audited](https://github.com/icon-project/sodax-sdks/blob/main/Audits/Sodax%20%28Solana%29%20Smart%20Contract%20Audit%20Report%20-%20Final%20Report%20v2%20%281%29.pdf); your entire integration is TypeScript. Your users sign familiar Solana transactions, and SODAX coordinates cross-network execution, routing, and recovery behind the scenes.
 {% endhint %}
 
 You keep shipping on Solana. SODAX absorbs the cross-network execution layer, so your product can offer trading and lending against the liquidity of every SODAX-supported network without leaving your stack. Integration happens in TypeScript, at the SDK or React layer. There is nothing to deploy, audit, or maintain on-chain.
@@ -53,9 +53,9 @@ You will run into us where Solana builders already are: Breakpoint, Superteam ev
 If you are getting oriented in Solana development more broadly, these are the resources we point builders to:
 
 * [**Superteam**](https://superteam.fun/): the global collective of Solana builders: bounties, grants, local chapters, and the fastest way to find collaborators and your first users.
-* [**Colosseum**](https://colosseum.com/hackathon): Solana's flagship online hackathon and accelerator. A cross-network swap or lending feature built on SODAX makes a strong hackathon wedge; ship it in a weekend, no programs to write.
+* [**Colosseum**](https://colosseum.com/hackathon): Solana's flagship online hackathon and accelerator. A cross-network swap or lending feature built on SODAX makes a strong hackathon wedge; ship it in a weekend, entirely in TypeScript.
 * [**Solana developer docs**](https://solana.com/developers): the canonical starting point for the runtime, SPL tokens, and tooling.
-* [**Anchor**](https://www.anchor-lang.com/): if you do write programs, this is the framework; SODAX integration lives alongside it in your TypeScript client, not inside it.
+* [**Anchor**](https://www.anchor-lang.com/): the standard framework for writing Solana smart contracts; a SODAX integration lives alongside it in your TypeScript client, not inside it.
 * [**Solana Stack Exchange**](https://solana.stackexchange.com/): where the sharp edges get answered.
 
 ***

@@ -7,7 +7,7 @@ icon: rocket
 
 # Quickstart
 
-This page takes you from zero to a cross-network swap sourced from Solana. No new programs, no token approvals, one signed transaction for your user.
+This page takes you from zero to a cross-network swap sourced from Solana. Nothing to deploy, no token approvals, one signed transaction for your user.
 
 ## 1. Install
 
