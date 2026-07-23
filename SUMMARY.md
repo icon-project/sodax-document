@@ -1,8 +1,16 @@
 # Table of contents
 
+* [Build with SODAX](README.md)
+* [Build with SODAX on Solana](solana/README.md)
+  * [Quickstart](solana/quickstart.md)
+  * [Swaps on Solana](solana/swaps.md)
+  * [Money Market on Solana](solana/money-market.md)
+  * [Wallets](solana/wallets.md)
+  * [Networks & Assets](solana/networks-and-assets.md)
+  * [Solana FAQ](solana/faq.md)
+
 ## WELCOME TO SODAX
 
-* [Build with SODAX](README.md)
 * [Contact Form](<README (1).md>)
 * [Audits](developers/audits/Readme.md)
 
@@ -49,13 +57,3 @@
   * [Bitcoin Integration](developers/how-to/bitcoin-integration.md)
 * [AI Integration](developers/ai-integration/README.md)
 * [FAQ](developers/faq.md)
-
-## Solana
-
-* [Build with SODAX on Solana](solana/README.md)
-  * [Quickstart](solana/quickstart.md)
-  * [Swaps on Solana](solana/swaps.md)
-  * [Money Market on Solana](solana/money-market.md)
-  * [Wallets](solana/wallets.md)
-  * [Networks & Assets](solana/networks-and-assets.md)
-  * [Solana FAQ](solana/faq.md)
