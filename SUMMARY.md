@@ -1,6 +1,6 @@
 # Table of contents
 
-* [Build with SODAX](README.md)
+* [SODAX for all networks](README.md)
 * [SODAX for Solana](solana/README.md)
   * [Quickstart](solana/quickstart.md)
   * [Swaps on Solana](solana/swaps.md)

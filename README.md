@@ -2,9 +2,10 @@
 description: >-
   One SDK. Every network. Scope the integration from your own repo before you
   commit.
+icon: code
 ---
 
-# Build with SODAX
+# SODAX for all networks
 
 {% hint style="success" %}
 **See what integration takes before you commit.** Run the SODAX Builders MCP locally against your own codebase. Your AI assistant reads your repo and maps exactly what a SODAX integration looks like and how light the work is. One integration reaches all networks. No call required.
