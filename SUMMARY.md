@@ -6,10 +6,6 @@
 * [Contact Form](<README (1).md>)
 * [Audits](developers/audits/Readme.md)
 
-## Solana
-
-* [Solana](solana/README.md)
-
 ## Developers
 
 * [Deployments](developers/deployments/README.md)
@@ -53,3 +49,7 @@
   * [Bitcoin Integration](developers/how-to/bitcoin-integration.md)
 * [AI Integration](developers/ai-integration/README.md)
 * [FAQ](developers/faq.md)
+
+## Solana
+
+* [Solana](solana/README.md)
