@@ -11,26 +11,31 @@ Solana is a spoke network in the SODAX System. User funds stay on Solana; the hu
 
 ## Live on Solana today
 
-Solver-compatible assets on Solana:
+As of July 2026, 21 assets are live for swaps on Solana:
 
-* **SOL**
-* **USDC**
-* **bnUSD**
+| Category | Assets |
+| --- | --- |
+| Core & stablecoins | SOL, USDC, USDT, bnUSD, SODA, WBTC (Wormhole) |
+| Solana ecosystem | BONK, JUP, RAY, PYTH, JTO |
+| Liquid staking | JitoSOL, mSOL |
+| Tokenized equities (xStocks) | TSLAx, NVDAx, GOOGLx, COINx, MSTRx, CRCLx, SPYx, QQQx |
 
-Native DEX liquidity is routed through **Raydium V3**. The canonical, continuously updated list (including hub vault addresses) lives at [Swaps: Compatible Assets](https://docs.sodax.com/developers/deployments/swaps-compatible-assets#solana).
+Six of these are also live in the [Money Market](money-market.md) for supply, borrow, repay, and withdraw: **SOL, USDC, USDT, bnUSD, SODA, and JitoSOL**.
 
-Both SODAX modules relevant to Solana builders are live for these assets: [Swaps](swaps.md) and the [Money Market](money-market.md).
+The list grows continuously. The complete, always-current view is the [asset directory](https://sodax.com/partners/asset-directory), which reads the same configuration the SDK uses. Hub vault addresses per asset are listed in [Swaps: Compatible Assets](https://docs.sodax.com/developers/deployments/swaps-compatible-assets#solana).
 
 ## What your users can reach
 
 From a Solana-sourced action, users can trade, lend, and borrow against assets across every SODAX-supported network:
 
-* **EVM**: Sonic (hub), Ethereum, Arbitrum, Base, BSC, Optimism, Polygon, Avalanche, HyperEVM, Lightlink, Redbelly, Kaia
+* **EVM**: Sonic (hub), Ethereum, Arbitrum, Base, BSC, Optimism, Polygon, Avalanche, HyperEVM, Lightlink, Redbelly, Kaia, Hedera
 * **Non-EVM**: Solana, Sui, Stellar, ICON, Injective, NEAR, Stacks, Bitcoin
 
 Chain identifiers come from `ChainKeys.*` in the SDK (`ChainKeys.SOLANA_MAINNET` = `'solana'`), and the live chain list from `sodax.config.getSupportedSpokeChains()`. Prefer the config call over hard-coding: networks are added over time.
 
 ## Asset discovery in code
+
+Never hard-code mints or asset lists; read them from the SDK config at runtime:
 
 ```typescript
 import { Sodax, ChainKeys } from '@sodax/sdk';
