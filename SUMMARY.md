@@ -1,7 +1,7 @@
 # Table of contents
 
 * [Build with SODAX](README.md)
-* [Build with SODAX on Solana](solana/README.md)
+* [SODAX for Solana](solana/README.md)
   * [Quickstart](solana/quickstart.md)
   * [Swaps on Solana](solana/swaps.md)
   * [Money Market on Solana](solana/money-market.md)

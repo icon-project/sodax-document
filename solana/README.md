@@ -7,7 +7,7 @@ cover: ../.gitbook/assets/solana/hero-aurora.jpg
 coverY: 0
 ---
 
-# Build with SODAX on Solana
+# SODAX for Solana
 
 {% hint style="success" %}
 **No new programs.** Solana is a live, first-class SODAX network, with programs deployed and [independently audited](<../developers/audits/Sodax (Solana) Smart Contract Audit Report - Final Report v2 (1).pdf>). Your users sign familiar Solana transactions, and SODAX coordinates cross-network execution, routing, and recovery behind the scenes.
