@@ -11,7 +11,7 @@ Welcoming cross-network users means supporting the wallets they already use. On 
 
 ## React apps: `@sodax/wallet-sdk-react`
 
-The React package wraps each chain family's native wallet SDK — `@solana/wallet-adapter` for Solana — behind a uniform connector interface with a single persisted store.
+The React package wraps each chain family's native wallet SDK (`@solana/wallet-adapter` for Solana) behind a uniform connector interface with a single persisted store.
 
 ```bash
 pnpm add @sodax/wallet-sdk-react
@@ -57,7 +57,7 @@ function SolanaConnect() {
 
 ### Bridging to SDK calls
 
-`useWalletProvider` returns a typed `ISolanaWalletProvider` ready to pass into any `@sodax/sdk` method — the [swap](swaps.md) and [money market](money-market.md) calls take it directly. A headless `useWalletModal` state machine is available if you are building a multi-chain connect modal.
+`useWalletProvider` returns a typed `ISolanaWalletProvider` ready to pass into any `@sodax/sdk` method. The [swap](swaps.md) and [money market](money-market.md) calls take it directly. A headless `useWalletModal` state machine is available if you are building a multi-chain connect modal.
 
 ## Scripts and backends: `SolanaWalletProvider`
 
@@ -67,7 +67,7 @@ Outside React, construct the provider from `@sodax/sdk` directly:
 import { SolanaWalletProvider } from '@sodax/sdk';
 
 const walletProvider = new SolanaWalletProvider({
-  privateKey: keypairBytes, // Uint8Array — or pass `wallet` for extension mode
+  privateKey: keypairBytes, // Uint8Array; or pass `wallet` for extension mode
   endpoint: 'https://api.mainnet-beta.solana.com',
 });
 ```

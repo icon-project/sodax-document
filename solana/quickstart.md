@@ -18,7 +18,7 @@ npm install @sodax/sdk
 
 ## 2. Create a Solana wallet provider
 
-The SDK talks to Solana through `SolanaWalletProvider`, built on `@solana/web3.js`. Use private-key mode for scripts and bots, or browser-extension mode to wrap a connected wallet (Phantom, Backpack, Solflare — anything exposing `publicKey` and `signTransaction`).
+The SDK talks to Solana through `SolanaWalletProvider`, built on `@solana/web3.js`. Use private-key mode for scripts and bots, or browser-extension mode to wrap a connected wallet (Phantom, Backpack, Solflare, or anything exposing `publicKey` and `signTransaction`).
 
 ```typescript
 import { SolanaWalletProvider } from '@sodax/sdk';
@@ -106,10 +106,10 @@ A few things you did not have to do:
 
 * **No approval step.** Allowances are an EVM and Stellar concept; on Solana `isAllowanceValid` passes without an on-chain transaction.
 * **No relay bookkeeping.** Manually orchestrated Solana intents need relay extra data (`getIntentSubmitTxExtraData`); `swap()` takes care of it.
-* **No error guessing.** Every method returns `Result<T>` — check `result.ok` and branch on typed error codes instead of catching throws.
+* **No error guessing.** Every method returns `Result<T>`. Check `result.ok` and branch on typed error codes instead of catching throws.
 
 ## Next steps
 
-* [Swaps on Solana](swaps.md) — quoting modes, fees, limit orders, manual orchestration.
-* [Money Market on Solana](money-market.md) — supply and borrow with cross-network collateral.
+* [Swaps on Solana](swaps.md): quoting modes, fees, limit orders, manual orchestration.
+* [Money Market on Solana](money-market.md): supply and borrow with cross-network collateral.
 * Full API reference: [Swaps (Solver)](../developers/packages/foundation/sdk/functional-modules/swaps.md) in the SDK docs.

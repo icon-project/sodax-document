@@ -7,7 +7,7 @@ icon: sack-dollar
 
 # Money Market on Solana
 
-Fragmented money markets mean lower capital efficiency and worse rates. The SODAX money market pools lending liquidity on the hub while letting users act from any supported network — including Solana. A depositor can supply collateral held on another network and borrow into their Solana workflow, or lend idle SPL balances without your product running its own lending infrastructure.
+Fragmented money markets mean lower capital efficiency and worse rates. The SODAX money market pools lending liquidity on the hub while letting users act from any supported network, including Solana. A depositor can supply collateral held on another network and borrow into their Solana workflow, or lend idle SPL balances without your product running its own lending infrastructure.
 
 Four actions, all through `sodax.moneyMarket`: `supply`, `borrow`, `withdraw`, `repay`. Each has a complete one-call form (handles the relay end-to-end) and a `create*Intent` form when you want the transaction only.
 
@@ -59,9 +59,9 @@ const result = await sodax.moneyMarket.borrow({
 
 `sodax.moneyMarket.data` exposes what you need for rates, positions, and health factors without extra indexing:
 
-* `getReservesHumanized()` — all reserves, human-readable.
-* `getUserReservesHumanized(spokeChainKey, userAddress)` — a user's positions.
-* `formatReservesUSD(request)` / `formatUserSummary(request)` — USD-converted reserves and portfolio summaries.
+* `getReservesHumanized()`: all reserves, human-readable.
+* `getUserReservesHumanized(spokeChainKey, userAddress)`: a user's positions.
+* `formatReservesUSD(request)` / `formatUserSummary(request)`: USD-converted reserves and portfolio summaries.
 
 ## Error handling
 

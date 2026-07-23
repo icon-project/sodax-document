@@ -31,7 +31,7 @@ Yes. `SolanaWalletProvider` accepts `SolanaWalletDefaults`: `connectionCommitmen
 
 #### What does it cost?
 
-Using SODAX is free: no license, no integration fee, no SDK cost. Trades carry a fixed 0.1% base fee taken by the protocol; on top of that you set your own platform fee and keep it — your integration is a revenue line, not a cost center. See [Monetize SDK](../developers/packages/sdk/docs/MONETIZE_SDK.md).
+Using SODAX is free: no license, no integration fee, no SDK cost. Trades carry a fixed 0.1% base fee taken by the protocol; on top of that you set your own platform fee and keep it. Your integration is a revenue line, not a cost center. See [Monetize SDK](../developers/packages/sdk/docs/MONETIZE_SDK.md).
 
 #### How do I know if something went wrong?
 
@@ -39,8 +39,8 @@ Every SDK method returns `Result<T>` rather than throwing. Core swap and money m
 
 #### Where are the audits?
 
-The Solana programs have their own published report: [SODAX (Solana) Smart Contract Audit — Final Report v2](<../developers/audits/Sodax (Solana) Smart Contract Audit Report - Final Report v2 (1).pdf>). Audits for the rest of the protocol are collected on the [Audits](../developers/audits/Readme.md) page.
+The Solana programs have their own published report: [SODAX (Solana) Smart Contract Audit (Final Report v2)](<../developers/audits/Sodax (Solana) Smart Contract Audit Report - Final Report v2 (1).pdf>). Audits for the rest of the protocol are collected on the [Audits](../developers/audits/Readme.md) page.
 
 #### I want a plan specific to my protocol. Who do I talk to?
 
-Generate a tailored integration guide at [sodax.com/solana](https://sodax.com/solana) — paste your protocol's URL and it maps SODAX onto your stack. From there you can reach the BD team directly.
+Generate a tailored integration guide at [sodax.com/solana](https://sodax.com/solana): paste your protocol's URL and it maps SODAX onto your stack. From there you can reach the BD team directly.
