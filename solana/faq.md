@@ -15,7 +15,9 @@ Your user signs one Solana transaction that creates an intent. The SODAX relayer
 
 #### Which assets are supported on Solana?
 
-As of July 2026, 21 assets are swappable on Solana: SOL, USDC, USDT, bnUSD, SODA, WBTC, ecosystem tokens like BONK, JUP, RAY, PYTH, and JTO, the liquid staking tokens JitoSOL and mSOL, and eight tokenized equities (xStocks). Six of these also work in the money market. The list grows; read it from `sodax.config` at runtime or check [Networks & Assets](networks-and-assets.md).
+Two answers, and the difference matters. On Solana itself, 21 assets are live as of July 2026: SOL, USDC, USDT, bnUSD, SODA, WBTC, ecosystem tokens like BONK, JUP, RAY, PYTH, and JTO, the liquid staking tokens JitoSOL and mSOL, and eight tokenized equities (xStocks). Six of these also work in the money market.
+
+But your users are not limited to those 21. Every swap is cross-network, so from Solana they can reach all 137 assets across every SODAX-supported network (July 2026): SOL into ETH on Ethereum, USDC on Base, BTC on Bitcoin, and so on. The 21 are just the Solana-side entry and exit points. Both lists grow; read them from `sodax.config` at runtime or check [Networks & Assets](networks-and-assets.md).
 
 #### Do my users need a new wallet?
 

@@ -13,7 +13,7 @@ coverY: 0
 **No smart contracts to write or deploy.** SODAX's contracts on Solana are already live and [independently audited](https://github.com/icon-project/sodax-sdks/blob/main/Audits/Sodax%20%28Solana%29%20Smart%20Contract%20Audit%20Report%20-%20Final%20Report%20v2%20%281%29.pdf); your entire integration is TypeScript. Your users sign familiar Solana transactions, and SODAX coordinates cross-network execution, routing, and recovery behind the scenes.
 {% endhint %}
 
-You keep shipping on Solana. SODAX absorbs the cross-network execution layer, so your product can offer trading and lending against the liquidity of every SODAX-supported network without leaving your stack. Integration happens in TypeScript, at the SDK or React layer. There is nothing to deploy, audit, or maintain on-chain.
+You keep shipping on Solana. SODAX absorbs the cross-network execution layer, so your product can offer trading and lending against every asset in the SODAX System, 137 across all supported networks as of July 2026, without leaving your stack. Integration happens in TypeScript, at the SDK or React layer. There is nothing to deploy, audit, or maintain on-chain.
 
 Using SODAX is free. Trades carry a fixed 0.1% base fee taken by the protocol, and you set your own platform fee on top. That part is fully yours, both the rate and the revenue. See [Monetize SDK](https://docs.sodax.com/developers/how-to/monetize_sdk).
 

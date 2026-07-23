@@ -9,7 +9,14 @@ icon: circle-nodes
 
 Solana is a spoke network in the SODAX System. User funds stay on Solana; the hub (Sonic) coordinates execution, and solvers settle against deep native liquidity on each network rather than isolated bridge pools.
 
-## Live on Solana today
+There are two asset lists to keep straight, and the difference is the point of SODAX:
+
+* **Assets on Solana**: the 21 assets that live on Solana itself (July 2026). These are what your users hold, send, and receive on Solana; the entry and exit points of any Solana-side flow.
+* **Assets across the SODAX System**: 137 assets across all supported networks (July 2026). Every one of them is a valid swap destination or collateral source for your Solana users, because every SODAX action is cross-network by default.
+
+A user holding SOL is not limited to the 21. They can swap SOL into ETH on Ethereum, USDC on Base, BTC on Bitcoin, or any other listed asset on any network, in one signed transaction. The 21 on-Solana assets are simply where those journeys start and end on your side.
+
+## Assets on Solana
 
 As of July 2026, 21 assets are live for swaps on Solana:
 
@@ -24,9 +31,9 @@ Six of these are also live in the [Money Market](money-market.md) for supply, bo
 
 The list grows continuously. The complete, always-current view is the [asset directory](https://sodax.com/partners/asset-directory), which reads the same configuration the SDK uses. Hub vault addresses per asset are listed in [Swaps: Compatible Assets](https://docs.sodax.com/developers/deployments/swaps-compatible-assets#solana).
 
-## What your users can reach
+## Assets your users can reach
 
-From a Solana-sourced action, users can trade, lend, and borrow against assets across every SODAX-supported network:
+From a Solana-sourced action, users can trade, lend, and borrow against the full 137-asset directory across every SODAX-supported network:
 
 * **EVM**: Sonic (hub), Ethereum, Arbitrum, Base, BSC, Optimism, Polygon, Avalanche, HyperEVM, Lightlink, Redbelly, Kaia, Hedera
 * **Non-EVM**: Solana, Sui, Stellar, ICON, Injective, NEAR, Stacks, Bitcoin
