@@ -43,6 +43,10 @@ Every SDK method returns `Result<T>` rather than throwing. Core swap and money m
 
 SODAX's Solana contracts have their own published report: [SODAX (Solana) Smart Contract Audit (Final Report v2)](https://github.com/icon-project/sodax-sdks/blob/main/Audits/Sodax%20%28Solana%29%20Smart%20Contract%20Audit%20Report%20-%20Final%20Report%20v2%20%281%29.pdf). Audits for the rest of the protocol are collected on the [Audits](https://docs.sodax.com/welcome-to-sodax/audits) page.
 
+#### Can my AI coding assistant do the integration?
+
+Largely, yes. Add the [SODAX Builders MCP](https://builders.sodax.com/) to Claude, Cursor, VS Code, Windsurf, or any MCP-capable client (`https://builders.sodax.com/mcp`) and it gets 40 tools with live access to the SODAX System: chains, tokens, swap quotes, money market rates, intent history, and auto-synced SDK docs. Use it to scope the integration against your own codebase first, then to write and verify the code. Setup per client is at [builders.sodax.com](https://builders.sodax.com/).
+
 #### I want a plan specific to my protocol. Who do I talk to?
 
 Generate a tailored integration guide at [sodax.com/solana](https://sodax.com/solana): paste your protocol's URL and it maps SODAX onto your stack. From there you can reach the BD team directly.

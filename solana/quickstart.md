@@ -9,6 +9,10 @@ icon: rocket
 
 This page takes you from zero to a cross-network swap sourced from Solana. Nothing to deploy, no token approvals, one signed transaction for your user.
 
+{% hint style="info" %}
+Building with an AI assistant? Add the [SODAX Builders MCP](https://builders.sodax.com/) (`https://builders.sodax.com/mcp`) to Claude, Cursor, or any MCP-capable tool and it can pull live token lists, real quotes, and these docs while it writes your integration.
+{% endhint %}
+
 ## 1. Install
 
 ```bash

@@ -33,7 +33,23 @@ Two SODAX modules are relevant to Solana builders:
 | --- | --- | --- |
 | [`@sodax/sdk`](https://docs.sodax.com/developers/packages/foundation/sdk) | Full control from any TypeScript backend or frontend | [Quickstart](quickstart.md) |
 | [`@sodax/dapp-kit`](https://docs.sodax.com/developers/packages/experience/dapp-kit) + [`@sodax/wallet-sdk-react`](https://docs.sodax.com/developers/packages/connection/wallet-sdk-react) | React apps that want hooks and wallet connectivity out of the box | [Wallets](wallets.md) |
-| [Builders MCP](https://builders.sodax.com) | Building with AI agents against the full SODAX stack | builders.sodax.com |
+| [Builders MCP](https://builders.sodax.com) | Building with AI agents against the full SODAX stack | See below |
+
+## Scope and build with AI
+
+Point your AI coding assistant at the [SODAX Builders MCP](https://builders.sodax.com/) and it gains live access to the whole SODAX System: supported chains and tokens, real swap quotes, money market rates, intent history, and these docs. 40 tools in all, working in Claude, Cursor, VS Code, Windsurf, and any other MCP-capable client.
+
+```json
+{
+  "mcpServers": {
+    "sodax-builders": {
+      "url": "https://builders.sodax.com/mcp"
+    }
+  }
+}
+```
+
+Use it to scope before you commit: your assistant can read your own codebase, pull real quotes and token lists, and map exactly where SODAX fits in your product. Then let it build against the same live data. Full tool list and per-client setup at [builders.sodax.com](https://builders.sodax.com/).
 
 ## In this section
 
