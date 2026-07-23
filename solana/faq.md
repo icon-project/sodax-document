@@ -31,7 +31,7 @@ Yes. `SolanaWalletProvider` accepts `SolanaWalletDefaults`: `connectionCommitmen
 
 #### What does it cost?
 
-Using SODAX is free: no license, no integration fee, no SDK cost. Trades carry a fixed 0.1% base fee taken by the protocol; on top of that you set your own platform fee and keep it. Your integration is a revenue line, not a cost center. See [Monetize SDK](../developers/packages/sdk/docs/MONETIZE_SDK.md).
+Using SODAX is free: no license, no integration fee, no SDK cost. Trades carry a fixed 0.1% base fee taken by the protocol; on top of that you set your own platform fee and keep it. Your integration is a revenue line, not a cost center. See [Monetize SDK](https://docs.sodax.com/developers/how-to/monetize_sdk).
 
 #### How do I know if something went wrong?
 
@@ -39,7 +39,7 @@ Every SDK method returns `Result<T>` rather than throwing. Core swap and money m
 
 #### Where are the audits?
 
-The Solana programs have their own published report: [SODAX (Solana) Smart Contract Audit (Final Report v2)](<../developers/audits/Sodax (Solana) Smart Contract Audit Report - Final Report v2 (1).pdf>). Audits for the rest of the protocol are collected on the [Audits](../developers/audits/Readme.md) page.
+The Solana programs have their own published report: [SODAX (Solana) Smart Contract Audit (Final Report v2)](https://github.com/icon-project/sodax-sdks/blob/main/Audits/Sodax%20%28Solana%29%20Smart%20Contract%20Audit%20Report%20-%20Final%20Report%20v2%20%281%29.pdf). Audits for the rest of the protocol are collected on the [Audits](https://docs.sodax.com/welcome-to-sodax/audits) page.
 
 #### I want a plan specific to my protocol. Who do I talk to?
 

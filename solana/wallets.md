@@ -76,5 +76,5 @@ const walletProvider = new SolanaWalletProvider({
 
 ***
 
-* Full React reference: [@sodax/wallet-sdk-react](../developers/packages/connection/wallet-sdk-react.md)
-* All nine chain families' providers: [Setup Wallet Providers](../developers/packages/sdk/docs/WALLET_PROVIDERS.md)
+* Full React reference: [@sodax/wallet-sdk-react](https://docs.sodax.com/developers/packages/connection/wallet-sdk-react)
+* All nine chain families' providers: [Setup Wallet Providers](https://docs.sodax.com/developers/how-to/wallet_providers)

@@ -69,4 +69,4 @@ The module returns typed results. Discriminate on `result.error.code` (`'RELAY_T
 
 ***
 
-Full reference, including intent-only methods, gas estimation, and the per-method error-code table: [Lend / Borrow (Money Market)](../developers/packages/foundation/sdk/functional-modules/money_market.md).
+Full reference, including intent-only methods, gas estimation, and the per-method error-code table: [Lend / Borrow (Money Market)](https://docs.sodax.com/developers/packages/foundation/sdk/functional-modules/money_market).

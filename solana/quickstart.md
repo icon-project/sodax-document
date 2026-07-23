@@ -112,4 +112,4 @@ A few things you did not have to do:
 
 * [Swaps on Solana](swaps.md): quoting modes, fees, limit orders, manual orchestration.
 * [Money Market on Solana](money-market.md): supply and borrow with cross-network collateral.
-* Full API reference: [Swaps (Solver)](../developers/packages/foundation/sdk/functional-modules/swaps.md) in the SDK docs.
+* Full API reference: [Swaps (Solver)](https://docs.sodax.com/developers/packages/foundation/sdk/functional-modules/swaps) in the SDK docs.

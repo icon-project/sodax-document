@@ -40,7 +40,7 @@ const quoteResult = await sodax.swaps.getQuote({
 Using SODAX is free to integrate. Two fees can apply to a trade:
 
 * **Base fee**: a fixed 0.1% of the input, taken by the protocol. Not configurable; compute it ahead of time with `getSolverFee(inputAmount)`.
-* **Your fee**: optional platform fee on top, set by you and paid to you. It is the only fee you control. Configure it at SDK setup and check it with `getPartnerFee(inputAmount)`. See [Monetize SDK](../developers/packages/sdk/docs/MONETIZE_SDK.md).
+* **Your fee**: optional platform fee on top, set by you and paid to you. It is the only fee you control. Configure it at SDK setup and check it with `getPartnerFee(inputAmount)`. See [Monetize SDK](https://docs.sodax.com/developers/how-to/monetize_sdk).
 
 ## Executing
 
@@ -93,4 +93,4 @@ Every method returns `Result<T>` instead of throwing. The core methods (`swap`, 
 
 ***
 
-Full reference, including raw mode, limit orders, cancellation, and the complete error-code table: [Swaps (Solver)](../developers/packages/foundation/sdk/functional-modules/swaps.md).
+Full reference, including raw mode, limit orders, cancellation, and the complete error-code table: [Swaps (Solver)](https://docs.sodax.com/developers/packages/foundation/sdk/functional-modules/swaps).

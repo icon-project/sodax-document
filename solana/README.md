@@ -3,19 +3,19 @@ description: >-
   Reach the users and liquidity of every SODAX network from your Solana
   product. No new programs.
 icon: code
-cover: ../.gitbook/assets/solana/hero-aurora.jpg
+cover: .gitbook/assets/hero-aurora.jpg
 coverY: 0
 ---
 
 # SODAX for Solana
 
 {% hint style="success" %}
-**No new programs.** Solana is a live, first-class SODAX network, with programs deployed and [independently audited](<../developers/audits/Sodax (Solana) Smart Contract Audit Report - Final Report v2 (1).pdf>). Your users sign familiar Solana transactions, and SODAX coordinates cross-network execution, routing, and recovery behind the scenes.
+**No new programs.** Solana is a live, first-class SODAX network, with programs deployed and [independently audited](https://github.com/icon-project/sodax-sdks/blob/main/Audits/Sodax%20%28Solana%29%20Smart%20Contract%20Audit%20Report%20-%20Final%20Report%20v2%20%281%29.pdf). Your users sign familiar Solana transactions, and SODAX coordinates cross-network execution, routing, and recovery behind the scenes.
 {% endhint %}
 
 You keep shipping on Solana. SODAX absorbs the cross-network execution layer, so your product can offer trading and lending against the liquidity of every SODAX-supported network without leaving your stack. Integration happens in TypeScript, at the SDK or React layer. There is nothing to deploy, audit, or maintain on-chain.
 
-Using SODAX is free. Trades carry a fixed 0.1% base fee taken by the protocol, and you set your own platform fee on top. That part is fully yours, both the rate and the revenue. See [Monetize SDK](../developers/packages/sdk/docs/MONETIZE_SDK.md).
+Using SODAX is free. Trades carry a fixed 0.1% base fee taken by the protocol, and you set your own platform fee on top. That part is fully yours, both the rate and the revenue. See [Monetize SDK](https://docs.sodax.com/developers/how-to/monetize_sdk).
 
 Not sure where SODAX fits in your product? Paste your protocol's URL into the generator and get a guide written for your stack:
 
@@ -31,8 +31,8 @@ Two SODAX modules are relevant to Solana builders:
 
 | Path | Best for | Start here |
 | --- | --- | --- |
-| [`@sodax/sdk`](../developers/packages/foundation/sdk/README.md) | Full control from any TypeScript backend or frontend | [Quickstart](quickstart.md) |
-| [`@sodax/dapp-kit`](../developers/packages/experience/dapp-kit.md) + [`@sodax/wallet-sdk-react`](../developers/packages/connection/wallet-sdk-react.md) | React apps that want hooks and wallet connectivity out of the box | [Wallets](wallets.md) |
+| [`@sodax/sdk`](https://docs.sodax.com/developers/packages/foundation/sdk) | Full control from any TypeScript backend or frontend | [Quickstart](quickstart.md) |
+| [`@sodax/dapp-kit`](https://docs.sodax.com/developers/packages/experience/dapp-kit) + [`@sodax/wallet-sdk-react`](https://docs.sodax.com/developers/packages/connection/wallet-sdk-react) | React apps that want hooks and wallet connectivity out of the box | [Wallets](wallets.md) |
 | [Builders MCP](https://builders.sodax.com) | Building with AI agents against the full SODAX stack | builders.sodax.com |
 
 ## In this section
@@ -48,7 +48,7 @@ Two SODAX modules are relevant to Solana builders:
 
 You will run into us where Solana builders already are: Breakpoint, Superteam events, hackathon season.
 
-<table data-header-hidden><thead><tr><th></th><th></th><th></th></tr></thead><tbody><tr><td><img src="../.gitbook/assets/solana/superteam-workshop.jpg" alt="SODAX at a Superteam workshop"></td><td><img src="../.gitbook/assets/solana/solana-breakpoint.jpg" alt="SODAX at Solana Breakpoint"></td><td><img src="../.gitbook/assets/solana/solana-booth.jpg" alt="SODAX booth at a Solana event"></td></tr></tbody></table>
+<table data-header-hidden><thead><tr><th></th><th></th><th></th></tr></thead><tbody><tr><td><img src=".gitbook/assets/superteam-workshop.jpg" alt="SODAX at a Superteam workshop"></td><td><img src=".gitbook/assets/solana-breakpoint.jpg" alt="SODAX at Solana Breakpoint"></td><td><img src=".gitbook/assets/solana-booth.jpg" alt="SODAX booth at a Solana event"></td></tr></tbody></table>
 
 If you are getting oriented in Solana development more broadly, these are the resources we point builders to:
 

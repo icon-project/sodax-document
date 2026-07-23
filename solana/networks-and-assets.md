@@ -17,7 +17,7 @@ Solver-compatible assets on Solana:
 * **USDC**
 * **bnUSD**
 
-Native DEX liquidity is routed through **Raydium V3**. The canonical, continuously updated list (including hub vault addresses) lives at [Swaps: Compatible Assets](../developers/deployments/swaps-compatible-assets.md#solana).
+Native DEX liquidity is routed through **Raydium V3**. The canonical, continuously updated list (including hub vault addresses) lives at [Swaps: Compatible Assets](https://docs.sodax.com/developers/deployments/swaps-compatible-assets#solana).
 
 Both SODAX modules relevant to Solana builders are live for these assets: [Swaps](swaps.md) and the [Money Market](money-market.md).
 
@@ -47,5 +47,5 @@ const mmTokens = sodax.moneyMarket.getSupportedTokensByChainId(ChainKeys.SOLANA_
 
 ***
 
-* All deployment addresses by network: [Mainnet Deployments](../developers/deployments/mainnet.md)
+* All deployment addresses by network: [Mainnet Deployments](https://docs.sodax.com/developers/deployments/mainnet)
 * The full cross-network asset directory: [sodax.com/partners/asset-directory](https://sodax.com/partners/asset-directory)
