@@ -6,23 +6,29 @@ icon: comment-question
 
 #### 1. Which chains does SODAX support?
 
-SODAX runs on 20 chains across two families. EVM (12): Sonic (hub), Ethereum, Arbitrum, Base, BSC, Optimism, Polygon, Avalanche, HyperEVM, Lightlink, Redbelly, Kaia. Non-EVM (8): Solana, Sui, Stellar, ICON, Injective, NEAR, Stacks, Bitcoin. Reference any chain via `ChainKeys.*`. The legacy `*_CHAIN_ID` constants are deprecated.
+SODAX runs on a hub-and-spoke network of **mainnet** chains. Sonic is the hub; spokes span EVM chains (Ethereum, Arbitrum, Base, BSC, Optimism, Polygon, Avalanche, HyperEVM, Lightlink, Redbelly, Kaia, Hedera) and non-EVM chains (Solana, Sui, Stellar, ICON, Injective, NEAR, Stacks, Bitcoin). Reference any chain via `ChainKeys.*`, which — together with the backend config — is the source of truth. The legacy `*_CHAIN_ID` constants are deprecated.
 
 Full list with relay IDs: [Relayer API endpoints](https://docs.sodax.com/developers/deployments/relayer_api_endpoints).
 
-#### 2. What is the difference between the hub and a spoke chain?
+#### 2. Is SODAX available on a testnet?
+
+No — SODAX is **mainnet-only**. Every chain in the canonical `@sodax/types` config is a `*_MAINNET` entry; there are no testnet chain configs, RPC endpoints, or a network toggle, because SODAX's cross-chain intents settle against real deployed contracts and live solver liquidity that only exist on mainnet. To build and test, use small amounts on mainnet and drive flows with the private-key wallet providers (see `apps/node`) rather than a testnet.
+
+Full explanation and next steps: [Is SODAX on Testnet?](https://docs.sodax.com/developers/how-to/testnet).
+
+#### 3. What is the difference between the hub and a spoke chain?
 
 Sonic is the hub. All swap, lend, borrow, bridge and stake actions are coordinated by hub contracts (Intents, Asset Manager, Hub Wallet Factory). Spoke chains hold user funds and act as deposit and execution venues. The SODAX relayer carries cross-chain messages between them.
 
 Deep dives: [Technical Overview](https://docs.sodax.com/developers/technical-overview), [Asset Manager](https://docs.sodax.com/developers/technical-overview/asset-manager), [Generalized Messaging Protocol](https://docs.sodax.com/developers/technical-overview/generalized-messaging-protocol).
 
-#### 3. Do I need to call `sodax.initialize()` before using the SDK?
+#### 4. Do I need to call `sodax.initialize()` before using the SDK?
 
 Not strictly. The constructor uses defaults packaged with the SDK version you installed. `await sodax.initialize()` fetches the latest tokens and chains from the backend API. Recommended for production, optional for prototypes. If it fails, the SDK falls back to packaged defaults rather than throwing.
 
 See [Configure SDK](https://docs.sodax.com/developers/how-to/configure_sdk).
 
-#### 4. How do I override the hub RPC or contract addresses?
+#### 5. How do I override the hub RPC or contract addresses?
 
 Pass a partial `hub` block to the constructor:
 
@@ -36,25 +42,25 @@ Full config reference: [Configure SDK](https://docs.sodax.com/developers/how-to/
 
 ### SDK behaviour
 
-#### 5. Why don't SDK methods throw?
+#### 6. Why don't SDK methods throw?
 
 Every public method returns `Result<T, E>` shaped as `{ ok: true, value }` or `{ ok: false, error }`. Do not wrap SDK calls in try/catch. Check `result.ok` first, then discriminate on `result.error.code`.
 
 The pattern is canonical across modules: [Backend API](https://docs.sodax.com/developers/packages/foundation/sdk/tooling-modules/backend_api).
 
-#### 6. How should I handle errors properly?
+#### 7. How should I handle errors properly?
 
 Switch on the narrow `error.code` union (for example `VALIDATION_FAILED`, `RELAY_TIMEOUT`, `TX_SUBMIT_FAILED`). Never branch on `error.message`, it is human-readable and may change. The original lower-level error is preserved on `error.cause`, structured metadata on `error.context`. Use the exported guards (`isSwapError`, `isStakeOrchestrationError`, `isMigrateOrchestrationError`, `isPartnerError`) in dapp code for cross-bundle type safety.
 
 Per-module code tables: [Swaps](https://docs.sodax.com/developers/packages/foundation/sdk/functional-modules/swaps), [Money Market](https://docs.sodax.com/developers/packages/foundation/sdk/functional-modules/money_market), [Bridge](https://docs.sodax.com/developers/packages/foundation/sdk/functional-modules/bridge), [Staking](https://docs.sodax.com/developers/packages/foundation/sdk/functional-modules/staking), [Migration](https://docs.sodax.com/developers/packages/foundation/sdk/functional-modules/migration).
 
-#### 7. What should I do when a swap returns `RELAY_TIMEOUT`?
+#### 8. What should I do when a swap returns `RELAY_TIMEOUT`?
 
 The spoke transaction landed but the hub packet has not arrived within the timeout window. The relay may still complete. Persist the spoke tx hash and poll the relayer API. Do not re-submit from the user side.
 
 Error semantics: [Make a Swap](https://docs.sodax.com/developers/how-to/how_to_make_a_swap), [Relayer API endpoints](https://docs.sodax.com/developers/deployments/relayer_api_endpoints).
 
-#### 8. What does `TX_SUBMIT_FAILED` mean?
+#### 9. What does `TX_SUBMIT_FAILED` mean?
 
 The critical case. The spoke tx landed but the relay submission itself failed. Funds may be in flight. Persist the user's input plus spoke tx hash and retry submission against the relay API. Do not retry the user-facing transaction.
 
@@ -62,7 +68,7 @@ Full code reference: [Make a Swap](https://docs.sodax.com/developers/how-to/how_
 
 ### Swaps and intents
 
-#### 9. What is the difference between `swap()`, `createIntent()` and `createLimitOrder()`?
+#### 10. What is the difference between `swap()`, `createIntent()` and `createLimitOrder()`?
 
 `swap()` is the recommended end-to-end path. It handles approval, intent creation, relay submission and solver notification automatically (signed execution only).
 
@@ -72,19 +78,19 @@ Full code reference: [Make a Swap](https://docs.sodax.com/developers/how-to/how_
 
 Full method list: [Swaps (Solver)](https://docs.sodax.com/developers/packages/foundation/sdk/functional-modules/swaps).
 
-#### 10. How do I get a swap quote and feed it into `minOutputAmount`?
+#### 11. How do I get a swap quote and feed it into `minOutputAmount`?
 
 Call `sodax.swaps.getQuote(payload)` with `token_src`, `token_dst`, source and destination `ChainKeys`, an amount in the token's smallest unit, and `quote_type: 'exact_input'`. Use `quoted_amount` from the response to set `minOutputAmount` on the intent.
 
 Walkthrough with code: [Make a Swap](https://docs.sodax.com/developers/how-to/how_to_make_a_swap).
 
-#### 11. Can I cancel an intent?
+#### 12. Can I cancel an intent?
 
 Yes. Call `cancelIntent(intent)` on the Intents contract. The caller must be the creator, or the deadline must have passed. Intents with pending fills cannot be cancelled. Limit orders (`deadline = 0`) always require manual cancellation.
 
 Contract interface: [Intents](https://docs.sodax.com/developers/technical-overview/intents).
 
-#### 12. Are intents trustless? Can a solver run off with funds?
+#### 13. Are intents trustless? Can a solver run off with funds?
 
 No. Solvers cannot exit with user funds. They lock collateral in the `IntentFiller` contract on the destination spoke when filling. The hub is the source of truth for intent state and settlement, spokes act only as escrow and execution venues. Settlement reconciles cross-chain via the relay.
 
@@ -92,7 +98,7 @@ Detailed flow: [Intents](https://docs.sodax.com/developers/technical-overview/in
 
 ### Lend, borrow, bridge, stake
 
-#### 13. Which actions actually need on-chain approval?
+#### 14. Which actions actually need on-chain approval?
 
 EVM spokes: `supply` and `repay` approve the Asset Manager contract.
 
@@ -104,13 +110,13 @@ Borrow and withdraw on EVM and hub do not require approval. Most non-EVM chains 
 
 Full matrix: [Money Market](https://docs.sodax.com/developers/packages/foundation/sdk/functional-modules/money_market).
 
-#### 14. How is the bridge different from a swap?
+#### 15. How is the bridge different from a swap?
 
 Bridge moves the same asset across chains using the hub vault, with no price discovery. Swap routes through the solver network for cross-chain price execution. The bridge supports three directions: spoke to hub, hub to spoke, and spoke to spoke.
 
 See [Bridge](https://docs.sodax.com/developers/packages/foundation/sdk/functional-modules/bridge) and [Swaps (Solver)](https://docs.sodax.com/developers/packages/foundation/sdk/functional-modules/swaps).
 
-#### 15. How do I estimate gas across different chain families?
+#### 16. How do I estimate gas across different chain families?
 
 Build a raw tx with `raw: true` from any `createIntent`, `createSupplyIntent`, `approve`, etc. Then call the matching module's `estimateGas({ tx, chainKey })`. The return shape depends on the chain family.
 
@@ -118,7 +124,7 @@ EVM, ICON, Stellar, Bitcoin, NEAR return a `bigint`. Sui returns `{ computationC
 
 Examples per chain: [Estimate Gas](https://docs.sodax.com/developers/how-to/estimate_gas).
 
-#### 16. Can I stake SODA from a non-EVM chain like Sui or Stellar?
+#### 17. Can I stake SODA from a non-EVM chain like Sui or Stellar?
 
 Yes. Every `StakingService` method accepts any `SpokeChainKey` as the source. If you pass `ChainKeys.SONIC_MAINNET`, the spoke and hub tx hashes are identical. Approval is required only on EVM spokes, the hub, and Stellar.
 
@@ -126,25 +132,25 @@ See [Staking](https://docs.sodax.com/developers/packages/foundation/sdk/function
 
 ### Monetization, integration, tooling
 
-#### 17. How do partner fees work and how do I claim them?
+#### 18. How do partner fees work and how do I claim them?
 
 Set `swaps.partnerFee`, `moneyMarket.partnerFee` and `bridge.partnerFee` independently on `SodaxConfig`. `getQuote` deducts the swap partner fee from the input amount before forwarding to the solver, so no fee field appears in the request payload. Claim accrued fees via `sodax.partners.feeClaim*` methods, which return `Result<T, PartnerError>`.
 
 Setup and claim flows: [Monetize SDK](https://docs.sodax.com/developers/how-to/monetize_sdk).
 
-#### 18. When do I need the `IntentRelayChainId` versus `ChainKeys`?
+#### 19. When do I need the `IntentRelayChainId` versus `ChainKeys`?
 
 The relay API identifies chains by a numeric `IntentRelayChainId` (for example `BASE_MAINNET = 30n`, `SOLANA_MAINNET = 1n`, `BITCOIN_MAINNET = 627463n`). The SDK converts internally. You only need `getIntentRelayChainId(chainKey)` when constructing raw relay requests directly, which is advanced usage.
 
 Full mapping: [Relayer API endpoints](https://docs.sodax.com/developers/deployments/relayer_api_endpoints).
 
-#### 19. How do I wire SODAX into my AI coding agent (Claude Code, Cursor, Codex)?
+#### 20. How do I wire SODAX into my AI coding agent (Claude Code, Cursor, Codex)?
 
 From your project root run `npx skills@latest add icon-project/sodax-sdks/packages/skills`. The CLI detects your tool (Claude Code, Cursor, Codex, Copilot) and installs `AGENTS.md` plus per-feature `SKILL.md` files into the conventional location. Point your agent rules at the installed `AGENTS.md`, not the GitHub main branch, so version drift does not corrupt the routing.
 
 See [AI Integration](https://docs.sodax.com/developers/ai-integration).
 
-#### 20. What is hub wallet abstraction and when do I touch it directly?
+#### 21. What is hub wallet abstraction and when do I touch it directly?
 
 The hub generates a deterministic user wallet on Sonic for every spoke address. For spoke chains with limited calldata, the SDK supports hashed calls: send a 32-byte `keccak256` payload to the hub, then execute the stored call later with the same data. The relayer handles this in normal flows. You only touch it directly when building custom orchestration or recovering stuck cross-chain executions.
 
