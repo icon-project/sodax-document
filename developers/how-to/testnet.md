@@ -2,7 +2,6 @@
 description: >-
   SODAX is mainnet-only. Here's why there is no testnet, and how to test and
   explore SODAX safely on mainnet instead.
-icon: flask
 ---
 
 # Is SODAX on Testnet?
