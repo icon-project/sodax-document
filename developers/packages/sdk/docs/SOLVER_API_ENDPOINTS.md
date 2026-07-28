@@ -1,6 +1,6 @@
 # Solver API endpoints
 
-> **Error handling conventions:** Direct callers of `SolverApiService` (used by lower-level scripts and tests) still receive `SolverErrorResponse` with `detail.code` / `detail.message`. The **swap module's** `postExecution` wraps these into `SodaxError` with code `EXTERNAL_API_ERROR`; the original `SolverIntentErrorCode` is on `result.error.context.solverCode` and the full `detail` is on `result.error.context.solverDetail` — see [SWAPS.md](https://github.com/icon-project/sodax-document/blob/main/developers/packages/sdk/docs/SWAPS.md) Error Handling.
+> **Error handling conventions:** Direct callers of `SolverApiService` (used by lower-level scripts and tests) still receive `SolverErrorResponse` with `detail.code` / `detail.message`. The **swap module's** `postExecution` wraps these into `SodaxError` with code `EXTERNAL_API_ERROR`; the original `SolverIntentErrorCode` is on `result.error.context.solverCode` and the full `detail` is on `result.error.context.solverDetail` — see [SWAPS.md](https://github.com/icon-project/sodax-sdks/blob/main/packages/sdk/docs/SWAPS.md) Error Handling.
 
 ## Mainnet production
 
@@ -12,21 +12,21 @@ URL: [https://staging-new-world.iconblockchain.xyz](https://staging-new-world.ic
 
 **Note** Staging endpoint contains features to be potentially released and is subject to frequent change!
 
-***
+---
 
 ## Overview
 
-The SODAX solver API drives the intent-based swap feature. `SwapService` (accessed via `sodax.swaps`) is the public entry point — it delegates all HTTP communication to the stateless `SolverApiService` class. External callers should use `SwapService` rather than calling `SolverApiService` directly.
+The solver API drives the intent-based swap feature. `SwapService` (accessed via `sodax.swaps`) is the public entry point — it delegates all HTTP communication to the stateless `SolverApiService` class. External callers should use `SwapService` rather than calling `SolverApiService` directly.
 
 Three endpoints are exposed:
 
-| Endpoint   | Method | Purpose                                                   |
-| ---------- | ------ | --------------------------------------------------------- |
-| `/quote`   | `POST` | Get a price quote for a token pair and amount             |
+| Endpoint | Method | Purpose |
+|----------|--------|---------|
+| `/quote` | `POST` | Get a price quote for a token pair and amount |
 | `/execute` | `POST` | Notify the solver that an intent is live on the hub chain |
-| `/status`  | `POST` | Poll the execution status of a submitted intent           |
+| `/status` | `POST` | Poll the execution status of a submitted intent |
 
-***
+---
 
 ## Error handling
 
@@ -56,7 +56,7 @@ if (!quoteResult.ok) {
 }
 ```
 
-***
+---
 
 ## `POST /quote` — Get a price quote
 
@@ -64,14 +64,14 @@ Called via `SwapService.getQuote(payload)`.
 
 ### Request (`SolverIntentQuoteRequest`)
 
-| Field                     | Type     | Description                                                 |
-| ------------------------- | -------- | ----------------------------------------------------------- |
-| `token_src`               | `string` | Source token address on its spoke chain                     |
-| `token_dst`               | `string` | Destination token address on its spoke chain                |
-| `token_src_blockchain_id` | `string` | Source spoke chain relay ID (e.g. `'0x38.bsc'`)             |
+| Field | Type | Description |
+|-------|------|-------------|
+| `token_src` | `string` | Source token address on its spoke chain |
+| `token_dst` | `string` | Destination token address on its spoke chain |
+| `token_src_blockchain_id` | `string` | Source spoke chain relay ID (e.g. `'0x38.bsc'`) |
 | `token_dst_blockchain_id` | `string` | Destination spoke chain relay ID (e.g. `'0xa4b1.arbitrum'`) |
-| `amount`                  | `bigint` | Input amount in the source token's smallest unit            |
-| `quote_type`              | `string` | `'exact_input'` or `'exact_output'`                         |
+| `amount` | `bigint` | Input amount in the source token's smallest unit |
+| `quote_type` | `string` | `'exact_input'` or `'exact_output'` |
 
 `SwapService.getQuote` automatically adjusts `amount` by the configured partner fee before forwarding to the solver, so the returned `quoted_amount` reflects the net output the user receives.
 
@@ -104,7 +104,7 @@ if (quoteResult.ok) {
 }
 ```
 
-***
+---
 
 ## `POST /execute` — Notify solver of a live intent
 
@@ -112,8 +112,8 @@ Called via `SwapService.postExecution(request)`. Invoked automatically by `SwapS
 
 ### Request (`SolverExecutionRequest`)
 
-| Field            | Type  | Description                                                        |
-| ---------------- | ----- | ------------------------------------------------------------------ |
+| Field | Type | Description |
+|-------|------|-------------|
 | `intent_tx_hash` | `Hex` | Hub-chain (Sonic) transaction hash where the intent was registered |
 
 The request is retried automatically on transient network failures.
@@ -136,7 +136,7 @@ if (execResult.ok) {
 }
 ```
 
-***
+---
 
 ## `POST /status` — Poll intent execution status
 
@@ -144,16 +144,16 @@ Called via `SwapService.getStatus(request)`.
 
 ### Request (`SolverIntentStatusRequest`)
 
-| Field            | Type  | Description                                                                                                                              |
-| ---------------- | ----- | ---------------------------------------------------------------------------------------------------------------------------------------- |
+| Field | Type | Description |
+|-------|------|-------------|
 | `intent_tx_hash` | `Hex` | Hub-chain (Sonic) tx hash of the intent. This is the `dst_tx_hash` from the relay packet returned by `swap()` or `relayTxAndWaitPacket`. |
 
 ### Response (`SolverIntentStatusResponse`)
 
-| Field          | Type                     | Description                                                                              |
-| -------------- | ------------------------ | ---------------------------------------------------------------------------------------- |
-| `status`       | `SolverIntentStatusCode` | Numeric status code (see below)                                                          |
-| `fill_tx_hash` | `string \| undefined`    | Solver's fill tx hash — present only when `status === SolverIntentStatusCode.SOLVED (3)` |
+| Field | Type | Description |
+|-------|------|-------------|
+| `status` | `SolverIntentStatusCode` | Numeric status code (see below) |
+| `fill_tx_hash` | `string \| undefined` | Solver's fill tx hash — present only when `status === SolverIntentStatusCode.SOLVED (3)` |
 
 `SolverIntentStatusCode` is an enum in `@sodax/sdk`. The value `3` (`SOLVED`) indicates the solver has filled the intent.
 
@@ -176,7 +176,7 @@ if (statusResult.ok && statusResult.value.status === SolverIntentStatusCode.SOLV
 }
 ```
 
-***
+---
 
 ## Full swap flow
 
@@ -251,7 +251,7 @@ if (packetResult.ok) {
 }
 ```
 
-***
+---
 
 ## Chain keys
 
@@ -268,13 +268,13 @@ ChainKeys.BSC_MAINNET
 
 `Intent.srcChain` and `Intent.dstChain` are `bigint` relay chain IDs (not chain keys) — use `getIntentRelayChainId(chainKey)` from `@sodax/sdk` to convert between them.
 
-***
+---
 
 ## Related source files
 
-* `packages/sdk/src/swap/SolverApiService.ts` — stateless HTTP client for the three solver endpoints
-* `packages/sdk/src/swap/SwapService.ts` — public service facade; use `sodax.swaps`
-* `packages/sdk/src/swap/EvmSolverService.ts` — EVM-level intent ABI encoding/decoding and event parsing
-* `packages/sdk/docs/SWAPS.md` — full swap feature documentation
-* `packages/sdk/docs/ARCHITECTURE_REFACTOR_SUMMARY.md` — v2 architecture reference (chain keys, `Result<T>`, error convention)
-* `packages/sdk/CHAIN_ID_MIGRATION.md` — mapping from old `*_CHAIN_ID` constants to `ChainKeys.*`
+- `packages/sdk/src/swap/SolverApiService.ts` — stateless HTTP client for the three solver endpoints
+- `packages/sdk/src/swap/SwapService.ts` — public service facade; use `sodax.swaps`
+- `packages/sdk/src/swap/EvmSolverService.ts` — EVM-level intent ABI encoding/decoding and event parsing
+- `packages/sdk/docs/SWAPS.md` — full swap feature documentation
+- `packages/sdk/docs/ARCHITECTURE_REFACTOR_SUMMARY.md` — v2 architecture reference (chain keys, `Result<T>`, error convention)
+- `packages/sdk/CHAIN_ID_MIGRATION.md` — mapping from old `*_CHAIN_ID` constants to `ChainKeys.*`
