@@ -2,28 +2,28 @@
 icon: envelope
 ---
 
-# Intent Relay API
+## Intent Relay API Service
 
-> **Error handling conventions:** Failures from `submitTransaction` / `relayTxAndWaitPacket` follow the **relay-layer contract**: `error.message` is one of the literal strings exported as `RELAY_ERROR_CODES` (`'SUBMIT_TX_FAILED'`, `'RELAY_TIMEOUT'`). Modules other than swap (moneyMarket, bridge, dex, migration, staking) propagate these errors raw. The **swap module** wraps them into `SodaxError<SwapErrorCode>` with `context.relayCode` (see [SWAPS.md](https://github.com/icon-project/sodax-document/blob/main/developers/packages/foundation/sdk/tooling-modules/SWAPS.md) Error Handling).
+> **Error handling conventions:** Failures from `submitTransaction` / `relayTxAndWaitPacket` follow the **relay-layer contract**: `error.message` is one of the literal strings exported as `RELAY_ERROR_CODES` (`'SUBMIT_TX_FAILED'`, `'RELAY_TIMEOUT'`). Modules other than swap (moneyMarket, bridge, dex, migration, staking) propagate these errors raw. The **swap module** wraps them into `SodaxError<SwapErrorCode>` with `context.relayCode` (see [SWAPS.md](./SWAPS.md) Error Handling).
 
 The Intent Relay API Service provides functionality for submitting transactions and retrieving transaction packets across different chains. This service is part of the cross-chain communication infrastructure.
 
 Source: `packages/sdk/src/shared/services/intentRelay/IntentRelayApiService.ts`
 
-## Available Actions
+### Available Actions
 
 1. `submit` — Submit a transaction to the intent relay service.
 2. `get_transaction_packets` — Get all packets associated with a transaction.
 3. `get_packet` — Get a specific packet by connection sequence number.
 
-## Transaction Status Types
+### Transaction Status Types
 
-* `pending` — No signatures yet.
-* `validating` — Not enough signatures collected.
-* `executing` — Enough signatures collected, no confirmed destination tx hash yet.
-* `executed` — Has a confirmed destination transaction hash.
+- `pending` — No signatures yet.
+- `validating` — Not enough signatures collected.
+- `executing` — Enough signatures collected, no confirmed destination tx hash yet.
+- `executed` — Has a confirmed destination transaction hash.
 
-## Chain IDs vs Chain Keys
+### Chain IDs vs Chain Keys
 
 The relay API uses its own numeric chain ID space (`IntentRelayChainId`) — bigint values defined in `RelayChainIdMap` — that is **distinct** from the `SpokeChainKey` string keys used everywhere else in the SDK. For example, Sonic's relay chain ID is `146n` while its chain key is `ChainKeys.SONIC_MAINNET`.
 
@@ -31,7 +31,7 @@ Use `getIntentRelayChainId(chainKey)` (from `@sodax/sdk`) to convert a `SpokeCha
 
 `PacketData` fields `src_chain_id` and `dst_chain_id` are returned as `number` by the relay API; use `getChainKeyFromRelayChainId()` to convert back to a `SpokeChainKey` if needed.
 
-## Result\<T> Return Types
+### Result\<T\> Return Types
 
 All public functions in this module return `Promise<Result<T>>`:
 
@@ -41,7 +41,7 @@ type Result<T> = { ok: true; value: T } | { ok: false; error: Error | unknown };
 
 On failure, check `result.error.message` for CODE-form errors such as `'SUBMIT_TX_FAILED'` or `'RELAY_TIMEOUT'`. Check `result.error.cause` for the underlying error when present. There are no typed error discriminators (`RelayError`, etc.) — those have been removed.
 
-## High-Level Entry Point: `relayTxAndWaitPacket`
+### High-Level Entry Point: `relayTxAndWaitPacket`
 
 For most use cases, call `relayTxAndWaitPacket` rather than invoking `submitTransaction` / `waitUntilIntentExecuted` separately. It submits the transaction and polls until the relay packet reaches `'executed'` status.
 
@@ -84,9 +84,9 @@ const result = await relayTxAndWaitPacket({
 });
 ```
 
-## Low-Level API Examples
+### Low-Level API Examples
 
-### Submit Transaction
+#### Submit Transaction
 
 ```typescript
 import { submitTransaction } from '@sodax/sdk';
@@ -110,7 +110,7 @@ if (!result.ok) {
 // { success: true, message: 'Transaction registered' }
 ```
 
-### Get Transaction Packets
+#### Get Transaction Packets
 
 ```typescript
 import { getTransactionPackets } from '@sodax/sdk';
@@ -148,7 +148,7 @@ if (!result.ok) return;
 // }
 ```
 
-### Get Packet
+#### Get Packet
 
 ```typescript
 import { getPacket } from '@sodax/sdk';
@@ -183,7 +183,7 @@ if (!result.ok) return;
 // }
 ```
 
-## Type Definitions
+### Type Definitions
 
 All types are exported from `packages/sdk/src/shared/services/intentRelay/IntentRelayApiService.ts`.
 

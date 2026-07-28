@@ -36,13 +36,13 @@ Intent Canceller: [0x7Ec046CEB0C01A2Ef16C77d2e6bB56E3AF3464cf](https://sonicscan
 | sodaVault  | [0x21685E341DE7844135329914Be6Bd8D16982d834](https://sonicscan.org/address/0x21685E341DE7844135329914Be6Bd8D16982d834) |
 | stSoda  | [0x4333B324102d00392038ca92537DfbB8CB0DAc68](https://sonicscan.org/address/0x4333B324102d00392038ca92537DfbB8CB0DAc68) |
 | xSoda  | [0xADC6561Cc8FC31767B4917CCc97F510D411378d9](https://sonicscan.org/address/0xADC6561Cc8FC31767B4917CCc97F510D411378d9) |
+| StakingRouter | [0xE287Cd568543d880e0F0DfaDCE18B44930759367](https://sonicscan.org/address/0xE287Cd568543d880e0F0DfaDCE18B44930759367) |
 | ProtocolIntents (pending ownership) | [0xaFf2EDb3057ed6f9C1dA6c930b8ddDf2beE573A5](https://sonicscan.org/address/0xaFf2EDb3057ed6f9C1dA6c930b8ddDf2beE573A5) |
 | FeeTreasury (pending ownership) (pending feem) | [0xf2E26765949731f251D5d15f30f483b7a321b3A4](https://sonicscan.org/address/0xf2E26765949731f251D5d15f30f483b7a321b3A4) |
 | Trickler  | [0xFB64C51484B7E0B0aAc3bb05f9a4425bf39d6176](https://sonicscan.org/address/0xFB64C51484B7E0B0aAc3bb05f9a4425bf39d6176) |
 | Spokes Manager | [0x84173cB4dc74686fD15054eDC7AdE9BD3b66cB77](https://sonicscan.org/address/0x84173cB4dc74686fD15054eDC7AdE9BD3b66cB77) |
 | Liquidator  (pending Ownership and Feem)| [0xc3297fbe4c404b3902852c227fefcccfa48fb7ec](https://sonicscan.org/address/0xc3297fbe4c404b3902852c227fefcccfa48fb7ec) |
 | MarketMaking (pending Ownership and Feem)| [0x44f5830bed0916e26746095aac195794ecad1e07](https://sonicscan.org/address/0x44f5830bed0916e26746095aac195794ecad1e07) |
-
 
 
 # SodaTokens (Vault tokens)
@@ -77,6 +77,8 @@ Intent Canceller: [0x7Ec046CEB0C01A2Ef16C77d2e6bB56E3AF3464cf](https://sonicscan
 |sodaSTX| [0x1Fbe5229e9d189F26bEE77E5bFa24309FdA90483](https://sonicscan.org/address/0x1Fbe5229e9d189F26bEE77E5bFa24309FdA90483) | STX |
 |sodastfUSD| [0x0902B2Bc326AB373bE4fE20605690b0422998685](https://sonicscan.org/address/0x0902B2Bc326AB373bE4fE20605690b0422998685) | stfUSD |
 |sodaHBAR| [0x3BB956cc8922E1Ba4148dc10eD1b4Fa19aa599c4](https://sonicscan.org/address/0x3BB956cc8922E1Ba4148dc10eD1b4Fa19aa599c4) | HBAR |
+|sodaUSSD| [0xb780e09576C2667ba9F5B80FbAb2e6b8A0a21e37](https://sonicscan.org/address/0xb780e09576C2667ba9F5B80FbAb2e6b8A0a21e37) | USSD |
+|sodaUSDS| [0xA3AeFa2BAfEAB479c4Aca6024A16906bbC75566e](https://sonicscan.org/address/0xA3AeFa2BAfEAB479c4Aca6024A16906bbC75566e) | USDS |
 
 # Spokes
 ## Sonic
@@ -88,6 +90,7 @@ Intent Canceller: [0x7Ec046CEB0C01A2Ef16C77d2e6bB56E3AF3464cf](https://sonicscan
 | USDT(6) |[0x6047828dc181963ba44974801ff68e538da5eaf9](https://sonicscan.org/address/0x6047828dc181963ba44974801ff68e538da5eaf9) |
 | Wrapped Sonic(18) |[0x039e2fB66102314Ce7b64Ce5Ce3E5183bc94aD38](https://sonicscan.org/address/0x039e2fB66102314Ce7b64Ce5Ce3E5183bc94aD38) |
 | Soda(18) |[0x7c7d53eecda37a87ce0d5bf8e0b24512a48dc963](https://sonicscan.org/address/0x7c7d53eecda37a87ce0d5bf8e0b24512a48dc963) |
+| USSD(18) |[0x000000000eCcFf26B795F73fb0A70d48da657fEf](https://sonicscan.org/address/0x000000000eCcFf26B795F73fb0A70d48da657fEf) |
 
 ## Ethereum
 | Contract | Address |
@@ -441,6 +444,9 @@ Intent Canceller: [0x7Ec046CEB0C01A2Ef16C77d2e6bB56E3AF3464cf](https://sonicscan
 | bnUSD(7) | [0x23225Ab8E63FCa4070296678cb46566d57E1BBe3](https://sonicscan.org/address/0x23225Ab8E63FCa4070296678cb46566d57E1BBe3) |
 | [Soda(7)](https://stellar.expert/explorer/public/contract/CAH5LKJC2ZB4RVUVEVL2QWJWNJLHQE2UF767ILLQ5EQ4O3OURR2XIUGM) | [0xD749B5FfFED7cEDaa3239abDd16D677179C29AEc](https://sonicscan.org/address/0xD749B5FfFED7cEDaa3239abDd16D677179C29AEc) |
 | [USDC(7)](https://stellar.expert/explorer/public/contract/CCW67TSZV3SSS2HXMBQ5JFGCKJNXKZM7UQUWUZPUTHXSTZLEO7SJMI75) | [0x348007B53F25A9A857aB8eA81ec9E3CCBCf440f2](https://sonicscan.org/address/0x348007B53F25A9A857aB8eA81ec9E3CCBCf440f2) |
+| [sodaBTC(7)](https://stellar.expert/explorer/public/contract/CD6XWBW74YVFDQQYUM2GALCULMA5MAWGP6NTCWF3ZYXP4Z7MEVY4JKBX) | [0xDDEE01F63C18843e2BaC30cb702864D7632C83a2](https://sonicscan.org/address/0xDDEE01F63C18843e2BaC30cb702864D7632C83a2) |
+| [sodaETH(7)](https://stellar.expert/explorer/public/contract/CDK5EWVTZLGSLI6D5OSES7XUKWZUKBXDRNOWUVDNPP5RJRP5EYWCW7SL) | [0x4985a4B72Ac723723e9ae82382D12D77e9A715DE](https://sonicscan.org/address/0x4985a4B72Ac723723e9ae82382D12D77e9A715DE) |
+| [sodaBNB(7)](https://stellar.expert/explorer/public/contract/CCXTXZAFLVNTMORVWYB6BGL7YEW3U3ONDAL2FGBRGDUQH7AGANVQPRS6) | [0xa10be5f5C2deA7d272555dC73ea2a7317C3c5B63](https://sonicscan.org/address/0xa10be5f5C2deA7d272555dC73ea2a7317C3c5B63) |
 | Legacy bnUSD(18) | [0x1559b52d2e165da1505a542ea37c543c9137f52a](https://sonicscan.org/address/0x1559b52d2e165da1505a542ea37c543c9137f52a) |
 
 
