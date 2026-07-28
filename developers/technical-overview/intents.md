@@ -2,7 +2,7 @@
 
 ### Overview
 
-The Intents system is a cross-chain trading infrastructure that enables users to express their trading desires ("intents") on a central hub chain while allowing solvers to fulfill these intents from any supported spoke chain. The system consists of two main contracts:
+The Intents system is a cross-chain execution infrastructure that enables users to express their desired outcomes ("intents") on a central hub chain while allowing solvers to fulfill these intents from any supported spoke chain. The system consists of two main contracts:
 
 1. **Intents Contract (Hub)** - The central coordinator that:
    * Manages intent creation and lifecycle

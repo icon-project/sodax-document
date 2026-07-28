@@ -1,8 +1,10 @@
 ---
-description: REST API endpoints of Solver backend.
+description: REST API endpoints for requesting quotes and tracking intent fills on the solver marketplace.
 ---
 
 # Solver API endpoints
+
+Use these endpoints to request quotes and track intent fills on the SODAX solver marketplace.
 
 ### Mainnet production
 

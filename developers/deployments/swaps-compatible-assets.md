@@ -6,7 +6,7 @@ description: Assets (tokens) supported by mainnet solver (swaps).
 
 Generated: 2026-06-18 02:12 UTC
 
-SODAX runs two solver environments. The **staging** solver supports every production token **plus** the additional staging-only tokens listed below.
+There are two solver environments on the SODAX marketplace. The **staging** solver supports every production token **plus** the additional staging-only tokens listed below.
 
 **Legend:** ✅ supported in **production** · 🚧 **staging-only** (not yet live on the production solver).
 

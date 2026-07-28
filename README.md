@@ -45,7 +45,7 @@ The core logic layer that powers everything else. Raw functional modules to buil
 
 Functional modules:
 
-* **Swaps** — quote and execute cross-network intents through the Solver.
+* **Swaps** — quote and execute cross-network intents, filled by solvers on the SODAX marketplace.
 * **Lend / Borrow** — interact directly with the SODAX money market.
 * **Bridge** — low-level primitives for asset transfer.
 * **Staking** — manage SODA staking and governance positions.
@@ -80,9 +80,9 @@ SODAX is built to coordinate execution across those realities, end to end, so De
 
 #### Intent-based execution
 
-You express an intent, a desired outcome, and SODAX fulfills it. Users do not hand-route transactions.
+You express an intent, a desired outcome. SODAX routes and settles it; independent solvers fill it. Users do not hand-route transactions.
 
-* **Solver coordination.** The proprietary Solver plans execution across networks based on liquidity, pricing, network constraints, and your builder-defined parameters. It decides and coordinates, it is not a passive relay.
+* **Solver execution.** Solvers on the SODAX marketplace plan fills across networks based on liquidity, pricing, network constraints, and your builder-defined parameters. They decide how to fill; SODAX provides the routing and settlement rails they execute on.
 * **Outcome-oriented settlement.** Routes are quoted from coordinated liquidity or external venues based on current conditions, then executed explicitly once approved.
 * **Explicit asynchronous handling.** Multi-step execution, partial completion, and recovery paths are handled deliberately, so flows that cannot complete atomically still complete reliably.
 
@@ -91,7 +91,7 @@ You express an intent, a desired outcome, and SODAX fulfills it. Users do not ha
 SODAX treats liquidity as one system-level inventory, not isolated pools per network.
 
 * **Global execution inventory.** Assets are accounted for across networks and coordinated to fulfill cross-network intents.
-* **Solver-accessed at execution time.** The Solver draws on liquidity when planning and executing, then redistributes it to keep the system balanced.
+* **Solver-accessed at execution time.** Solvers draw on this liquidity when planning and executing fills, then redistribute it to keep the system balanced.
 * **Less fragmentation risk.** Execution no longer depends on the right liquidity sitting on a specific network at a specific moment.
 
 #### Smart wallet abstraction
@@ -118,7 +118,7 @@ SODAX is a modular execution system. Integrate each SDK module on its own, or co
 * **One SDK, modular usage.** Integrate @sodax/sdk once, then use only the modules you need.
 * **Built for real execution conditions.** Asynchronous by nature, with explicit timeouts and clear completion or failure handling.
 * **Your control preserved.** You keep ownership of user experience, pricing logic, and risk parameters.
-* **Proven in production.** Live cross-network flows across heterogeneous networks with Solver-coordinated settlement. 21 protocols have integrated SODAX so far.
+* **Proven in production.** Live cross-network flows across heterogeneous networks, settled by the protocol and filled by independent solvers. 21 protocols have integrated SODAX so far.
 
 ***
 
@@ -126,20 +126,12 @@ SODAX is a modular execution system. Integrate each SDK module on its own, or co
 
 * **Networks:** 18+ networks spanning EVM and non-EVM environments, including Ethereum, Arbitrum, Base, BNB Chain, Avalanche, Optimism, Polygon, Solana, Sui, Stellar, Injective, and ICON.
 * **Money market:** 26 assets available for lending and borrowing across networks.
-* **Liquidity venues:** the Solver routes execution through deep venues including Uniswap V3, PancakeSwap, Raydium, Pharaoh, Cetus, and DojoSwap.
+* **Liquidity venues:** solvers fill intents through deep venues including Uniswap V3, PancakeSwap, Raydium, Pharaoh, Cetus, and DojoSwap.
 * **Infrastructure compatibility:** designed to work alongside major messaging standards (GMP) for secure intent propagation, not replace them.
 
 ***
 
-### Protocol-owned liquidity (POL)
-
-SODAX deploys protocol-owned liquidity as part of its unified execution inventory, so cross-network actions can complete reliably.
-
-* **Baseline execution inventory.** Protocol-owned assets give the Solver dedicated baseline liquidity to fulfill intents when external liquidity is fragmented or unavailable.
-* **System-level reliability.** Liquidity is coordinated and redistributed after execution to keep global inventory healthy and reduce failures caused by local shortages.
-* **Aligned incentives.** Revenue from protocol-owned liquidity supports ongoing execution reliability and system sustainability.
-
-Together, these provide the execution infrastructure modern money needs across networks.Together, SODAX provides the execution infrastructure required for modern money across networks.
+Together, SODAX provides the execution infrastructure required for modern money across networks.
 
 ***
 
