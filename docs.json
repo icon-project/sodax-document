@@ -9,9 +9,9 @@
     "isHidden": false
   },
   "colors": {
-    "primary": "#A55C55",
-    "light": "#C36C65",
-    "dark": "#964D48"
+    "primary": "#964D48",
+    "light": "#A55C55",
+    "dark": "#6B3E36"
   },
   "navigation": {
     "tabs": [
