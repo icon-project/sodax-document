@@ -1,7 +1,7 @@
 {
   "$schema": "https://mintlify.com/docs.json",
   "name": "SODAX Docs",
-  "logo": "./sodax-logo.svg",
+  "logo": "./sodax-logo-small.svg",
   "favicon": "https://raw.githubusercontent.com/icon-project/sodax-frontend/main/apps/web/public/soda-yellow-sm.png",
   "theme": "mint",
   "colors": {
