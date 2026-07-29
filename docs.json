@@ -9,6 +9,7 @@
     "light": "#C36C65",
     "dark": "#964D48"
   },
+  "css": "./custom.css",
   "navigation": {
     "tabs": [
       {
