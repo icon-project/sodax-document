@@ -52,6 +52,34 @@ h3 {
   color: var(--sodax-dark);
 }
 
+/* Dark mode headings - ensure contrast */
+@media (prefers-color-scheme: dark) {
+  h1,
+  h2,
+  h3 {
+    color: #F9F7F5;
+  }
+}
+
+/* Search bar styling */
+[class*="search"],
+input[type="search"],
+input[placeholder*="Search"] {
+  background-color: #E5D5D4 !important;
+  border-color: #C36C65 !important;
+  color: #1D1414 !important;
+}
+
+@media (prefers-color-scheme: dark) {
+  [class*="search"],
+  input[type="search"],
+  input[placeholder*="Search"] {
+    background-color: #483434 !important;
+    border-color: #C36C65 !important;
+    color: #F9F7F5 !important;
+  }
+}
+
 /* Active navigation items */
 nav a.active,
 nav a[aria-current="page"] {
