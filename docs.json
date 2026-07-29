@@ -7,9 +7,14 @@
     "light": "#C36C65",
     "dark": "#964D48"
   },
-  "homePagePath": "index",
   "navigation": {
     "tabs": [
+      {
+        "tab": "Home",
+        "pages": [
+          "index"
+        ]
+      },
       {
         "tab": "Get Started",
         "groups": [
