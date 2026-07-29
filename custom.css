@@ -1,63 +1,78 @@
-/* SODAX Brand Color Overrides for Mintlify */
+/* SODAX Brand Colors for Light & Dark Mode */
 
-/* Primary cherry color (#A55C55) for key elements */
+/* Light Mode (Default) */
 :root {
-  --primary: #A55C55;
-  --primary-light: #C36C65;
-  --primary-dark: #964D48;
+  --sodax-primary: #A55C55;
+  --sodax-light: #C36C65;
+  --sodax-dark: #964D48;
+  --sodax-yellow: #FFD92F;
+  --sodax-bg-light: #F9F7F5;
+  --sodax-text-dark: #1D1414;
 }
 
-/* Buttons */
+/* Dark Mode */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --sodax-primary: #C36C65;
+    --sodax-light: #E5D5D4;
+    --sodax-dark: #1D1414;
+    --sodax-yellow: #FFD92F;
+    --sodax-bg-light: #1D1414;
+    --sodax-text-dark: #F9F7F5;
+  }
+}
+
+/* Buttons - Light Mode */
 button,
 .button,
 a.button {
-  background-color: var(--primary) !important;
+  background-color: var(--sodax-primary) !important;
   color: white !important;
 }
 
 button:hover,
 .button:hover,
 a.button:hover {
-  background-color: var(--primary-dark) !important;
+  background-color: var(--sodax-dark) !important;
 }
 
 /* Links */
 a {
-  color: var(--primary) !important;
+  color: var(--sodax-primary) !important;
 }
 
 a:hover {
-  color: var(--primary-dark) !important;
+  color: var(--sodax-dark) !important;
 }
 
-/* Headings accent */
+/* Headings */
 h1,
 h2,
 h3 {
-  color: var(--primary-dark);
+  color: var(--sodax-dark);
 }
 
 /* Active navigation items */
 nav a.active,
 nav a[aria-current="page"] {
-  color: var(--primary) !important;
-  border-color: var(--primary) !important;
+  color: var(--sodax-primary) !important;
+  border-color: var(--sodax-primary) !important;
 }
 
-/* Code blocks accent */
+/* Code blocks */
 code {
-  color: var(--primary);
+  color: var(--sodax-primary);
 }
 
 /* Note/callout boxes */
 .note,
 .callout {
-  border-left-color: var(--primary) !important;
+  border-left-color: var(--sodax-primary) !important;
 }
 
 /* CTA sections */
 .cta,
 [class*="call-to-action"] {
-  background-color: var(--primary-light);
-  border-color: var(--primary);
+  background-color: var(--sodax-light);
+  border-color: var(--sodax-primary);
 }

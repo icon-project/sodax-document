@@ -4,11 +4,16 @@
   "logo": "./sodax-logo-small.svg",
   "favicon": "https://raw.githubusercontent.com/icon-project/sodax-frontend/main/apps/web/public/soda-yellow-sm.png",
   "theme": "mint",
+  "modeToggle": {
+    "default": "light",
+    "isHidden": false
+  },
   "colors": {
     "primary": "#A55C55",
     "light": "#C36C65",
     "dark": "#964D48"
   },
+  "css": "./custom.css",
   "navigation": {
     "tabs": [
       {
