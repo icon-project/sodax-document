@@ -41,6 +41,13 @@
               "solana/networks-and-assets",
               "solana/faq"
             ]
+          },
+          {
+            "group": "Welcome to SODAX",
+            "pages": [
+              "README (1)",
+              "developers/audits/Readme"
+            ]
           }
         ]
       },
@@ -118,7 +125,6 @@
           {
             "group": "Resources",
             "pages": [
-              "developers/deployments/audits",
               "developers/faq"
             ]
           }
