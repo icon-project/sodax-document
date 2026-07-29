@@ -45,19 +45,19 @@ a:hover {
   color: var(--sodax-dark) !important;
 }
 
-/* Headings */
+/* Headings - Light mode */
 h1,
 h2,
 h3 {
-  color: var(--sodax-dark);
+  color: #1D1414 !important;
 }
 
-/* Dark mode headings - ensure contrast */
+/* Headings - Dark mode */
 @media (prefers-color-scheme: dark) {
   h1,
   h2,
   h3 {
-    color: #F9F7F5;
+    color: #F9F7F5 !important;
   }
 }
 
