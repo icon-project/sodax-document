@@ -33,7 +33,7 @@
           {
             "group": "Solana",
             "pages": [
-              "solana/README",
+              "solana",
               "solana/quickstart",
               "solana/swaps",
               "solana/money-market",
@@ -45,8 +45,8 @@
           {
             "group": "Welcome to SODAX",
             "pages": [
-              "README (1)",
-              "developers/audits/Readme"
+              "contact-form",
+              "developers/audits"
             ]
           }
         ]
@@ -57,7 +57,7 @@
           {
             "group": "Deployments",
             "pages": [
-              "developers/deployments/README",
+              "developers/deployments",
               "developers/deployments/mainnet",
               "developers/deployments/relayer-api",
               "developers/deployments/solver-api",
@@ -68,10 +68,10 @@
           {
             "group": "SDKs",
             "pages": [
-              "developers/packages/README",
-              "developers/packages/foundation/README",
-              "developers/packages/foundation/sdk/README",
-              "developers/packages/foundation/sdk/functional-modules/README",
+              "developers/packages",
+              "developers/packages/foundation",
+              "developers/packages/foundation/sdk",
+              "developers/packages/foundation/sdk/functional-modules",
               "developers/packages/foundation/sdk/functional-modules/swaps",
               "developers/packages/foundation/sdk/functional-modules/money_market",
               "developers/packages/foundation/sdk/functional-modules/leverage_yield",
@@ -79,14 +79,14 @@
               "developers/packages/foundation/sdk/functional-modules/bridge",
               "developers/packages/foundation/sdk/functional-modules/staking",
               "developers/packages/foundation/sdk/functional-modules/migration",
-              "developers/packages/foundation/sdk/tooling-modules/README",
+              "developers/packages/foundation/sdk/tooling-modules",
               "developers/packages/foundation/sdk/tooling-modules/backend_api",
               "developers/packages/foundation/sdk/tooling-modules/intent_relay_api",
               "developers/packages/foundation/swaps-api",
-              "developers/packages/connection/README",
+              "developers/packages/connection",
               "developers/packages/connection/wallet-sdk-core",
               "developers/packages/connection/wallet-sdk-react",
-              "developers/packages/experience/README",
+              "developers/packages/experience",
               "developers/packages/experience/dapp-kit",
               "developers/packages/experience/skills"
             ]
@@ -94,7 +94,7 @@
           {
             "group": "Technical Overview",
             "pages": [
-              "developers/technical-overview/README",
+              "developers/technical-overview",
               "developers/technical-overview/asset-manager",
               "developers/technical-overview/vault-token",
               "developers/technical-overview/hub-wallet-abstraction",
@@ -105,7 +105,7 @@
           {
             "group": "How To",
             "pages": [
-              "developers/how-to/README",
+              "developers/how-to",
               "developers/packages/sdk/docs/MONETIZE_SDK",
               "developers/packages/sdk/docs/CONFIGURE_SDK",
               "developers/packages/sdk/docs/HOW_TO_MAKE_A_SWAP",
@@ -119,7 +119,7 @@
           {
             "group": "AI Integration",
             "pages": [
-              "developers/ai-integration/README"
+              "developers/ai-integration"
             ]
           },
           {
