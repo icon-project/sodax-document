@@ -7,7 +7,7 @@
     "light": "#C36C65",
     "dark": "#964D48"
   },
-  "homePagePath": "README",
+  "homePagePath": "README.md",
   "navigation": {
     "tabs": [
       {
