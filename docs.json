@@ -1,0 +1,120 @@
+{
+  "$schema": "https://mintlify.com/docs.json",
+  "name": "SODAX Docs",
+  "theme": "mint",
+  "colors": {
+    "primary": "#A55C55",
+    "light": "#C36C65",
+    "dark": "#964D48"
+  },
+  "navigation": {
+    "tabs": [
+      {
+        "tab": "Get Started",
+        "groups": [
+          {
+            "group": "Introduction",
+            "pages": [
+              "README"
+            ]
+          },
+          {
+            "group": "Solana",
+            "pages": [
+              "solana/README",
+              "solana/quickstart",
+              "solana/swaps",
+              "solana/money-market",
+              "solana/wallets",
+              "solana/networks-and-assets",
+              "solana/faq"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "Developers",
+        "groups": [
+          {
+            "group": "Deployments",
+            "pages": [
+              "developers/deployments/README",
+              "developers/deployments/mainnet",
+              "developers/deployments/relayer-api",
+              "developers/deployments/solver-api",
+              "developers/deployments/xcall-scanner",
+              "developers/deployments/swaps-compatible-assets"
+            ]
+          },
+          {
+            "group": "SDKs",
+            "pages": [
+              "developers/packages/README",
+              "developers/packages/foundation/README",
+              "developers/packages/foundation/sdk/README",
+              "developers/packages/foundation/sdk/functional-modules/README",
+              "developers/packages/foundation/sdk/functional-modules/swaps",
+              "developers/packages/foundation/sdk/functional-modules/money_market",
+              "developers/packages/foundation/sdk/functional-modules/leverage_yield",
+              "developers/packages/foundation/sdk/functional-modules/leverage_yield_apr",
+              "developers/packages/foundation/sdk/functional-modules/bridge",
+              "developers/packages/foundation/sdk/functional-modules/staking",
+              "developers/packages/foundation/sdk/functional-modules/migration",
+              "developers/packages/foundation/sdk/tooling-modules/README",
+              "developers/packages/foundation/sdk/tooling-modules/backend_api",
+              "developers/packages/foundation/sdk/tooling-modules/intent_relay_api",
+              "developers/packages/foundation/swaps-api",
+              "developers/packages/connection/README",
+              "developers/packages/connection/wallet-sdk-core",
+              "developers/packages/connection/wallet-sdk-react",
+              "developers/packages/experience/README",
+              "developers/packages/experience/dapp-kit",
+              "developers/packages/experience/skills"
+            ]
+          },
+          {
+            "group": "Technical Overview",
+            "pages": [
+              "developers/technical-overview/README",
+              "developers/technical-overview/asset-manager",
+              "developers/technical-overview/vault-token",
+              "developers/technical-overview/hub-wallet-abstraction",
+              "developers/technical-overview/intents",
+              "developers/technical-overview/generalized-messaging-protocol"
+            ]
+          },
+          {
+            "group": "How To",
+            "pages": [
+              "developers/how-to/README",
+              "developers/packages/sdk/docs/MONETIZE_SDK",
+              "developers/packages/sdk/docs/CONFIGURE_SDK",
+              "developers/packages/sdk/docs/HOW_TO_MAKE_A_SWAP",
+              "developers/packages/sdk/docs/WALLET_PROVIDERS",
+              "developers/packages/sdk/docs/ESTIMATE_GAS",
+              "developers/packages/sdk/docs/STELLAR_TRUSTLINE",
+              "developers/how-to/bitcoin-integration",
+              "developers/how-to/testnet"
+            ]
+          },
+          {
+            "group": "AI Integration",
+            "pages": [
+              "developers/ai-integration/README"
+            ]
+          },
+          {
+            "group": "Resources",
+            "pages": [
+              "developers/deployments/audits",
+              "developers/faq"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "integrations": {
+    "ga4": { "measurementId": "G-Z10HMBQ0V9" }
+  }
+}
