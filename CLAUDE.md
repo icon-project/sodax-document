@@ -8,11 +8,10 @@ This is a **GitBook documentation repository** for the SODAX SDK ecosystem, publ
 
 ## Content Sync Workflow
 
-Most content is **auto-synced from external sources** and should not be manually edited here. The sync script handles three sources:
+Most content is **auto-synced from external sources** and should not be manually edited here. The sync script handles two sources:
 
 1. **`sodax-sdks` submodule** (`linked-repositories/sodax-sdks`) — SDK docs, how-to guides, wallet/dapp-kit READMEs, Bitcoin Integration guide, and audit reports.
 2. **`sodax-contracts.wiki`** GitHub wiki — `developers/deployments/mainnet.md`
-3. **`sodax-solver.wiki`** GitHub wiki — `developers/deployments/solver-compatible-assets.md`
 
 To sync all sources:
 
@@ -20,7 +19,9 @@ To sync all sources:
 bash sync-sodax-sdks.sh
 ```
 
-This pulls the latest `origin/main` of the submodule and clones the wikis (requires SSH access to `icon-project/sodax-contracts.wiki` and `icon-project/sodax-solver.wiki`). It also injects GitBook frontmatter (icons, descriptions) into copied files.
+This pulls the latest `origin/main` of the submodule and clones the contracts wiki (requires SSH access to `icon-project/sodax-contracts.wiki`). It also injects GitBook frontmatter (icons, descriptions) into copied files.
+
+The mirror list is duplicated upstream at `sodax-sdks/scripts/gitbook-sync-map.json`, which the `pnpm check:doc-links` CI gate validates links against. **When a mirrored doc is added, renamed, or removed, change both files in the same PR** — a stale mapping breaks the sync or silently relaxes the link gate.
 
 ### What NOT to edit (synced content, will be overwritten)
 
@@ -28,10 +29,21 @@ This pulls the latest `origin/main` of the submodule and clones the wikis (requi
 - `developers/how-to/bitcoin-integration.md` — from `sodax-sdks/packages/sdk/docs/BITCOIN_INTEGRATION.md`
 - `developers/ai-integration/README.md` — from `sodax-sdks/docs/ai-integration-guide.md`
 - `developers/deployments/mainnet.md` — from contracts wiki
-- `developers/deployments/solver-compatible-assets.md` — from solver wiki
 - `developers/audits/**` — from sodax-sdks repo
 
 Edit the source in the respective upstream repo instead.
+
+`developers/deployments/swaps-compatible-assets.md` is the exception: it looks synced but is **hand-maintained**. It used to shadow the `sodax-solver` wiki page, which lags SDK reality (lists Nibiru, which is not a `ChainKey`; omits NEAR, Bitcoin, SUI, Ethereum, Redbelly, which are), so the wiki sync was removed. Update it by hand, or replace it with a generator sourced from `@sodax/types`.
+
+### After every sync: check nothing became invisible
+
+GitBook publishes **only** what `SUMMARY.md` lists. A file the script writes but `SUMMARY.md` never links is copied on every run and published nowhere. Run this after syncing — it must print nothing:
+
+```bash
+comm -23 \
+  <(find developers -name '*.md' | sort) \
+  <(grep -oE '\((<[^>]+>|[^)]+)\)' SUMMARY.md | tr -d '()<>' | grep '\.md$' | sort -u)
+```
 
 ### What IS safe to edit directly
 

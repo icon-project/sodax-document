@@ -81,7 +81,6 @@ fix_synced_links() {
   local tmp
   tmp=$(mktemp)
   sed \
-    -e 's|\./developers/how-to/how_to_create_a_spoke_provider|https://docs.sodax.com/developers/how-to/how_to_create_a_spoke_provider|g' \
     -e 's|https://github.com/icon-project/sodax-document/blob/main/developers/packages/sdk/CONTRIBUTING.md|https://github.com/icon-project/sodax-sdks/blob/main/CONTRIBUTING.md|g' \
     -e 's|https://github.com/icon-project/sodax-document/blob/main/developers/packages/sdk/LICENSE/README.md|https://github.com/icon-project/sodax-sdks/blob/main/LICENSE|g' \
     -e 's|https://docs.sodax.com/developers/packages/sdk/swaps|https://docs.sodax.com/developers/packages/foundation/sdk/functional-modules/swaps|g' \
@@ -101,6 +100,13 @@ fix_synced_links() {
 rm -f "$DST/packages/types/README.md"
 rm -f "$DST/packages/RELEASE_INSTRUCTIONS.md"
 rm -rf "$DST/packages/dapp-kit/src"
+# Orphans that keep getting hand-edited. The canonical pages are
+# developers/packages/sdk/docs/{RELAYER,SOLVER}_API_ENDPOINTS.md (nested under Deployments in
+# SUMMARY.md) and developers/deployments/swaps-compatible-assets.md.
+rm -f "$DST/deployments/relayer-api-endpoints.md"
+rm -f "$DST/deployments/solver-api-endpoints.md"
+rm -f "$DST/deployments/solver-compatible-assets.md"
+rm -f "sdk-docs-comparison.md"
 
 # 4) SDK README → Foundation layer
 copy_file "$SRC/packages/sdk/README.md" "$DST/packages/foundation/sdk/README.md"
@@ -114,6 +120,18 @@ inject_frontmatter "$DST/packages/foundation/swaps-api.md" "plug" \
   "Minimal, type-safe HTTP client for the SODAX backend Swaps API v2 — the wire client that @sodax/sdk's sodax.api.swaps wraps."
 fix_synced_links "$DST/packages/foundation/swaps-api.md"
 
+# 4c) swaps-api worked example (the only end-to-end app driving @sodax/swaps-api on its own)
+copy_file "$SRC/apps/swap-api-example/README.md" "$DST/packages/foundation/swaps-api/example.md"
+inject_frontmatter "$DST/packages/foundation/swaps-api/example.md" "terminal" \
+  "A Vite + React app driving the backend Swaps API v2 through @sodax/swaps-api only — no @sodax/sdk, no @sodax/dapp-kit."
+fix_synced_links "$DST/packages/foundation/swaps-api/example.md"
+
+# 4d) @sodax/types → Foundation layer (published package, direct dependency of every @sodax/*)
+copy_file "$SRC/packages/types/README.md" "$DST/packages/foundation/types.md"
+inject_frontmatter "$DST/packages/foundation/types.md" "shapes" \
+  "Shared chain, token, wallet-provider and backend-contract types consumed by every @sodax/* package."
+fix_synced_links "$DST/packages/foundation/types.md"
+
 # 5) Functional modules (sdk/docs → foundation/sdk/functional-modules, lowercased)
 copy_file "$SRC/packages/sdk/docs/SWAPS.md"        "$DST/packages/foundation/sdk/functional-modules/swaps.md"
 copy_file "$SRC/packages/sdk/docs/MONEY_MARKET.md"  "$DST/packages/foundation/sdk/functional-modules/money_market.md"
@@ -122,6 +140,7 @@ copy_file "$SRC/packages/sdk/docs/STAKING.md"       "$DST/packages/foundation/sd
 copy_file "$SRC/packages/sdk/docs/MIGRATION.md"     "$DST/packages/foundation/sdk/functional-modules/migration.md"
 copy_file "$SRC/packages/sdk/docs/LEVERAGE_YIELD.md"     "$DST/packages/foundation/sdk/functional-modules/leverage_yield.md"
 copy_file "$SRC/packages/sdk/docs/LEVERAGE_YIELD_APR.md" "$DST/packages/foundation/sdk/functional-modules/leverage_yield_apr.md"
+copy_file "$SRC/packages/sdk/docs/DEX.md"                "$DST/packages/foundation/sdk/functional-modules/dex.md"
 
 inject_frontmatter "$DST/packages/foundation/sdk/functional-modules/swaps.md"        "rotate"
 inject_frontmatter "$DST/packages/foundation/sdk/functional-modules/money_market.md"  "sack-dollar"
@@ -130,26 +149,40 @@ inject_frontmatter "$DST/packages/foundation/sdk/functional-modules/staking.md" 
 inject_frontmatter "$DST/packages/foundation/sdk/functional-modules/migration.md"     "truck"
 inject_frontmatter "$DST/packages/foundation/sdk/functional-modules/leverage_yield.md"     "money-bill-trend-up"
 inject_frontmatter "$DST/packages/foundation/sdk/functional-modules/leverage_yield_apr.md" "percent"
+inject_frontmatter "$DST/packages/foundation/sdk/functional-modules/dex.md"                "droplet"
 
-for f in swaps.md money_market.md bridge.md staking.md migration.md leverage_yield.md leverage_yield_apr.md; do
+for f in swaps.md money_market.md bridge.md staking.md migration.md leverage_yield.md leverage_yield_apr.md dex.md; do
   fix_synced_links "$DST/packages/foundation/sdk/functional-modules/$f"
 done
 
 # 6) Tooling modules (sdk/docs → foundation/sdk/tooling-modules, lowercased)
 copy_file "$SRC/packages/sdk/docs/BACKEND_API.md"      "$DST/packages/foundation/sdk/tooling-modules/backend_api.md"
 copy_file "$SRC/packages/sdk/docs/INTENT_RELAY_API.md"  "$DST/packages/foundation/sdk/tooling-modules/intent_relay_api.md"
+copy_file "$SRC/packages/sdk/docs/SWAPS_API.md"         "$DST/packages/foundation/sdk/tooling-modules/swaps_api.md"
 
 inject_frontmatter "$DST/packages/foundation/sdk/tooling-modules/backend_api.md"      "plug"
 inject_frontmatter "$DST/packages/foundation/sdk/tooling-modules/intent_relay_api.md"  "envelope"
+inject_frontmatter "$DST/packages/foundation/sdk/tooling-modules/swaps_api.md"         "code"
+
+for f in backend_api.md intent_relay_api.md swaps_api.md; do
+  fix_synced_links "$DST/packages/foundation/sdk/tooling-modules/$f"
+done
 
 # 7) How-to guides (stay at sdk/docs/, preserve names — no frontmatter needed)
-# Note: HOW_TO_CREATE_A_SPOKE_PROVIDER.md is no longer present in sodax-sdks.
 for f in CONFIGURE_SDK ESTIMATE_GAS HOW_TO_MAKE_A_SWAP \
          MONETIZE_SDK WALLET_PROVIDERS STELLAR_TRUSTLINE \
-         RELAYER_API_ENDPOINTS SOLVER_API_ENDPOINTS; do
+         RELAYER_API_ENDPOINTS SOLVER_API_ENDPOINTS \
+         LOGGING ARCHITECTURE; do
   copy_file "$SRC/packages/sdk/docs/${f}.md" "$DST/packages/sdk/docs/${f}.md"
+  fix_synced_links "$DST/packages/sdk/docs/${f}.md"
 done
 copy_file "$SRC/packages/sdk/docs/installation/nextjs.md" "$DST/packages/sdk/docs/installation/nextjs.md"
+fix_synced_links "$DST/packages/sdk/docs/installation/nextjs.md"
+
+# 7d) Chain-ID migration table — mirrored one level above docs/ so that ARCHITECTURE.md's
+# relative `../CHAIN_ID_MIGRATION.md` link resolves identically on both sides of the mirror.
+copy_file "$SRC/packages/sdk/CHAIN_ID_MIGRATION.md" "$DST/packages/sdk/CHAIN_ID_MIGRATION.md"
+fix_synced_links "$DST/packages/sdk/CHAIN_ID_MIGRATION.md"
 
 # 7b) Bitcoin Integration (sdk/docs/BITCOIN_INTEGRATION.md → how-to/bitcoin-integration.md)
 # Lives under how-to/ to preserve the public docs.sodax.com URL.
@@ -173,6 +206,31 @@ inject_frontmatter "$DST/packages/connection/wallet-sdk-react.md" "react"
 
 fix_relative_repo_links "$DST/packages/connection/wallet-sdk-react.md"
 
+# 8b) wallet-sdk-react consumer guides.
+# Destination is `connection/docs/` (NOT `connection/wallet-sdk-react/`) so that the README's
+# `docs/<FILE>.md` rows and the guides' own `./<FILE>.md` sibling links stay relative and legal for
+# sodax-sdks' `pnpm check:doc-links`. The public URL comes from the SUMMARY.md parent, not the path.
+# ADDING_A_NEW_CHAIN.md is deliberately NOT mirrored — it is a contributor workflow.
+for entry in \
+  "CONFIGURE_PROVIDER:gear" \
+  "CONNECT_FLOW:link" \
+  "WALLET_PROVIDER_BRIDGE:bridge" \
+  "WALLET_MODAL:window-restore" \
+  "CHAIN_DETECTION:magnifying-glass" \
+  "CONNECTORS:plug" \
+  "BATCH_OPERATIONS:layer-group" \
+  "SIGN_MESSAGE:signature" \
+  "EVM_SWITCH_CHAIN:shuffle" \
+  "WALLETCONNECT:qrcode" \
+  "SUB_PATH_EXPORTS:folder-tree" \
+  "ARCHITECTURE:sitemap"; do
+  f="${entry%%:*}"
+  icon="${entry##*:}"
+  copy_file "$SRC/packages/wallet-sdk-react/docs/${f}.md" "$DST/packages/connection/docs/${f}.md"
+  inject_frontmatter "$DST/packages/connection/docs/${f}.md" "$icon"
+  fix_synced_links "$DST/packages/connection/docs/${f}.md"
+done
+
 # 9) Experience layer
 copy_file "$SRC/packages/dapp-kit/README.md" "$DST/packages/experience/dapp-kit.md"
 
@@ -186,10 +244,17 @@ inject_frontmatter "$DST/packages/experience/skills.md" "robot" \
   "Consumer-facing AI skills and knowledge so coding agents (Claude Code, Cursor, Copilot, Codex) write v2-correct @sodax/* SDK code."
 fix_relative_repo_links "$DST/packages/experience/skills.md"
 
-# 10) Audits (Markdown + PDF files, preserving directory structure)
+# 9c) dapp-kit backend query hooks reference
+copy_file "$SRC/packages/dapp-kit/src/hooks/backend/README.md" "$DST/packages/experience/dapp-kit/backend-hooks.md"
+inject_frontmatter "$DST/packages/experience/dapp-kit/backend-hooks.md" "database" \
+  "React Query hooks over the SODAX backend API — intents, orderbook and money-market reads."
+fix_synced_links "$DST/packages/experience/dapp-kit/backend-hooks.md"
+
+# 10) Audits (Markdown only — the PDFs are served from GitHub via the links in
+# developers/audits/Readme.md, so copying them here just adds files nothing can reach).
 AUDITS_SRC="$SRC/Audits"
 AUDITS_DST="$DST/audits"
-find "$AUDITS_SRC" -type f \( -name '*.md' -o -name '*.pdf' \) -print0 | while IFS= read -r -d '' filepath; do
+find "$AUDITS_SRC" -type f -name '*.md' -print0 | while IFS= read -r -d '' filepath; do
   relpath="${filepath#"$AUDITS_SRC"/}"
   copy_file "$filepath" "$AUDITS_DST/$relpath"
 done
@@ -199,12 +264,14 @@ WIKI_TMP=$(mktemp -d)
 trap 'rm -rf "$WIKI_TMP"' EXIT
 
 git clone --depth 1 git@github.com:icon-project/sodax-contracts.wiki.git "$WIKI_TMP/sodax-contracts-wiki"
-git clone --depth 1 git@github.com:icon-project/sodax-solver.wiki.git   "$WIKI_TMP/sodax-solver-wiki"
 
-copy_file "$WIKI_TMP/sodax-contracts-wiki/Mainnet.md"                "$DST/deployments/mainnet.md"
-copy_file "$WIKI_TMP/sodax-solver-wiki/Solver:-Compatible-Assets.md" "$DST/deployments/solver-compatible-assets.md"
+copy_file "$WIKI_TMP/sodax-contracts-wiki/Mainnet.md" "$DST/deployments/mainnet.md"
 
 inject_description_frontmatter "$DST/deployments/mainnet.md" \
   "Mainnet smart contract deployments." "Mainnet"
-inject_description_frontmatter "$DST/deployments/solver-compatible-assets.md" \
-  "Assets (tokens) supported by mainnet solver (swaps)." "Swap: Compatible Assets"
+
+# NOTE: developers/deployments/swaps-compatible-assets.md is deliberately hand-maintained and is NOT
+# synced from the sodax-solver wiki. The wiki page lags SDK reality — it lists Nibiru, which is not a
+# ChainKey in @sodax/types, and omits NEAR, Bitcoin, SUI, Ethereum and Redbelly, which are. Syncing it
+# would delete live chains from the published page. The old solver-compatible-assets URL is preserved
+# by a redirect in .gitbook.yaml.
