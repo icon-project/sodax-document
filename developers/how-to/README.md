@@ -4,7 +4,7 @@ icon: book
 
 # How to
 
-Task-oriented guides for building on SODAX. Start with **Configure SDK** if you are wiring the SDK up for the first time, or jump straight to the flow you need.
+Task-oriented guides for building on SODAX. Configure SDK covers first-time setup; the rest are grouped by what you are integrating.
 
 ### Getting set up
 
