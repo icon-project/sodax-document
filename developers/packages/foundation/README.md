@@ -20,12 +20,26 @@ Get started: <a href="sdk/" class="button primary" data-icon="cup-straw">@sodax/
 
 <a href="https://docs.sodax.com/developers/packages/foundation/sdk/functional-modules/bridge" class="button secondary" data-icon="bridge-suspension">Bridge</a>
 
+<a href="https://docs.sodax.com/developers/packages/foundation/sdk/functional-modules/dex" class="button secondary" data-icon="droplet">DEX (Concentrated Liquidity)</a>
+
 <a href="https://docs.sodax.com/developers/packages/foundation/sdk/functional-modules/staking" class="button secondary" data-icon="seedling">Staking</a>
 
 <a href="https://docs.sodax.com/developers/packages/foundation/sdk/functional-modules/migration" class="button secondary" data-icon="truck">Migration</a>
+
+<a href="https://docs.sodax.com/developers/packages/foundation/sdk/functional-modules/leverage_yield" class="button secondary" data-icon="money-bill-trend-up">Leverage Yield</a>
+
+<a href="https://docs.sodax.com/developers/packages/foundation/sdk/functional-modules/leverage_yield_apr" class="button secondary" data-icon="percent">Effective APR</a>
 
 #### Tooling Modules inside [sdk](sdk/ "mention")
 
 <a href="https://docs.sodax.com/developers/packages/foundation/sdk/tooling-modules/backend_api" class="button secondary" data-icon="plug">Backend API</a>
 
 <a href="https://docs.sodax.com/developers/packages/foundation/sdk/tooling-modules/intent_relay_api" class="button secondary" data-icon="envelope">Intent Relay API</a>
+
+<a href="https://docs.sodax.com/developers/packages/foundation/sdk/tooling-modules/swaps_api" class="button secondary" data-icon="code">Swaps API</a>
+
+## Other foundation packages
+
+<a href="https://docs.sodax.com/developers/packages/foundation/swaps-api" class="button secondary" data-icon="plug">@sodax/swaps-api</a>- Standalone typed client for the backend Swaps API v2, with no dependency on `@sodax/sdk`
+
+<a href="https://docs.sodax.com/developers/packages/foundation/types" class="button secondary" data-icon="shapes">@sodax/types</a>- Shared chain, token, wallet-provider and backend-contract types used by every `@sodax/*` package

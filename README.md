@@ -15,7 +15,7 @@ icon: code
 
 ***
 
-<table data-card-size="large" data-view="cards"><thead><tr><th></th><th data-hidden data-card-cover data-type="image">Cover image</th></tr></thead><tbody><tr><td>Integrate swaps to xStocks across 19 networks.<br><a href="developers/packages/sdk/docs/HOW_TO_MAKE_A_SWAP.md" class="button primary" data-icon="magnifying-glass-arrows-rotate">Make a swap</a></td><td><a href=".gitbook/assets/SodaxSDKCarousel4 (2).png">SodaxSDKCarousel4 (2).png</a></td></tr><tr><td><p>Integrate Bitcoin as a source or destination network</p><p><a href="https://docs.sodax.com/developers/how-to/bitcoin-integration" class="button primary" data-icon="bitcoin">Bitcoin Integration</a></p></td><td><a href=".gitbook/assets/1779804933397-Blog__56_.webp">1779804933397-Blog__56_.webp</a></td></tr></tbody></table>
+<table data-card-size="large" data-view="cards"><thead><tr><th></th><th data-hidden data-card-cover data-type="image">Cover image</th></tr></thead><tbody><tr><td>Integrate swaps to xStocks across 19 networks.<br><a href="https://docs.sodax.com/developers/how-to/how_to_make_a_swap" class="button primary" data-icon="magnifying-glass-arrows-rotate">Make a swap</a></td><td><a href=".gitbook/assets/SodaxSDKCarousel4 (2).png">SodaxSDKCarousel4 (2).png</a></td></tr><tr><td><p>Integrate Bitcoin as a source or destination network</p><p><a href="https://docs.sodax.com/developers/how-to/bitcoin-integration" class="button primary" data-icon="bitcoin">Bitcoin Integration</a></p></td><td><a href=".gitbook/assets/1779804933397-Blog__56_.webp">1779804933397-Blog__56_.webp</a></td></tr></tbody></table>
 
 ***
 
@@ -29,7 +29,7 @@ You integrate through a single SDK surface and keep full control of your user ex
 
 Three things you get out of one integration:
 
-* **One surface, every network.** Build once against @sodax/sdk and reach all 18 connected networks.
+* **One surface, every network.** Build once against @sodax/sdk and reach every connected network.
 * **Execution that settles, not just routes.** Swaps, borrows, and deposits complete across networks under real conditions, with explicit handling for delays and partial completion.
 * **Your app stays yours.** You own the UX, the pricing, and the risk parameters. SODAX is infrastructure underneath, not a front end on top.
 

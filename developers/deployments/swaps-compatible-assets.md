@@ -4,7 +4,7 @@ description: Assets (tokens) supported by mainnet solver (swaps).
 
 # Swaps: Compatible Assets
 
-Generated: 2026-06-18 02:12 UTC
+Last reviewed: 2026-08-03 — hand-maintained, not auto-generated
 
 There are two solver environments on the SODAX marketplace. The **staging** solver supports every production token **plus** the additional staging-only tokens listed below.
 

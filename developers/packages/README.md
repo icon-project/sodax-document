@@ -15,11 +15,16 @@ This is the core logic layer that powers the entire ecosystem. It provides the r
   * `Swaps`: Quote and execute cross-chain intents via the solver.
   * `Lend/Borrow`: Interact directly with the SODAX money market logic.
   * `Bridge`: Core bridging primitives for asset transfer.
+  * `DEX`: Asset wrapping plus concentrated-liquidity positions and rewards.
+  * `Leverage Yield`: Cross-chain deposits into leveraged ERC-4626 vaults on the Sonic hub.
   * `Staking`: Management of SODA staking and governance positions.
   * `Migration`: Utilities for migrating ICX to SODA tokens.
 * **Tooling Modules:**
   * `Backend API`: Provides useful data points for each feature
   * `Intent Relay API`: Direct access to the intent propagation network.
+  * `Swaps API`: Typed client for the backend Swaps API v2.
+
+Two further packages sit in this layer: [swaps-api.md](foundation/swaps-api.md "mention") — a standalone wire client for the Swaps API v2 that does not depend on `@sodax/sdk` — and [types.md](foundation/types.md "mention"), the shared chain, token and wallet-provider types every `@sodax/*` package builds on.
 
 **2. The Connection Layer**
 
@@ -34,3 +39,5 @@ The fastest way to build with SODAX. This is an opinionated collection of UI com
 
 * **Under the Hood:** It automatically implements `@sodax/wallet-sdk` for connection and `@sodax/sdk` for execution.
 * **What it offers:** React based hooks, contexts, and utilities for SODAX features
+
+Alongside it, [skills.md](experience/skills.md "mention") ships consumer-facing AI skills and knowledge so coding agents write v2-correct `@sodax/*` code.
