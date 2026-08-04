@@ -141,6 +141,7 @@ copy_file "$SRC/packages/sdk/docs/MIGRATION.md"     "$DST/packages/foundation/sd
 copy_file "$SRC/packages/sdk/docs/LEVERAGE_YIELD.md"     "$DST/packages/foundation/sdk/functional-modules/leverage_yield.md"
 copy_file "$SRC/packages/sdk/docs/LEVERAGE_YIELD_APR.md" "$DST/packages/foundation/sdk/functional-modules/leverage_yield_apr.md"
 copy_file "$SRC/packages/sdk/docs/DEX.md"                "$DST/packages/foundation/sdk/functional-modules/dex.md"
+copy_file "$SRC/packages/sdk/docs/RECOVERY.md"           "$DST/packages/foundation/sdk/functional-modules/recovery.md"
 
 inject_frontmatter "$DST/packages/foundation/sdk/functional-modules/swaps.md"        "rotate"
 inject_frontmatter "$DST/packages/foundation/sdk/functional-modules/money_market.md"  "sack-dollar"
@@ -150,8 +151,9 @@ inject_frontmatter "$DST/packages/foundation/sdk/functional-modules/migration.md
 inject_frontmatter "$DST/packages/foundation/sdk/functional-modules/leverage_yield.md"     "money-bill-trend-up"
 inject_frontmatter "$DST/packages/foundation/sdk/functional-modules/leverage_yield_apr.md" "percent"
 inject_frontmatter "$DST/packages/foundation/sdk/functional-modules/dex.md"                "droplet"
+inject_frontmatter "$DST/packages/foundation/sdk/functional-modules/recovery.md"           "life-ring"
 
-for f in swaps.md money_market.md bridge.md staking.md migration.md leverage_yield.md leverage_yield_apr.md dex.md; do
+for f in swaps.md money_market.md bridge.md staking.md migration.md leverage_yield.md leverage_yield_apr.md dex.md recovery.md; do
   fix_synced_links "$DST/packages/foundation/sdk/functional-modules/$f"
 done
 
@@ -249,6 +251,25 @@ copy_file "$SRC/packages/dapp-kit/src/hooks/backend/README.md" "$DST/packages/ex
 inject_frontmatter "$DST/packages/experience/dapp-kit/backend-hooks.md" "database" \
   "React Query hooks over the SODAX backend API — intents, orderbook and money-market reads."
 fix_synced_links "$DST/packages/experience/dapp-kit/backend-hooks.md"
+
+# 9d) Example apps. Every published guide points at one of these for its runnable counterpart, so
+# the READMEs have to be reachable on docs.sodax.com rather than only on GitHub.
+# apps/example-next-js-16 is deliberately NOT mirrored — it is a regression harness for a single
+# Turbopack bug, already linked from the Next.js installation guide.
+copy_file "$SRC/apps/node/README.md" "$DST/packages/examples/node.md"
+inject_frontmatter "$DST/packages/examples/node.md" "terminal" \
+  "Runnable @sodax/sdk scripts for a backend integration — one file per chain or feature, no React."
+fix_synced_links "$DST/packages/examples/node.md"
+
+copy_file "$SRC/apps/demo/README.md" "$DST/packages/examples/demo.md"
+inject_frontmatter "$DST/packages/examples/demo.md" "browser" \
+  "Vite + React reference app covering the full SDK surface, one page per feature service."
+fix_synced_links "$DST/packages/examples/demo.md"
+
+copy_file "$SRC/apps/wallet-modal-example/README.md" "$DST/packages/examples/wallet-modal.md"
+inject_frontmatter "$DST/packages/examples/wallet-modal.md" "wallet" \
+  "Headless reference app for the @sodax/wallet-sdk-react modal primitives — no design system, no DeFi logic."
+fix_synced_links "$DST/packages/examples/wallet-modal.md"
 
 # 10) Audits (Markdown only — the PDFs are served from GitHub via the links in
 # developers/audits/Readme.md, so copying them here just adds files nothing can reach).

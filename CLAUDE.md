@@ -48,6 +48,7 @@ comm -23 \
 ### What IS safe to edit directly
 
 - **SUMMARY.md** — GitBook table of contents; defines sidebar navigation. Must be updated when adding/removing pages.
+- The section index pages under `developers/packages/**` (`README.md` for SDKs, foundation, functional-modules, tooling-modules, connection, experience, examples). The sync script writes the leaf pages, never these — a new leaf needs a card added here as well as a `SUMMARY.md` entry, or it is published but unreachable by navigation.
 - **README.md** — Product overview / GitBook landing page.
 - `developers/technical-overview/` — Architecture deep-dives (Asset Manager, Vault Token, Hub Wallet Abstraction, Intents, GMP).
 - `developers/deployments/README.md` and `developers/deployments/xcall-scanner.md`

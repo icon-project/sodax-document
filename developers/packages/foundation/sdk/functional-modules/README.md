@@ -15,3 +15,5 @@
 <a href="https://docs.sodax.com/developers/packages/foundation/sdk/functional-modules/staking" class="button secondary" data-icon="seedling">Staking</a>
 
 <a href="https://docs.sodax.com/developers/packages/foundation/sdk/functional-modules/migration" class="button secondary" data-icon="truck">Migration</a>
+
+<a href="https://docs.sodax.com/developers/packages/foundation/sdk/functional-modules/recovery" class="button secondary" data-icon="life-ring">Recovery</a>

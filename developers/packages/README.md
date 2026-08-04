@@ -19,6 +19,7 @@ This is the core logic layer that powers the entire ecosystem. It provides the r
   * `Leverage Yield`: Cross-chain deposits into leveraged ERC-4626 vaults on the Sonic hub.
   * `Staking`: Management of SODA staking and governance positions.
   * `Migration`: Utilities for migrating ICX to SODA tokens.
+  * `Recovery`: Returning assets stranded in a user's hub wallet after a half-completed operation.
 * **Tooling Modules:**
   * `Backend API`: Provides useful data points for each feature
   * `Intent Relay API`: Direct access to the intent propagation network.
@@ -41,3 +42,7 @@ The fastest way to build with SODAX. This is an opinionated collection of UI com
 * **What it offers:** React based hooks, contexts, and utilities for SODAX features
 
 Alongside it, [skills.md](experience/skills.md "mention") ships consumer-facing AI skills and knowledge so coding agents write v2-correct `@sodax/*` code.
+
+**4. Examples:** [examples](examples/ "mention")
+
+Reference apps you can run, one per integration style — a React demo covering every feature service, backend Node scripts, the wallet modal on its own, and a standalone Swaps API app. Each guide in these docs links to whichever of them is its working counterpart.

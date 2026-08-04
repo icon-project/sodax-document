@@ -28,6 +28,8 @@ Task-oriented guides for building on SODAX. Configure SDK covers first-time setu
 
 <a href="https://docs.sodax.com/developers/how-to/logging" class="button secondary" data-icon="file-lines">Logging</a>- Route SDK diagnostics to Sentry, Datadog, Pino or your own sink
 
-<a href="https://docs.sodax.com/developers/how-to/monetize_sdk" class="button secondary" data-icon="hand-holding-dollar">Monetize SDK</a>- Partner fees on the flows you integrate
+<a href="https://docs.sodax.com/developers/how-to/monetize_sdk" class="button secondary" data-icon="hand-holding-dollar">Monetize SDK</a>- Partner fees on the flows you integrate, and the claim lifecycle for the fees you have accrued
+
+<a href="https://docs.sodax.com/developers/packages/foundation/sdk/functional-modules/recovery" class="button secondary" data-icon="life-ring">Recovery</a>- Return assets stranded in a user's hub wallet after a half-completed operation
 
 <a href="https://docs.sodax.com/developers/how-to/testnet" class="button secondary" data-icon="circle-question">Is SODAX on Testnet?</a>- Where to test against real infrastructure
