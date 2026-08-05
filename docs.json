@@ -11,7 +11,15 @@
   "colors": {
     "primary": "#964D48",
     "light": "#A55C55",
-    "dark": "#6B3E36"
+    "dark": "#483434"
+  },
+  "fonts": {
+    "heading": {
+      "family": "Inter"
+    },
+    "body": {
+      "family": "Inter"
+    }
   },
   "navigation": {
     "tabs": [
@@ -27,7 +35,7 @@
           {
             "group": "Introduction",
             "pages": [
-              "README"
+              "introduction"
             ]
           },
           {
