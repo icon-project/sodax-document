@@ -8,18 +8,21 @@
   --sodax-yellow: #FFD92F;
   --sodax-bg-light: #F9F7F5;
   --sodax-text-dark: #1D1414;
+  --sodax-link-hover: #964D48;
 }
 
-/* Dark Mode */
-@media (prefers-color-scheme: dark) {
-  :root {
-    --sodax-primary: #C36C65;
-    --sodax-light: #E5D5D4;
-    --sodax-dark: #1D1414;
-    --sodax-yellow: #FFD92F;
-    --sodax-bg-light: #1D1414;
-    --sodax-text-dark: #F9F7F5;
-  }
+/* Dark Mode — keyed off Mintlify's html.dark toggle, not OS preference.
+   The toggle can disagree with prefers-color-scheme (e.g. OS is dark but
+   the site is switched to light), so a media query here reads the wrong
+   palette for the page actually being shown. */
+:root.dark {
+  --sodax-primary: #C36C65;
+  --sodax-light: #E5D5D4;
+  --sodax-dark: #1D1414;
+  --sodax-yellow: #FFD92F;
+  --sodax-bg-light: #1D1414;
+  --sodax-text-dark: #F9F7F5;
+  --sodax-link-hover: #E5D5D4;
 }
 
 /* Buttons - Light Mode */
@@ -42,23 +45,14 @@ a {
 }
 
 a:hover {
-  color: var(--sodax-dark) !important;
+  color: var(--sodax-link-hover) !important;
 }
 
-/* Headings - Light mode */
+/* Headings */
 h1,
 h2,
 h3 {
-  color: #1D1414 !important;
-}
-
-/* Headings - Dark mode */
-@media (prefers-color-scheme: dark) {
-  h1,
-  h2,
-  h3 {
-    color: #F9F7F5 !important;
-  }
+  color: var(--sodax-text-dark) !important;
 }
 
 /* Search bar styling */
@@ -70,14 +64,12 @@ input[placeholder*="Search"] {
   color: #1D1414 !important;
 }
 
-@media (prefers-color-scheme: dark) {
-  [class*="search"],
-  input[type="search"],
-  input[placeholder*="Search"] {
-    background-color: #483434 !important;
-    border-color: #C36C65 !important;
-    color: #F9F7F5 !important;
-  }
+:root.dark [class*="search"],
+:root.dark input[type="search"],
+:root.dark input[placeholder*="Search"] {
+  background-color: #483434 !important;
+  border-color: #C36C65 !important;
+  color: #F9F7F5 !important;
 }
 
 /* Active navigation items */
