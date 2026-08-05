@@ -1,146 +1,27 @@
 ---
 description: >-
-  One SDK. Every network. Scope the integration from your own repo before you
-  commit.
-icon: code
+  Pick where you want to start — a chain-specific quickstart, the SDK docs, or
+  scoping the integration against your own repo first.
+icon: signs-post
 ---
 
-# SODAX for all networks
+# Get Started
 
-<Note>
-**See what integration takes before you commit.** Run the SODAX Builders MCP locally against your own codebase. Your AI assistant reads your repo and maps exactly what a SODAX integration looks like and how light the work is. One integration reaches all networks. No call required. [Try the Builders MCP](https://builders.sodax.com/)
-</Note>
-
-***
+Pick the path that matches where you are.
 
 <CardGroup cols={2}>
-  <Card title="Make a swap" icon="repeat" href="/developers/packages/sdk/docs/HOW_TO_MAKE_A_SWAP">
-    Integrate swaps to xStocks across 19 networks.
+  <Card title="Solana quickstart" icon="sun" href="/solana/quickstart">
+    Install the SDK, connect a wallet, and make your first cross-network swap on Solana.
   </Card>
-  <Card title="Bitcoin Integration" icon="bitcoin" href="/developers/how-to/bitcoin-integration">
-    Integrate Bitcoin as a source or destination network.
+  <Card title="Explore the SDK docs" icon="layer-group" href="/developers/packages">
+    Foundation, Connection, and Experience — pick the layer that matches how much control you want.
+  </Card>
+  <Card title="Scope it from your own repo" icon="terminal" href="https://builders.sodax.com/">
+    Run the Builders MCP locally against your codebase. Your AI assistant maps out exactly what a SODAX integration looks like before you write a line of code.
+  </Card>
+  <Card title="Talk to the team" icon="handshake" href="/contact-form">
+    Exploring a partnership or integration and want to talk it through first? Reach out directly.
   </Card>
 </CardGroup>
 
-***
-
-### What SODAX gives you
-
-SODAX is execution infrastructure for modern money. You integrate one SDK, and your app can exchange, lend, borrow, and settle across blockchain networks as if there were no boundaries.
-
-Most cross-network systems move assets. SODAX coordinates execution: it plans liquidity, timing, and recovery so an action started on one network completes predictably on another, even when conditions change mid-flight.
-
-You integrate through a single SDK surface and keep full control of your user experience, pricing logic, and risk parameters. SODAX handles how execution behaves when networks are slow, fragmented, or partially available.
-
-Three things you get out of one integration:
-
-* **One surface, every network.** Build once against @sodax/sdk and reach all 18 connected networks.
-* **Execution that settles, not just routes.** Swaps, borrows, and deposits complete across networks under real conditions, with explicit handling for delays and partial completion.
-* **Your app stays yours.** You own the UX, the pricing, and the risk parameters. SODAX is infrastructure underneath, not a front end on top.
-
-***
-
-### The SDK stack
-
-The SODAX developer suite is a dependency stack. Integrate at the foundation for maximum control, or use the higher layers for speed.
-
-#### 1. Foundation: @sodax/sdk
-
-The core logic layer that powers everything else. Raw functional modules to build with SODAX programmatically.
-
-Functional modules:
-
-* **Swaps** — quote and execute cross-network intents, filled by solvers on the SODAX marketplace.
-* **Lend / Borrow** — interact directly with the SODAX money market.
-* **Bridge** — low-level primitives for asset transfer.
-* **Staking** — manage SODA staking and governance positions.
-* **Migration** — utilities for migrating ICX to SODA.
-
-Tooling modules:
-
-* **Backend API** — useful data points for each feature.
-* **Intent Relay API** — direct access to the intent propagation network.
-
-#### 2. Connection layer
-
-Manages connecting user wallets across heterogeneous networks (EVM, SVM, and non-EVM blockchain networks). Two flavors:
-
-* **@sodax/wallet-sdk-core (TypeScript)** — a pure TypeScript implementation of wallet providers. Use this for a custom frontend framework or a non-React app.
-* **@sodax/wallet-sdk-react (React adapter)** — an opinionated wrapper for React, with pre-built context providers and state management for wallet connections.
-
-#### 3. Experience layer: @sodax/dapp-kit
-
-The highest-level layer, built for speed. An opinionated set of UI components, hooks, and utilities built on the layers below.
-
-* Under the hood: automatically wires @sodax/wallet-sdk for connection and @sodax/sdk for execution.
-* What it offers: React hooks, contexts, and utilities for SODAX features.
-
-***
-
-### How execution works
-
-Cross-network execution is asynchronous by nature, depends on liquidity fragmented across networks, and is exposed to volatility and partial completion. Asset transfers can succeed while the action they were meant to enable fails: collateral arrives but the borrow does not fill, a quoted price cannot be filled when execution begins.
-
-SODAX is built to coordinate execution across those realities, end to end, so DeFi actions complete predictably. Three components make that possible.
-
-#### Intent-based execution
-
-You express an intent, a desired outcome. SODAX routes and settles it; independent solvers fill it. Users do not hand-route transactions.
-
-* **Solver execution.** Solvers on the SODAX marketplace plan fills across networks based on liquidity, pricing, network constraints, and your builder-defined parameters. They decide how to fill; SODAX provides the routing and settlement rails they execute on.
-* **Outcome-oriented settlement.** Routes are quoted from coordinated liquidity or external venues based on current conditions, then executed explicitly once approved.
-* **Explicit asynchronous handling.** Multi-step execution, partial completion, and recovery paths are handled deliberately, so flows that cannot complete atomically still complete reliably.
-
-#### Unified liquidity
-
-SODAX treats liquidity as one system-level inventory, not isolated pools per network.
-
-* **Global execution inventory.** Assets are accounted for across networks and coordinated to fulfill cross-network intents.
-* **Solver-accessed at execution time.** Solvers draw on this liquidity when planning and executing fills, then redistribute it to keep the system balanced.
-* **Less fragmentation risk.** Execution no longer depends on the right liquidity sitting on a specific network at a specific moment.
-
-#### Smart wallet abstraction
-
-SODAX coordinates cross-network account state as part of the execution layer, rather than relying on separate wallets per network.
-
-* **Deterministic execution wallets.** Users get deterministic smart wallets that act as one consistent execution identity across networks.
-* **Unified execution account.** Apps execute cross-network actions through a single wallet context, not separate accounts and approvals per network.
-* **Simplified coordination.** SODAX handles wallet creation and execution routing, so you focus on what happens after execution.
-
-***
-
-### What you can build
-
-SODAX is a modular execution system. Integrate each SDK module on its own, or combine them.
-
-<table><thead><tr><th width="222.0390625">Partner Type</th><th>What you can build with SODAX</th></tr></thead><tbody><tr><td><strong>Wallets</strong></td><td>Use <strong>Swaps (Solver)</strong> to offer cross-network swaps in your UI, plus <strong>Bridge</strong> primitives where needed for asset transfer. Use <strong>Lend / Borrow (Money Market)</strong> to integrate lending primitives.</td></tr><tr><td><strong>DEXs &#x26; Aggregators</strong></td><td>Use <strong>Swaps (Solver)</strong> to quote and execute cross-network intents and expand routing beyond single-network liquidity</td></tr><tr><td><strong>Lending Protocols</strong></td><td>Use <strong>Lend / Borrow (Money Market)</strong> to integrate lending primitives and support multi-network user flows around collateral and borrowing.</td></tr><tr><td><strong>Perp DEXs / Yield Apps</strong></td><td>Use <strong>Swaps (Solver)</strong> to accept deposits from other networks via swap-into-your-asset flows, then complete the deposit inside your app. Use <strong>Lend / Borrow (Money Market)</strong> to enable borrowed asset deposits with user collateral on other networks.</td></tr><tr><td><strong>New Networks</strong></td><td>Integrate SODAX to provide builders with ready-made cross-network execution capabilities and liquidity access from day one.</td></tr></tbody></table>
-
-<p align="center"><a href="https://sodax.com/partners" class="button primary" data-icon="handshake">Go to sodax.com/partners</a></p>
-
-### Why build with SODAX
-
-* **Execution beyond routing.** Routes move assets. SODAX coordinates liquidity so swaps, borrows, and deposits actually settle across networks.
-* **One SDK, modular usage.** Integrate @sodax/sdk once, then use only the modules you need.
-* **Built for real execution conditions.** Asynchronous by nature, with explicit timeouts and clear completion or failure handling.
-* **Your control preserved.** You keep ownership of user experience, pricing logic, and risk parameters.
-* **Proven in production.** Live cross-network flows across heterogeneous networks, settled by the protocol and filled by independent solvers. 21 protocols have integrated SODAX so far.
-
-***
-
-### Ecosystem reach
-
-* **Networks:** 18+ networks spanning EVM and non-EVM environments, including Ethereum, Arbitrum, Base, BNB Chain, Avalanche, Optimism, Polygon, Solana, Sui, Stellar, Injective, and ICON.
-* **Money market:** 26 assets available for lending and borrowing across networks.
-* **Liquidity venues:** solvers fill intents through deep venues including Uniswap V3, PancakeSwap, Raydium, Pharaoh, Cetus, and DojoSwap.
-* **Infrastructure compatibility:** designed to work alongside major messaging standards (GMP) for secure intent propagation, not replace them.
-
-***
-
-Together, SODAX provides the execution infrastructure required for modern money across networks.
-
-***
-
-### Next
-
-* Install [@sodax/sdk](./#id-1.-foundation-sodax-sdk) and ship your first cross-network action.
-* Or scope it first: run the [Builders MCP](https://builders.sodax.com/) against your repo.
+Want the full picture first? Read [what SODAX gives you](/) on the homepage.

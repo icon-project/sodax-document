@@ -1,4 +1,5 @@
 ---
+sidebarTitle: "Overview"
 description: Software development kits available to the integrators.
 icon: screwdriver-wrench
 ---

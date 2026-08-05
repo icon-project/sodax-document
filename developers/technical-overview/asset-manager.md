@@ -1,3 +1,10 @@
+---
+description: >-
+  Hub-and-spoke asset management system for cross-network asset transfers,
+  with optional execution of additional logic on transfer.
+icon: boxes-stacked
+---
+
 # Asset Manager
 
 ### Overview

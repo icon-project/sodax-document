@@ -1,4 +1,5 @@
 ---
+sidebarTitle: "Overview"
 icon: book-open
 ---
 

@@ -1,3 +1,11 @@
+---
+description: >-
+  Deterministic wallet proxies on the Hub chain give every connected-chain
+  user a corresponding hub wallet, enabling cross-chain operations without
+  exposing the underlying complexity.
+icon: wallet
+---
+
 # Hub Wallet Abstraction
 
 ### Overview

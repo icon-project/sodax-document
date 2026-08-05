@@ -1,3 +1,10 @@
+---
+description: >-
+  A single token that wraps multiple chain-native variants of the same
+  underlying asset (e.g. USDC from different chains) into one unified position.
+icon: vault
+---
+
 # Vault Token
 
 ### Overview

@@ -1,6 +1,7 @@
 {
   "$schema": "https://mintlify.com/docs.json",
   "name": "SODAX Docs",
+  "description": "SODAX is a cross-chain DeFi SDK ecosystem built on a hub-and-spoke architecture (Sonic hub). Docs cover @sodax/sdk (swaps, lending/borrowing, staking, bridging, migration), @sodax/wallet-sdk-core and @sodax/wallet-sdk-react (multi-chain wallet connection), and @sodax/dapp-kit (React hooks for building dApps), across EVM and non-EVM chains.",
   "logo": "/sodax-logo-small.svg",
   "favicon": "https://raw.githubusercontent.com/icon-project/sodax-frontend/main/apps/web/public/soda-yellow-sm.png",
   "theme": "mint",
@@ -25,8 +26,16 @@
     "tabs": [
       {
         "tab": "Home",
-        "pages": [
-          "index"
+        "groups": [
+          {
+            "group": "Overview",
+            "pages": [
+              "index",
+              "home/sdk-stack",
+              "home/how-execution-works",
+              "home/why-sodax"
+            ]
+          }
         ]
       },
       {
@@ -39,6 +48,17 @@
             ]
           },
           {
+            "group": "Welcome to SODAX",
+            "pages": [
+              "contact-form"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "Solana",
+        "groups": [
+          {
             "group": "Solana",
             "pages": [
               "solana",
@@ -48,13 +68,6 @@
               "solana/wallets",
               "solana/networks-and-assets",
               "solana/faq"
-            ]
-          },
-          {
-            "group": "Welcome to SODAX",
-            "pages": [
-              "contact-form",
-              "developers/audits"
             ]
           }
         ]
@@ -129,9 +142,20 @@
             "pages": [
               "developers/ai-integration"
             ]
+          }
+        ]
+      },
+      {
+        "tab": "Resources",
+        "groups": [
+          {
+            "group": "Security",
+            "pages": [
+              "developers/audits"
+            ]
           },
           {
-            "group": "Resources",
+            "group": "FAQ",
             "pages": [
               "developers/faq"
             ]
@@ -141,11 +165,14 @@
     ]
   },
   "contextual": {
-    "options": ["copy", "view", "chatgpt", "claude", "cursor", "vscode", "mcp"]
+    "options": ["copy", "view", "assistant", "chatgpt", "claude", "cursor", "vscode", "mcp", "add-mcp"]
   },
   "feedback": {
     "suggestEdit": true,
     "raiseIssue": true
+  },
+  "markdown": {
+    "instructions": "SODAX is mainnet-only (no testnet chains or RPC endpoints exist) with a hub-and-spoke architecture; Sonic is the hub. For frontend/React integrations, prefer @sodax/dapp-kit hooks over calling @sodax/sdk directly. Every public SDK method returns Result<T, E> ({ ok: true, value } or { ok: false, error }) — check result.ok, never wrap calls in try/catch or branch on error.message; discriminate on the narrow error.code union instead."
   },
   "integrations": {
     "ga4": { "measurementId": "G-Z10HMBQ0V9" }

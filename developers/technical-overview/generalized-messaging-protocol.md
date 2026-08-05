@@ -1,3 +1,10 @@
+---
+description: >-
+  Simple, secure cross-chain messaging system that lets dApps send and
+  receive messages across networks reliably.
+icon: tower-broadcast
+---
+
 # Generalized Messaging Protocol
 
 ### Overview

@@ -1,0 +1,20 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:docs.near.org)",
+      "Bash(git submodule *)",
+      "Bash(python3 -c \"import json,sys; d=json.load\\(sys.stdin\\); print\\(json.dumps\\(d.get\\('scripts'\\),indent=2\\)\\); print\\('deps sodax:'\\); [print\\(k,v\\) for k,v in d.get\\('dependencies',{}\\).items\\(\\) if 'sodax' in k]\")",
+      "WebFetch(domain:sodax-frontend-demo-v2.vercel.app)",
+      "Bash(curl -sI https://sodax-frontend-demo-v2.vercel.app/leverage-yield)",
+      "Bash(/usr/bin/curl -sI \"https://www.sodax.com/exchange/swap\")",
+      "Bash(/usr/bin/curl -sI \"https://builders.sodax.com/\")",
+      "Bash(/usr/bin/curl -sI \"https://builders.sodax.com/mcp\")",
+      "Bash(lsof -ti:3000 -sTCP:LISTEN)",
+      "Bash(/usr/bin/curl -sI \"https://docs.sodax.com/\")",
+      "Bash(/usr/bin/curl -sI \"https://docs.sodax.com/mcp\")",
+      "Bash(/usr/bin/curl -s \"https://docs.sodax.com/llms.txt\")",
+      "Bash(npx --no-install mintlify --version)",
+      "Bash(python3 -c ' *)"
+    ]
+  }
+}

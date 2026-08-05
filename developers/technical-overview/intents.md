@@ -1,3 +1,10 @@
+---
+description: >-
+  Cross-chain execution infrastructure where users express a desired outcome
+  on the hub chain and solvers fulfill it from any supported spoke chain.
+icon: bullseye
+---
+
 # Intents
 
 ### Overview

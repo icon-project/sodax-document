@@ -156,6 +156,12 @@ The hub generates a deterministic user wallet on Sonic for every spoke address. 
 
 See [Hub Wallet Abstraction](https://docs.sodax.com/developers/technical-overview/hub-wallet-abstraction).
 
+#### 22. Can my AI agent query SODAX docs directly instead of web-searching?
+
+Yes, two ways. This documentation site hosts an auto-generated MCP server at `docs.sodax.com/mcp` that exposes a search tool over these pages — add it to your agent's MCP config, or use the "Add to \[agent]" option in the contextual menu on any page. For deeper, code-aware assistance beyond doc search, SODAX also runs a dedicated MCP server at [builders.sodax.com](https://builders.sodax.com/).
+
+See [AI Integration](https://docs.sodax.com/developers/ai-integration).
+
 ***
 
 Workshop notes: rewrite, cut, or expand any of these. Once locked, the answers can drop straight into the existing FAQ page on [docs.sodax.com](http://docs.sodax.com) (currently a TODO stub).
