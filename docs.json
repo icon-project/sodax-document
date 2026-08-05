@@ -140,6 +140,13 @@
       }
     ]
   },
+  "contextual": {
+    "options": ["copy", "view", "chatgpt", "claude", "cursor", "vscode", "mcp"]
+  },
+  "feedback": {
+    "suggestEdit": true,
+    "raiseIssue": true
+  },
   "integrations": {
     "ga4": { "measurementId": "G-Z10HMBQ0V9" }
   }
