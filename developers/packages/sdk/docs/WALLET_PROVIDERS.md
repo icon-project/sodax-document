@@ -1,4 +1,6 @@
-# Wallet Providers
+---
+title: "Wallet Providers"
+---
 
 The SODAX SDK does not force you to use a specific wallet library. Instead, SDK calls accept an
 `IWalletProvider` implementation that you supply — either by using the ready-made implementations

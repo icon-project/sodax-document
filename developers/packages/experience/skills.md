@@ -1,10 +1,9 @@
 ---
+title: "@sodax/skills"
 description: >-
   Consumer-facing AI skills and knowledge so coding agents (Claude Code, Cursor, Copilot, Codex) write v2-correct @sodax/* SDK code.
 icon: robot
 ---
-
-# @sodax/skills
 
 AI-agent skills and knowledge for building on the **SODAX** cross-chain DeFi platform. Drop this into your repo and your AI coding agent writes v2-correct `@sodax/*` SDK code on the first try.
 

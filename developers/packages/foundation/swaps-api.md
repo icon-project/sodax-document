@@ -1,10 +1,9 @@
 ---
+title: "@sodax/swaps-api"
 description: >-
   Minimal, type-safe HTTP client for the SODAX backend Swaps API v2 — the wire client that @sodax/sdk's sodax.api.swaps wraps.
 icon: plug
 ---
-
-# @sodax/swaps-api
 
 Minimal, type-safe HTTP client for the SODAX backend **Swaps API v2**.
 

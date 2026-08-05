@@ -1,10 +1,9 @@
 ---
+title: "1. The Foundation"
 description: >-
   This is the core logic layer that powers the entire ecosystem. It provides the
   raw functional modules required to build with SODAX programmatically.
 ---
-
-# 1. The Foundation
 
 ## Main SDK
 
@@ -12,7 +11,7 @@ The SODAX SDK provides a comprehensive interface for interacting with the SODAX 
 
 Get started: <a href="sdk/" class="button primary" data-icon="cup-straw">@sodax/sdk</a>
 
-#### Functional Modules inside [sdk](sdk/ "mention")
+#### Functional Modules inside [sdk](sdk/)
 
 <a href="https://docs.sodax.com/developers/packages/foundation/sdk/functional-modules/swaps" class="button secondary" data-icon="rotate">Swaps (Solver)</a>
 
@@ -24,7 +23,7 @@ Get started: <a href="sdk/" class="button primary" data-icon="cup-straw">@sodax/
 
 <a href="https://docs.sodax.com/developers/packages/foundation/sdk/functional-modules/migration" class="button secondary" data-icon="truck">Migration</a>
 
-#### Tooling Modules inside [sdk](sdk/ "mention")
+#### Tooling Modules inside [sdk](sdk/)
 
 <a href="https://docs.sodax.com/developers/packages/foundation/sdk/tooling-modules/backend_api" class="button secondary" data-icon="plug">Backend API</a>
 

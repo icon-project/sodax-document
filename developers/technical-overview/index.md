@@ -1,9 +1,8 @@
 ---
+title: "Technical Overview"
 sidebarTitle: "Overview"
 icon: book-open
 ---
-
-# Technical Overview
 
 ### Overview
 

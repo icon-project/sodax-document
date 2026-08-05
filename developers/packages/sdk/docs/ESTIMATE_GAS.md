@@ -1,3 +1,7 @@
+---
+title: "Estimate Gas"
+---
+
 ### Estimate Gas for Raw Transactions
 
 `estimateGas` estimates the gas cost of a raw (unsigned) transaction before execution. The typical flow is:

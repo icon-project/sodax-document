@@ -1,8 +1,7 @@
 ---
+title: "@sodax/dapp-kit"
 icon: browser
 ---
-
-# @sodax/dapp-kit
 
 High-level React hooks library for dApp developers. Wraps `@sodax/sdk` with React Query into feature-organized hooks. Used alongside `@sodax/wallet-sdk-react` (no direct dependency — shared types come from `@sodax/sdk`).
 

@@ -1,8 +1,7 @@
 ---
+title: "Staking"
 icon: seedling
 ---
-
-# Staking Documentation
 
 > **Error handling conventions:** This module returns `Result<T, SodaxError<NarrowCode>>` from every async public method. Discriminate on `error.code` (a closed reason-only union) and `error.feature === 'staking'`. See [Error Handling](#error-handling) below.
 

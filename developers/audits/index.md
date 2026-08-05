@@ -1,4 +1,6 @@
-# Sodax Audit Reports
+---
+title: "Sodax Audit Reports"
+---
 
 This directory contains all audit reports for the Sodax project.
 

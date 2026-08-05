@@ -1,11 +1,10 @@
 ---
+title: "Get Started"
 description: >-
   Pick where you want to start — a chain-specific quickstart, the SDK docs, or
   scoping the integration against your own repo first.
 icon: signs-post
 ---
-
-# Get Started
 
 Pick the path that matches where you are.
 

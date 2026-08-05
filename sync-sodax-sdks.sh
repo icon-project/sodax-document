@@ -23,28 +23,35 @@ copy_file() {
   cp -f "$1" "$2"
 }
 
-# Helper: prepend GitBook frontmatter to a file (only icon, or icon + description)
-# Usage: inject_frontmatter <file> <icon> [description]
+# Helper: prepend Mintlify frontmatter (title, optional icon, optional description).
+# Strips a duplicate leading top-level heading (# ...) from the source — Mintlify
+# renders frontmatter `title` as the page header, so a matching body H1 would repeat it.
+# Usage: inject_frontmatter <file> <icon> <title> [description]
 inject_frontmatter() {
-  local file="$1" icon="$2" desc="${3:-}"
+  local file="$1" icon="$2" title="$3" desc="${4:-}"
   local tmp
   tmp=$(mktemp)
   {
     echo "---"
+    echo "title: \"$title\""
     if [ -n "$desc" ]; then
       echo "description: >-"
       echo "  $desc"
     fi
-    echo "icon: $icon"
+    if [ -n "$icon" ]; then
+      echo "icon: $icon"
+    fi
     echo "---"
     echo ""
-    cat "$file"
+    # Strip first line if it's a top-level heading (avoids duplicating the frontmatter title)
+    sed '1{/^# /d;}' "$file"
   } > "$tmp"
   mv "$tmp" "$file"
 }
 
-# Helper: prepend GitBook frontmatter (description only, no icon) and a title heading.
-# Strips any existing top-level heading (# ...) from the source to avoid duplicates.
+# Helper: prepend Mintlify frontmatter (title + description, no icon).
+# Strips any existing top-level heading (# ...) from the source to avoid duplicating
+# the frontmatter title in the page body.
 # Usage: inject_description_frontmatter <file> <description> <title>
 inject_description_frontmatter() {
   local file="$1" desc="$2" title="$3"
@@ -52,10 +59,9 @@ inject_description_frontmatter() {
   tmp=$(mktemp)
   {
     echo "---"
+    echo "title: \"$title\""
     echo "description: $desc"
     echo "---"
-    echo ""
-    echo "# $title"
     echo ""
     # Strip first line if it's a top-level heading
     sed '1{/^# /d;}' "$file"
@@ -103,14 +109,16 @@ rm -f "$DST/packages/RELEASE_INSTRUCTIONS.md"
 rm -rf "$DST/packages/dapp-kit/src"
 
 # 4) SDK README → Foundation layer
-copy_file "$SRC/packages/sdk/README.md" "$DST/packages/foundation/sdk/README.md"
-inject_frontmatter "$DST/packages/foundation/sdk/README.md" "cup-straw" \
+# Lives at index.md, not README.md — Mintlify's file-based routing needs index.md/index.mdx
+# to serve as a directory's default page; docs.json's nav entry expects that path.
+copy_file "$SRC/packages/sdk/README.md" "$DST/packages/foundation/sdk/index.md"
+inject_frontmatter "$DST/packages/foundation/sdk/index.md" "cup-straw" "@sodax/sdk" \
   "The SODAX SDK provides a comprehensive interface for interacting with the SODAX protocol, enabling cross-chain swaps, money market, cross-chain bridging, migration and staking SODA token."
-fix_synced_links "$DST/packages/foundation/sdk/README.md"
+fix_synced_links "$DST/packages/foundation/sdk/index.md"
 
 # 4b) swaps-api README → Foundation layer (standalone Swaps API v2 wire client)
 copy_file "$SRC/packages/swaps-api/README.md" "$DST/packages/foundation/swaps-api.md"
-inject_frontmatter "$DST/packages/foundation/swaps-api.md" "plug" \
+inject_frontmatter "$DST/packages/foundation/swaps-api.md" "plug" "@sodax/swaps-api" \
   "Minimal, type-safe HTTP client for the SODAX backend Swaps API v2 — the wire client that @sodax/sdk's sodax.api.swaps wraps."
 fix_synced_links "$DST/packages/foundation/swaps-api.md"
 
@@ -123,13 +131,13 @@ copy_file "$SRC/packages/sdk/docs/MIGRATION.md"     "$DST/packages/foundation/sd
 copy_file "$SRC/packages/sdk/docs/LEVERAGE_YIELD.md"     "$DST/packages/foundation/sdk/functional-modules/leverage_yield.md"
 copy_file "$SRC/packages/sdk/docs/LEVERAGE_YIELD_APR.md" "$DST/packages/foundation/sdk/functional-modules/leverage_yield_apr.md"
 
-inject_frontmatter "$DST/packages/foundation/sdk/functional-modules/swaps.md"        "rotate"
-inject_frontmatter "$DST/packages/foundation/sdk/functional-modules/money_market.md"  "sack-dollar"
-inject_frontmatter "$DST/packages/foundation/sdk/functional-modules/bridge.md"        "bridge-suspension"
-inject_frontmatter "$DST/packages/foundation/sdk/functional-modules/staking.md"       "seedling"
-inject_frontmatter "$DST/packages/foundation/sdk/functional-modules/migration.md"     "truck"
-inject_frontmatter "$DST/packages/foundation/sdk/functional-modules/leverage_yield.md"     "money-bill-trend-up"
-inject_frontmatter "$DST/packages/foundation/sdk/functional-modules/leverage_yield_apr.md" "percent"
+inject_frontmatter "$DST/packages/foundation/sdk/functional-modules/swaps.md"        "rotate"             "Swaps (Solver)"
+inject_frontmatter "$DST/packages/foundation/sdk/functional-modules/money_market.md"  "sack-dollar"         "Money Market"
+inject_frontmatter "$DST/packages/foundation/sdk/functional-modules/bridge.md"        "bridge-suspension"   "Bridge"
+inject_frontmatter "$DST/packages/foundation/sdk/functional-modules/staking.md"       "seedling"            "Staking"
+inject_frontmatter "$DST/packages/foundation/sdk/functional-modules/migration.md"     "truck"               "Migration"
+inject_frontmatter "$DST/packages/foundation/sdk/functional-modules/leverage_yield.md"     "money-bill-trend-up" "Leverage Yield"
+inject_frontmatter "$DST/packages/foundation/sdk/functional-modules/leverage_yield_apr.md" "percent"             "Leverage-Yield Effective APR"
 
 for f in swaps.md money_market.md bridge.md staking.md migration.md leverage_yield.md leverage_yield_apr.md; do
   fix_synced_links "$DST/packages/foundation/sdk/functional-modules/$f"
@@ -139,10 +147,10 @@ done
 copy_file "$SRC/packages/sdk/docs/BACKEND_API.md"      "$DST/packages/foundation/sdk/tooling-modules/backend_api.md"
 copy_file "$SRC/packages/sdk/docs/INTENT_RELAY_API.md"  "$DST/packages/foundation/sdk/tooling-modules/intent_relay_api.md"
 
-inject_frontmatter "$DST/packages/foundation/sdk/tooling-modules/backend_api.md"      "plug"
-inject_frontmatter "$DST/packages/foundation/sdk/tooling-modules/intent_relay_api.md"  "envelope"
+inject_frontmatter "$DST/packages/foundation/sdk/tooling-modules/backend_api.md"      "plug"     "Backend API"
+inject_frontmatter "$DST/packages/foundation/sdk/tooling-modules/intent_relay_api.md"  "envelope" "Intent Relay API"
 
-# 7) How-to guides (stay at sdk/docs/, preserve names — no frontmatter needed)
+# 7) How-to guides (stay at sdk/docs/, preserve names)
 # Note: HOW_TO_CREATE_A_SPOKE_PROVIDER.md is no longer present in sodax-sdks.
 for f in CONFIGURE_SDK ESTIMATE_GAS HOW_TO_MAKE_A_SWAP \
          MONETIZE_SDK WALLET_PROVIDERS STELLAR_TRUSTLINE \
@@ -150,6 +158,16 @@ for f in CONFIGURE_SDK ESTIMATE_GAS HOW_TO_MAKE_A_SWAP \
   copy_file "$SRC/packages/sdk/docs/${f}.md" "$DST/packages/sdk/docs/${f}.md"
 done
 copy_file "$SRC/packages/sdk/docs/installation/nextjs.md" "$DST/packages/sdk/docs/installation/nextjs.md"
+
+inject_frontmatter "$DST/packages/sdk/docs/CONFIGURE_SDK.md"          "" "Configure SDK"
+inject_frontmatter "$DST/packages/sdk/docs/ESTIMATE_GAS.md"           "" "Estimate Gas"
+inject_frontmatter "$DST/packages/sdk/docs/HOW_TO_MAKE_A_SWAP.md"     "" "How to Make a Swap"
+inject_frontmatter "$DST/packages/sdk/docs/MONETIZE_SDK.md"           "" "Monetize SDK"
+inject_frontmatter "$DST/packages/sdk/docs/WALLET_PROVIDERS.md"       "" "Wallet Providers"
+inject_frontmatter "$DST/packages/sdk/docs/STELLAR_TRUSTLINE.md"      "" "Stellar Trustline Requirements"
+inject_frontmatter "$DST/packages/sdk/docs/RELAYER_API_ENDPOINTS.md"  "" "Relayer API Endpoints"
+inject_frontmatter "$DST/packages/sdk/docs/SOLVER_API_ENDPOINTS.md"   "" "Solver API Endpoints"
+inject_frontmatter "$DST/packages/sdk/docs/installation/nextjs.md"    "" "Installing @sodax/sdk with Next.js"
 
 # 7b) Bitcoin Integration (sdk/docs/BITCOIN_INTEGRATION.md → how-to/bitcoin-integration.md)
 # Lives under how-to/ to preserve the public docs.sodax.com URL.
@@ -159,30 +177,31 @@ inject_description_frontmatter "$DST/how-to/bitcoin-integration.md" \
   "Bitcoin Integration"
 fix_synced_links "$DST/how-to/bitcoin-integration.md"
 
-# 7c) AI Integration (sodax-sdks/docs/ai-integration-guide.md → developers/ai-integration/README.md)
-copy_file "$SRC/docs/ai-integration-guide.md" "$DST/ai-integration/README.md"
-inject_frontmatter "$DST/ai-integration/README.md" "robot" \
+# 7c) AI Integration (sodax-sdks/docs/ai-integration-guide.md → developers/ai-integration/index.md)
+# Lives at index.md, not README.md — see the note on section 4 above.
+copy_file "$SRC/docs/ai-integration-guide.md" "$DST/ai-integration/index.md"
+inject_frontmatter "$DST/ai-integration/index.md" "robot" "AI Integration" \
   "Every @sodax/* package on npm ships AI-readable docs at ai-exported/. Point Cursor, Claude Code, Copilot, or another coding agent at those files for v2-correct SDK code on the first try."
 
 # 8) Connection layer
 copy_file "$SRC/packages/wallet-sdk-core/README.md"  "$DST/packages/connection/wallet-sdk-core.md"
 copy_file "$SRC/packages/wallet-sdk-react/README.md" "$DST/packages/connection/wallet-sdk-react.md"
 
-inject_frontmatter "$DST/packages/connection/wallet-sdk-core.md"  "wallet"
-inject_frontmatter "$DST/packages/connection/wallet-sdk-react.md" "react"
+inject_frontmatter "$DST/packages/connection/wallet-sdk-core.md"  "wallet" "@sodax/wallet-sdk-core"
+inject_frontmatter "$DST/packages/connection/wallet-sdk-react.md" "react"  "@sodax/wallet-sdk-react"
 
 fix_relative_repo_links "$DST/packages/connection/wallet-sdk-react.md"
 
 # 9) Experience layer
 copy_file "$SRC/packages/dapp-kit/README.md" "$DST/packages/experience/dapp-kit.md"
 
-inject_frontmatter "$DST/packages/experience/dapp-kit.md" "browser"
+inject_frontmatter "$DST/packages/experience/dapp-kit.md" "browser" "@sodax/dapp-kit"
 
 fix_relative_repo_links "$DST/packages/experience/dapp-kit.md"
 
 # 9b) skills README → Experience layer (AI-agent skills bundle)
 copy_file "$SRC/packages/skills/README.md" "$DST/packages/experience/skills.md"
-inject_frontmatter "$DST/packages/experience/skills.md" "robot" \
+inject_frontmatter "$DST/packages/experience/skills.md" "robot" "@sodax/skills" \
   "Consumer-facing AI skills and knowledge so coding agents (Claude Code, Cursor, Copilot, Codex) write v2-correct @sodax/* SDK code."
 fix_relative_repo_links "$DST/packages/experience/skills.md"
 

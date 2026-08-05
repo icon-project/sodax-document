@@ -1,8 +1,7 @@
 ---
+title: "Migration"
 icon: truck
 ---
-
-# Migration
 
 > **Error handling conventions:** This module returns `Result<T, SodaxError<NarrowCode>>` from every async public method. Discriminate on `error.code` (a closed reason-only union) and `error.feature === 'migration'`. See [Error Handling](#error-handling) below.
 

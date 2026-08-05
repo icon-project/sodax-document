@@ -1,8 +1,7 @@
 ---
+title: "Leverage Yield"
 icon: money-bill-trend-up
 ---
-
-# Leverage Yield Documentation
 
 > **Error handling conventions:** This module uses the canonical `SodaxError<LeverageYieldErrorCode>` shape (same family as the swap, bridge, and money market modules). Discriminate on `result.error.code` (e.g. `'INTENT_CREATION_FAILED'`, `'LOOKUP_FAILED'`); structured details live on `result.error.context` (`srcChainKey`, `action`, `method`, `phase`, `field`). See the **Error Handling** section below for the full per-method code table.
 

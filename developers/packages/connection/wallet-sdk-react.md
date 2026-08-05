@@ -1,8 +1,7 @@
 ---
+title: "@sodax/wallet-sdk-react"
 icon: react
 ---
-
-# @sodax/wallet-sdk-react
 
 React layer over [`@sodax/wallet-sdk-core`](https://github.com/icon-project/sodax-sdks/blob/main/packages/wallet-sdk-core/README.md) — wallet connection, signing, and account management for the SODAX cross-chain ecosystem. Hooks read from a single Zustand store; per-chain native SDKs (wagmi, `@solana/wallet-adapter`, `@mysten/dapp-kit`, …) are wrapped behind a uniform `IXService` / `IXConnector` interface.
 

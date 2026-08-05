@@ -1,9 +1,8 @@
 ---
+title: "xCall Scanner"
 description: Look up cross-chain (xCall) message status and delivery details on SODAX mainnet and testnet.
 icon: magnifying-glass
 ---
-
-# xCall Scanner
 
 ### Mainnet
 

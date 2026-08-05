@@ -1,8 +1,7 @@
 ---
+title: "Mainnet"
 description: Mainnet smart contract deployments.
 ---
-
-# Mainnet
 
 
 EVM Owner: [0x36BB43bED1338Ab7D9F07e06bF5e330D4FdBfd6f](https://sonicscan.org/address/0x36BB43bED1338Ab7D9F07e06bF5e330D4FdBfd6f)

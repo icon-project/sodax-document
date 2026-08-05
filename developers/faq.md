@@ -1,14 +1,13 @@
 ---
+title: "FAQ"
 icon: comment-question
 ---
-
-# FAQ
 
 #### 1. Which chains does SODAX support?
 
 SODAX runs on a hub-and-spoke network of **mainnet** chains. Sonic is the hub; spokes span EVM chains (Ethereum, Arbitrum, Base, BSC, Optimism, Polygon, Avalanche, HyperEVM, Lightlink, Redbelly, Kaia, Hedera) and non-EVM chains (Solana, Sui, Stellar, ICON, Injective, NEAR, Stacks, Bitcoin). Reference any chain via `ChainKeys.*`, which — together with the backend config — is the source of truth. The legacy `*_CHAIN_ID` constants are deprecated.
 
-Full list with relay IDs: [Relayer API endpoints](https://docs.sodax.com/developers/deployments/relayer_api_endpoints).
+Full list with relay IDs: [Relayer API endpoints](https://docs.sodax.com/developers/deployments/relayer-api-endpoints).
 
 #### 2. Is SODAX available on a testnet?
 
@@ -26,7 +25,7 @@ Deep dives: [Technical Overview](https://docs.sodax.com/developers/technical-ove
 
 Not strictly. The constructor uses defaults packaged with the SDK version you installed. `await sodax.initialize()` fetches the latest tokens and chains from the backend API. Recommended for production, optional for prototypes. If it fails, the SDK falls back to packaged defaults rather than throwing.
 
-See [Configure SDK](https://docs.sodax.com/developers/how-to/configure_sdk).
+See [Configure SDK](https://docs.sodax.com/developers/packages/sdk/docs/CONFIGURE_SDK).
 
 #### 5. How do I override the hub RPC or contract addresses?
 
@@ -38,7 +37,7 @@ new Sodax({ hub: { rpcUrl: '<https://rpc.soniclabs.com>' } })
 
 Read the merged config from `sodax.instanceConfig.hub`. Note that `sodax.config.getHubChainConfig()` returns the packaged snapshot, not your overrides.
 
-Full config reference: [Configure SDK](https://docs.sodax.com/developers/how-to/configure_sdk).
+Full config reference: [Configure SDK](https://docs.sodax.com/developers/packages/sdk/docs/CONFIGURE_SDK).
 
 ### SDK behaviour
 
@@ -58,13 +57,13 @@ Per-module code tables: [Swaps](https://docs.sodax.com/developers/packages/found
 
 The spoke transaction landed but the hub packet has not arrived within the timeout window. The relay may still complete. Persist the spoke tx hash and poll the relayer API. Do not re-submit from the user side.
 
-Error semantics: [Make a Swap](https://docs.sodax.com/developers/how-to/how_to_make_a_swap), [Relayer API endpoints](https://docs.sodax.com/developers/deployments/relayer_api_endpoints).
+Error semantics: [Make a Swap](https://docs.sodax.com/developers/packages/sdk/docs/HOW_TO_MAKE_A_SWAP), [Relayer API endpoints](https://docs.sodax.com/developers/deployments/relayer-api-endpoints).
 
 #### 9. What does `TX_SUBMIT_FAILED` mean?
 
 The critical case. The spoke tx landed but the relay submission itself failed. Funds may be in flight. Persist the user's input plus spoke tx hash and retry submission against the relay API. Do not retry the user-facing transaction.
 
-Full code reference: [Make a Swap](https://docs.sodax.com/developers/how-to/how_to_make_a_swap).
+Full code reference: [Make a Swap](https://docs.sodax.com/developers/packages/sdk/docs/HOW_TO_MAKE_A_SWAP).
 
 ### Swaps and intents
 
@@ -82,7 +81,7 @@ Full method list: [Swaps (Solver)](https://docs.sodax.com/developers/packages/fo
 
 Call `sodax.swaps.getQuote(payload)` with `token_src`, `token_dst`, source and destination `ChainKeys`, an amount in the token's smallest unit, and `quote_type: 'exact_input'`. Use `quoted_amount` from the response to set `minOutputAmount` on the intent.
 
-Walkthrough with code: [Make a Swap](https://docs.sodax.com/developers/how-to/how_to_make_a_swap).
+Walkthrough with code: [Make a Swap](https://docs.sodax.com/developers/packages/sdk/docs/HOW_TO_MAKE_A_SWAP).
 
 #### 12. Can I cancel an intent?
 
@@ -122,7 +121,7 @@ Build a raw tx with `raw: true` from any `createIntent`, `createSupplyIntent`, `
 
 EVM, ICON, Stellar, Bitcoin, NEAR return a `bigint`. Sui returns `{ computationCost, storageCost, storageRebate, nonRefundableStorageFee }`. Injective returns `{ gasWanted, gasUsed }`. Stacks returns `{ low, medium, high }` fee tiers. Solana returns `number | undefined` compute units.
 
-Examples per chain: [Estimate Gas](https://docs.sodax.com/developers/how-to/estimate_gas).
+Examples per chain: [Estimate Gas](https://docs.sodax.com/developers/packages/sdk/docs/ESTIMATE_GAS).
 
 #### 17. Can I stake SODA from a non-EVM chain like Sui or Stellar?
 
@@ -136,13 +135,13 @@ See [Staking](https://docs.sodax.com/developers/packages/foundation/sdk/function
 
 Set `swaps.partnerFee`, `moneyMarket.partnerFee` and `bridge.partnerFee` independently on `SodaxConfig`. `getQuote` deducts the swap partner fee from the input amount before forwarding to the solver, so no fee field appears in the request payload. Claim accrued fees via `sodax.partners.feeClaim*` methods, which return `Result<T, PartnerError>`.
 
-Setup and claim flows: [Monetize SDK](https://docs.sodax.com/developers/how-to/monetize_sdk).
+Setup and claim flows: [Monetize SDK](https://docs.sodax.com/developers/packages/sdk/docs/MONETIZE_SDK).
 
 #### 19. When do I need the `IntentRelayChainId` versus `ChainKeys`?
 
 The relay API identifies chains by a numeric `IntentRelayChainId` (for example `BASE_MAINNET = 30n`, `SOLANA_MAINNET = 1n`, `BITCOIN_MAINNET = 627463n`). The SDK converts internally. You only need `getIntentRelayChainId(chainKey)` when constructing raw relay requests directly, which is advanced usage.
 
-Full mapping: [Relayer API endpoints](https://docs.sodax.com/developers/deployments/relayer_api_endpoints).
+Full mapping: [Relayer API endpoints](https://docs.sodax.com/developers/deployments/relayer-api-endpoints).
 
 #### 20. How do I wire SODAX into my AI coding agent (Claude Code, Cursor, Codex)?
 

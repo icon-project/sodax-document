@@ -1,8 +1,7 @@
 ---
+title: "Swap: Compatible Assets"
 description: Assets (tokens) supported by mainnet solver (swaps).
 ---
-
-# Swap: Compatible Assets
 
 
 ✅ => Implemented (Production + Staging)

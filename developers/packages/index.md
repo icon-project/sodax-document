@@ -1,14 +1,13 @@
 ---
+title: "SDKs"
 sidebarTitle: "Overview"
 description: Software development kits available to the integrators.
 icon: screwdriver-wrench
 ---
 
-# SDKs
-
 The SODAX developer suite is architected as a dependency stack. Builders can choose to integrate at the foundational level for maximum control or use opinionated layers for speed.
 
-**1. The Foundation:** [sdk](foundation/sdk/ "mention")
+**1. The Foundation:** [sdk](foundation/sdk/)
 
 This is the core logic layer that powers the entire ecosystem. It provides the raw functional modules required to build with SODAX programmatically.
 
@@ -26,10 +25,10 @@ This is the core logic layer that powers the entire ecosystem. It provides the r
 
 Sitting above the core SDK, this package manages the complexity of connecting user wallets across heterogeneous chains (EVM, SVM, non-EVM). It is available in two flavors:
 
-* [wallet-sdk-core.md](connection/wallet-sdk-core.md "mention") **Core (TypeScript)**: A pure TypeScript implementation of wallet providers. Use this if you are building a custom frontend framework or a non-React application.
-* [wallet-sdk-react.md](connection/wallet-sdk-react.md "mention") **React Adapter**: An opinionated wrapper optimized for React applications, providing pre-built context providers and state management for wallet connections.
+* [wallet-sdk-core](connection/wallet-sdk-core) **Core (TypeScript)**: A pure TypeScript implementation of wallet providers. Use this if you are building a custom frontend framework or a non-React application.
+* [wallet-sdk-react](connection/wallet-sdk-react) **React Adapter**: An opinionated wrapper optimized for React applications, providing pre-built context providers and state management for wallet connections.
 
-**3. The Experience Layer:** [dapp-kit.md](experience/dapp-kit.md "mention")
+**3. The Experience Layer:** [dapp-kit](experience/dapp-kit)
 
 The fastest way to build with SODAX. This is an opinionated collection of UI components, hooks, and utilities that leverages the layers below it.
 

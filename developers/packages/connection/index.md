@@ -1,10 +1,9 @@
 ---
+title: "2. The Connection Layer"
 description: >-
   Sitting above the core SDK, this package manages the complexity of connecting
   user wallets across heterogeneous chains (EVM, SVM, non-EVM).
 ---
-
-# 2. The Connection Layer
 
 
 

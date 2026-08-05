@@ -1,4 +1,6 @@
-# Monetize SDK
+---
+title: "Monetize SDK"
+---
 
 Learn how to configure fees and monetize your Sodax SDK integration.
 

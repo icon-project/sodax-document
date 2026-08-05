@@ -1,8 +1,7 @@
 ---
+title: "Leverage-Yield Effective APR"
 icon: percent
 ---
-
-# Leverage-Yield Effective APR
 
 How the SDK computes the headline APR for a leverage-yield vault — combining on-chain AAVE rates with the underlying LSD's native staking yield.
 

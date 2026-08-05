@@ -1,4 +1,6 @@
-# Functional Modules
+---
+title: "Functional Modules"
+---
 
 <a href="https://docs.sodax.com/developers/packages/foundation/sdk/functional-modules/swaps" class="button secondary" data-icon="rotate">Swaps (Solver)</a>
 

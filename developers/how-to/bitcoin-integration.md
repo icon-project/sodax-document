@@ -1,8 +1,7 @@
 ---
+title: "Bitcoin Integration"
 description: This guide is a step-by-step walkthrough for integrating Bitcoin as a source or destination chain in a SODAX-powered dApp.
 ---
-
-# Bitcoin Integration
 
 
 ### Why Bitcoin is different

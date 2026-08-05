@@ -1,8 +1,7 @@
 ---
+title: "Swaps (Solver)"
 icon: rotate
 ---
-
-# Swaps (Solver)
 
 The swap module provides abstractions for interacting with cross-chain Intent Smart Contracts, the solver API, and the Relay API.
 

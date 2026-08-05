@@ -1,8 +1,7 @@
 ---
+title: "Backend API"
 icon: plug
 ---
-
-# Backend API Service Documentation
 
 The `BackendApiService` provides a comprehensive HTTP client for the SODAX backend API, covering intent lookup, swap submission, solver orderbook, money market data, and runtime configuration. It implements `IConfigApi` so that `ConfigService` and other services can fetch dynamic chain/token configuration without coupling to a concrete HTTP implementation.
 
