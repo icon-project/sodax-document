@@ -1,7 +1,7 @@
 {
   "$schema": "https://mintlify.com/docs.json",
   "name": "SODAX Docs",
-  "logo": "./sodax-logo-small.svg",
+  "logo": "/sodax-logo-small.svg",
   "favicon": "https://raw.githubusercontent.com/icon-project/sodax-frontend/main/apps/web/public/soda-yellow-sm.png",
   "theme": "mint",
   "modeToggle": {
@@ -59,8 +59,8 @@
             "pages": [
               "developers/deployments",
               "developers/deployments/mainnet",
-              "developers/deployments/relayer-api",
-              "developers/deployments/solver-api",
+              "developers/deployments/relayer-api-endpoints",
+              "developers/deployments/solver-api-endpoints",
               "developers/deployments/xcall-scanner",
               "developers/deployments/swaps-compatible-assets"
             ]
