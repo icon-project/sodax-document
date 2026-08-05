@@ -4,7 +4,9 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-This is a **GitBook documentation repository** for the SODAX SDK ecosystem, published to docs.sodax.com. It contains only Markdown content and GitBook configuration — no application code, build system, or tests.
+This is a **Mintlify documentation repository** for the SODAX SDK ecosystem, to be published to docs.sodax.com. It contains only Markdown/MDX content and Mintlify configuration (`docs.json`) — no application code, build system, or tests.
+
+This is being developed on a migration branch (`docs/complete-mintlify-migration`) and has not yet been merged to `main`. **docs.sodax.com is still live on GitBook** until this branch merges — changes here do not affect the published site yet. `SUMMARY.md` and `.gitbook.yaml` are leftover GitBook config, superseded by `docs.json`; they're unused on this branch and should be removed once the migration merges.
 
 ## Content Sync Workflow
 
@@ -20,7 +22,7 @@ To sync all sources:
 bash sync-sodax-sdks.sh
 ```
 
-This pulls the latest `origin/main` of the submodule and clones the wikis (requires SSH access to `icon-project/sodax-contracts.wiki` and `icon-project/sodax-solver.wiki`). It also injects GitBook frontmatter (icons, descriptions) into copied files.
+This pulls the latest `origin/main` of the submodule and clones the wikis (requires SSH access to `icon-project/sodax-contracts.wiki` and `icon-project/sodax-solver.wiki`). It also injects frontmatter (icons, descriptions — same keys Mintlify reads) into copied files.
 
 ### What NOT to edit (synced content, will be overwritten)
 
@@ -35,14 +37,16 @@ Edit the source in the respective upstream repo instead.
 
 ### What IS safe to edit directly
 
-- **SUMMARY.md** — GitBook table of contents; defines sidebar navigation. Must be updated when adding/removing pages.
-- **README.md** — Product overview / GitBook landing page.
+- **`docs.json`** — Mintlify config: sidebar navigation (`navigation.tabs`), theme colors, contextual AI menu, logo/favicon. Must be updated when adding/removing pages.
+- **`index.md`** — Product overview / Mintlify homepage.
+- **`custom.css`** — SODAX brand tokens and light/dark theme overrides.
 - `developers/technical-overview/` — Architecture deep-dives (Asset Manager, Vault Token, Hub Wallet Abstraction, Intents, GMP).
 - `developers/deployments/README.md` and `developers/deployments/xcall-scanner.md`
 - `developers/how-to/README.md` — wrapper page for the How-to section.
 - `developers/faq.md`
-- `README (1).md` — Contact form page.
-- `.gitbook/` — Platform assets and images.
+- `contact-form.md` — Contact form page.
+- `solana/` — Solana-specific quickstart, swaps, wallets, money market, and FAQ pages.
+- `.gitbook/assets/` — image assets (path is a holdover from GitBook; still the asset location on this branch).
 
 ## SDK Architecture (3 Layers)
 
@@ -54,6 +58,6 @@ The documentation covers a dependency stack of npm packages:
 
 ## Conventions
 
-- Pages use GitBook-flavored Markdown (frontmatter with `description` and `icon`, hint blocks, card tables, embedded links).
-- Commits follow the pattern `GITBOOK-<N>: <description>` for GitBook-originated changes.
+- Pages use Mintlify-flavored Markdown/MDX (frontmatter with `description` and `icon`; components like `<Card>`, `<CardGroup>`, `<Tabs>`, `<Note>`, `<CodeGroup>`, `<Columns>`, `<Steps>`).
+- Commits follow the pattern `docs: <description>`.
 - The sync script injects frontmatter via helper functions (`inject_frontmatter`, `inject_description_frontmatter`) — do not add frontmatter to files that will be synced.
