@@ -7,15 +7,20 @@ icon: code
 
 # SODAX for all networks
 
-{% hint style="success" %}
-**See what integration takes before you commit.** Run the SODAX Builders MCP locally against your own codebase. Your AI assistant reads your repo and maps exactly what a SODAX integration looks like and how light the work is. One integration reaches all networks. No call required.
-
-[Try the Builders MCP](https://builders.sodax.com/)
-{% endhint %}
+<Note>
+**See what integration takes before you commit.** Run the SODAX Builders MCP locally against your own codebase. Your AI assistant reads your repo and maps exactly what a SODAX integration looks like and how light the work is. One integration reaches all networks. No call required. [Try the Builders MCP](https://builders.sodax.com/)
+</Note>
 
 ***
 
-<table data-card-size="large" data-view="cards"><thead><tr><th></th><th data-hidden data-card-cover data-type="image">Cover image</th></tr></thead><tbody><tr><td>Integrate swaps to xStocks across 19 networks.<br><a href="developers/packages/sdk/docs/HOW_TO_MAKE_A_SWAP.md" class="button primary" data-icon="magnifying-glass-arrows-rotate">Make a swap</a></td><td><a href=".gitbook/assets/SodaxSDKCarousel4 (2).png">SodaxSDKCarousel4 (2).png</a></td></tr><tr><td><p>Integrate Bitcoin as a source or destination network</p><p><a href="https://docs.sodax.com/developers/how-to/bitcoin-integration" class="button primary" data-icon="bitcoin">Bitcoin Integration</a></p></td><td><a href=".gitbook/assets/1779804933397-Blog__56_.webp">1779804933397-Blog__56_.webp</a></td></tr></tbody></table>
+<CardGroup cols={2}>
+  <Card title="Make a swap" icon="repeat" href="/developers/packages/sdk/docs/HOW_TO_MAKE_A_SWAP">
+    Integrate swaps to xStocks across 19 networks.
+  </Card>
+  <Card title="Bitcoin Integration" icon="bitcoin" href="/developers/how-to/bitcoin-integration">
+    Integrate Bitcoin as a source or destination network.
+  </Card>
+</CardGroup>
 
 ***
 
