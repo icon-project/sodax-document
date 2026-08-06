@@ -5,6 +5,13 @@ description: A liquidity and cross-network execution solution. Scope the integra
 
 # Liquidity and execution, across every network
 
+<div class="sodax-stat-strip">
+  <div class="sodax-stat-chip"><strong id="sodax-stat-networks">21+</strong> networks</div>
+  <div class="sodax-stat-chip"><strong id="sodax-stat-assets">28+</strong> lending assets</div>
+  <div class="sodax-stat-chip"><strong id="sodax-stat-tokens">137+</strong> tokens supported</div>
+  <div class="sodax-stat-chip"><strong>8</strong> audit reports</div>
+</div>
+
 <Note>
 **See what integration takes before you commit.** Run the SODAX Builders MCP locally against your own codebase. Your AI assistant reads your repo and maps exactly what a SODAX integration looks like and how light the work is. One integration reaches all networks. No call required. [Try the Builders MCP](https://builders.sodax.com/)
 </Note>
@@ -16,12 +23,12 @@ description: A liquidity and cross-network execution solution. Scope the integra
     <h3 class="text-lg font-bold mb-2">Cross-network swaps, filled by solvers</h3>
 
     <p class="text-gray-500 mt-2 mb-5">
-      Quote and execute an intent across networks. Solvers on the SODAX marketplace fill it — you don't manage liquidity or routing.
+      Quote and execute an intent across networks. Solvers on the SODAX marketplace fill it, so you don't manage liquidity or routing.
     </p>
 
     <CardGroup cols={2}>
       <Card title="Lightweight API" icon="key" href="/developers/packages/foundation/swaps-api" horizontal arrow>
-        Hosted HTTP client — no SDK install, wire straight into your backend.
+        Hosted HTTP client, no SDK install, wire straight into your backend.
       </Card>
       <Card title="Open-source SDK" icon="code" href="/developers/packages/foundation/sdk" horizontal arrow>
         Install `@sodax/sdk` and integrate directly into your codebase.
@@ -67,12 +74,12 @@ description: A liquidity and cross-network execution solution. Scope the integra
     <h3 class="text-lg font-bold mb-2">One money market, every network</h3>
 
     <p class="text-gray-500 mt-2 mb-5">
-      Supply collateral from any spoke network, borrow against it — the money market itself lives on the Sonic hub.
+      Supply collateral from any spoke network, borrow against it. The money market itself lives on the Sonic hub.
     </p>
 
     <CardGroup cols={2}>
       <Card title="Lightweight API" icon="key" href="/contact-form" horizontal arrow>
-        No dedicated hosted API yet — reach out and we'll notify you when keys are available.
+        No dedicated hosted API yet. Reach out and we'll notify you when keys are available.
       </Card>
       <Card title="Open-source SDK" icon="code" href="/developers/packages/foundation/sdk" horizontal arrow>
         Install `@sodax/sdk` and integrate directly into your codebase.
@@ -109,12 +116,12 @@ description: A liquidity and cross-network execution solution. Scope the integra
     <h3 class="text-lg font-bold mb-2">Move assets, network to network</h3>
 
     <p class="text-gray-500 mt-2 mb-5">
-      Low-level transfer primitives through the hub-and-spoke vault system — for when you need asset movement without the swap logic.
+      Low-level transfer primitives through the hub-and-spoke vault system, for when you need asset movement without the swap logic.
     </p>
 
     <CardGroup cols={2}>
       <Card title="Lightweight API" icon="key" href="/contact-form" horizontal arrow>
-        No dedicated hosted API yet — reach out and we'll notify you when keys are available.
+        No dedicated hosted API yet. Reach out and we'll notify you when keys are available.
       </Card>
       <Card title="Open-source SDK" icon="code" href="/developers/packages/foundation/sdk" horizontal arrow>
         Install `@sodax/sdk` and integrate directly into your codebase.
@@ -153,12 +160,12 @@ description: A liquidity and cross-network execution solution. Scope the integra
     <h3 class="text-lg font-bold mb-2">Leveraged yield vaults, one swap away</h3>
 
     <p class="text-gray-500 mt-2 mb-5">
-      Enter and exit leverage-yield vault positions as ordinary intent-based swaps — no vault-specific approvals or bespoke deposit calls.
+      Enter and exit leverage-yield vault positions as ordinary intent-based swaps, with no vault-specific approvals or bespoke deposit calls.
     </p>
 
     <CardGroup cols={2}>
       <Card title="Lightweight API" icon="key" href="/contact-form" horizontal arrow>
-        No dedicated hosted API yet — reach out and we'll notify you when keys are available.
+        No dedicated hosted API yet. Reach out and we'll notify you when keys are available.
       </Card>
       <Card title="Open-source SDK" icon="code" href="/developers/packages/foundation/sdk" horizontal arrow>
         Install `@sodax/sdk` and integrate directly into your codebase.
@@ -198,7 +205,7 @@ description: A liquidity and cross-network execution solution. Scope the integra
 ***
 
 <Note>
-**Building a frontend?** [`@sodax/dapp-kit`](/developers/packages/experience/dapp-kit) wraps swap, bridge, money market, staking, and migration in React hooks — wallet connection and SDK wiring included.
+**Building a frontend?** [`@sodax/dapp-kit`](/developers/packages/experience/dapp-kit) wraps swap, bridge, money market, staking, and migration in React hooks, with wallet connection and SDK wiring included.
 </Note>
 
 ***
@@ -224,7 +231,7 @@ Pick the integration path that fits: the SDK for full control inside your own co
 
 Three things you get out of one integration:
 
-* **One surface, every network.** Build once — via SDK or API — and reach all 18 connected networks.
+* **One surface, every network.** Build once, via SDK or API, and reach every connected network.
 * **Execution that settles, not just routes.** Swaps, borrows, and deposits complete across networks under real conditions, with explicit handling for delays and partial completion.
 * **Your app stays yours.** You own the UX, the pricing, and the risk parameters. SODAX is infrastructure underneath, not a front end on top.
 
@@ -234,7 +241,7 @@ Three things you get out of one integration:
 
 <CardGroup cols={3}>
   <Card title="The SDK stack" icon="layer-group" href="/home/sdk-stack">
-    Foundation, Connection, and Experience — pick the layer that matches how much control you want.
+    Foundation, Connection, and Experience. Pick the layer that matches how much control you want.
   </Card>
   <Card title="How execution works" icon="gears" href="/home/how-execution-works">
     Intent-based execution, unified liquidity, and smart wallet abstraction.

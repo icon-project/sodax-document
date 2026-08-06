@@ -116,6 +116,23 @@ hr, #sidebar, #navbar { border-color: var(--sodax-border); }
   padding-right: 0.75rem;
 }
 
+/* ---- Homepage stat strip ------------------------------------------ */
+.sodax-stat-strip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 4px 0 24px;
+}
+.sodax-stat-chip {
+  border: 1px solid var(--sodax-border);
+  border-radius: 8px;
+  padding: 8px 14px;
+  font-size: 13px;
+  color: var(--sodax-body);
+  background-color: var(--sodax-chrome);
+}
+.sodax-stat-chip strong { color: var(--sodax-heading); }
+
 /* ---- AI assistant floating input: Mintlify centers this over the
    content by default, covering text. Dock it bottom-right instead.
    Unofficial/undocumented-position override — re-check after Mintlify
