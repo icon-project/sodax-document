@@ -10,9 +10,15 @@
     "isHidden": false
   },
   "colors": {
-    "primary": "#964D48",
-    "light": "#A55C55",
-    "dark": "#483434"
+    "primary": "#A55C55",
+    "light": "#C36C65",
+    "dark": "#964D48"
+  },
+  "background": {
+    "color": {
+      "light": "#FFFFFF",
+      "dark": "#1D1414"
+    }
   },
   "fonts": {
     "heading": {

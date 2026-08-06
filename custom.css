@@ -1,98 +1,117 @@
-/* SODAX Brand Colors for Light & Dark Mode */
+/* SODAX brand theme for Mintlify — light + dark
+   Accent lives in docs.json (colors.primary/light/dark).
+   This file only sets surfaces, neutrals and the few things
+   Mintlify does not expose as config. */
 
-/* Light Mode (Default) */
 :root {
-  --sodax-primary: #A55C55;
-  --sodax-light: #C36C65;
-  --sodax-dark: #964D48;
-  --sodax-yellow: #FFD92F;
-  --sodax-bg-light: #F9F7F5;
-  --sodax-text-dark: #1D1414;
-  --sodax-link-hover: #964D48;
+  --sodax-cherry:        #A55C55;
+  --sodax-cherry-dark:   #964D48;
+  --sodax-cherry-soft:   #C36C65;
+  --sodax-cherry-bright: #E3BEBB;
+  --sodax-yellow:        #ECC100;
+
+  --sodax-page:      #FFFFFF;
+  --sodax-chrome:    #F9F7F5;
+  --sodax-raised:    #F8F3F3;
+  --sodax-border:    #F0EAEB;
+  --sodax-heading:   #1D1414;
+  --sodax-body:      #6B5C5B;
+  --sodax-muted:     #8E7E7D;
+
+  --sodax-link:       var(--sodax-cherry);
+  --sodax-link-hover: var(--sodax-cherry-dark);
+  --sodax-code:       var(--sodax-cherry-dark);
+  --sodax-code-bg:    var(--sodax-raised);
+  --sodax-btn-bg:     var(--sodax-cherry);
+  --sodax-btn-text:   #FFFFFF;
 }
 
-/* Dark Mode — keyed off Mintlify's html.dark toggle, not OS preference.
-   The toggle can disagree with prefers-color-scheme (e.g. OS is dark but
-   the site is switched to light), so a media query here reads the wrong
-   palette for the page actually being shown. */
 :root.dark {
-  --sodax-primary: #C36C65;
-  --sodax-light: #E5D5D4;
-  --sodax-dark: #1D1414;
-  --sodax-yellow: #FFD92F;
-  --sodax-bg-light: #1D1414;
-  --sodax-text-dark: #F9F7F5;
-  --sodax-link-hover: #E5D5D4;
+  --sodax-page:      #1D1414;
+  --sodax-chrome:    #241A1A;
+  --sodax-raised:    #2A1E1E;
+  --sodax-border:    #332626;
+  --sodax-heading:   #F9F7F5;
+  --sodax-body:      #CFC2C1;
+  --sodax-muted:     #B9ACAB;
+
+  --sodax-link:       var(--sodax-cherry-bright);
+  --sodax-link-hover: #F0DEDD;
+  --sodax-code:       var(--sodax-cherry-bright);
+  --sodax-code-bg:    var(--sodax-raised);
+  --sodax-btn-bg:     var(--sodax-cherry-soft);
+  --sodax-btn-text:   #1D1414;
 }
 
-/* Buttons - Light Mode */
-button,
-.button,
-a.button {
-  background-color: var(--sodax-primary) !important;
-  color: white !important;
+/* ---- Surfaces ---------------------------------------------------- */
+body { background-color: var(--sodax-page); color: var(--sodax-body); }
+#navbar, #sidebar, #topbar { background-color: var(--sodax-chrome); }
+
+/* ---- Links: PROSE ONLY. Never a bare `a` selector — Mintlify's
+   sidebar, tabs, breadcrumb, TOC and footer are all <a>. ---------- */
+#content-area a,
+.prose a,
+main article a {
+  color: var(--sodax-link);
+  text-decoration-color: color-mix(in srgb, var(--sodax-link) 40%, transparent);
+  text-underline-offset: 2px;
+}
+#content-area a:hover,
+.prose a:hover,
+main article a:hover { color: var(--sodax-link-hover); }
+
+/* Headings and anchor links inside them stay neutral */
+#content-area h1, #content-area h2, #content-area h3,
+#content-area h4, .prose h1, .prose h2, .prose h3, .prose h4 {
+  color: var(--sodax-heading);
+}
+#content-area h1 a, #content-area h2 a, #content-area h3 a,
+.prose h1 a, .prose h2 a, .prose h3 a { color: inherit; }
+
+/* ---- Inline code ------------------------------------------------- */
+:not(pre) > code {
+  color: var(--sodax-code);
+  background-color: var(--sodax-code-bg);
+  border: 1px solid var(--sodax-border);
+  border-radius: 4px;
+  font-weight: 500;
 }
 
-button:hover,
-.button:hover,
-a.button:hover {
-  background-color: var(--sodax-dark) !important;
+/* ---- Primary button (scoped — do NOT style every <button>) ------- */
+a[class*="btn"], .button-primary, #content-area a[role="button"] {
+  background-color: var(--sodax-btn-bg);
+  color: var(--sodax-btn-text);
+  border-radius: 999px;
+}
+a[class*="btn"]:hover, .button-primary:hover {
+  background-color: var(--sodax-cherry-dark);
+  color: #FFFFFF;
 }
 
-/* Links */
-a {
-  color: var(--sodax-primary) !important;
+/* ---- Search: target the input, not everything named "search" ----- */
+#search-bar-entry, input[type="search"] {
+  background-color: var(--sodax-page);
+  border: 1px solid var(--sodax-border);
+  color: var(--sodax-body);
+}
+#search-bar-entry:focus-within { border-color: var(--sodax-cherry-soft); }
+
+/* ---- Callouts ---------------------------------------------------- */
+.callout, [class*="callout"] {
+  background-color: var(--sodax-raised);
+  border-left: 3px solid var(--sodax-cherry);
+}
+:root.dark .callout, :root.dark [class*="callout"] {
+  border-left-color: var(--sodax-cherry-soft);
 }
 
-a:hover {
-  color: var(--sodax-link-hover) !important;
-}
+/* ---- Dividers ---------------------------------------------------- */
+hr, #sidebar, #navbar { border-color: var(--sodax-border); }
 
-/* Headings */
-h1,
-h2,
-h3 {
-  color: var(--sodax-text-dark) !important;
-}
-
-/* Search bar styling */
-[class*="search"],
-input[type="search"],
-input[placeholder*="Search"] {
-  background-color: #E5D5D4 !important;
-  border-color: #C36C65 !important;
-  color: #1D1414 !important;
-}
-
-:root.dark [class*="search"],
-:root.dark input[type="search"],
-:root.dark input[placeholder*="Search"] {
-  background-color: #483434 !important;
-  border-color: #C36C65 !important;
-  color: #F9F7F5 !important;
-}
-
-/* Active navigation items */
-nav a.active,
-nav a[aria-current="page"] {
-  color: var(--sodax-primary) !important;
-  border-color: var(--sodax-primary) !important;
-}
-
-/* Code blocks */
-code {
-  color: var(--sodax-primary);
-}
-
-/* Note/callout boxes */
-.note,
-.callout {
-  border-left-color: var(--sodax-primary) !important;
-}
-
-/* CTA sections */
-.cta,
-[class*="call-to-action"] {
-  background-color: var(--sodax-light);
-  border-color: var(--sodax-primary);
+/* ---- Sidebar nav: Mintlify's default theme reserves 32px on the
+   right of the scroll viewport, so the active-item highlight pill
+   stops well short of the sidebar edge. Tighten it so the highlight
+   reads as full-width. ---------------------------------------------- */
+#sidebar [data-component-part="scroll-area-viewport"] {
+  padding-right: 0.75rem;
 }
