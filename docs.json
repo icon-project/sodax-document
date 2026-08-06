@@ -82,7 +82,7 @@
               "developers/deployments/mainnet",
               "developers/deployments/relayer-api-endpoints",
               "developers/deployments/solver-api-endpoints",
-              "developers/deployments/xcall-scanner",
+              "developers/deployments/sodaxscan",
               "developers/deployments/swaps-compatible-assets"
             ]
           },

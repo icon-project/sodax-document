@@ -41,7 +41,7 @@ Edit the source in the respective upstream repo instead.
 - **`index.md`** — Product overview / Mintlify homepage.
 - **`custom.css`** — SODAX brand tokens and light/dark theme overrides.
 - `developers/technical-overview/` — Architecture deep-dives (Asset Manager, Vault Token, Hub Wallet Abstraction, Intents, GMP).
-- `developers/deployments/README.md` and `developers/deployments/xcall-scanner.md`
+- `developers/deployments/README.md` and `developers/deployments/sodaxscan.md`
 - `developers/how-to/README.md` — wrapper page for the How-to section.
 - `developers/faq.md`
 - `contact-form.md` — Contact form page.
