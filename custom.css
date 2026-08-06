@@ -115,3 +115,25 @@ hr, #sidebar, #navbar { border-color: var(--sodax-border); }
 #sidebar [data-component-part="scroll-area-viewport"] {
   padding-right: 0.75rem;
 }
+
+/* ---- AI assistant floating input: Mintlify centers this over the
+   content by default, covering text. Dock it bottom-right instead.
+   Unofficial/undocumented-position override — re-check after Mintlify
+   platform updates if it stops moving or the panel overlaps it. ---- */
+chat-assistant-floating-input {
+  position: fixed !important;
+  inset: auto 1.5rem 1.5rem auto !important;
+  transform: none !important;
+  margin: 0 !important;
+  width: min(26rem, calc(100vw - 3rem)) !important;
+  z-index: 40 !important;
+}
+@media (max-width: 640px) {
+  chat-assistant-floating-input {
+    inset: auto 0.75rem 0.75rem 0.75rem !important;
+    width: auto !important;
+  }
+}
+body:has(chat-assistant-sheet) chat-assistant-floating-input {
+  display: none !important;
+}
