@@ -56,23 +56,6 @@
         ]
       },
       {
-        "tab": "Solana",
-        "groups": [
-          {
-            "group": "Solana",
-            "pages": [
-              "solana",
-              "solana/quickstart",
-              "solana/swaps",
-              "solana/money-market",
-              "solana/wallets",
-              "solana/networks-and-assets",
-              "solana/faq"
-            ]
-          }
-        ]
-      },
-      {
         "tab": "Developers",
         "groups": [
           {
@@ -84,6 +67,23 @@
               "developers/deployments/solver-api-endpoints",
               "developers/deployments/sodaxscan",
               "developers/deployments/swaps-compatible-assets"
+            ]
+          },
+          {
+            "group": "Network-Specific Guides",
+            "pages": [
+              {
+                "group": "Solana",
+                "pages": [
+                  "solana",
+                  "solana/quickstart",
+                  "solana/swaps",
+                  "solana/money-market",
+                  "solana/wallets",
+                  "solana/networks-and-assets",
+                  "solana/faq"
+                ]
+              }
             ]
           },
           {

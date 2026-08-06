@@ -1,9 +1,9 @@
 ---
 title: SODAX Docs
-description: One SDK. Every network. Scope the integration from your own repo before you commit.
+description: A liquidity and cross-network execution solution. Scope the integration from your own repo before you commit.
 ---
 
-# SODAX for all networks
+# Liquidity and execution, across every network
 
 <Note>
 **See what integration takes before you commit.** Run the SODAX Builders MCP locally against your own codebase. Your AI assistant reads your repo and maps exactly what a SODAX integration looks like and how light the work is. One integration reaches all networks. No call required. [Try the Builders MCP](https://builders.sodax.com/)
@@ -18,6 +18,15 @@ description: One SDK. Every network. Scope the integration from your own repo be
     <p class="text-gray-500 mt-2 mb-5">
       Quote and execute an intent across networks. Solvers on the SODAX marketplace fill it — you don't manage liquidity or routing.
     </p>
+
+    <CardGroup cols={2}>
+      <Card title="Lightweight API" icon="key" href="/developers/packages/foundation/swaps-api" horizontal arrow>
+        Hosted HTTP client — no SDK install, wire straight into your backend.
+      </Card>
+      <Card title="Open-source SDK" icon="code" href="/developers/packages/foundation/sdk" horizontal arrow>
+        Install `@sodax/sdk` and integrate directly into your codebase.
+      </Card>
+    </CardGroup>
 
     <CardGroup cols={2}>
       <Card title="Make a swap" icon="repeat" href="/developers/packages/sdk/docs/HOW_TO_MAKE_A_SWAP" horizontal arrow>
@@ -61,6 +70,15 @@ description: One SDK. Every network. Scope the integration from your own repo be
       Supply collateral from any spoke network, borrow against it — the money market itself lives on the Sonic hub.
     </p>
 
+    <CardGroup cols={2}>
+      <Card title="Lightweight API" icon="key" href="/contact-form" horizontal arrow>
+        No dedicated hosted API yet — reach out and we'll notify you when keys are available.
+      </Card>
+      <Card title="Open-source SDK" icon="code" href="/developers/packages/foundation/sdk" horizontal arrow>
+        Install `@sodax/sdk` and integrate directly into your codebase.
+      </Card>
+    </CardGroup>
+
     <Card title="Money Market module reference" icon="sack-dollar" href="/developers/packages/foundation/sdk/functional-modules/money_market" horizontal arrow>
       Supply, borrow, withdraw, repay, and reserve data.
     </Card>
@@ -94,6 +112,15 @@ description: One SDK. Every network. Scope the integration from your own repo be
       Low-level transfer primitives through the hub-and-spoke vault system — for when you need asset movement without the swap logic.
     </p>
 
+    <CardGroup cols={2}>
+      <Card title="Lightweight API" icon="key" href="/contact-form" horizontal arrow>
+        No dedicated hosted API yet — reach out and we'll notify you when keys are available.
+      </Card>
+      <Card title="Open-source SDK" icon="code" href="/developers/packages/foundation/sdk" horizontal arrow>
+        Install `@sodax/sdk` and integrate directly into your codebase.
+      </Card>
+    </CardGroup>
+
     <Card title="Bridge module reference" icon="bridge-suspension" href="/developers/packages/foundation/sdk/functional-modules/bridge" horizontal arrow>
       Spoke → hub, hub → spoke, and spoke → spoke transfers.
     </Card>
@@ -122,43 +149,57 @@ description: One SDK. Every network. Scope the integration from your own repo be
     </CodeGroup>
   </Tab>
 
-  <Tab title="React dApp">
-    <h3 class="text-lg font-bold mb-2">Ship a frontend fast with dapp-kit</h3>
+  <Tab title="Yield Integration">
+    <h3 class="text-lg font-bold mb-2">Leveraged yield vaults, one swap away</h3>
 
     <p class="text-gray-500 mt-2 mb-5">
-      `@sodax/dapp-kit` wraps swap, bridge, money market, staking, and migration in React hooks — wallet connection and SDK wiring included.
+      Enter and exit leverage-yield vault positions as ordinary intent-based swaps — no vault-specific approvals or bespoke deposit calls.
     </p>
 
-    <Card title="@sodax/dapp-kit" icon="browser" href="/developers/packages/experience/dapp-kit" horizontal arrow>
-      Full hook reference and provider setup.
+    <CardGroup cols={2}>
+      <Card title="Lightweight API" icon="key" href="/contact-form" horizontal arrow>
+        No dedicated hosted API yet — reach out and we'll notify you when keys are available.
+      </Card>
+      <Card title="Open-source SDK" icon="code" href="/developers/packages/foundation/sdk" horizontal arrow>
+        Install `@sodax/sdk` and integrate directly into your codebase.
+      </Card>
+    </CardGroup>
+
+    <Card title="Leverage Yield module reference" icon="money-bill-trend-up" href="/developers/packages/foundation/sdk/functional-modules/leverage_yield" horizontal arrow>
+      Deposit, withdraw, APR, and position/health-factor data.
     </Card>
 
     <CodeGroup>
-      ```tsx SwapButton.tsx
-      import { useSwap, useWalletProvider } from '@sodax/dapp-kit';
+      ```typescript deposit.ts
       import { ChainKeys } from '@sodax/sdk';
 
-      function SwapButton({ intentParams }) {
-        const walletProvider = useWalletProvider(ChainKeys.BSC_MAINNET);
-        const { mutateAsyncSafe: swap, isPending } = useSwap();
+      const vault = sodax.leverageYield.getVault('lsodaWEETH');
 
-        const handleSwap = async () => {
-          if (!walletProvider) return;
-          const result = await swap({ params: intentParams, walletProvider });
-          if (!result.ok) return alert('Swap failed');
-          console.log('Swap submitted!', result.value);
-        };
+      const intentResult = await sodax.leverageYield.deposit({
+        vault: vault.vault,
+        srcChainKey: ChainKeys.ARBITRUM_MAINNET,
+        srcAddress: '0xYourArbitrumEOA...',
+        inputToken: '0x...weETHonArbitrum',
+        inputAmount: 1_000_000_000_000_000_000n,
+        minOutputAmount: 900_000_000_000_000_000n,
+      });
 
-        return (
-          <button onClick={handleSwap} disabled={isPending}>
-            {isPending ? 'Swapping...' : 'Swap'}
-          </button>
-        );
+      if (intentResult.ok) {
+        const swapResult = await sodax.leverageYield.vaultSwap({
+          ...intentResult.value,
+          walletProvider: evmWalletProvider,
+        });
       }
       ```
     </CodeGroup>
   </Tab>
 </Tabs>
+
+***
+
+<Note>
+**Building a frontend?** [`@sodax/dapp-kit`](/developers/packages/experience/dapp-kit) wraps swap, bridge, money market, staking, and migration in React hooks — wallet connection and SDK wiring included.
+</Note>
 
 ***
 
@@ -175,15 +216,15 @@ description: One SDK. Every network. Scope the integration from your own repo be
 
 ### What SODAX gives you
 
-SODAX is execution infrastructure for modern money. You integrate one SDK, and your app can exchange, lend, borrow, and settle across blockchain networks as if there were no boundaries.
+SODAX is a liquidity and cross-network execution solution. Integrate through the open-source SDK or the lightweight hosted API, and your app can exchange, lend, borrow, and settle across blockchain networks as if there were no boundaries.
 
 Most cross-network systems move assets. SODAX coordinates execution: it provides the routing, settlement, and recovery rails so an action started on one network completes predictably on another, even when conditions change mid-flight.
 
-You integrate through a single SDK surface and keep full control of your user experience, pricing logic, and risk parameters. SODAX handles how execution behaves when networks are slow, fragmented, or partially available.
+Pick the integration path that fits: the SDK for full control inside your own codebase, or the API for a lighter integration. Either way you keep full control of your user experience, pricing logic, and risk parameters. SODAX handles how execution behaves when networks are slow, fragmented, or partially available.
 
 Three things you get out of one integration:
 
-* **One surface, every network.** Build once against @sodax/sdk and reach all 18 connected networks.
+* **One surface, every network.** Build once — via SDK or API — and reach all 18 connected networks.
 * **Execution that settles, not just routes.** Swaps, borrows, and deposits complete across networks under real conditions, with explicit handling for delays and partial completion.
 * **Your app stays yours.** You own the UX, the pricing, and the risk parameters. SODAX is infrastructure underneath, not a front end on top.
 
