@@ -28,6 +28,11 @@
       "family": "Inter"
     }
   },
+  "navbar": {
+    "links": [
+      { "label": "Support", "href": "https://support.sodax.com" }
+    ]
+  },
   "navigation": {
     "tabs": [
       {
@@ -182,5 +187,34 @@
   },
   "integrations": {
     "ga4": { "measurementId": "G-Z10HMBQ0V9" }
+  },
+  "footer": {
+    "socials": {
+      "x": "https://x.com/gosodax",
+      "discord": "https://www.sodax.com/discord",
+      "linkedin": "https://www.linkedin.com/company/gosodax",
+      "github": "https://github.com/icon-project/sodax-sdks"
+    },
+    "links": [
+      {
+        "header": "Cross-network products",
+        "items": [
+          { "label": "Intent swaps for apps", "href": "https://docs.sodax.com/developers/packages/foundation/sdk/functional-modules/swaps" },
+          { "label": "Lend / Borrow for apps", "href": "https://docs.sodax.com/developers/packages/foundation/sdk/functional-modules/money_market" },
+          { "label": "Bridge service", "href": "https://docs.sodax.com/developers/packages/foundation/sdk/functional-modules/bridge" },
+          { "label": "SODA Exchange", "href": "https://www.sodax.com/exchange/swap" }
+        ]
+      },
+      {
+        "header": "Resources",
+        "items": [
+          { "label": "sodax.com", "href": "https://www.sodax.com" },
+          { "label": "Transaction scanner", "href": "https://sodaxscan.com" },
+          { "label": "Brand kit", "href": "https://www.sodax.com/brand" },
+          { "label": "Partner portal", "href": "https://www.sodax.com/partner-dashboard" },
+          { "label": "MiCA whitepaper", "href": "https://icon.foundation/projects/publications?view=soda-mica" }
+        ]
+      }
+    ]
   }
 }
