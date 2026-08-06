@@ -1,13 +1,7 @@
 ---
-title: "xCall Scanner"
-description: Look up cross-chain (xCall) message status and delivery details on SODAX mainnet and testnet.
+title: "SODAX Scanner"
+description: Track the status and delivery details of any cross-chain transaction on SODAX.
 icon: magnifying-glass
 ---
 
-### Mainnet
-
-URL: https://xcall-scan.nw.iconblockchain.xyz
-
-### Testnet
-
-URL: https://testnet-xcall-scan.nw.iconblockchain.xyz
+Available at [sodaxscan.com](https://sodaxscan.com).

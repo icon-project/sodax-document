@@ -16,7 +16,7 @@ description: One SDK. Every network. Scope the integration from your own repo be
     <h3 class="text-lg font-bold mb-2">Cross-network swaps, filled by solvers</h3>
 
     <p class="text-gray-500 mt-2 mb-5">
-      Quote and execute an intent across networks. The SODAX solver marketplace fills it — you don't manage liquidity or routing.
+      Quote and execute an intent across networks. Solvers on the SODAX marketplace fill it — you don't manage liquidity or routing.
     </p>
 
     <CardGroup cols={2}>
@@ -177,7 +177,7 @@ description: One SDK. Every network. Scope the integration from your own repo be
 
 SODAX is execution infrastructure for modern money. You integrate one SDK, and your app can exchange, lend, borrow, and settle across blockchain networks as if there were no boundaries.
 
-Most cross-network systems move assets. SODAX coordinates execution: it plans liquidity, timing, and recovery so an action started on one network completes predictably on another, even when conditions change mid-flight.
+Most cross-network systems move assets. SODAX coordinates execution: it provides the routing, settlement, and recovery rails so an action started on one network completes predictably on another, even when conditions change mid-flight.
 
 You integrate through a single SDK surface and keep full control of your user experience, pricing logic, and risk parameters. SODAX handles how execution behaves when networks are slow, fragmented, or partially available.
 
