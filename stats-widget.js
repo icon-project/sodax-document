@@ -72,7 +72,14 @@
       var value = stats[key];
       if (typeof value !== 'number') return;
       var el = document.getElementById(STAT_IDS[key]);
-      if (el) el.textContent = fmt(value);
+      if (!el) return;
+
+      // Writing textContent replaces the node's children and so counts as a
+      // childList mutation even when the string is unchanged. Painting
+      // unconditionally would retrigger the observer below, and since its
+      // callback is a microtask it would starve rendering and input handling.
+      var next = fmt(value);
+      if (el.textContent !== next) el.textContent = next;
     });
   }
 
