@@ -1,0 +1,16 @@
+---
+description: Mintlify MDX raw HTML must use JSX-safe attributes and tags
+globs: "**/*.{md,mdx}"
+alwaysApply: false
+---
+
+# Mintlify MDX HTML
+
+Mintlify compiles Markdown/MDX to JSX. When adding raw HTML in hand-edited pages:
+
+- Use `className`, never `class`
+- Do not use `<strong>` for styled/emphasized spans — Mintlify can fail to render it (`<strong /> could not be rendered`)
+- Prefer `<span>` (style via `custom.css`) or Markdown `**bold**`
+- Keep `id` hooks for scripts (e.g. `stats-widget.js`) on `<span>`, not `<strong>`
+
+Reference: homepage stat strip in `index.md`.

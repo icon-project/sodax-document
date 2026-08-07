@@ -5,11 +5,11 @@ description: A liquidity and cross-network execution solution. Scope the integra
 
 # Liquidity and execution, across every network
 
-<div class="sodax-stat-strip">
-  <div class="sodax-stat-chip"><strong id="sodax-stat-networks">21+</strong> networks</div>
-  <div class="sodax-stat-chip"><strong id="sodax-stat-assets">28+</strong> lending assets</div>
-  <div class="sodax-stat-chip"><strong id="sodax-stat-tokens">137+</strong> tokens supported</div>
-  <div class="sodax-stat-chip"><strong>8</strong> audit reports</div>
+<div className="sodax-stat-strip">
+  <div className="sodax-stat-chip"><span id="sodax-stat-networks">21+</span> networks</div>
+  <div className="sodax-stat-chip"><span id="sodax-stat-assets">28+</span> lending assets</div>
+  <div className="sodax-stat-chip"><span id="sodax-stat-tokens">137+</span> tokens supported</div>
+  <div className="sodax-stat-chip"><span>8</span> audit reports</div>
 </div>
 
 <Note>
@@ -20,9 +20,9 @@ description: A liquidity and cross-network execution solution. Scope the integra
 
 <Tabs>
   <Tab title="Swap">
-    <h3 class="text-lg font-bold mb-2">Cross-network swaps, filled by solvers</h3>
+    <h3 className="text-lg font-bold mb-2">Cross-network swaps, filled by solvers</h3>
 
-    <p class="text-gray-500 mt-2 mb-5">
+    <p className="text-gray-500 mt-2 mb-5">
       Quote and execute an intent across networks. Solvers on the SODAX marketplace fill it, so you don't manage liquidity or routing.
     </p>
 
@@ -71,9 +71,9 @@ description: A liquidity and cross-network execution solution. Scope the integra
   </Tab>
 
   <Tab title="Lend & Borrow">
-    <h3 class="text-lg font-bold mb-2">One money market, every network</h3>
+    <h3 className="text-lg font-bold mb-2">One money market, every network</h3>
 
-    <p class="text-gray-500 mt-2 mb-5">
+    <p className="text-gray-500 mt-2 mb-5">
       Supply collateral from any spoke network, borrow against it. The money market itself lives on the Sonic hub.
     </p>
 
@@ -113,9 +113,9 @@ description: A liquidity and cross-network execution solution. Scope the integra
   </Tab>
 
   <Tab title="Bridge">
-    <h3 class="text-lg font-bold mb-2">Move assets, network to network</h3>
+    <h3 className="text-lg font-bold mb-2">Move assets, network to network</h3>
 
-    <p class="text-gray-500 mt-2 mb-5">
+    <p className="text-gray-500 mt-2 mb-5">
       Low-level transfer primitives through the hub-and-spoke vault system, for when you need asset movement without the swap logic.
     </p>
 
@@ -157,9 +157,9 @@ description: A liquidity and cross-network execution solution. Scope the integra
   </Tab>
 
   <Tab title="Yield Integration">
-    <h3 class="text-lg font-bold mb-2">Leveraged yield vaults, one swap away</h3>
+    <h3 className="text-lg font-bold mb-2">Leveraged yield vaults, one swap away</h3>
 
-    <p class="text-gray-500 mt-2 mb-5">
+    <p className="text-gray-500 mt-2 mb-5">
       Enter and exit leverage-yield vault positions as ordinary intent-based swaps, with no vault-specific approvals or bespoke deposit calls.
     </p>
 

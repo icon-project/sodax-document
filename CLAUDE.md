@@ -61,3 +61,5 @@ The documentation covers a dependency stack of npm packages:
 - Pages use Mintlify-flavored Markdown/MDX (frontmatter with `description` and `icon`; components like `<Card>`, `<CardGroup>`, `<Tabs>`, `<Note>`, `<CodeGroup>`, `<Columns>`, `<Steps>`).
 - Commits follow the pattern `docs: <description>`.
 - The sync script injects frontmatter via helper functions (`inject_frontmatter`, `inject_description_frontmatter`) — do not add frontmatter to files that will be synced.
+- **Brand colors are applied globally, not per page.** `<Note>` is themed to SODAX cherry in `custom.css` (Mintlify ships it blue) — just use `<Note>` and it comes out on-brand. Don't reach for `<Callout variant="custom" color="#A55C55">` on individual pages. `Warning` / `Danger` / `Tip` / `Check` intentionally keep Mintlify's semantic colors.
+- **Raw HTML in MDX must be JSX-safe.** Mintlify compiles pages as MDX: use `className` (not `class`), and avoid `<strong>` / other tags Mintlify remaps poorly. Prefer `<span>` for emphasis hooks styled in `custom.css`, or Markdown `**bold**`. Example pattern: the homepage stat strip in `index.md` (`className` + `<span id="...">`).

@@ -96,13 +96,46 @@ a[class*="btn"]:hover, .button-primary:hover {
 }
 #search-bar-entry:focus-within { border-color: var(--sodax-cherry-soft); }
 
-/* ---- Callouts ---------------------------------------------------- */
-.callout, [class*="callout"] {
+/* ---- Callouts -----------------------------------------------------
+   Mintlify renders .callout[data-callout-type="<variant>"] around
+   [data-component-part="callout-icon"] and "callout-content".
+   Only `note` is rebranded — it's the generic/marketing callout and
+   ships blue by default. The semantic variants (warning, danger, tip,
+   check) keep their colors because those carry meaning, and `info` is
+   already neutral grey.
+   Mintlify forces `color: currentColor !important` onto nested <a>,
+   <strong> and <code>, so those three need !important to win. -------- */
+.callout[data-callout-type="note"] {
+  border-color: color-mix(in srgb, var(--sodax-cherry) 35%, transparent);
   background-color: var(--sodax-raised);
-  border-left: 3px solid var(--sodax-cherry);
 }
-:root.dark .callout, :root.dark [class*="callout"] {
-  border-left-color: var(--sodax-cherry-soft);
+:root.dark .callout[data-callout-type="note"] {
+  border-color: color-mix(in srgb, var(--sodax-cherry-soft) 45%, transparent);
+  background-color: var(--sodax-raised);
+}
+
+.callout[data-callout-type="note"] [data-component-part="callout-icon"] svg {
+  color: var(--sodax-cherry);
+}
+:root.dark .callout[data-callout-type="note"] [data-component-part="callout-icon"] svg {
+  color: var(--sodax-cherry-soft);
+}
+
+.callout[data-callout-type="note"] [data-component-part="callout-content"] {
+  color: var(--sodax-body);
+}
+.callout[data-callout-type="note"] [data-component-part="callout-content"] strong {
+  color: var(--sodax-heading) !important;
+}
+.callout[data-callout-type="note"] [data-component-part="callout-content"] code {
+  color: var(--sodax-code) !important;
+}
+.callout[data-callout-type="note"] [data-component-part="callout-content"] a {
+  color: var(--sodax-link) !important;
+  border-color: currentColor;
+}
+.callout[data-callout-type="note"] [data-component-part="callout-content"] a:hover {
+  color: var(--sodax-link-hover) !important;
 }
 
 /* ---- Dividers ---------------------------------------------------- */
@@ -131,7 +164,7 @@ hr, #sidebar, #navbar { border-color: var(--sodax-border); }
   color: var(--sodax-body);
   background-color: var(--sodax-chrome);
 }
-.sodax-stat-chip strong { color: var(--sodax-heading); }
+.sodax-stat-chip span { color: var(--sodax-heading); font-weight: 700; }
 
 /* ---- AI assistant floating input: Mintlify centers this over the
    content by default, covering text. Dock it bottom-right instead.
