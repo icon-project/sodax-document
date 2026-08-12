@@ -4,6 +4,28 @@ sidebarTitle: Home
 description: A liquidity and cross-network execution solution. Scope the integration from your own repo before you commit.
 ---
 
+export function openSearch() {
+  document.getElementById("search-bar-entry")?.click();
+}
+
+<div className="sodax-home-hero">
+  <img
+    src="/.gitbook/assets/sodax-sdk-2.jpg"
+    alt=""
+    width="1600"
+    height="600"
+    className="sodax-home-hero-img"
+  />
+  <div className="sodax-home-hero-overlay">
+    <p className="sodax-home-hero-kicker">SODAX Docs</p>
+    <p className="sodax-home-hero-sub">What can we help you build?</p>
+    <button type="button" className="sodax-home-hero-search" onClick={openSearch}>
+      <span className="sodax-home-hero-search-icon" aria-hidden="true" />
+      Search docs…
+    </button>
+  </div>
+</div>
+
 <div className="sodax-stat-strip">
   <div className="sodax-stat-chip"><span id="sodax-stat-networks">21+</span> networks</div>
   <div className="sodax-stat-chip"><span id="sodax-stat-assets">28+</span> lending assets</div>
@@ -230,9 +252,12 @@ Pick a solution. Then choose the **HTTP API** or the **open-source SDK**.
 
 ### Go deeper
 
-<CardGroup cols={3}>
+<CardGroup cols={2}>
   <Card title="Get started" icon="signs-post" href="/introduction">
-    Solana, Bitcoin, SDK, API, or talk to the team.
+    Solana, Bitcoin, SDK, API, AI agents, or talk to the team.
+  </Card>
+  <Card title="AI coding agents" icon="robot" href="/developers/ai-integration">
+    Wire `@sodax/skills` into Cursor, Claude Code, or Copilot.
   </Card>
   <Card title="How execution works" icon="gears" href="/home/how-execution-works">
     Intents, unified liquidity, and wallet abstraction.

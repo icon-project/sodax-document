@@ -246,6 +246,18 @@
       "destination": "/"
     },
     {
+      "source": "/readme",
+      "destination": "/"
+    },
+    {
+      "source": "/welcome-to-sodax/readme-1",
+      "destination": "/contact-form"
+    },
+    {
+      "source": "/welcome-to-sodax/audits",
+      "destination": "/developers/audits"
+    },
+    {
       "source": "/developers/audits/Readme",
       "destination": "/developers/audits"
     },
@@ -260,6 +272,18 @@
     {
       "source": "/developers/deployments/README",
       "destination": "/developers/deployments"
+    },
+    {
+      "source": "/developers/deployments/relayer_api_endpoints",
+      "destination": "/developers/deployments/relayer-api-endpoints"
+    },
+    {
+      "source": "/developers/deployments/solver_api_endpoints",
+      "destination": "/developers/deployments/solver-api-endpoints"
+    },
+    {
+      "source": "/developers/packages/foundation/sdk/functional-modules/leverage_yield/leverage_yield_apr",
+      "destination": "/developers/packages/foundation/sdk/functional-modules/leverage_yield_apr"
     },
     {
       "source": "/developers/how-to/README",
@@ -284,6 +308,46 @@
     {
       "source": "/developers/how-to/monetize_sdk",
       "destination": "/developers/packages/sdk/docs/MONETIZE_SDK"
+    },
+    {
+      "source": "/developers/how-to/configure_sdk",
+      "destination": "/developers/packages/sdk/docs/CONFIGURE_SDK"
+    },
+    {
+      "source": "/developers/how-to/configure-sdk",
+      "destination": "/developers/packages/sdk/docs/CONFIGURE_SDK"
+    },
+    {
+      "source": "/developers/how-to/how_to_make_a_swap",
+      "destination": "/developers/packages/sdk/docs/HOW_TO_MAKE_A_SWAP"
+    },
+    {
+      "source": "/developers/how-to/how-to-make-a-swap",
+      "destination": "/developers/packages/sdk/docs/HOW_TO_MAKE_A_SWAP"
+    },
+    {
+      "source": "/developers/how-to/wallet_providers",
+      "destination": "/developers/packages/sdk/docs/WALLET_PROVIDERS"
+    },
+    {
+      "source": "/developers/how-to/wallet-providers",
+      "destination": "/developers/packages/sdk/docs/WALLET_PROVIDERS"
+    },
+    {
+      "source": "/developers/how-to/estimate_gas",
+      "destination": "/developers/packages/sdk/docs/ESTIMATE_GAS"
+    },
+    {
+      "source": "/developers/how-to/estimate-gas",
+      "destination": "/developers/packages/sdk/docs/ESTIMATE_GAS"
+    },
+    {
+      "source": "/developers/how-to/stellar_trustline",
+      "destination": "/developers/packages/sdk/docs/STELLAR_TRUSTLINE"
+    },
+    {
+      "source": "/developers/how-to/stellar-trustline",
+      "destination": "/developers/packages/sdk/docs/STELLAR_TRUSTLINE"
     },
     {
       "source": "/developers/deployments/solver-compatible-assets",

@@ -1,7 +1,7 @@
 ---
 title: "AI Integration"
 description: >-
-  Every @sodax/* package on npm ships AI-readable docs at ai-exported/. Point Cursor, Claude Code, Copilot, or another coding agent at those files for v2-correct SDK code on the first try.
+  Install @sodax/skills (CLI or npm) so Cursor, Claude Code, Copilot, and other agents write v2-correct @sodax/* code instead of stale training-data APIs.
 icon: robot
 ---
 
@@ -24,7 +24,7 @@ LLM training data drifts; public docs at [docs.sodax.com](https://docs.sodax.com
 
 ## Install
 
-### skills CLI (recommended for IDE agents)
+### Skills CLI (recommended for IDE agents)
 
 From your consumer repo root:
 
@@ -39,7 +39,7 @@ Useful flags:
 - `-a <agent>` — target a specific agent (e.g. `-a cursor`).
 - `-g, --global` — install into your user-global agent directory instead of the project.
 
-### npm from the registry
+### Install from npm
 
 ```bash
 pnpm add -D @sodax/skills

@@ -181,7 +181,14 @@ fix_synced_links "$DST/how-to/bitcoin-integration.md"
 # Lives at index.md, not README.md — see the note on section 4 above.
 copy_file "$SRC/docs/ai-integration-guide.md" "$DST/ai-integration/index.md"
 inject_frontmatter "$DST/ai-integration/index.md" "robot" "AI Integration" \
-  "Every @sodax/* package on npm ships AI-readable docs at ai-exported/. Point Cursor, Claude Code, Copilot, or another coding agent at those files for v2-correct SDK code on the first try."
+  "Install @sodax/skills (CLI or npm) so Cursor, Claude Code, Copilot, and other agents write v2-correct @sodax/* code instead of stale training-data APIs."
+# Normalize Install subsection titles for TOC consistency (sentence case).
+_ai_tmp=$(mktemp)
+sed \
+  -e 's/^### skills CLI/### Skills CLI/' \
+  -e 's/^### npm from the registry/### Install from npm/' \
+  "$DST/ai-integration/index.md" > "$_ai_tmp"
+mv "$_ai_tmp" "$DST/ai-integration/index.md"
 
 # 8) Connection layer
 copy_file "$SRC/packages/wallet-sdk-core/README.md"  "$DST/packages/connection/wallet-sdk-core.md"

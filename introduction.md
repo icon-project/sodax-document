@@ -38,6 +38,9 @@ Pick a solution first. Inside each hub you’ll choose the **HTTP API** or the *
   <Card title="SDK overview" icon="layer-group" href="/developers/packages">
     Foundation, Connection, and Experience layers.
   </Card>
+  <Card title="AI coding agents" icon="robot" href="/developers/ai-integration">
+    Install `@sodax/skills` so Cursor, Claude Code, and Copilot write v2-correct code.
+  </Card>
   <Card title="Scope it from your repo" icon="terminal" href="https://builders.sodax.com/">
     Run the Builders MCP locally — map the integration before you write code.
   </Card>

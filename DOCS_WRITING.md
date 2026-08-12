@@ -92,6 +92,7 @@ Child pages under a named group: prefer a short `sidebarTitle` (`Oracle`, `Swaps
 - Link to sibling pages instead of copying the same explanation.
 - Prefer relative Mintlify paths (`/developers/...`) over hard-coded `https://docs.sodax.com/...` for in-site pages.
 - Brand casing: **SODAX**, **SDK**, **API**, **FAQ**; scanner is **SODAX Scan** / sodaxscan.com (not xCall).
+- Heading case: start every `##` / `###` with a capital letter (or a proper noun). Prefer sentence case. Don’t leave product CLI names uncapitalized at the start of a heading (`Skills CLI`, not `skills CLI`). For `npm`, rewrite as `Install from npm` rather than starting with lowercase.
 - Use shared components (`<Note>`, `<Card>`, `<CardGroup>`, …). Brand `<Note>` via `custom.css` — do not set custom callout colors per page.
 - New pages must be added to `docs.json` or they will 404 in nav.
 
