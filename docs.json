@@ -3,7 +3,7 @@
   "name": "SODAX Docs",
   "description": "SODAX is a cross-chain DeFi SDK ecosystem built on a hub-and-spoke architecture (Sonic hub). Docs cover @sodax/sdk (swaps, lending/borrowing, staking, bridging, migration), @sodax/wallet-sdk-core and @sodax/wallet-sdk-react (multi-chain wallet connection), and @sodax/dapp-kit (React hooks for building dApps), across EVM and non-EVM chains.",
   "logo": "/sodax-logo-small.svg",
-  "favicon": "https://raw.githubusercontent.com/icon-project/sodax-frontend/main/apps/web/public/soda-yellow-sm.png",
+  "favicon": "/favicon.ico",
   "theme": "mint",
   "modeToggle": {
     "default": "light",
@@ -53,41 +53,22 @@
         "tab": "Get Started",
         "groups": [
           {
-            "group": "Introduction",
+            "group": "Start here",
             "pages": [
-              "introduction"
+              "introduction",
+              "contact-form",
+              "developers/ai-integration"
             ]
           },
           {
-            "group": "Welcome to SODAX",
+            "group": "Network guides",
             "pages": [
-              "contact-form"
-            ]
-          }
-        ]
-      },
-      {
-        "tab": "Developers",
-        "groups": [
-          {
-            "group": "Deployments",
-            "pages": [
-              "developers/deployments",
-              "developers/deployments/mainnet",
-              "developers/deployments/relayer-api-endpoints",
-              "developers/deployments/solver-api-endpoints",
-              "developers/deployments/sodaxscan",
-              "developers/deployments/swaps-compatible-assets"
-            ]
-          },
-          {
-            "group": "Network-Specific Guides",
-            "pages": [
+              "solana/quickstart",
+              "developers/how-to/bitcoin-integration",
               {
                 "group": "Solana",
                 "pages": [
                   "solana",
-                  "solana/quickstart",
                   "solana/swaps",
                   "solana/money-market",
                   "solana/wallets",
@@ -95,6 +76,77 @@
                   "solana/faq"
                 ]
               }
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "Swap",
+        "groups": [
+          {
+            "group": "Swap",
+            "pages": [
+              "swap",
+              "developers/http-api/swaps",
+              "developers/packages/sdk/docs/HOW_TO_MAKE_A_SWAP",
+              "developers/packages/foundation/sdk/functional-modules/swaps",
+              "developers/deployments/swaps-compatible-assets",
+              "solana/swaps"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "Money Market",
+        "groups": [
+          {
+            "group": "Money Market",
+            "pages": [
+              "money-market",
+              "developers/packages/foundation/sdk/functional-modules/money_market",
+              "solana/money-market"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "Bridge",
+        "groups": [
+          {
+            "group": "Bridge",
+            "pages": [
+              "bridge",
+              "developers/packages/foundation/sdk/functional-modules/bridge",
+              "developers/how-to/bitcoin-integration"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "Yield",
+        "groups": [
+          {
+            "group": "Yield",
+            "pages": [
+              "yield",
+              "developers/http-api/leverage",
+              "developers/packages/foundation/sdk/functional-modules/leverage_yield",
+              "developers/packages/foundation/sdk/functional-modules/leverage_yield_apr"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "Reference",
+        "groups": [
+          {
+            "group": "HTTP API",
+            "pages": [
+              "developers/http-api",
+              "developers/http-api/oracle",
+              "developers/http-api/stats",
+              "developers/http-api/swaps",
+              "developers/http-api/leverage"
             ]
           },
           {
@@ -124,17 +176,6 @@
             ]
           },
           {
-            "group": "Technical Overview",
-            "pages": [
-              "developers/technical-overview",
-              "developers/technical-overview/asset-manager",
-              "developers/technical-overview/vault-token",
-              "developers/technical-overview/hub-wallet-abstraction",
-              "developers/technical-overview/intents",
-              "developers/technical-overview/generalized-messaging-protocol"
-            ]
-          },
-          {
             "group": "How To",
             "pages": [
               "developers/how-to",
@@ -149,9 +190,25 @@
             ]
           },
           {
-            "group": "AI Integration",
+            "group": "Technical Overview",
             "pages": [
-              "developers/ai-integration"
+              "developers/technical-overview",
+              "developers/technical-overview/asset-manager",
+              "developers/technical-overview/vault-token",
+              "developers/technical-overview/hub-wallet-abstraction",
+              "developers/technical-overview/intents",
+              "developers/technical-overview/generalized-messaging-protocol"
+            ]
+          },
+          {
+            "group": "Deployments",
+            "pages": [
+              "developers/deployments",
+              "developers/deployments/mainnet",
+              "developers/deployments/relayer-api-endpoints",
+              "developers/deployments/solver-api-endpoints",
+              "developers/deployments/sodaxscan",
+              "developers/deployments/swaps-compatible-assets"
             ]
           }
         ]
@@ -159,6 +216,15 @@
       {
         "tab": "Resources",
         "groups": [
+          {
+            "group": "DevRel",
+            "pages": [
+              "resources",
+              "resources/videos",
+              "resources/blog",
+              "resources/changelog"
+            ]
+          },
           {
             "group": "Security",
             "pages": [
@@ -175,6 +241,64 @@
       }
     ]
   },
+  "redirects": [
+    {
+      "source": "/developers/packages/connection/wallet-kit",
+      "destination": "/developers/packages/connection/wallet-sdk-core"
+    },
+    {
+      "source": "/developers/packages/connection/wallet-kit-react",
+      "destination": "/developers/packages/connection/wallet-sdk-react"
+    },
+    {
+      "source": "/developers/packages/foundation/sdk/getting-started",
+      "destination": "/developers/packages/foundation/sdk"
+    },
+    {
+      "source": "/developers/deployments/xcall-scanner",
+      "destination": "/developers/deployments/sodaxscan"
+    },
+    {
+      "source": "/developers/deployments/xCall-scanner",
+      "destination": "/developers/deployments/sodaxscan"
+    },
+    {
+      "source": "/README",
+      "destination": "/"
+    },
+    {
+      "source": "/developers/audits/Readme",
+      "destination": "/developers/audits"
+    },
+    {
+      "source": "/developers/audits/README",
+      "destination": "/developers/audits"
+    },
+    {
+      "source": "/developers/packages/README",
+      "destination": "/developers/packages"
+    },
+    {
+      "source": "/developers/deployments/README",
+      "destination": "/developers/deployments"
+    },
+    {
+      "source": "/developers/how-to/README",
+      "destination": "/developers/how-to"
+    },
+    {
+      "source": "/developers/technical-overview/README",
+      "destination": "/developers/technical-overview"
+    },
+    {
+      "source": "/developers/ai-integration/README",
+      "destination": "/developers/ai-integration"
+    },
+    {
+      "source": "/solana/README",
+      "destination": "/solana"
+    }
+  ],
   "contextual": {
     "options": ["copy", "view", "assistant", "chatgpt", "claude", "cursor", "vscode", "mcp", "add-mcp"]
   },
@@ -199,9 +323,9 @@
       {
         "header": "Cross-network products",
         "items": [
-          { "label": "Intent swaps for apps", "href": "https://docs.sodax.com/developers/packages/foundation/sdk/functional-modules/swaps" },
-          { "label": "Lend / Borrow for apps", "href": "https://docs.sodax.com/developers/packages/foundation/sdk/functional-modules/money_market" },
-          { "label": "Bridge service", "href": "https://docs.sodax.com/developers/packages/foundation/sdk/functional-modules/bridge" },
+          { "label": "Intent swaps for apps", "href": "https://docs.sodax.com/swap" },
+          { "label": "Lend / Borrow for apps", "href": "https://docs.sodax.com/money-market" },
+          { "label": "Bridge service", "href": "https://docs.sodax.com/bridge" },
           { "label": "SODA Exchange", "href": "https://www.sodax.com/exchange/swap" }
         ]
       },

@@ -37,9 +37,13 @@ Edit the source in the respective upstream repo instead.
 
 ### What IS safe to edit directly
 
-- **`docs.json`** — Mintlify config: sidebar navigation (`navigation.tabs`), theme colors, contextual AI menu, logo/favicon. Must be updated when adding/removing pages.
-- **`index.md`** — Product overview / Mintlify homepage.
+- **`docs.json`** — Mintlify config: sidebar navigation (`navigation.tabs`), theme colors, contextual AI menu, logo/favicon, and `redirects`. Must be updated when adding/removing pages.
+- **`DOCS_WRITING.md`** — clarity / no-repeat writing rules for hand-edited Mintlify pages (keep style guidance here, not in this file).
+- **`index.md`** — Product overview / Mintlify homepage (solution-led Tabs).
 - **`custom.css`** — SODAX brand tokens and light/dark theme overrides.
+- `swap/`, `money-market/`, `bridge/`, `yield/` — solution hub overviews (hand-maintained; link into API/SDK deep pages).
+- `resources/` — **DevRel-owned** (Hazy / John): videos, blog, changelog. Register new pages in the Resources tab of `docs.json`.
+- `developers/http-api/` — Partner HTTP API reference (hand-maintained; not synced from the SDK submodule).
 - `developers/technical-overview/` — Architecture deep-dives (Asset Manager, Vault Token, Hub Wallet Abstraction, Intents, GMP).
 - `developers/deployments/README.md` and `developers/deployments/sodaxscan.md`
 - `developers/how-to/README.md` — wrapper page for the How-to section.
@@ -48,6 +52,9 @@ Edit the source in the respective upstream repo instead.
 - `solana/` — Solana-specific quickstart, swaps, wallets, money market, and FAQ pages.
 - `.gitbook/assets/` — image assets (path is a holdover from GitBook; still the asset location on this branch).
 
+### Navigation model
+
+Top tabs are **solution-led** (Swap, Money Market, Bridge, Yield), then **Reference** (technical deep docs), then **Resources** last (DevRel). Prefer keeping deep page file paths stable so old links keep working; add Mintlify `redirects` for renames instead of moving synced files.
 ## SDK Architecture (3 Layers)
 
 The documentation covers a dependency stack of npm packages:
@@ -63,3 +70,4 @@ The documentation covers a dependency stack of npm packages:
 - The sync script injects frontmatter via helper functions (`inject_frontmatter`, `inject_description_frontmatter`) — do not add frontmatter to files that will be synced.
 - **Brand colors are applied globally, not per page.** `<Note>` is themed to SODAX cherry in `custom.css` (Mintlify ships it blue) — just use `<Note>` and it comes out on-brand. Don't reach for `<Callout variant="custom" color="#A55C55">` on individual pages. `Warning` / `Danger` / `Tip` / `Check` intentionally keep Mintlify's semantic colors.
 - **Raw HTML in MDX must be JSX-safe.** Mintlify compiles pages as MDX: use `className` (not `class`), and avoid `<strong>` / other tags Mintlify remaps poorly. Prefer `<span>` for emphasis hooks styled in `custom.css`, or Markdown `**bold**`. Example pattern: the homepage stat strip in `index.md` (`className` + `<span id="...">`).
+- **Writing / clarity (no repeated sidebar or intro text):** see [`DOCS_WRITING.md`](DOCS_WRITING.md). Keep that file for docs style; keep this file for repo architecture and sync.

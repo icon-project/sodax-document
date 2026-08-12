@@ -1,26 +1,47 @@
 ---
 title: "Get Started"
 description: >-
-  Pick where you want to start — a chain-specific quickstart, the SDK docs, or
-  scoping the integration against your own repo first.
+  Pick a solution — Swap, Money Market, Bridge, or Yield — then follow the SDK
+  or HTTP API path. Or jump to a network guide.
 icon: signs-post
 ---
 
-Pick the path that matches where you are.
+Pick a solution first. Inside each hub you’ll choose the **HTTP API** or the **open-source SDK**.
 
 <CardGroup cols={2}>
-  <Card title="Solana quickstart" icon="sun" href="/solana/quickstart">
-    Install the SDK, connect a wallet, and make your first cross-network swap on Solana.
+  <Card title="Swap" icon="rotate" href="/swap">
+    Cross-network intents filled by solvers — API and SDK paths.
   </Card>
-  <Card title="Explore the SDK docs" icon="layer-group" href="/developers/packages">
-    Foundation, Connection, and Experience — pick the layer that matches how much control you want.
+  <Card title="Money Market" icon="sack-dollar" href="/money-market">
+    Supply and borrow across networks — SDK today.
   </Card>
-  <Card title="Scope it from your own repo" icon="terminal" href="https://builders.sodax.com/">
-    Run the Builders MCP locally against your codebase. Your AI assistant maps out exactly what a SODAX integration looks like before you write a line of code.
+  <Card title="Bridge" icon="bridge-suspension" href="/bridge">
+    Move assets hub-and-spoke — SDK today.
   </Card>
-  <Card title="Talk to the team" icon="handshake" href="/contact-form">
-    Exploring a partnership or integration and want to talk it through first? Reach out directly.
+  <Card title="Yield" icon="money-bill-trend-up" href="/yield">
+    Leveraged yield vaults — API (preview) and SDK.
   </Card>
 </CardGroup>
 
-Want the full picture first? Read [what SODAX gives you](/) on the homepage.
+### Or start from your context
+
+<CardGroup cols={2}>
+  <Card title="Solana quickstart" icon="sun" href="/solana/quickstart">
+    Install, connect a wallet, make a first swap on Solana.
+  </Card>
+  <Card title="Bitcoin integration" icon="bitcoin" href="/developers/how-to/bitcoin-integration">
+    Use Bitcoin as a source or destination network.
+  </Card>
+  <Card title="HTTP API overview" icon="server" href="/developers/http-api">
+    Shared conventions, oracle, stats, and route map.
+  </Card>
+  <Card title="SDK overview" icon="layer-group" href="/developers/packages">
+    Foundation, Connection, and Experience layers.
+  </Card>
+  <Card title="Scope it from your repo" icon="terminal" href="https://builders.sodax.com/">
+    Run the Builders MCP locally — map the integration before you write code.
+  </Card>
+  <Card title="Talk to the team" icon="handshake" href="/contact-form">
+    Partnership or integration questions.
+  </Card>
+</CardGroup>
