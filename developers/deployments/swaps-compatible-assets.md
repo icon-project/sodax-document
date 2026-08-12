@@ -1,6 +1,7 @@
 ---
 title: "Swaps: Compatible Assets"
 description: Assets (tokens) supported for swaps by solvers on mainnet.
+icon: coins
 ---
 
 Generated: 2026-06-18 02:12 UTC

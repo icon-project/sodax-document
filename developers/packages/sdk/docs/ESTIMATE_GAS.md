@@ -1,5 +1,6 @@
 ---
 title: "Estimate Gas"
+icon: gauge-high
 ---
 
 ### Estimate Gas for Raw Transactions

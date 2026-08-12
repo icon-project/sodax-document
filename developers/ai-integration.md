@@ -1,5 +1,6 @@
 ---
 title: "AI Integration"
+sidebarTitle: "AI Integration"
 description: >-
   Install @sodax/skills (CLI or npm) so Cursor, Claude Code, Copilot, and other agents write v2-correct @sodax/* code instead of stale training-data APIs.
 icon: robot

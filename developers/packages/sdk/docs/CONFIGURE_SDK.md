@@ -1,5 +1,6 @@
 ---
 title: "Configure SDK"
+icon: sliders
 ---
 
 Learn how to configure the Sodax SDK for your application. The SDK supports Swaps (intent-based solver swaps), Money Market (cross-chain lending and borrowing), and many other cross-chain DeFi services. All feature configurations are optional—you can use just the features you need.

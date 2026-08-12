@@ -23,17 +23,20 @@ copy_file() {
   cp -f "$1" "$2"
 }
 
-# Helper: prepend Mintlify frontmatter (title, optional icon, optional description).
+# Helper: prepend Mintlify frontmatter (title, optional icon, optional description, optional sidebarTitle).
 # Strips a duplicate leading top-level heading (# ...) from the source — Mintlify
 # renders frontmatter `title` as the page header, so a matching body H1 would repeat it.
-# Usage: inject_frontmatter <file> <icon> <title> [description]
+# Usage: inject_frontmatter <file> <icon> <title> [description] [sidebarTitle]
 inject_frontmatter() {
-  local file="$1" icon="$2" title="$3" desc="${4:-}"
+  local file="$1" icon="$2" title="$3" desc="${4:-}" sidebar="${5:-}"
   local tmp
   tmp=$(mktemp)
   {
     echo "---"
     echo "title: \"$title\""
+    if [ -n "$sidebar" ]; then
+      echo "sidebarTitle: \"$sidebar\""
+    fi
     if [ -n "$desc" ]; then
       echo "description: >-"
       echo "  $desc"
@@ -49,18 +52,21 @@ inject_frontmatter() {
   mv "$tmp" "$file"
 }
 
-# Helper: prepend Mintlify frontmatter (title + description, no icon).
+# Helper: prepend Mintlify frontmatter (title + description, optional icon).
 # Strips any existing top-level heading (# ...) from the source to avoid duplicating
 # the frontmatter title in the page body.
-# Usage: inject_description_frontmatter <file> <description> <title>
+# Usage: inject_description_frontmatter <file> <description> <title> [icon]
 inject_description_frontmatter() {
-  local file="$1" desc="$2" title="$3"
+  local file="$1" desc="$2" title="$3" icon="${4:-}"
   local tmp
   tmp=$(mktemp)
   {
     echo "---"
     echo "title: \"$title\""
     echo "description: $desc"
+    if [ -n "$icon" ]; then
+      echo "icon: $icon"
+    fi
     echo "---"
     echo ""
     # Strip first line if it's a top-level heading
@@ -164,36 +170,39 @@ for f in CONFIGURE_SDK ESTIMATE_GAS HOW_TO_MAKE_A_SWAP \
 done
 copy_file "$SRC/packages/sdk/docs/installation/nextjs.md" "$DST/packages/sdk/docs/installation/nextjs.md"
 
-inject_frontmatter "$DST/packages/sdk/docs/CONFIGURE_SDK.md"          "" "Configure SDK"
-inject_frontmatter "$DST/packages/sdk/docs/ESTIMATE_GAS.md"           "" "Estimate Gas"
-inject_frontmatter "$DST/packages/sdk/docs/HOW_TO_MAKE_A_SWAP.md"     "" "How to Make a Swap"
-inject_frontmatter "$DST/packages/sdk/docs/MONETIZE_SDK.md"           "" "Monetize SDK"
-inject_frontmatter "$DST/packages/sdk/docs/WALLET_PROVIDERS.md"       "" "Wallet Providers"
-inject_frontmatter "$DST/packages/sdk/docs/STELLAR_TRUSTLINE.md"      "" "Stellar Trustline Requirements"
-inject_frontmatter "$DST/packages/sdk/docs/RELAYER_API_ENDPOINTS.md"  "" "Relayer API Endpoints"
-inject_frontmatter "$DST/packages/sdk/docs/SOLVER_API_ENDPOINTS.md"   "" "Solver API Endpoints"
-inject_frontmatter "$DST/packages/sdk/docs/installation/nextjs.md"    "" "Installing @sodax/sdk with Next.js"
+inject_frontmatter "$DST/packages/sdk/docs/CONFIGURE_SDK.md"          "sliders"    "Configure SDK"
+inject_frontmatter "$DST/packages/sdk/docs/ESTIMATE_GAS.md"           "gauge-high" "Estimate Gas"
+inject_frontmatter "$DST/packages/sdk/docs/HOW_TO_MAKE_A_SWAP.md"     "rotate"     "How to Make a Swap"
+inject_frontmatter "$DST/packages/sdk/docs/MONETIZE_SDK.md"           "coins"      "Monetize SDK"
+inject_frontmatter "$DST/packages/sdk/docs/WALLET_PROVIDERS.md"       "wallet"     "Wallet Providers"
+inject_frontmatter "$DST/packages/sdk/docs/STELLAR_TRUSTLINE.md"      "link"       "Stellar Trustline Requirements"
+inject_frontmatter "$DST/packages/sdk/docs/RELAYER_API_ENDPOINTS.md"  "envelope"   "Relayer API Endpoints"
+inject_frontmatter "$DST/packages/sdk/docs/SOLVER_API_ENDPOINTS.md"   "server"     "Solver API Endpoints"
+inject_frontmatter "$DST/packages/sdk/docs/installation/nextjs.md"    "box"        "Installing @sodax/sdk with Next.js"
 
 # 7b) Bitcoin Integration (sdk/docs/BITCOIN_INTEGRATION.md → how-to/bitcoin-integration.md)
 # Lives under how-to/ to preserve the public docs.sodax.com URL.
 copy_file "$SRC/packages/sdk/docs/BITCOIN_INTEGRATION.md" "$DST/how-to/bitcoin-integration.md"
 inject_description_frontmatter "$DST/how-to/bitcoin-integration.md" \
   "This guide is a step-by-step walkthrough for integrating Bitcoin as a source or destination chain in a SODAX-powered dApp." \
-  "Bitcoin Integration"
+  "Bitcoin Integration" \
+  "bitcoin"
 fix_synced_links "$DST/how-to/bitcoin-integration.md"
 
-# 7c) AI Integration (sodax-sdks/docs/ai-integration-guide.md → developers/ai-integration/index.md)
-# Lives at index.md, not README.md — see the note on section 4 above.
-copy_file "$SRC/docs/ai-integration-guide.md" "$DST/ai-integration/index.md"
-inject_frontmatter "$DST/ai-integration/index.md" "robot" "AI Integration" \
-  "Install @sodax/skills (CLI or npm) so Cursor, Claude Code, Copilot, and other agents write v2-correct @sodax/* code instead of stale training-data APIs."
+# 7c) AI Integration (sodax-sdks/docs/ai-integration-guide.md → developers/ai-integration.md)
+# Flat .md (not a folder/index) so Mintlify picks up frontmatter icon + sidebarTitle in the nav.
+# sidebarTitle keeps "AI" capitalized (path-derived title would be "Ai integration").
+copy_file "$SRC/docs/ai-integration-guide.md" "$DST/ai-integration.md"
+inject_frontmatter "$DST/ai-integration.md" "robot" "AI Integration" \
+  "Install @sodax/skills (CLI or npm) so Cursor, Claude Code, Copilot, and other agents write v2-correct @sodax/* code instead of stale training-data APIs." \
+  "AI Integration"
 # Normalize Install subsection titles for TOC consistency (sentence case).
 _ai_tmp=$(mktemp)
 sed \
   -e 's/^### skills CLI/### Skills CLI/' \
   -e 's/^### npm from the registry/### Install from npm/' \
-  "$DST/ai-integration/index.md" > "$_ai_tmp"
-mv "$_ai_tmp" "$DST/ai-integration/index.md"
+  "$DST/ai-integration.md" > "$_ai_tmp"
+mv "$_ai_tmp" "$DST/ai-integration.md"
 
 # 8) Connection layer
 copy_file "$SRC/packages/wallet-sdk-core/README.md"  "$DST/packages/connection/wallet-sdk-core.md"
@@ -238,6 +247,6 @@ copy_file "$WIKI_TMP/sodax-contracts-wiki/Mainnet.md"                "$DST/deplo
 copy_file "$WIKI_TMP/sodax-solver-wiki/Solver:-Compatible-Assets.md" "$DST/deployments/solver-compatible-assets.md"
 
 inject_description_frontmatter "$DST/deployments/mainnet.md" \
-  "Mainnet smart contract deployments." "Mainnet"
+  "Mainnet smart contract deployments." "Mainnet" "globe"
 inject_description_frontmatter "$DST/deployments/solver-compatible-assets.md" \
-  "Assets (tokens) supported for swaps by solvers on mainnet." "Swap: Compatible Assets"
+  "Assets (tokens) supported for swaps by solvers on mainnet." "Swap: Compatible Assets" "coins"

@@ -1,6 +1,7 @@
 ---
 title: "Swaps on Solana"
 description: "Intent-based cross-network swaps from a Solana perspective: one signed transaction, solver-filled, settled across networks."
+icon: rotate
 ---
 
 SODAX swaps are intents, not bridges. Your user signs one transaction on Solana that locks the input and declares what they want on the destination network. Solvers fill it; the SODAX relayer carries proof between Solana, the hub (Sonic), and the destination. If nothing fills, the intent can be cancelled and funds recovered.

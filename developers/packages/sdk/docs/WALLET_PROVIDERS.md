@@ -1,5 +1,6 @@
 ---
 title: "Wallet Providers"
+icon: wallet
 ---
 
 The SODAX SDK does not force you to use a specific wallet library. Instead, SDK calls accept an

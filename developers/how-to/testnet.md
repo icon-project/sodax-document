@@ -4,6 +4,7 @@ sidebarTitle: Testnet
 description: >-
   SODAX is mainnet-only. Here's why there is no testnet, and how to test and
   explore SODAX safely on mainnet instead.
+icon: flask
 ---
 
 **Short answer: no.** The SODAX SDKs and protocol run on **mainnet only**. There is no SODAX testnet, and the SDK has no testnet mode or network toggle.

@@ -1,6 +1,7 @@
 ---
 title: "Relayer API Endpoints"
 description: Mainnet and testnet relayer API endpoints.
+icon: envelope
 ---
 
 ### Mainnet

@@ -1,5 +1,6 @@
 ---
 title: "Monetize SDK"
+icon: coins
 ---
 
 Learn how to configure fees and monetize your Sodax SDK integration.

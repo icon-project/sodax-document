@@ -3,6 +3,7 @@ title: "1. The Foundation"
 description: >-
   This is the core logic layer that powers the entire ecosystem. It provides the
   raw functional modules required to build with SODAX programmatically.
+icon: cup-straw
 ---
 
 ## Main SDK
