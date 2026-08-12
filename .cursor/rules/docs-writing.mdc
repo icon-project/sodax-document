@@ -1,0 +1,52 @@
+---
+description: Mintlify docs — no repeated titles/descriptions; one nav home per page
+globs: "**/*.{md,mdx}"
+alwaysApply: false
+---
+
+# Docs writing (Mintlify)
+
+Hand-edited pages only (not synced SDK/wiki copies). Full guide: `DOCS_WRITING.md`.
+
+## Never repeat the page chrome
+
+Mintlify already renders frontmatter above the body. Do **not** restate it.
+
+| Frontmatter | Mintlify shows | Do not |
+|-------------|----------------|--------|
+| `title` | Page H1 | Add `# Same title` (or any body `#`) |
+| `description` | Subtitle under H1 | Open the body with the same sentence / paraphrase |
+| `sidebarTitle: Overview` | Sidebar label under a group | Name the **group** `Overview` as well |
+
+**Bad** (double H1 + echoed subtitle):
+
+```md
+---
+title: The SDK Stack
+description: Foundation, Connection, and Experience — the SODAX dependency stack…
+---
+
+# The SDK stack
+
+The SODAX developer suite is a dependency stack…
+```
+
+**Good** (body starts with new information):
+
+```md
+---
+title: The SDK Stack
+description: Foundation, Connection, and Experience — the SODAX dependency stack…
+---
+
+Integrate at the foundation for maximum control, or use the higher layers for speed.
+
+### 1. Foundation: @sodax/sdk
+```
+
+- Prefer `###` / `##` section headings in the body — never a leading `#`.
+- Group indexes: `title` = full H1, `sidebarTitle: Overview` under a **named** group (`HTTP API`, `SDKs`), not a group also called Overview.
+
+## One home per page
+
+List each path in **exactly one** `docs.json` tab. Link from hubs with cards; do not re-list deep Reference pages under Swap / Yield / etc.

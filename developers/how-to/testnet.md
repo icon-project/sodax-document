@@ -1,16 +1,14 @@
 ---
+title: Is SODAX on Testnet?
+sidebarTitle: Testnet
 description: >-
   SODAX is mainnet-only. Here's why there is no testnet, and how to test and
   explore SODAX safely on mainnet instead.
 ---
 
-# Is SODAX on Testnet?
-
 **Short answer: no.** The SODAX SDKs and protocol run on **mainnet only**. There is no SODAX testnet, and the SDK has no testnet mode or network toggle.
 
-## Is SODAX available on a testnet?
-
-No. Every chain the SDK supports is a mainnet. The canonical chain list in `@sodax/types` (`ChainKeys`) contains only `*_MAINNET` entries — there are no testnet chain configs, no testnet RPC endpoints, and no `testnet` switch anywhere in the SDK.
+Every chain the SDK supports is a mainnet. The canonical chain list in `@sodax/types` (`ChainKeys`) contains only `*_MAINNET` entries — there are no testnet chain configs, no testnet RPC endpoints, and no `testnet` switch anywhere in the SDK.
 
 <Note>
 Any `testnet` / `TESTNET` value you may see in wallet configuration (for example a Bitcoin or Sui wallet provider's `network` field) is an **upstream parameter of that wallet library** — it does not enable a SODAX testnet.

@@ -4,8 +4,6 @@ description: What you can build, proof points, and ecosystem reach across networ
 icon: chart-line
 ---
 
-# Why build with SODAX
-
 SODAX is a modular execution system. Integrate each SDK module on its own, or combine them.
 
 ### What you can build
@@ -20,7 +18,7 @@ SODAX is a modular execution system. Integrate each SDK module on its own, or co
 
 <Card title="Go to sodax.com/partners" icon="handshake" href="https://sodax.com/partners" />
 
-### Why build with SODAX
+### Why it fits
 
 * **Execution beyond routing.** Routes move assets. SODAX coordinates liquidity so swaps, borrows, and deposits actually settle across networks.
 * **One SDK, modular usage.** Integrate @sodax/sdk once, then use only the modules you need.

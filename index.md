@@ -1,9 +1,8 @@
 ---
-title: SODAX Docs
+title: Liquidity and execution, across every network
+sidebarTitle: Home
 description: A liquidity and cross-network execution solution. Scope the integration from your own repo before you commit.
 ---
-
-# Liquidity and execution, across every network
 
 <div className="sodax-stat-strip">
   <div className="sodax-stat-chip"><span id="sodax-stat-networks">21+</span> networks</div>

@@ -6,12 +6,6 @@ description: >-
 icon: tower-broadcast
 ---
 
-### Overview
-
-Streamlined, simple and secure cross-chain messaging system that allows DApps to send and receive messages across networks reliably, enabling faster development and implementation of on-chain logic.
-
-***
-
 ### Contract Design
 
 The contract manages cross-network message handling with secure verification to prevent double-processing and unauthorized access. It includes upgrade permissions for the owner, a list of trusted relayers, and event-driven logging to track each message's journey.

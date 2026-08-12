@@ -6,10 +6,6 @@ description: >-
 icon: vault
 ---
 
-### Overview
-
-The Vault Token is designed to wrap multiple variants of the same underlying asset (e.g., USDC from different chains) into a single, unified token.
-
 ### Core Features
 
 1. **Multi-Asset Support**

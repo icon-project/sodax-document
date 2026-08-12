@@ -6,11 +6,7 @@ description: >-
 icon: boxes-stacked
 ---
 
-### Overview
-
-This document outlines the design for a hub-and-spoke asset management system that enables cross-network asset transfers with optional execution of additional logic. The system consists of a central Hub Asset Manager (in Solidity) and multiple Spoke Asset Managers that can be implemented in any language/platform.
-
-***
+A central Hub Asset Manager (Solidity) plus Spoke Asset Managers (any language/platform) move assets across networks and can run extra logic on transfer.
 
 ## Hub Asset Manager
 

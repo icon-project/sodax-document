@@ -4,9 +4,7 @@ description: Foundation, Connection, and Experience — the SODAX dependency sta
 icon: layer-group
 ---
 
-# The SDK stack
-
-The SODAX developer suite is a dependency stack. Integrate at the foundation for maximum control, or use the higher layers for speed.
+Integrate at the foundation for maximum control, or use the higher layers for speed.
 
 ### 1. Foundation: @sodax/sdk
 

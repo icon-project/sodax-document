@@ -7,10 +7,6 @@ description: >-
 icon: wallet
 ---
 
-### Overview
-
-The Hub Wallet Abstraction is a system that enables seamless cross-chain user interactions by creating deterministic wallet proxies on the Hub chain. This allows users from any connected chain to have a corresponding wallet on the Hub chain, effectively enabling cross-chain operations without requiring users to understand the underlying complexity.
-
 ### Architecture
 
 #### Core Components

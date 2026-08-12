@@ -11,27 +11,73 @@ Use this file when editing hand-maintained Mintlify pages in `sodax-document`. K
 
 | Area | Job | Owners |
 |------|-----|--------|
-| Solution hubs + homepage Tabs | Outcome first (Swap / Money Market / Bridge / Yield), then HTTP API vs SDK | Engineering / docs |
-| Reference | Deep SDK tree, deployments, architecture, shared HTTP (oracle/stats) | Engineering |
+| Solution hubs (Swap / Money Market / Bridge / Yield) | Outcome first — hub overview with cards to HTTP / SDK / how-tos | Engineering / docs |
+| Get Started | Onboarding + network guides (Solana, Bitcoin) | Engineering / docs |
+| Reference | Canonical deep docs: HTTP API, SDKs, How To, architecture, deployments | Engineering |
 | Resources (always last tab) | Videos, blog, changelog, FAQ, audits | DevRel / community (Hazy, John); eng registers new pages in `docs.json` |
 
 Do not put API/SDK method docs in Resources. Do not invent write APIs for Money Market / Bridge — link to contact until they exist.
+
+### One home per page (Mintlify)
+
+List each page in **exactly one** tab in `docs.json`. Mintlify picks a single sidebar owner; duplicates make the wrong tab look selected (e.g. Reference click → Swap sidebar).
+
+| Content type | Canonical home | Elsewhere |
+|--------------|----------------|-----------|
+| Solution overview (`swap`, `money-market`, …) | That solution tab (hub only) | Link from Home / Get Started cards |
+| HTTP API, SDK modules, deployments, architecture | Reference | Link from solution hub cards |
+| Task guides (`HOW_TO_*`, configure, monetize, …) | Reference → How To | Link from hubs / Get Started |
+| Solana / Bitcoin network guides | Get Started → Network guides | Link from hubs (do not re-list in Reference or solution sidebars) |
+
+Solution tabs stay thin on purpose: the hub page is the router; deep pages live once under Reference (or Get Started for networks).
 
 ## Redirects
 
 When renaming or retiring a page, add a `redirects` entry in `docs.json` (`source` → `destination`) instead of leaving a 404. Prefer stable paths for synced content.
 ## No repeated text
 
-Mintlify already shows `title` (and often `description`) above the body. Do not restate them in the first paragraph.
+Mintlify already shows `title` (and often `description`) above the body. **Never** restate them.
 
 | Layer | Job | Do not |
 |-------|-----|--------|
-| `docs.json` group label | Section name in the sidebar | Duplicate that string as the first page’s sidebar label |
+| `docs.json` group label | Section name in the sidebar | Call the group `Overview`, or duplicate that string as the first page’s sidebar label |
 | Frontmatter `title` | Page H1 | Repeat as a `#` heading in the body (sync script strips this for synced pages; hand-edited pages must not add it either) |
-| Frontmatter `description` | One-line subtitle under the H1 | Open the body with the same sentence |
+| Frontmatter `description` | One-line subtitle under the H1 | Open the body with the same sentence or a close paraphrase |
 | Frontmatter `sidebarTitle` | Short sidebar label | Mirror the group name (e.g. group `HTTP API` + sidebar `HTTP API`) |
 
-**Group index pattern** (already used by Deployments / SDKs):
+**Bad — double title + echoed description** (what readers see: group eyebrow, H1, subtitle, then the same H1 again):
+
+```md
+---
+title: The SDK Stack
+description: Foundation, Connection, and Experience — the SODAX dependency stack, layer by layer.
+---
+
+# The SDK stack
+
+The SODAX developer suite is a dependency stack. …
+```
+
+**Good — body adds information only:**
+
+```md
+---
+title: The SDK Stack
+description: Foundation, Connection, and Experience — the SODAX dependency stack, layer by layer.
+---
+
+Integrate at the foundation for maximum control, or use the higher layers for speed.
+
+### 1. Foundation: @sodax/sdk
+```
+
+Rules of thumb:
+
+- No leading `#` in page bodies. Use `##` / `###` for sections.
+- If the first paragraph only rephrases `description`, delete it and start with the first real section or a new point.
+- Do not wrap Home (or any single section) in a group named `Overview` — that prints “Overview” above every page title. Prefer tab-level `pages`, or a specific group name.
+
+**Group index pattern** (Deployments / SDKs / HTTP API):
 
 ```yaml
 title: "HTTP API"          # full H1

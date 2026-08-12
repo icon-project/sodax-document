@@ -4,8 +4,6 @@ description: Intent-based execution, unified liquidity, and smart wallet abstrac
 icon: gears
 ---
 
-# How execution works
-
 Cross-network execution is asynchronous by nature, depends on liquidity fragmented across networks, and is exposed to volatility and partial completion. Asset transfers can succeed while the action they were meant to enable fails: collateral arrives but the borrow does not fill, a quoted price cannot be filled when execution begins.
 
 SODAX is built to coordinate execution across those realities, end to end, so DeFi actions complete predictably. Three components make that possible.
