@@ -77,12 +77,30 @@ Rules of thumb:
 - If the first paragraph only rephrases `description`, delete it and start with the first real section or a new point.
 - Do not wrap Home (or any single section) in a group named `Overview` — that prints “Overview” above every page title. Prefer tab-level `pages`, or a specific group name.
 
-**Group index pattern** (Deployments / SDKs / HTTP API):
+**Group index pattern** (Deployments / SDKs / HTTP API / How To):
+
+In `docs.json`, reference folder indexes explicitly as `path/index` (not bare `path`) so Mintlify resolves the file. Do **not** use group `root` against bare folder paths — local `mint dev` reports “file does not exist” and client navigation can blank the page when switching routes.
+
+```json
+{
+  "group": "HTTP API",
+  "icon": "server",
+  "pages": [
+    "developers/http-api/index",
+    "developers/http-api/swaps"
+  ]
+}
+```
+
+Page frontmatter sets the H1 / sidebar label / icon:
 
 ```yaml
 title: "HTTP API"          # full H1
 sidebarTitle: "Overview"   # short sidebar entry under the group
+icon: server
 ```
+
+If a listed page still shows a path-derived label (e.g. “Http api”) or drops its icon, flatten it to a sibling `.md` / `.mdx` (see AI Integration in `sync-sodax-sdks.sh`) — folder `index` frontmatter is unreliable in the sidebar.
 
 Child pages under a named group: prefer a short `sidebarTitle` (`Oracle`, `Swaps`) and keep the fuller `title` for the page H1 (`Oracle API`).
 

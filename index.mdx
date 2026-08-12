@@ -5,60 +5,26 @@ description: A liquidity and cross-network execution solution. Pick API or SDK, 
 icon: house
 ---
 
-export function openSearch() {
-  document.getElementById("search-bar-entry")?.click();
-}
-
 <div className="sodax-home-hero">
-  <img
-    src="/.gitbook/assets/sodax-sdk-2.jpg"
-    alt=""
-    width="1600"
-    height="600"
-    className="sodax-home-hero-img"
-  />
-  <div className="sodax-home-hero-overlay">
-    <p className="sodax-home-hero-kicker">SODAX Docs</p>
-    <p className="sodax-home-hero-sub">What can we help you build?</p>
-    <button type="button" className="sodax-home-hero-search" onClick={openSearch}>
-      <span className="sodax-home-hero-search-icon" aria-hidden="true" />
-      Search docs…
-    </button>
-  </div>
+  <p className="sodax-home-hero-kicker">SODAX Docs</p>
+  <p className="sodax-home-hero-sub">What can we help you build?</p>
 </div>
 
-<div className="sodax-stat-strip">
-  <div className="sodax-stat-chip"><span id="sodax-stat-networks">21+</span> networks</div>
-  <div className="sodax-stat-chip"><span id="sodax-stat-assets">30+</span> lending assets</div>
-  <div className="sodax-stat-chip"><span id="sodax-stat-tokens">137+</span> tokens supported</div>
-  <div className="sodax-stat-chip"><span>8</span> audit reports</div>
-</div>
+<p className="sodax-stat-line">
+  <span id="sodax-stat-networks">21+</span> networks · <span id="sodax-stat-assets">30+</span> lending assets · <span id="sodax-stat-tokens">137+</span> tokens · <span>8</span> audit reports
+</p>
 
-<Note>
-**Building with an AI agent?** Add the [Builders MCP](https://builders.sodax.com/) (`https://builders.sodax.com/mcp`) for live chains, tokens, quotes, and SDK docs while you integrate.
-</Note>
+### Building with an AI agent?
+
+Add the [Builders MCP](https://builders.sodax.com/) (`https://builders.sodax.com/mcp`) for live chains, tokens, quotes, and SDK docs while you integrate.
 
 ### How it works
 
 SODAX is not a router you operate. **SODAX routes and settles.** Independent **solvers** on the marketplace **fill**. You submit an intent (the outcome you want) — not the hop-by-hop route.
 
-<div className="sodax-how-strip">
-  <div className="sodax-how-step">
-    <span className="sodax-how-num">01 · Submit</span>
-    <strong>Quote and submit an intent</strong>
-    <p>Declare the outcome — not the hop-by-hop route.</p>
-  </div>
-  <div className="sodax-how-step">
-    <span className="sodax-how-num">02 · Fill</span>
-    <strong>Solvers fill it</strong>
-    <p>Independent solvers fill across networks from coordinated liquidity.</p>
-  </div>
-  <div className="sodax-how-step">
-    <span className="sodax-how-num">03 · Settle</span>
-    <strong>Status is explicit</strong>
-    <p>Poll until solved or failed — terminal states, not a silent partial fill.</p>
-  </div>
-</div>
+1. **Submit** — Quote and submit an intent. Declare the outcome, not the hop-by-hop route.
+2. **Fill** — Independent solvers fill across networks from coordinated liquidity.
+3. **Settle** — Poll until solved or failed — terminal states, not a silent partial fill.
 
 [Full execution model →](/home/how-execution-works)
 

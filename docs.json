@@ -30,6 +30,7 @@
   },
   "navbar": {
     "links": [
+      { "label": "SODAX Scan", "href": "https://sodaxscan.com" },
       { "label": "Support", "href": "https://support.sodax.com" }
     ]
   },
@@ -49,6 +50,7 @@
         "groups": [
           {
             "group": "Start here",
+            "icon": "rocket",
             "pages": [
               "introduction",
               "quickstart",
@@ -58,11 +60,13 @@
           },
           {
             "group": "Network guides",
+            "icon": "globe",
             "pages": [
               {
                 "group": "Solana",
+                "icon": "sun",
                 "pages": [
-                  "solana",
+                  "solana/index",
                   "solana/quickstart",
                   "solana/swaps",
                   "solana/money-market",
@@ -78,27 +82,28 @@
       },
       {
         "tab": "Swap",
-        "pages": ["swap"]
+        "pages": ["swap/index"]
       },
       {
         "tab": "Money Market",
-        "pages": ["money-market"]
+        "pages": ["money-market/index"]
       },
       {
         "tab": "Bridge",
-        "pages": ["bridge"]
+        "pages": ["bridge/index"]
       },
       {
         "tab": "Yield",
-        "pages": ["yield"]
+        "pages": ["yield/index"]
       },
       {
         "tab": "Reference",
         "groups": [
           {
             "group": "HTTP API",
+            "icon": "server",
             "pages": [
-              "developers/http-api",
+              "developers/http-api/index",
               "developers/http-api/swaps",
               "developers/http-api/leverage",
               "developers/http-api/oracle",
@@ -107,17 +112,20 @@
           },
           {
             "group": "SDKs",
+            "icon": "screwdriver-wrench",
             "pages": [
-              "developers/packages",
+              "developers/packages/index",
               {
                 "group": "Foundation",
+                "icon": "cup-straw",
                 "pages": [
-                  "developers/packages/foundation",
-                  "developers/packages/foundation/sdk",
+                  "developers/packages/foundation/index",
+                  "developers/packages/foundation/sdk/index",
                   {
                     "group": "Functional modules",
+                    "icon": "cubes",
                     "pages": [
-                      "developers/packages/foundation/sdk/functional-modules",
+                      "developers/packages/foundation/sdk/functional-modules/index",
                       "developers/packages/foundation/sdk/functional-modules/swaps",
                       "developers/packages/foundation/sdk/functional-modules/money_market",
                       "developers/packages/foundation/sdk/functional-modules/leverage_yield",
@@ -129,8 +137,9 @@
                   },
                   {
                     "group": "Tooling modules",
+                    "icon": "wrench",
                     "pages": [
-                      "developers/packages/foundation/sdk/tooling-modules",
+                      "developers/packages/foundation/sdk/tooling-modules/index",
                       "developers/packages/foundation/sdk/tooling-modules/backend_api",
                       "developers/packages/foundation/sdk/tooling-modules/intent_relay_api"
                     ]
@@ -140,16 +149,18 @@
               },
               {
                 "group": "Connection",
+                "icon": "wallet",
                 "pages": [
-                  "developers/packages/connection",
+                  "developers/packages/connection/index",
                   "developers/packages/connection/wallet-sdk-core",
                   "developers/packages/connection/wallet-sdk-react"
                 ]
               },
               {
                 "group": "Experience",
+                "icon": "browser",
                 "pages": [
-                  "developers/packages/experience",
+                  "developers/packages/experience/index",
                   "developers/packages/experience/dapp-kit",
                   "developers/packages/experience/skills"
                 ]
@@ -158,8 +169,9 @@
           },
           {
             "group": "How To",
+            "icon": "book",
             "pages": [
-              "developers/how-to",
+              "developers/how-to/index",
               "developers/packages/sdk/docs/HOW_TO_MAKE_A_SWAP",
               "developers/packages/sdk/docs/CONFIGURE_SDK",
               "developers/packages/sdk/docs/MONETIZE_SDK",
@@ -171,8 +183,9 @@
           },
           {
             "group": "Technical Overview",
+            "icon": "book-open",
             "pages": [
-              "developers/technical-overview",
+              "developers/technical-overview/index",
               "developers/technical-overview/asset-manager",
               "developers/technical-overview/vault-token",
               "developers/technical-overview/hub-wallet-abstraction",
@@ -182,8 +195,9 @@
           },
           {
             "group": "Deployments",
+            "icon": "hard-drive",
             "pages": [
-              "developers/deployments",
+              "developers/deployments/index",
               "developers/deployments/mainnet",
               "developers/deployments/relayer-api-endpoints",
               "developers/deployments/solver-api-endpoints",
@@ -198,8 +212,9 @@
         "groups": [
           {
             "group": "DevRel",
+            "icon": "newspaper",
             "pages": [
-              "resources",
+              "resources/index",
               "resources/videos",
               "resources/blog",
               "resources/changelog"
@@ -207,12 +222,14 @@
           },
           {
             "group": "Security",
+            "icon": "shield-halved",
             "pages": [
-              "developers/audits"
+              "developers/audits/index"
             ]
           },
           {
             "group": "FAQ",
+            "icon": "comment-question",
             "pages": [
               "developers/faq"
             ]
