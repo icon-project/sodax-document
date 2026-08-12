@@ -8,6 +8,10 @@ icon: signs-post
 
 Pick a solution first. Inside each hub you’ll choose the **HTTP API** or the **open-source SDK**.
 
+<Card title="5-minute swap" icon="bolt" href="/quickstart" horizontal arrow>
+  Install → quote → execute on mainnet, then poll until it settles.
+</Card>
+
 <CardGroup cols={2}>
   <Card title="Swap" icon="rotate" href="/swap">
     Cross-network intents filled by solvers — API and SDK paths.
@@ -41,8 +45,8 @@ Pick a solution first. Inside each hub you’ll choose the **HTTP API** or the *
   <Card title="AI coding agents" icon="robot" href="/developers/ai-integration">
     Install `@sodax/skills` so Cursor, Claude Code, and Copilot write v2-correct code.
   </Card>
-  <Card title="Scope it from your repo" icon="terminal" href="https://builders.sodax.com/">
-    Run the Builders MCP locally — map the integration before you write code.
+  <Card title="Builders MCP" icon="terminal" href="https://builders.sodax.com/">
+    Live chains, tokens, quotes, and SDK docs for AI coding agents.
   </Card>
   <Card title="Talk to the team" icon="handshake" href="/contact-form">
     Partnership or integration questions.

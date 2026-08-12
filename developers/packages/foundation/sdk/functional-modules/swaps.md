@@ -1,5 +1,8 @@
 ---
-title: "Swaps (Solver)"
+title: "Swaps"
+sidebarTitle: "Swaps"
+description: >-
+  Quote and execute cross-network intents. SODAX routes and settles; solvers on the marketplace fill.
 icon: rotate
 ---
 

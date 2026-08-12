@@ -50,3 +50,7 @@ Integrate at the foundation for maximum control, or use the higher layers for sp
 ## One home per page
 
 List each path in **exactly one** `docs.json` tab. Link from hubs with cards; do not re-list deep Reference pages under Swap / Yield / etc.
+
+## Solver language (entity separation)
+
+**SODAX routes and settles. Solvers fill.** Never write "our solver", "the SODAX solver", "Swaps (Solver)", or imply SODAX trades, takes custody, or fills orders. Prefer "a solver on the marketplace" / "solvers". Do not proactively name Blockzen in outbound docs. Full table: `DOCS_WRITING.md`.

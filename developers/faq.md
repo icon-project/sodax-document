@@ -75,7 +75,7 @@ Full code reference: [Make a Swap](/developers/packages/sdk/docs/HOW_TO_MAKE_A_S
 
 `createLimitOrder()` produces an intent with no deadline. The user must cancel it manually.
 
-Full method list: [Swaps (Solver)](/developers/packages/foundation/sdk/functional-modules/swaps).
+Full method list: [Swaps](/developers/packages/foundation/sdk/functional-modules/swaps).
 
 #### 11. How do I get a swap quote and feed it into `minOutputAmount`?
 
@@ -111,9 +111,9 @@ Full matrix: [Money Market](/developers/packages/foundation/sdk/functional-modul
 
 #### 15. How is the bridge different from a swap?
 
-Bridge moves the same asset across chains using the hub vault, with no price discovery. Swap routes through the solver network for cross-chain price execution. The bridge supports three directions: spoke to hub, hub to spoke, and spoke to spoke.
+Bridge moves the same asset across chains using the hub vault, with no price discovery. Swap routes through the solver marketplace for cross-network price execution. The bridge supports three directions: spoke to hub, hub to spoke, and spoke to spoke.
 
-See [Bridge](/developers/packages/foundation/sdk/functional-modules/bridge) and [Swaps (Solver)](/developers/packages/foundation/sdk/functional-modules/swaps).
+See [Bridge](/developers/packages/foundation/sdk/functional-modules/bridge) and [Swaps](/developers/packages/foundation/sdk/functional-modules/swaps).
 
 #### 16. How do I estimate gas across different chain families?
 

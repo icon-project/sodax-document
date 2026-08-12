@@ -31,7 +31,7 @@ This pulls the latest `origin/main` of the submodule and clones the wikis (requi
 - `developers/ai-integration/index.md` — from `sodax-sdks/docs/ai-integration-guide.md`
 - `developers/deployments/mainnet.md` — from contracts wiki
 - `developers/deployments/solver-compatible-assets.md` — from solver wiki
-- `developers/audits/**` — from sodax-sdks repo
+- `developers/audits/**/*.pdf` — PDFs from sodax-sdks `Audits/` (synced). The landing page `developers/audits/index.md` is **hand-maintained** here (do not replace from upstream `Audits/Readme.md`).
 
 Edit the source in the respective upstream repo instead.
 
@@ -40,11 +40,13 @@ Edit the source in the respective upstream repo instead.
 - **`docs.json`** — Mintlify config: sidebar navigation (`navigation.tabs`), theme colors, contextual AI menu, logo/favicon, and `redirects`. Must be updated when adding/removing pages.
 - **`DOCS_WRITING.md`** — clarity / no-repeat writing rules for hand-edited Mintlify pages (keep style guidance here, not in this file).
 - **`index.mdx`** — Product overview / Mintlify homepage (solution-led Tabs).
+- **`quickstart.mdx`** — 5-minute install → quote → execute (Get Started).
 - **`custom.css`** — SODAX brand tokens and light/dark theme overrides.
 - `swap/`, `money-market/`, `bridge/`, `yield/` — solution hub overviews (hand-maintained; link into API/SDK deep pages).
 - `resources/` — **DevRel-owned** (Hazy / John): videos, blog, changelog. Register new pages in the Resources tab of `docs.json`.
 - `developers/http-api/` — Partner HTTP API reference (hand-maintained; not synced from the SDK submodule).
 - `developers/technical-overview/` — Architecture deep-dives (Asset Manager, Vault Token, Hub Wallet Abstraction, Intents, GMP).
+- `developers/audits/index.md` — Audit landing narrative (PDFs still sync from sodax-sdks).
 - `developers/deployments/README.md` and `developers/deployments/sodaxscan.md`
 - `developers/how-to/README.md` — wrapper page for the How-to section.
 - `developers/faq.md`

@@ -1,6 +1,6 @@
 ---
 title: "Swaps: Compatible Assets"
-description: Assets (tokens) supported by mainnet solver (swaps).
+description: Assets (tokens) supported for swaps by solvers on mainnet.
 ---
 
 Generated: 2026-06-18 02:12 UTC

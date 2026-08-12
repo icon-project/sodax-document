@@ -18,7 +18,7 @@ Addresses and endpoints for production integrations. Prefer these pages over har
     Solver HTTP hosts for quotes and related calls.
   </Card>
   <Card title="Swaps: compatible assets" icon="coins" href="/developers/deployments/swaps-compatible-assets">
-    Tokens the mainnet solver supports (by network).
+    Tokens solvers support for swaps on mainnet (by network).
   </Card>
   <Card title="SODAX Scan" icon="magnifying-glass" href="/developers/deployments/sodaxscan">
     Track cross-network transaction status and delivery.

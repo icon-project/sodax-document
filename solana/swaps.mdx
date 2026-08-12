@@ -3,7 +3,7 @@ title: "Swaps on Solana"
 description: "Intent-based cross-network swaps from a Solana perspective: one signed transaction, solver-filled, settled across networks."
 ---
 
-SODAX swaps are intents, not bridges. Your user signs one transaction on Solana that locks the input and declares what they want on the destination network. Solvers compete to fill it; the SODAX relayer carries proof between Solana, the hub (Sonic), and the destination. If nothing fills, the intent can be cancelled and funds recovered.
+SODAX swaps are intents, not bridges. Your user signs one transaction on Solana that locks the input and declares what they want on the destination network. Solvers fill it; the SODAX relayer carries proof between Solana, the hub (Sonic), and the destination. If nothing fills, the intent can be cancelled and funds recovered.
 
 From your side it is one SDK call. From your user's side it is one Phantom prompt.
 
@@ -90,4 +90,4 @@ Every method returns `Result<T>` instead of throwing. The core methods (`swap`, 
 
 ---
 
-Full reference, including raw mode, limit orders, cancellation, and the complete error-code table: [Swaps (Solver)](/developers/packages/foundation/sdk/functional-modules/swaps).
+Full reference, including raw mode, limit orders, cancellation, and the complete error-code table: [Swaps](/developers/packages/foundation/sdk/functional-modules/swaps).

@@ -1,7 +1,7 @@
 {
   "$schema": "https://mintlify.com/docs.json",
   "name": "SODAX Docs",
-  "description": "SODAX is a cross-chain DeFi SDK ecosystem built on a hub-and-spoke architecture (Sonic hub). Docs cover @sodax/sdk (swaps, lending/borrowing, staking, bridging, migration), @sodax/wallet-sdk-core and @sodax/wallet-sdk-react (multi-chain wallet connection), and @sodax/dapp-kit (React hooks for building dApps), across EVM and non-EVM chains.",
+  "description": "SODAX is non-custodial cross-network execution infrastructure (Sonic hub). Docs cover the open-source SDK and partner HTTP APIs for swaps, lending/borrowing, staking, bridging, and migration — SODAX routes and settles; solvers on the marketplace fill.",
   "logo": "/sodax-logo-small.svg",
   "favicon": "/favicon.ico",
   "theme": "mint",
@@ -51,6 +51,7 @@
             "group": "Start here",
             "pages": [
               "introduction",
+              "quickstart",
               "developers/ai-integration",
               "contact-form"
             ]
@@ -362,7 +363,7 @@
     "raiseIssue": true
   },
   "markdown": {
-    "instructions": "SODAX is mainnet-only (no testnet chains or RPC endpoints exist) with a hub-and-spoke architecture; Sonic is the hub. For frontend/React integrations, prefer @sodax/dapp-kit hooks over calling @sodax/sdk directly. Every public SDK method returns Result<T, E> ({ ok: true, value } or { ok: false, error }) — check result.ok, never wrap calls in try/catch or branch on error.message; discriminate on the narrow error.code union instead."
+    "instructions": "SODAX is mainnet-only (no testnet chains or RPC endpoints exist) with a hub-and-spoke architecture; Sonic is the hub. SODAX is non-custodial protocol/software: it routes and settles; independent solvers on the marketplace fill — never say 'our solver', 'the SODAX solver', that SODAX trades, takes custody, or fills orders. For frontend/React integrations, prefer @sodax/dapp-kit hooks over calling @sodax/sdk directly. Every public SDK method returns Result<T, E> ({ ok: true, value } or { ok: false, error }) — check result.ok, never wrap calls in try/catch or branch on error.message; discriminate on the narrow error.code union instead."
   },
   "integrations": {
     "ga4": { "measurementId": "G-Z10HMBQ0V9" }
@@ -388,7 +389,7 @@
         "header": "Resources",
         "items": [
           { "label": "sodax.com", "href": "https://www.sodax.com" },
-          { "label": "Transaction scanner", "href": "https://sodaxscan.com" },
+          { "label": "SODAX Scan — message tracker", "href": "https://sodaxscan.com" },
           { "label": "Brand kit", "href": "https://www.sodax.com/brand" },
           { "label": "Partner portal", "href": "https://www.sodax.com/partner-dashboard" },
           { "label": "MiCA whitepaper", "href": "https://icon.foundation/projects/publications?view=soda-mica" }

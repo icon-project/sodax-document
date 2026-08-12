@@ -5,7 +5,7 @@ Use this file when editing hand-maintained Mintlify pages in `sodax-document`. K
 ## Where content lives
 
 - **Synced from upstream** — do not hand-edit; change the source repo / wiki, then run `sync-sodax-sdks.sh`. See `CLAUDE.md`.
-- **Hand-edited here** — homepage, `docs.json`, `custom.css`, technical overview, Solana, FAQ, contact, deployments wrappers, `developers/http-api/`, solution hubs (`swap/`, `money-market/`, `bridge/`, `yield/`), and **Resources / DevRel** (`resources/`).
+- **Hand-edited here** — homepage, `quickstart.mdx`, `docs.json`, `custom.css`, technical overview, Solana, FAQ, contact, deployments wrappers, `developers/http-api/`, `developers/audits/index.md`, solution hubs (`swap/`, `money-market/`, `bridge/`, `yield/`), and **Resources / DevRel** (`resources/`).
 
 ## Solution hubs vs Reference vs Resources
 
@@ -85,6 +85,27 @@ sidebarTitle: "Overview"   # short sidebar entry under the group
 ```
 
 Child pages under a named group: prefer a short `sidebarTitle` (`Oracle`, `Swaps`) and keep the fuller `title` for the page H1 (`Oracle API`).
+
+## Solver / marketplace language (entity separation)
+
+SODAX is non-custodial protocol and software. It **routes and settles**. Independent solvers on the marketplace **fill**. Docs must not imply SODAX trades, takes custody, or owns/operates a solver.
+
+**Memorize:** SODAX routes and settles. Solvers fill.
+
+| Do not say | Say instead |
+|------------|-------------|
+| "our solver" / "the SODAX solver" | "the solver" / "a solver on the marketplace" |
+| "SODAX fills your order" | "SODAX routes and settles. Solvers fill." |
+| "SODAX trades across networks" | "SODAX provides cross-network execution infrastructure. Solvers provide the liquidity." |
+| "SODAX manages / runs the solver" | (omit; or if a partner asks who trades: separate entities — do not volunteer Blockzen in outbound docs) |
+| "mainnet solver" (singular ownership) | "solvers on mainnet" / "the marketplace" |
+| Module title "Swaps (Solver)" | "Swaps" |
+
+**Ownership test:** things (contracts, venues, marketplace, SDK, rails) are SODAX. Actions (pricing, route selection, committing capital, filling, inventory, rebalancing) belong to the solver. Prefer "solvers access" for venues — never "solver owns" Money Market / AMM / intents.
+
+**Do not** proactively advertise the entity structure or Blockzen in docs. Surface the trading-entity split only when a partner due-diligence question requires it. Do not claim live KYT/sanctions screening until that provider is confirmed live.
+
+Synced SDK pages: keep titles/descriptions solver-safe in `sync-sodax-sdks.sh` injects so a re-sync does not restore "Swaps (Solver)" / "mainnet solver" wording.
 
 ## Clarity checklist (before merging)
 

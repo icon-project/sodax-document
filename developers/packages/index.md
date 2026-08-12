@@ -12,7 +12,7 @@ The SODAX developer suite is architected as a dependency stack. Builders can cho
 This is the core logic layer that powers the entire ecosystem. It provides the raw functional modules required to build with SODAX programmatically.
 
 * **Functional Modules:**
-  * `Swaps`: Quote and execute cross-chain intents via the solver.
+  * `Swaps`: Quote and execute cross-network intents. SODAX routes and settles; solvers fill.
   * `Lend/Borrow`: Interact directly with the SODAX money market logic.
   * `Bridge`: Core bridging primitives for asset transfer.
   * `Staking`: Management of SODA staking and governance positions.

@@ -1,28 +1,28 @@
 ---
 title: How Execution Works
-description: Intent-based execution, unified liquidity, and smart wallet abstraction — how SODAX coordinates cross-network actions end to end.
+description: Intent-based execution, unified liquidity access, and smart wallet abstraction — how SODAX routes and settles while solvers fill.
 icon: gears
 ---
 
 Cross-network execution is asynchronous by nature, depends on liquidity fragmented across networks, and is exposed to volatility and partial completion. Asset transfers can succeed while the action they were meant to enable fails: collateral arrives but the borrow does not fill, a quoted price cannot be filled when execution begins.
 
-SODAX is built to coordinate execution across those realities, end to end, so DeFi actions complete predictably. Three components make that possible.
+SODAX is non-custodial cross-network execution infrastructure. It **routes and settles**. Independent solvers on the marketplace **fill**. Three protocol components make that possible.
 
 ### Intent-based execution
 
-You express an intent, a desired outcome. SODAX routes and settles it; independent solvers fill it. Users do not hand-route transactions.
+You express an intent — a desired outcome. SODAX routes and settles it; solvers fill it. Users do not hand-route transactions.
 
-* **Solver execution.** Solvers on the SODAX marketplace plan fills across networks based on liquidity, pricing, network constraints, and your builder-defined parameters. They decide how to fill; SODAX provides the routing and settlement rails they execute on.
-* **Outcome-oriented settlement.** Routes are quoted from coordinated liquidity or external venues based on current conditions, then executed explicitly once approved.
-* **Explicit asynchronous handling.** Multi-step execution, partial completion, and recovery paths are handled deliberately, so flows that cannot complete atomically still complete reliably.
+* **Solver fills.** Solvers on the SODAX marketplace decide how to fill across networks — pricing, venue selection, and capital — within your builder-defined parameters. SODAX provides the routing and settlement rails they access.
+* **Outcome-oriented settlement.** Quotes come from solvers accessing coordinated liquidity venues; execution settles explicitly once approved.
+* **Explicit asynchronous handling.** Multi-step execution, partial completion, and recovery paths are handled deliberately, so flows that cannot complete atomically still complete with a clear terminal status.
 
-### Unified liquidity
+### Unified liquidity access
 
-SODAX treats liquidity as one system-level inventory, not isolated pools per network.
+SODAX treats liquidity **access** as one system across networks — not isolated pools you integrate per chain. Solvers source and commit capital when they fill; SODAX does not trade or take custody.
 
-* **Global execution inventory.** Assets are accounted for across networks and coordinated to fulfill cross-network intents.
-* **Solver-accessed at execution time.** Solvers draw on this liquidity when planning and executing fills, then redistribute it to keep the system balanced.
-* **Less fragmentation risk.** Execution no longer depends on the right liquidity sitting on a specific network at a specific moment.
+* **Protocol venues and rails.** Money market, AMM, intents, and related contracts are SODAX infrastructure that approved solvers can access.
+* **Solver-accessed at execution time.** Solvers draw on that access when planning and executing fills. Inventory, rebalancing, and capital commitment stay with the solver.
+* **Less fragmentation risk.** Execution no longer depends on the right liquidity sitting on a specific network only because you integrated that venue yourself.
 
 ### Smart wallet abstraction
 

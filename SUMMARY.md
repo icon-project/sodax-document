@@ -26,7 +26,7 @@
   * [1. The Foundation](developers/packages/foundation/README.md)
     * [@sodax/sdk](developers/packages/foundation/sdk/README.md)
       * [Functional Modules](developers/packages/foundation/sdk/functional-modules/README.md)
-        * [Swaps (Solver)](developers/packages/foundation/sdk/functional-modules/swaps.md)
+        * [Swaps](developers/packages/foundation/sdk/functional-modules/swaps.md)
         * [Lend / Borrow (Money Market)](developers/packages/foundation/sdk/functional-modules/money_market.md)
         * [Leverage Yield](developers/packages/foundation/sdk/functional-modules/leverage_yield.md)
           * [Effective APR](developers/packages/foundation/sdk/functional-modules/leverage_yield_apr.md)

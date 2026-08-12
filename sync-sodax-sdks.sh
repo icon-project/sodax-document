@@ -115,6 +115,10 @@ copy_file "$SRC/packages/sdk/README.md" "$DST/packages/foundation/sdk/index.md"
 inject_frontmatter "$DST/packages/foundation/sdk/index.md" "cup-straw" "@sodax/sdk" \
   "The SODAX SDK provides a comprehensive interface for interacting with the SODAX protocol, enabling cross-chain swaps, money market, cross-chain bridging, migration and staking SODA token."
 fix_synced_links "$DST/packages/foundation/sdk/index.md"
+# Solver ownership language: module label is "Swaps", not "Swaps (Solver)"
+_swaps_label_tmp=$(mktemp)
+sed 's/Swaps (Solver)/Swaps/g' "$DST/packages/foundation/sdk/index.md" > "$_swaps_label_tmp"
+mv "$_swaps_label_tmp" "$DST/packages/foundation/sdk/index.md"
 
 # 4b) swaps-api README → Foundation layer (standalone Swaps API v2 wire client)
 copy_file "$SRC/packages/swaps-api/README.md" "$DST/packages/foundation/swaps-api.md"
@@ -131,7 +135,8 @@ copy_file "$SRC/packages/sdk/docs/MIGRATION.md"     "$DST/packages/foundation/sd
 copy_file "$SRC/packages/sdk/docs/LEVERAGE_YIELD.md"     "$DST/packages/foundation/sdk/functional-modules/leverage_yield.md"
 copy_file "$SRC/packages/sdk/docs/LEVERAGE_YIELD_APR.md" "$DST/packages/foundation/sdk/functional-modules/leverage_yield_apr.md"
 
-inject_frontmatter "$DST/packages/foundation/sdk/functional-modules/swaps.md"        "rotate"             "Swaps (Solver)"
+inject_frontmatter "$DST/packages/foundation/sdk/functional-modules/swaps.md"        "rotate"             "Swaps" \
+  "Quote and execute cross-network intents. SODAX routes and settles; solvers on the marketplace fill."
 inject_frontmatter "$DST/packages/foundation/sdk/functional-modules/money_market.md"  "sack-dollar"         "Money Market"
 inject_frontmatter "$DST/packages/foundation/sdk/functional-modules/bridge.md"        "bridge-suspension"   "Bridge"
 inject_frontmatter "$DST/packages/foundation/sdk/functional-modules/staking.md"       "seedling"            "Staking"
@@ -212,10 +217,12 @@ inject_frontmatter "$DST/packages/experience/skills.md" "robot" "@sodax/skills" 
   "Consumer-facing AI skills and knowledge so coding agents (Claude Code, Cursor, Copilot, Codex) write v2-correct @sodax/* SDK code."
 fix_relative_repo_links "$DST/packages/experience/skills.md"
 
-# 10) Audits (Markdown + PDF files, preserving directory structure)
+# 10) Audits — PDFs only. Landing page (developers/audits/index.md) is
+# hand-maintained in sodax-document (firm names + trust narrative); do not
+# overwrite it from Audits/Readme.md.
 AUDITS_SRC="$SRC/Audits"
 AUDITS_DST="$DST/audits"
-find "$AUDITS_SRC" -type f \( -name '*.md' -o -name '*.pdf' \) -print0 | while IFS= read -r -d '' filepath; do
+find "$AUDITS_SRC" -type f -name '*.pdf' -print0 | while IFS= read -r -d '' filepath; do
   relpath="${filepath#"$AUDITS_SRC"/}"
   copy_file "$filepath" "$AUDITS_DST/$relpath"
 done
@@ -233,4 +240,4 @@ copy_file "$WIKI_TMP/sodax-solver-wiki/Solver:-Compatible-Assets.md" "$DST/deplo
 inject_description_frontmatter "$DST/deployments/mainnet.md" \
   "Mainnet smart contract deployments." "Mainnet"
 inject_description_frontmatter "$DST/deployments/solver-compatible-assets.md" \
-  "Assets (tokens) supported by mainnet solver (swaps)." "Swap: Compatible Assets"
+  "Assets (tokens) supported for swaps by solvers on mainnet." "Swap: Compatible Assets"

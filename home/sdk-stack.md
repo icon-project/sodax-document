@@ -12,7 +12,7 @@ The core logic layer that powers everything else. Raw functional modules to buil
 
 Functional modules:
 
-* **Swaps** — quote and execute cross-network intents, filled by solvers on the SODAX marketplace.
+* **Swaps** — quote and execute cross-network intents. SODAX routes and settles; solvers on the marketplace fill.
 * **Lend / Borrow** — interact directly with the SODAX money market.
 * **Bridge** — low-level primitives for asset transfer.
 * **Staking** — manage SODA staking and governance positions.

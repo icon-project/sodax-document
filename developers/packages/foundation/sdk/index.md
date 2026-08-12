@@ -43,7 +43,7 @@ How to setup local development
 
 ### Functional Modules inside the SDK
 
-<a href="https://docs.sodax.com/developers/packages/foundation/sdk/functional-modules/swaps" class="button secondary" data-icon="rotate">Swaps (Solver)</a> -  Cross-chain intent-based swaps
+<a href="https://docs.sodax.com/developers/packages/foundation/sdk/functional-modules/swaps" class="button secondary" data-icon="rotate">Swaps</a> -  Cross-chain intent-based swaps
 
 * EVM (Sonic, Ethereum, Arbitrum, Avalanche, Base, BSC, Optimism, Polygon, HyperEVM, Lightlink, Redbelly, Kaia, Hedera) ✅
 * Sui ✅

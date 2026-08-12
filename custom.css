@@ -166,6 +166,44 @@ hr, #sidebar, #navbar { border-color: var(--sodax-border); }
 }
 .sodax-stat-chip span { color: var(--sodax-heading); font-weight: 700; }
 
+/* ---- Homepage how-it-works primer -------------------------------- */
+.sodax-how-strip {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin: 0 0 8px;
+}
+.sodax-how-step {
+  border: 1px solid var(--sodax-border);
+  border-radius: 10px;
+  padding: 14px 16px;
+  background-color: var(--sodax-chrome);
+}
+.sodax-how-num {
+  display: block;
+  margin-bottom: 6px;
+  color: var(--sodax-cherry);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+.sodax-how-step strong {
+  display: block;
+  margin-bottom: 4px;
+  color: var(--sodax-heading);
+  font-size: 15px;
+}
+.sodax-how-step p {
+  margin: 0;
+  color: var(--sodax-body);
+  font-size: 13px;
+  line-height: 1.45;
+}
+@media (max-width: 768px) {
+  .sodax-how-strip { grid-template-columns: 1fr; }
+}
+
 /* ---- Homepage hero (LI.FI-style banner, SODAX brand art) ---------- */
 .sodax-home-hero {
   position: relative;
