@@ -1,8 +1,11 @@
 name: Claude Code review
 
-# Runs only when a comment mentions @claude on a PR or issue. The Claude
-# GitHub App alone can't do this — issue_comment workflows execute from the
-# default branch, so this file must be merged to main before mentions work.
+# Runs when a comment mentions @claude on a PR or issue. The automatic
+# review request on new PRs is posted by request-code-review.yml; that
+# comment is authored by github-actions[bot], so allowed_bots must include
+# it or the action would ignore the mention.
+# issue_comment workflows execute from the default branch, so this file
+# must be merged to main before mentions (automatic or manual) work.
 on:
   issue_comment:
     types: [created]
@@ -31,29 +34,4 @@ jobs:
       - uses: anthropics/claude-code-action@9d7150bc8a3dae8149739a88019d192b579ad90c # v1
         with:
           anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
-          # Default review request. A @claude mention still triggers the run;
-          # this prompt is what Claude actually follows, so reviewers do not
-          # need to paste the rubric into every comment.
-          prompt: |
-            Please do a code review.
-
-            Evaluation Criteria
-            Evaluate the following areas:
-
-            Correctness: Does it correctly solve the stated issue?
-            Code Quality: Is the implementation simple, reusable, and consistent with the existing codebase?
-            Complexity: Is there any unnecessary complexity or overclaim?
-            Safety: Could it introduce breaking changes or regressions?
-
-            For each area, provide:
-
-            Score (/10)
-            One-sentence justification
-
-            Summary sections:
-
-            Must Fix
-            Should Fix
-            Nice to Have
-
-            **Base conclusions only on evidence in the PR. Do not speculate.
+          allowed_bots: github-actions[bot]
