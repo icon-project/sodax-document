@@ -1,10 +1,20 @@
 ---
-title: The SDK Stack
-description: Foundation, Connection, and Experience — the SODAX dependency stack, layer by layer.
+title: API & SDK stack
+sidebarTitle: API & SDK
+description: Partner HTTP APIs and the open-source SDK — Foundation, Connection, and Experience layers.
 icon: layer-group
 ---
 
-Integrate at the foundation for maximum control, or use the higher layers for speed.
+Pick the **HTTP API** for any language, or the **open-source SDK** for TypeScript end-to-end flows. Both hit the same SODAX execution layer.
+
+<CardGroup cols={2}>
+  <Card title="HTTP API" icon="server" href="/developers/http-api">
+    Quote, build intents, submit-tx, and status — partner REST surfaces.
+  </Card>
+  <Card title="Open-source SDK" icon="code" href="/developers/packages">
+    Full reference for every layer and module.
+  </Card>
+</CardGroup>
 
 ### 1. Foundation: @sodax/sdk
 
@@ -36,7 +46,3 @@ The highest-level layer, built for speed. An opinionated set of UI components, h
 
 * Under the hood: automatically wires @sodax/wallet-sdk for connection and @sodax/sdk for execution.
 * What it offers: React hooks, contexts, and utilities for SODAX features.
-
-<Card title="Explore the SDK docs" icon="book-open" href="/developers/packages">
-  Full reference for every layer and module.
-</Card>
