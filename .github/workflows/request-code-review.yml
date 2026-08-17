@@ -1,0 +1,54 @@
+name: Request Code Review
+
+# Same pattern as sodax-frontend: opening a PR posts the Codex review
+# request automatically. Codex runs via the GitHub App / fidel-claude-worker
+# hop — no workflow in this repo is required for the review itself.
+on:
+  pull_request:
+    types: [opened]
+
+permissions:
+  pull-requests: write
+
+jobs:
+  request-review:
+    name: Request Codex Review
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Comment on PR
+        uses: actions/github-script@f28e40c7f34bde8b3046d885e986cb6290c5673b # v7
+        # The comment body lives in `env` rather than inline in `script` so the markdown can be
+        # indented to keep the YAML valid while the block scalar strips that indentation back off —
+        # indenting it inside the JS template literal would have rendered every line as a code block.
+        env:
+          REVIEW_REQUEST_BODY: |
+            @fidel-claude-worker codex please do code review
+
+            ## Evaluation Criteria
+
+            **Evaluate the following areas:**
+
+            1. **Correctness**: Does it correctly solve the stated issue?
+            2. **Code Quality**: Is the implementation simple, reusable, and consistent with the existing codebase?
+            3. **Complexity**: Is there any unnecessary complexity or overclaim?
+            4. **Safety**: Could it introduce breaking changes or regressions?
+
+            **For each area, provide:**
+            - Score (/10)
+            - One-sentence justification
+
+            **Summary sections:**
+            - Must Fix
+            - Should Fix
+            - Nice to Have
+
+            **Base conclusions only on evidence in the PR. Do not speculate.
+        with:
+          script: |
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body: process.env.REVIEW_REQUEST_BODY,
+            })
