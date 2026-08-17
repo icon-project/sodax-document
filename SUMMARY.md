@@ -56,6 +56,7 @@
   * [Setup Wallet Providers](developers/packages/sdk/docs/WALLET_PROVIDERS.md)
   * [Estimate Gas](developers/packages/sdk/docs/ESTIMATE_GAS.md)
   * [Handle Stellar Trustline](developers/packages/sdk/docs/STELLAR_TRUSTLINE.md)
+  * [Stellar Sponsoring](developers/how-to/stellar-sponsoring-getting-started.md)
   * [Bitcoin Integration](developers/how-to/bitcoin-integration.md)
   * [Is SODAX on Testnet?](developers/how-to/testnet.md)
 * [AI Integration](developers/ai-integration/README.md)
