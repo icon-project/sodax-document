@@ -17,8 +17,15 @@ git submodule update --init --recursive linked-repositories/sodax-sdks
 SRC="linked-repositories/sodax-sdks"
 DST="developers"
 
-# Helper: copy a single file, creating parent directories as needed
+# Helper: copy a single file, creating parent directories as needed.
+# Refuses symlink sources: submodule content is upstream-controlled, and a
+# symlink could smuggle arbitrary files from the machine running the sync
+# into the docs tree (and from there into a sync PR).
 copy_file() {
+  if [ -L "$1" ]; then
+    echo "ERROR: refusing to copy symlink: $1" >&2
+    exit 1
+  fi
   mkdir -p "$(dirname "$2")"
   cp -f "$1" "$2"
 }
@@ -195,16 +202,23 @@ find "$AUDITS_SRC" -type f \( -name '*.md' -o -name '*.pdf' \) -print0 | while I
 done
 
 # 11) GitHub Wiki pages → Deployments
-WIKI_TMP=$(mktemp -d)
-trap 'rm -rf "$WIKI_TMP"' EXIT
+# The source repos are private, so cloning their wikis needs an SSH key with
+# access. CI runners don't have one — the sync workflow sets SKIP_WIKI_SYNC=1
+# and these two pages stay manual (run the script locally to refresh them).
+if [ "${SKIP_WIKI_SYNC:-0}" = "1" ]; then
+  echo "SKIP_WIKI_SYNC=1 — skipping wiki-sourced deployments pages (mainnet.md, solver-compatible-assets.md)"
+else
+  WIKI_TMP=$(mktemp -d)
+  trap 'rm -rf "$WIKI_TMP"' EXIT
 
-git clone --depth 1 git@github.com:icon-project/sodax-contracts.wiki.git "$WIKI_TMP/sodax-contracts-wiki"
-git clone --depth 1 git@github.com:icon-project/sodax-solver.wiki.git   "$WIKI_TMP/sodax-solver-wiki"
+  git clone --depth 1 git@github.com:icon-project/sodax-contracts.wiki.git "$WIKI_TMP/sodax-contracts-wiki"
+  git clone --depth 1 git@github.com:icon-project/sodax-solver.wiki.git   "$WIKI_TMP/sodax-solver-wiki"
 
-copy_file "$WIKI_TMP/sodax-contracts-wiki/Mainnet.md"                "$DST/deployments/mainnet.md"
-copy_file "$WIKI_TMP/sodax-solver-wiki/Solver:-Compatible-Assets.md" "$DST/deployments/solver-compatible-assets.md"
+  copy_file "$WIKI_TMP/sodax-contracts-wiki/Mainnet.md"                "$DST/deployments/mainnet.md"
+  copy_file "$WIKI_TMP/sodax-solver-wiki/Solver:-Compatible-Assets.md" "$DST/deployments/solver-compatible-assets.md"
 
-inject_description_frontmatter "$DST/deployments/mainnet.md" \
-  "Mainnet smart contract deployments." "Mainnet"
-inject_description_frontmatter "$DST/deployments/solver-compatible-assets.md" \
-  "Assets (tokens) supported by mainnet solver (swaps)." "Swap: Compatible Assets"
+  inject_description_frontmatter "$DST/deployments/mainnet.md" \
+    "Mainnet smart contract deployments." "Mainnet"
+  inject_description_frontmatter "$DST/deployments/solver-compatible-assets.md" \
+    "Assets (tokens) supported by mainnet solver (swaps)." "Swap: Compatible Assets"
+fi

@@ -1,0 +1,78 @@
+name: Sync docs from sodax-sdks
+
+on:
+  schedule:
+    # Daily catch-up sync at 06:00 UTC. This is the backbone: no secrets,
+    # no cross-repo coupling — it cannot silently stop working.
+    - cron: "0 6 * * *"
+  # Manual button in the Actions tab for testing and ad-hoc syncs.
+  workflow_dispatch: {}
+  # Dormant fast path: if sodax-sdks ever gains a dispatch sender (needs a
+  # token with write access to this repo), merges sync within minutes
+  # instead of next morning. Harmless while no sender exists.
+  repository_dispatch:
+    types: [sdks-docs-updated]
+
+permissions:
+  contents: write
+  pull-requests: write
+
+# Cron and a dispatch firing close together queue instead of racing;
+# both funnel into the same sync/sodax-sdks PR branch anyway.
+concurrency:
+  group: sync-from-sdks
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      # Pinned to commit SHAs (not mutable tags) per supply-chain hardening
+      # guidance for third-party actions.
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+        with:
+          submodules: true
+          # Don't leave GITHUB_TOKEN in .git/config: the sync copies files
+          # from the upstream submodule, and nothing sensitive should be on
+          # disk where copied content could reach it. create-pull-request
+          # authenticates via its own token input, not persisted credentials.
+          persist-credentials: false
+
+      # The script advances the sodax-sdks submodule to origin/main itself,
+      # then copies docs into developers/. Wiki-sourced deployments pages are
+      # skipped: those source repos are private and the runner has no SSH key,
+      # so mainnet.md / solver-compatible-assets.md stay on manual local syncs.
+      - name: Run sync script
+        run: bash sync-sodax-sdks.sh
+        env:
+          SKIP_WIKI_SYNC: "1"
+
+      - name: Record synced SDK commit
+        id: sdk
+        run: echo "sha=$(git -C linked-repositories/sodax-sdks rev-parse --short HEAD)" >> "$GITHUB_OUTPUT"
+
+      # Opens a PR only if the sync produced changes; otherwise exits quietly.
+      # Reuses one branch, so successive syncs update the same open PR
+      # instead of stacking new ones.
+      - name: Open sync PR
+        uses: peter-evans/create-pull-request@84ae59a2cdc2258d6fa0732dd66352dddae2a412 # v7.0.9
+        with:
+          branch: sync/sodax-sdks
+          commit-message: "docs: sync from sodax-sdks ${{ steps.sdk.outputs.sha }}"
+          title: "docs: sync from sodax-sdks"
+          body: |
+            Automated sync of upstream docs sources
+            (icon-project/sodax-sdks @ ${{ steps.sdk.outputs.sha }})
+            via `sync-sodax-sdks.sh`.
+
+            Not included: the wiki-sourced deployments pages (`mainnet.md`,
+            `solver-compatible-assets.md`) — those repos are private, so
+            refresh them with a local run of the script.
+
+            Before merging, review:
+            - frontmatter injection (titles, icons, descriptions)
+            - MDX rendering of any new or heavily edited pages
+
+            Nothing reaches docs.sodax.com until this PR is merged.
+          labels: docs-sync
