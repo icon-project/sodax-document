@@ -164,6 +164,13 @@ copy_file "$SRC/docs/ai-integration-guide.md" "$DST/ai-integration/README.md"
 inject_frontmatter "$DST/ai-integration/README.md" "robot" \
   "Every @sodax/* package on npm ships AI-readable docs at ai-exported/. Point Cursor, Claude Code, Copilot, or another coding agent at those files for v2-correct SDK code on the first try."
 
+# 7d) Stellar Sponsoring getting-started guide (sodax-sdks/docs/ → how-to/)
+copy_file "$SRC/docs/stellar-sponsoring-getting-started.md" "$DST/how-to/stellar-sponsoring-getting-started.md"
+inject_description_frontmatter "$DST/how-to/stellar-sponsoring-getting-started.md" \
+  "A getting-started guide for activating sponsored Stellar accounts and integrating the SODAX Sponsoring API via dapp-kit, the SDK, or raw HTTP." \
+  "Stellar Sponsoring — Getting Started"
+fix_synced_links "$DST/how-to/stellar-sponsoring-getting-started.md"
+
 # 8) Connection layer
 copy_file "$SRC/packages/wallet-sdk-core/README.md"  "$DST/packages/connection/wallet-sdk-core.md"
 copy_file "$SRC/packages/wallet-sdk-react/README.md" "$DST/packages/connection/wallet-sdk-react.md"
