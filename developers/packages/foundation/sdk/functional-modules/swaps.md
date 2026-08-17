@@ -717,7 +717,7 @@ if (cancelResult.ok) {
 }
 ```
 
-> **Error-type note:** `cancelIntent` and `cancelLimitOrder` return `Result<TxHashPair, Error | unknown>` — they were **not** migrated to the `SodaxError<C>` family. Don't `switch` on `error.code` here; treat the error as an opaque `Error` and use `instanceof Error` / `error.message` for diagnostics. The rest of this module (swap, createIntent, postExecution, createLimitOrder, createLimitOrderIntent) uses `SodaxError<SwapErrorCode>` — see [Error Handling](#error-handling).
+> `cancelIntent` and `cancelLimitOrder` return a plain `Error`, not `SodaxError`. Use `error.message` here — do not switch on `error.code`. Other swap methods use `SodaxError`; see [Error Handling](#error-handling).
 
 ### Build Cancel Intent (raw or signed — no relay wait)
 

@@ -87,7 +87,11 @@ fix_relative_repo_links() {
   mv "$tmp" "$file"
 }
 
-# Helper: fix known broken links in synced files so they resolve correctly in GitBook
+# Helper: fix known broken links in synced files so they resolve correctly in GitBook.
+# Also rewrite <https://...> autolinks — Mintlify compiles Markdown as MDX, so those
+# tags 404 the whole page instead of rendering a link.
+# Strip top-of-page "Error handling conventions" banners (SDK-internal; Error
+# Handling sections already cover this).
 fix_synced_links() {
   local file="$1"
   local tmp
@@ -105,6 +109,8 @@ fix_synced_links() {
     -e 's|https://docs.sodax.com/developers/packages/sdk/intent_relay_api|https://docs.sodax.com/developers/packages/foundation/sdk/tooling-modules/intent_relay_api|g' \
     -e 's|https://docs.sodax.com/developers/packages/intent_relay_api|https://docs.sodax.com/developers/packages/foundation/sdk/tooling-modules/intent_relay_api|g' \
     -e 's|https://github.com/icon-project/sodax-frontend/|https://github.com/icon-project/sodax-sdks/|g' \
+    -e 's|<\(https://[^>]*\)>|[\1](\1)|g' \
+    -e '/^> \*\*Error handling conventions:/d' \
     "$file" > "$tmp"
   mv "$tmp" "$file"
 }

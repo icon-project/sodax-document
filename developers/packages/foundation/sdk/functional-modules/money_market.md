@@ -3,8 +3,6 @@ title: "Money Market"
 icon: sack-dollar
 ---
 
-> **Error handling conventions:** This module uses the canonical `SodaxError<MoneyMarketErrorCode>` shape (same family as the swap module). Discriminate on `result.error.code` (e.g. `'RELAY_TIMEOUT'`, `'EXECUTION_FAILED'`); structured details live on `result.error.context` (`action`, `phase`, `relayCode`, `field`). See the **Error Handling** section below for the full per-method code table and migration notes from the legacy `error.message`-based pattern.
-
 Money Market part of SDK provides abstractions to assist you with interacting with the cross-chain Money Market Smart Contracts.
 
 All money market operations are accessed through the `moneyMarket` property of a `Sodax` instance:
@@ -715,7 +713,7 @@ if (a.ok && !a.value) {
 
 ### Migration from the legacy `error.message`-based pattern
 
-If you were on the previous CODE-string-on-`error.message` pattern (or the older `MoneyMarketError<Code>` typed shape that the public docs at <https://docs.sodax.com/developers/packages/foundation/sdk/functional-modules/money_market#error-handling> document), here are the mappings:
+If you were on the previous CODE-string-on-`error.message` pattern (or the older `MoneyMarketError<Code>` typed shape previously documented in [Error Handling](#error-handling)), here are the mappings:
 
 | Before | After |
 |---|---|

@@ -49,7 +49,7 @@ Integrate at the foundation for maximum control, or use the higher layers for sp
 
 ## One home per page
 
-List each path in **exactly one** `docs.json` tab. Link from hubs with cards; do not re-list deep Reference pages under Swap / Yield / etc.
+List each path in **exactly one** `docs.json` tab, except the Home featured mix (Start here, featured How To, DevRel) which is also listed under Get Started / Reference / Resources. Link from hubs with cards; do not re-list deep Reference pages under Swap / Yield / etc.
 
 ## Solver language (entity separation)
 

@@ -16,18 +16,21 @@ Use this file when editing hand-maintained Mintlify pages in `sodax-document`. K
 | Reference | Canonical deep docs: HTTP API, SDKs, How To, architecture, deployments | Engineering |
 | Resources (always last tab) | Videos, blog, changelog, FAQ, audits | DevRel / community (Hazy, John); eng registers new pages in `docs.json` |
 
-Do not put API/SDK method docs in Resources. Do not invent write APIs for Money Market / Bridge — link to contact until they exist.
+Do not invent write APIs for Money Market / Bridge — link to the [HTTP API overview](/developers/http-api) until they exist. Use Contact for “talk to the team,” not as a stand-in for missing API docs.
 
 ### One home per page (Mintlify)
 
-List each page in **exactly one** tab in `docs.json`. Mintlify picks a single sidebar owner; duplicates make the wrong tab look selected (e.g. Reference click → Swap sidebar).
+List each page in **exactly one** tab in `docs.json`, with one exception below. Mintlify picks a single sidebar owner; duplicates make the wrong tab look selected (e.g. Reference click → Swap sidebar).
+
+**Exception — Home featured mix.** The Home sidebar re-lists **Start here**, featured **How To** (overview, make a swap, configure, monetize), and **DevRel** so those popular sections are one click from the landing tab. They also stay in Get Started / Reference / Resources. Mintlify will show the **Home** sidebar when those pages are open. Do **not** extend this exception to solution hubs (never re-list HTTP/SDK deep pages under Swap / Yield / etc.).
 
 | Content type | Canonical home | Elsewhere |
 |--------------|----------------|-----------|
 | Solution overview (`swap`, `money-market`, …) | That solution tab (hub only) | Link from Home / Get Started cards |
 | HTTP API, SDK modules, deployments, architecture | Reference | Link from solution hub cards |
-| Task guides (`HOW_TO_*`, configure, monetize, …) | Reference → How To | Link from hubs / Get Started |
+| Featured task guides (make a swap, configure, monetize) | Home (also listed under Reference → How To) | Remaining How To pages stay Reference-only |
 | Solana / Bitcoin network guides | Get Started → Network guides | Link from hubs (do not re-list in Reference or solution sidebars) |
+| DevRel (videos, blog, changelog) | Home (also listed under Resources) | FAQ and audits stay Resources-only |
 
 Solution tabs stay thin on purpose: the hub page is the router; deep pages live once under Reference (or Get Started for networks).
 

@@ -3,8 +3,6 @@ title: "Bridge"
 icon: bridge-suspension
 ---
 
-> **Error handling conventions:** This module uses the canonical `SodaxError<BridgeErrorCode>` shape (same family as the swap and money market modules). Discriminate on `result.error.code` (e.g. `'RELAY_TIMEOUT'`, `'INTENT_CREATION_FAILED'`); structured details live on `result.error.context` (`srcChainKey`, `dstChainKey`, `phase`, `relayCode`, `field`). See the **Error Handling** section below for the full per-method code table and migration notes from the legacy `error.message`-based pattern.
-
 The `BridgeService` class, reachable via `sodax.bridge`, orchestrates cross-chain token transfers within the SODAX hub-and-spoke architecture.
 
 Bridging works by depositing tokens into a spoke vault on the source chain, which triggers a cross-chain message relayed to the Sonic hub. The hub then performs vault transformations (deposit/withdraw) and forwards the tokens to the destination chain via the asset manager.
@@ -505,7 +503,7 @@ if (!result.ok) {
 
 ### Migration from the legacy pattern
 
-If you were on the previous CODE-on-`error.message` pattern (or the older `BridgeError<Code>` typed shape that the published docs at <https://docs.sodax.com/developers/packages/foundation/sdk/functional-modules/bridge#error-handling> document), here are the mappings:
+If you were on the previous CODE-on-`error.message` pattern (or the older `BridgeError<Code>` typed shape previously documented in [Error Handling](#error-handling)), here are the mappings:
 
 | Before | After |
 |---|---|
@@ -524,7 +522,7 @@ If you were on the previous CODE-on-`error.message` pattern (or the older `Bridg
 3. **Discriminate `RELAY_FAILED` via `context.relayCode`**. `'RELAY_POLLING_FAILED'` (polling outage — packet status unknown) needs different UX from generic `'UNKNOWN'`.
 4. **Use `error.cause` for forensics**. Every wrapped error preserves the original on `cause`. Loggers walk it automatically.
 5. **Use `JSON.stringify(error)` for logging**. The `toJSON()` method handles bigint coercion + cause-chain truncation safely.
-6. **Type-guard, don't `as`-cast**. Use `is<Op>Error(error)` to narrow; an `as <Op>Error` cast after a generic `isSodaxError` check would silently widen the contract.
+6. **Type-guard, don't `as`-cast**. Use `is<Op>Error(error)` to narrow; an `` as <Op>Error `` cast after a generic `isSodaxError` check would silently widen the contract.
 
 ## Usage Flow
 

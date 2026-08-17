@@ -3,8 +3,6 @@ title: "Staking"
 icon: seedling
 ---
 
-> **Error handling conventions:** This module returns `Result<T, SodaxError<NarrowCode>>` from every async public method. Discriminate on `error.code` (a closed reason-only union) and `error.feature === 'staking'`. See [Error Handling](#error-handling) below.
-
 The `StakingService` class, reachable through `sodax.staking`, provides functionality for staking SODA tokens,
 unstaking, claiming rewards, and retrieving staking information. It supports operations across all spoke chains
 with automatic hub chain integration.

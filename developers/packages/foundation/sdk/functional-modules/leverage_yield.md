@@ -3,8 +3,6 @@ title: "Leverage Yield"
 icon: money-bill-trend-up
 ---
 
-> **Error handling conventions:** This module uses the canonical `SodaxError<LeverageYieldErrorCode>` shape (same family as the swap, bridge, and money market modules). Discriminate on `result.error.code` (e.g. `'INTENT_CREATION_FAILED'`, `'LOOKUP_FAILED'`); structured details live on `result.error.context` (`srcChainKey`, `action`, `method`, `phase`, `field`). See the **Error Handling** section below for the full per-method code table.
-
 The `LeverageYieldService` class, reachable via `sodax.leverageYield`, exposes the SODAX **leverage-yield vaults** — leveraged-yield strategy vaults deployed on the Sonic hub. This page explains what a leverage-yield vault is, how the strategy works on-chain, and how the SDK lets you enter and exit a position from any spoke chain.
 
 ## How the leverage-yield vault works

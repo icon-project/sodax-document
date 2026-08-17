@@ -3,8 +3,6 @@ title: "Migration"
 icon: truck
 ---
 
-> **Error handling conventions:** This module returns `Result<T, SodaxError<NarrowCode>>` from every async public method. Discriminate on `error.code` (a closed reason-only union) and `error.feature === 'migration'`. See [Error Handling](#error-handling) below.
-
 Migration part of the SDK provides abstractions to assist you with migrating tokens between ICON and the hub chain (Sonic). The service supports multiple migration types including ICX/wICX → SODA, bnUSD legacy → new bnUSD, BALN → SODA, and their reverse operations.
 
 ## Using SDK Config and Constants
