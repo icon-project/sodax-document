@@ -1,7 +1,8 @@
 name: Request Code Review
 
-# Same pattern as sodax-frontend: opening a PR posts the review request
-# comment automatically. claude.yml then picks up the @claude mention.
+# Same pattern as sodax-frontend: opening a PR posts the Codex review
+# request automatically. Codex runs via the GitHub App / fidel-claude-worker
+# hop — no workflow in this repo is required for the review itself.
 on:
   pull_request:
     types: [opened]
@@ -11,7 +12,7 @@ permissions:
 
 jobs:
   request-review:
-    name: Request Claude Review
+    name: Request Codex Review
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
@@ -22,7 +23,7 @@ jobs:
         # indenting it inside the JS template literal would have rendered every line as a code block.
         env:
           REVIEW_REQUEST_BODY: |
-            @claude please do code review
+            @fidel-claude-worker codex please do code review
 
             ## Evaluation Criteria
 
