@@ -1,21 +1,22 @@
+#!/usr/bin/env bash
 set -euo pipefail
 
 # 1) Make sure submodule URL and pointer are up to date and fetch latest changes from origin/main
-git submodule sync --recursive
-git submodule update --init --recursive linked-repositories/sodax-sdks
+git submodule sync
+git submodule update --init linked-repositories/sodax-sdks
 
-# Fetch the latest main branch from the submodule's origin and reset submodule worktree to origin/main
+# Fetch origin/main into a local branch. -B recreates `main` from the remote
+# even when the submodule is in detached HEAD (the usual checkout state).
 (
   cd linked-repositories/sodax-sdks
   git fetch origin main
-  git checkout main
-  git reset --hard origin/main
-  git pull origin main
+  git checkout -B main origin/main
 )
 
 # 2) Define paths
 SRC="linked-repositories/sodax-sdks"
 DST="developers"
+MAP_FILE="$SRC/scripts/gitbook-sync-map.json"
 
 # Helper: copy a single file, creating parent directories as needed.
 # Refuses symlink sources: submodule content is upstream-controlled, and a
@@ -27,12 +28,121 @@ copy_file() {
     exit 1
   fi
   mkdir -p "$(dirname "$2")"
-  cp -f "$1" "$2"
+  cp -f -- "$1" "$2"
+}
+
+# Copy every file listed in sodax-sdks scripts/gitbook-sync-map.json.
+# Docs Drift in that repo requires new feature pages to be on this list;
+# reading the map here means a map entry is enough for the file to land in
+# this tree — no second hardcoded copy_file list to keep in sync.
+copy_mapped_docs() {
+  if [ ! -f "$MAP_FILE" ]; then
+    echo "ERROR: missing $MAP_FILE — cannot copy mirrored docs." >&2
+    exit 1
+  fi
+  if ! command -v python3 >/dev/null 2>&1; then
+    echo "ERROR: python3 is required to read $MAP_FILE." >&2
+    exit 1
+  fi
+
+  local src dest
+  while IFS=$'\t' read -r src dest; do
+    case "$src" in
+      *..*|/*) echo "ERROR: invalid map src: $src" >&2; exit 1 ;;
+    esac
+    case "$dest" in
+      developers/*) ;;
+      *) echo "ERROR: map dest must be under developers/: $dest" >&2; exit 1 ;;
+    esac
+    case "$dest" in
+      *..*) echo "ERROR: invalid map dest: $dest" >&2; exit 1 ;;
+    esac
+    if [ ! -f "$SRC/$src" ]; then
+      echo "ERROR: mapped source missing: $SRC/$src" >&2
+      exit 1
+    fi
+    echo "copy $src -> $dest"
+    copy_file "$SRC/$src" "$dest"
+  done < <(python3 - "$MAP_FILE" <<'PY'
+import json, sys
+
+with open(sys.argv[1], encoding="utf-8") as fh:
+    data = json.load(fh)
+for item in data.get("mirrored", []):
+    src, dest = item.get("src"), item.get("dest")
+    if not src or not dest:
+        sys.exit("gitbook-sync-map.json entry missing src or dest")
+    print(f"{src}\t{dest}")
+PY
+)
+}
+
+# Fail the copy silently appearing on the site: a mapped dest that is not
+# referenced from SUMMARY.md (GitBook) or docs.json (Mintlify) is an orphan.
+# Lists missing dests on stderr and, in GitHub Actions, on GITHUB_OUTPUT
+# (nav_missing) so the sync PR body can flag them. Does not fail the script:
+# the files still need to land in the PR so a human can add the nav entry.
+check_nav_coverage() {
+  local missing
+  missing=$(python3 - "$MAP_FILE" <<'PY'
+import json, pathlib, sys
+
+map_path = sys.argv[1]
+summary = pathlib.Path("SUMMARY.md").read_text(encoding="utf-8") if pathlib.Path("SUMMARY.md").exists() else ""
+docs = pathlib.Path("docs.json").read_text(encoding="utf-8") if pathlib.Path("docs.json").exists() else ""
+nav = summary + "\n" + docs
+
+with open(map_path, encoding="utf-8") as fh:
+    data = json.load(fh)
+
+missing = []
+for item in data.get("mirrored", []):
+    dest = item.get("dest") or ""
+    stem = dest[:-3] if dest.endswith(".md") else dest
+    candidates = [dest, stem]
+    if dest.endswith("/README.md"):
+        prefix = dest[: -len("/README.md")]
+        candidates.extend((prefix, prefix + "/index", prefix + ".md"))
+    if dest.endswith("/index.md"):
+        prefix = dest[: -len("/index.md")]
+        candidates.extend((prefix + "/README.md", prefix))
+    if not any(c in nav for c in candidates):
+        missing.append(dest)
+print("\n".join(missing))
+PY
+)
+  if [ -z "$missing" ]; then
+    echo "All mapped dests are listed in SUMMARY.md or docs.json."
+    return 0
+  fi
+
+  echo "WARNING: mapped dests copied but not in SUMMARY.md or docs.json:" >&2
+  echo "$missing" >&2
+  echo "Add a sidebar entry in this sync PR or the page will not appear on docs.sodax.com." >&2
+
+  if [ -n "${GITHUB_OUTPUT:-}" ]; then
+    {
+      echo "nav_missing<<EOF"
+      echo "$missing"
+      echo "EOF"
+    } >> "$GITHUB_OUTPUT"
+  fi
+}
+
+# Overlay helpers no-op when the map dest moved (e.g. README.md → index.md)
+# so a dest-path change fails on nav coverage, not on a missing inject target.
+require_or_skip() {
+  if [ ! -f "$1" ]; then
+    echo "skip overlay (not in tree — map dest may have moved): $1"
+    return 1
+  fi
+  return 0
 }
 
 # Helper: prepend GitBook frontmatter to a file (only icon, or icon + description)
 # Usage: inject_frontmatter <file> <icon> [description]
 inject_frontmatter() {
+  require_or_skip "$1" || return 0
   local file="$1" icon="$2" desc="${3:-}"
   local tmp
   tmp=$(mktemp)
@@ -54,6 +164,7 @@ inject_frontmatter() {
 # Strips any existing top-level heading (# ...) from the source to avoid duplicates.
 # Usage: inject_description_frontmatter <file> <description> <title>
 inject_description_frontmatter() {
+  require_or_skip "$1" || return 0
   local file="$1" desc="$2" title="$3"
   local tmp
   tmp=$(mktemp)
@@ -72,6 +183,7 @@ inject_description_frontmatter() {
 
 # Helper: fix relative CONTRIBUTING.md and LICENSE links that GitBook mis-resolves
 fix_relative_repo_links() {
+  require_or_skip "$1" || return 0
   local file="$1"
   local tmp
   tmp=$(mktemp)
@@ -84,6 +196,7 @@ fix_relative_repo_links() {
 
 # Helper: fix known broken links in synced files so they resolve correctly in GitBook
 fix_synced_links() {
+  require_or_skip "$1" || return 0
   local file="$1"
   local tmp
   tmp=$(mktemp)
@@ -109,27 +222,21 @@ rm -f "$DST/packages/types/README.md"
 rm -f "$DST/packages/RELEASE_INSTRUCTIONS.md"
 rm -rf "$DST/packages/dapp-kit/src"
 
-# 4) SDK README → Foundation layer
-copy_file "$SRC/packages/sdk/README.md" "$DST/packages/foundation/sdk/README.md"
+# 4) Copy every mirrored page from the upstream map, then inject GitBook
+#    frontmatter / link fixes. New map entries are copied even when they have
+#    no overlay here (they land without an icon until one is added).
+copy_mapped_docs
+
+# Foundation layer
 inject_frontmatter "$DST/packages/foundation/sdk/README.md" "cup-straw" \
   "The SODAX SDK provides a comprehensive interface for interacting with the SODAX protocol, enabling cross-chain swaps, money market, cross-chain bridging, migration and staking SODA token."
 fix_synced_links "$DST/packages/foundation/sdk/README.md"
 
-# 4b) swaps-api README → Foundation layer (standalone Swaps API v2 wire client)
-copy_file "$SRC/packages/swaps-api/README.md" "$DST/packages/foundation/swaps-api.md"
 inject_frontmatter "$DST/packages/foundation/swaps-api.md" "plug" \
   "Minimal, type-safe HTTP client for the SODAX backend Swaps API v2 — the wire client that @sodax/sdk's sodax.api.swaps wraps."
 fix_synced_links "$DST/packages/foundation/swaps-api.md"
 
-# 5) Functional modules (sdk/docs → foundation/sdk/functional-modules, lowercased)
-copy_file "$SRC/packages/sdk/docs/SWAPS.md"        "$DST/packages/foundation/sdk/functional-modules/swaps.md"
-copy_file "$SRC/packages/sdk/docs/MONEY_MARKET.md"  "$DST/packages/foundation/sdk/functional-modules/money_market.md"
-copy_file "$SRC/packages/sdk/docs/BRIDGE.md"        "$DST/packages/foundation/sdk/functional-modules/bridge.md"
-copy_file "$SRC/packages/sdk/docs/STAKING.md"       "$DST/packages/foundation/sdk/functional-modules/staking.md"
-copy_file "$SRC/packages/sdk/docs/MIGRATION.md"     "$DST/packages/foundation/sdk/functional-modules/migration.md"
-copy_file "$SRC/packages/sdk/docs/LEVERAGE_YIELD.md"     "$DST/packages/foundation/sdk/functional-modules/leverage_yield.md"
-copy_file "$SRC/packages/sdk/docs/LEVERAGE_YIELD_APR.md" "$DST/packages/foundation/sdk/functional-modules/leverage_yield_apr.md"
-
+# Functional modules
 inject_frontmatter "$DST/packages/foundation/sdk/functional-modules/swaps.md"        "rotate"
 inject_frontmatter "$DST/packages/foundation/sdk/functional-modules/money_market.md"  "sack-dollar"
 inject_frontmatter "$DST/packages/foundation/sdk/functional-modules/bridge.md"        "bridge-suspension"
@@ -142,53 +249,29 @@ for f in swaps.md money_market.md bridge.md staking.md migration.md leverage_yie
   fix_synced_links "$DST/packages/foundation/sdk/functional-modules/$f"
 done
 
-# 6) Tooling modules (sdk/docs → foundation/sdk/tooling-modules, lowercased)
-copy_file "$SRC/packages/sdk/docs/BACKEND_API.md"      "$DST/packages/foundation/sdk/tooling-modules/backend_api.md"
-copy_file "$SRC/packages/sdk/docs/INTENT_RELAY_API.md"  "$DST/packages/foundation/sdk/tooling-modules/intent_relay_api.md"
-
+# Tooling modules
 inject_frontmatter "$DST/packages/foundation/sdk/tooling-modules/backend_api.md"      "plug"
 inject_frontmatter "$DST/packages/foundation/sdk/tooling-modules/intent_relay_api.md"  "envelope"
 
-# 7) How-to guides (stay at sdk/docs/, preserve names — no frontmatter needed)
-# Note: HOW_TO_CREATE_A_SPOKE_PROVIDER.md is no longer present in sodax-sdks.
-for f in CONFIGURE_SDK ESTIMATE_GAS HOW_TO_MAKE_A_SWAP \
-         MONETIZE_SDK WALLET_PROVIDERS STELLAR_TRUSTLINE \
-         RELAYER_API_ENDPOINTS SOLVER_API_ENDPOINTS; do
-  copy_file "$SRC/packages/sdk/docs/${f}.md" "$DST/packages/sdk/docs/${f}.md"
-done
-copy_file "$SRC/packages/sdk/docs/installation/nextjs.md" "$DST/packages/sdk/docs/installation/nextjs.md"
-
-# 7b) Bitcoin Integration (sdk/docs/BITCOIN_INTEGRATION.md → how-to/bitcoin-integration.md)
-# Lives under how-to/ to preserve the public docs.sodax.com URL.
-copy_file "$SRC/packages/sdk/docs/BITCOIN_INTEGRATION.md" "$DST/how-to/bitcoin-integration.md"
+# Bitcoin Integration (lives under how-to/ to preserve the public URL)
 inject_description_frontmatter "$DST/how-to/bitcoin-integration.md" \
   "This guide is a step-by-step walkthrough for integrating Bitcoin as a source or destination chain in a SODAX-powered dApp." \
   "Bitcoin Integration"
 fix_synced_links "$DST/how-to/bitcoin-integration.md"
 
-# 7c) AI Integration (sodax-sdks/docs/ai-integration-guide.md → developers/ai-integration/README.md)
-copy_file "$SRC/docs/ai-integration-guide.md" "$DST/ai-integration/README.md"
+# AI Integration
 inject_frontmatter "$DST/ai-integration/README.md" "robot" \
   "Every @sodax/* package on npm ships AI-readable docs at ai-exported/. Point Cursor, Claude Code, Copilot, or another coding agent at those files for v2-correct SDK code on the first try."
 
-# 8) Connection layer
-copy_file "$SRC/packages/wallet-sdk-core/README.md"  "$DST/packages/connection/wallet-sdk-core.md"
-copy_file "$SRC/packages/wallet-sdk-react/README.md" "$DST/packages/connection/wallet-sdk-react.md"
-
+# Connection layer
 inject_frontmatter "$DST/packages/connection/wallet-sdk-core.md"  "wallet"
 inject_frontmatter "$DST/packages/connection/wallet-sdk-react.md" "react"
-
 fix_relative_repo_links "$DST/packages/connection/wallet-sdk-react.md"
 
-# 9) Experience layer
-copy_file "$SRC/packages/dapp-kit/README.md" "$DST/packages/experience/dapp-kit.md"
-
+# Experience layer
 inject_frontmatter "$DST/packages/experience/dapp-kit.md" "browser"
-
 fix_relative_repo_links "$DST/packages/experience/dapp-kit.md"
 
-# 9b) skills README → Experience layer (AI-agent skills bundle)
-copy_file "$SRC/packages/skills/README.md" "$DST/packages/experience/skills.md"
 inject_frontmatter "$DST/packages/experience/skills.md" "robot" \
   "Consumer-facing AI skills and knowledge so coding agents (Claude Code, Cursor, Copilot, Codex) write v2-correct @sodax/* SDK code."
 fix_relative_repo_links "$DST/packages/experience/skills.md"
@@ -198,6 +281,9 @@ AUDITS_SRC="$SRC/Audits"
 AUDITS_DST="$DST/audits"
 find "$AUDITS_SRC" -type f \( -name '*.md' -o -name '*.pdf' \) -print0 | while IFS= read -r -d '' filepath; do
   relpath="${filepath#"$AUDITS_SRC"/}"
+  case "$relpath" in
+    *..*) echo "ERROR: refusing audit path: $relpath" >&2; exit 1 ;;
+  esac
   copy_file "$filepath" "$AUDITS_DST/$relpath"
 done
 
@@ -222,3 +308,5 @@ else
   inject_description_frontmatter "$DST/deployments/solver-compatible-assets.md" \
     "Assets (tokens) supported by mainnet solver (swaps)." "Swap: Compatible Assets"
 fi
+
+check_nav_coverage

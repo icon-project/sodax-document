@@ -2,14 +2,15 @@ name: Sync docs from sodax-sdks
 
 on:
   schedule:
-    # Daily catch-up sync at 06:00 UTC. This is the backbone: no secrets,
-    # no cross-repo coupling — it cannot silently stop working.
+    # Daily catch-up at 06:00 UTC. Public-repo cron can pause after ~60 days
+    # of inactivity — use the manual button if a run is missed.
     - cron: "0 6 * * *"
   # Manual button in the Actions tab for testing and ad-hoc syncs.
   workflow_dispatch: {}
-  # Dormant fast path: if sodax-sdks ever gains a dispatch sender (needs a
-  # token with write access to this repo), merges sync within minutes
-  # instead of next morning. Harmless while no sender exists.
+  # Dormant fast path. A sender only needs permission to create
+  # repository_dispatch events — not contents:write on this repo. Leave
+  # unused until a GitHub App (or fine-grained token) with that single
+  # permission exists in sodax-sdks. Do not store a write PAT here.
   repository_dispatch:
     types: [sdks-docs-updated]
 
@@ -40,13 +41,18 @@ jobs:
           persist-credentials: false
 
       # The script advances the sodax-sdks submodule to origin/main itself,
-      # then copies docs into developers/. Wiki-sourced deployments pages are
-      # skipped: those source repos are private and the runner has no SSH key,
-      # so mainnet.md / solver-compatible-assets.md stay on manual local syncs.
+      # then copies every file in scripts/gitbook-sync-map.json into
+      # developers/. Wiki-sourced deployments pages are skipped: those
+      # source repos are private and the runner has no SSH key, so
+      # mainnet.md / solver-compatible-assets.md stay on manual local syncs.
       - name: Run sync script
+        id: sync
         run: bash sync-sodax-sdks.sh
         env:
           SKIP_WIKI_SYNC: "1"
+          # Sync step does not need the write token on disk or in env while
+          # untrusted submodule files are present.
+          GITHUB_TOKEN: ""
 
       - name: Record synced SDK commit
         id: sdk
@@ -54,25 +60,39 @@ jobs:
 
       # Opens a PR only if the sync produced changes; otherwise exits quietly.
       # Reuses one branch, so successive syncs update the same open PR
-      # instead of stacking new ones.
+      # instead of stacking new ones. Always targets main, even when this
+      # workflow is dispatched from a non-default branch for testing.
       - name: Open sync PR
         uses: peter-evans/create-pull-request@84ae59a2cdc2258d6fa0732dd66352dddae2a412 # v7.0.9
         with:
           branch: sync/sodax-sdks
+          base: main
+          add-paths: |
+            developers/**
+            linked-repositories/sodax-sdks
           commit-message: "docs: sync from sodax-sdks ${{ steps.sdk.outputs.sha }}"
           title: "docs: sync from sodax-sdks"
           body: |
             Automated sync of upstream docs sources
             (icon-project/sodax-sdks @ ${{ steps.sdk.outputs.sha }})
-            via `sync-sodax-sdks.sh`.
+            via `sync-sodax-sdks.sh`, driven by `scripts/gitbook-sync-map.json`.
 
             Not included: the wiki-sourced deployments pages (`mainnet.md`,
             `solver-compatible-assets.md`) — those repos are private, so
             refresh them with a local run of the script.
 
+            ${{ steps.sync.outputs.nav_missing && '## Action required: add nav entries' || '' }}
+
+            ${{ steps.sync.outputs.nav_missing }}
+
             Before merging, review:
             - frontmatter injection (titles, icons, descriptions)
             - MDX rendering of any new or heavily edited pages
+            - that every new page is in `SUMMARY.md` (GitBook) or `docs.json` (Mintlify)
+
+            If nav entries are missing, add them in this PR and merge before the
+            next daily run — the next sync rebuilds `sync/sodax-sdks` from `main`
+            and will drop extra commits on that branch.
 
             Nothing reaches docs.sodax.com until this PR is merged.
           labels: docs-sync

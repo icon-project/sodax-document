@@ -52,6 +52,7 @@
 * [How to](developers/how-to/README.md)
   * [Monetize SDK](developers/packages/sdk/docs/MONETIZE_SDK.md)
   * [Configure SDK](developers/packages/sdk/docs/CONFIGURE_SDK.md)
+  * [Install with Next.js](developers/packages/sdk/docs/installation/nextjs.md)
   * [Make a Swap](developers/packages/sdk/docs/HOW_TO_MAKE_A_SWAP.md)
   * [Setup Wallet Providers](developers/packages/sdk/docs/WALLET_PROVIDERS.md)
   * [Estimate Gas](developers/packages/sdk/docs/ESTIMATE_GAS.md)

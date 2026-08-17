@@ -8,19 +8,23 @@ This is a **GitBook documentation repository** for the SODAX SDK ecosystem, publ
 
 ## Content Sync Workflow
 
-Most content is **auto-synced from external sources** and should not be manually edited here. The sync script handles three sources:
+Most content is **auto-synced from external sources** and should not be manually edited here.
 
-1. **`sodax-sdks` submodule** (`linked-repositories/sodax-sdks`) — SDK docs, how-to guides, wallet/dapp-kit READMEs, Bitcoin Integration guide, and audit reports.
-2. **`sodax-contracts.wiki`** GitHub wiki — `developers/deployments/mainnet.md`
-3. **`sodax-solver.wiki`** GitHub wiki — `developers/deployments/solver-compatible-assets.md`
+A GitHub Action (`.github/workflows/sync-from-sdks.yml`) runs `sync-sodax-sdks.sh` daily (and on demand via **Run workflow**) and opens a `docs-sync` PR on `sync/sodax-sdks`. Nothing reaches docs.sodax.com until that PR is merged. The script copies every file listed in `sodax-sdks` `scripts/gitbook-sync-map.json` — a new feature page that is on the map is copied automatically; it still needs a sidebar entry in `SUMMARY.md` (or `docs.json` after a Mintlify migration) or it will not appear in nav.
 
-To sync all sources:
+Sources:
+
+1. **`sodax-sdks` submodule** (`linked-repositories/sodax-sdks`) — SDK docs, how-to guides, wallet/dapp-kit READMEs, Bitcoin Integration guide, and audit reports (copied in CI).
+2. **`sodax-contracts.wiki`** GitHub wiki — `developers/deployments/mainnet.md` (skipped in CI; `SKIP_WIKI_SYNC=1`).
+3. **`sodax-solver.wiki`** GitHub wiki — `developers/deployments/solver-compatible-assets.md` (skipped in CI).
+
+To sync all sources locally (including wikis; needs SSH access to the private wiki repos):
 
 ```bash
 bash sync-sodax-sdks.sh
 ```
 
-This pulls the latest `origin/main` of the submodule and clones the wikis (requires SSH access to `icon-project/sodax-contracts.wiki` and `icon-project/sodax-solver.wiki`). It also injects GitBook frontmatter (icons, descriptions) into copied files.
+It pulls the latest `origin/main` of the submodule, copies mapped files, and injects GitBook frontmatter (icons, descriptions).
 
 ### What NOT to edit (synced content, will be overwritten)
 
@@ -35,7 +39,7 @@ Edit the source in the respective upstream repo instead.
 
 ### What IS safe to edit directly
 
-- **SUMMARY.md** — GitBook table of contents; defines sidebar navigation. Must be updated when adding/removing pages.
+- **SUMMARY.md** — GitBook table of contents; defines sidebar navigation. Must be updated when a new mapped page is added (the sync PR body lists dests that are missing).
 - **README.md** — Product overview / GitBook landing page.
 - `developers/technical-overview/` — Architecture deep-dives (Asset Manager, Vault Token, Hub Wallet Abstraction, Intents, GMP).
 - `developers/deployments/README.md` and `developers/deployments/xcall-scanner.md`
