@@ -31,3 +31,29 @@ jobs:
       - uses: anthropics/claude-code-action@9d7150bc8a3dae8149739a88019d192b579ad90c # v1
         with:
           anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          # Default review request. A @claude mention still triggers the run;
+          # this prompt is what Claude actually follows, so reviewers do not
+          # need to paste the rubric into every comment.
+          prompt: |
+            Please do a code review.
+
+            Evaluation Criteria
+            Evaluate the following areas:
+
+            Correctness: Does it correctly solve the stated issue?
+            Code Quality: Is the implementation simple, reusable, and consistent with the existing codebase?
+            Complexity: Is there any unnecessary complexity or overclaim?
+            Safety: Could it introduce breaking changes or regressions?
+
+            For each area, provide:
+
+            Score (/10)
+            One-sentence justification
+
+            Summary sections:
+
+            Must Fix
+            Should Fix
+            Nice to Have
+
+            **Base conclusions only on evidence in the PR. Do not speculate.
