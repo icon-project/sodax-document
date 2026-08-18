@@ -33,6 +33,9 @@ jobs:
       # guidance for third-party actions.
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
         with:
+          # Keep full history so follow-up git operations and PR-creation logic
+          # have the same baseline on manual runs, cron, and branch tests.
+          fetch-depth: 0
           submodules: true
           # Don't leave GITHUB_TOKEN in .git/config: the sync copies files
           # from the upstream submodule, and nothing sensitive should be on

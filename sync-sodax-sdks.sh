@@ -263,6 +263,12 @@ fix_synced_links "$DST/how-to/bitcoin-integration.md"
 inject_frontmatter "$DST/ai-integration/README.md" "robot" \
   "Every @sodax/* package on npm ships AI-readable docs at ai-exported/. Point Cursor, Claude Code, Copilot, or another coding agent at those files for v2-correct SDK code on the first try."
 
+# Stellar Sponsoring getting-started guide (copied via the upstream map)
+inject_description_frontmatter "$DST/how-to/stellar-sponsoring-getting-started.md" \
+  "A getting-started guide for activating sponsored Stellar accounts and integrating the SODAX Sponsoring API via dapp-kit, the SDK, or raw HTTP." \
+  "Stellar Sponsoring - Getting Started"
+fix_synced_links "$DST/how-to/stellar-sponsoring-getting-started.md"
+
 # Connection layer
 inject_frontmatter "$DST/packages/connection/wallet-sdk-core.md"  "wallet"
 inject_frontmatter "$DST/packages/connection/wallet-sdk-react.md" "react"
