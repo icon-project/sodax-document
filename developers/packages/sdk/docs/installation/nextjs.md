@@ -1,4 +1,7 @@
-# Installing @sodax/sdk with Next.js
+---
+title: "Installing @sodax/sdk with Next.js"
+icon: box
+---
 
 This guide will walk you through setting up `@sodax/sdk` in a Next.js project, from project creation to using the SDK features.
 
@@ -31,7 +34,7 @@ cd my-sodax-app
 
 ## Step 2: Install @sodax/sdk
 
-Install the Sodax SDK and its peer dependencies:
+Install the SODAX SDK and its peer dependencies:
 
 ```bash
 # Using npm
@@ -123,7 +126,7 @@ Your Next.js application should now be running on `http://localhost:3000`.
 
 ## Step 5: Start Using @sodax/sdk
 
-Now you can use the Sodax SDK in your components. Here's an example of how to use it:
+Now you can use the SODAX SDK in your components. Here's an example of how to use it:
 
 ```typescript
 // app/page.tsx

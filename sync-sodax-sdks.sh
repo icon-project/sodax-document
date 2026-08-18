@@ -1,36 +1,214 @@
+#!/usr/bin/env bash
 set -euo pipefail
 
-# 1) Make sure submodule URL and pointer are up to date and fetch latest changes from origin/main
-git submodule sync --recursive
-git submodule update --init --recursive linked-repositories/sodax-sdks
+# Update the SDK submodule, then fast-forward it to origin/main.
+git submodule sync
+git submodule update --init linked-repositories/sodax-sdks
 
-# Fetch the latest main branch from the submodule's origin and reset submodule worktree to origin/main
+# Recreate `main` even when the submodule is in detached HEAD.
 (
   cd linked-repositories/sodax-sdks
   git fetch origin main
-  git checkout main
-  git reset --hard origin/main
-  git pull origin main
+  git checkout -B main origin/main
 )
 
-# 2) Define paths
 SRC="linked-repositories/sodax-sdks"
 DST="developers"
+MAP_FILE="$SRC/scripts/gitbook-sync-map.json"
 
-# Helper: copy a single file, creating parent directories as needed
+# GitBook dests in gitbook-sync-map.json → Mintlify paths on this branch.
+# Drop this table at cutover once the map dests in sodax-sdks are rewritten.
+# README.md → index.md (Mintlify folder indexes)
+# ai-integration/README.md → flat .md (frontmatter icon + sidebarTitle)
+# Relayer/Solver: one dest under Deployments (nav already points here; GitBook
+# still lists packages/sdk/docs/* — docs.json redirects cover those URLs).
+DEST_REMAP_PY='
+DEST_REMAP = {
+    "developers/packages/foundation/sdk/README.md": "developers/packages/foundation/sdk/index.md",
+    "developers/ai-integration/README.md": "developers/ai-integration.md",
+    "developers/packages/sdk/docs/RELAYER_API_ENDPOINTS.md": "developers/deployments/relayer-api-endpoints.md",
+    "developers/packages/sdk/docs/SOLVER_API_ENDPOINTS.md": "developers/deployments/solver-api-endpoints.md",
+}
+'
+
+# Copy one file and refuse symlink sources or dests.
 copy_file() {
+  if [ -L "$1" ]; then
+    echo "ERROR: refusing to copy symlink: $1" >&2
+    exit 1
+  fi
   mkdir -p "$(dirname "$2")"
-  cp -f "$1" "$2"
+  if [ -L "$2" ]; then
+    echo "ERROR: refusing to write through dest symlink: $2" >&2
+    exit 1
+  fi
+  cp -f -- "$1" "$2"
 }
 
-# Helper: prepend Mintlify frontmatter (title, optional icon, optional description, optional sidebarTitle).
-# Strips a duplicate leading top-level heading (# ...) from the source — Mintlify
-# renders frontmatter `title` as the page header, so a matching body H1 would repeat it.
+# Copy src → dest only when dest is not already in the tree (map may have added it).
+copy_if_missing() {
+  local src="$1" dest="$2"
+  if [ -f "$dest" ]; then
+    echo "already present (mapped or previous copy): $dest"
+    return 0
+  fi
+  if [ ! -f "$src" ]; then
+    echo "skip missing source: $src"
+    return 0
+  fi
+  echo "copy $src -> $dest (not yet on gitbook-sync-map.json)"
+  copy_file "$src" "$dest"
+}
+
+# Copy every mirrored doc listed in the upstream sync map, remapping dests for Mintlify.
+copy_mapped_docs() {
+  if [ ! -f "$MAP_FILE" ]; then
+    echo "ERROR: missing $MAP_FILE — cannot copy mirrored docs." >&2
+    exit 1
+  fi
+  if ! command -v python3 >/dev/null 2>&1; then
+    echo "ERROR: python3 is required to read $MAP_FILE." >&2
+    exit 1
+  fi
+
+  local src dest
+  while IFS=$'\t' read -r src dest; do
+    case "$src" in
+      *..*|/*) echo "ERROR: invalid map src: $src" >&2; exit 1 ;;
+    esac
+    case "$dest" in
+      developers/*) ;;
+      *) echo "ERROR: map dest must be under developers/: $dest" >&2; exit 1 ;;
+    esac
+    case "$dest" in
+      *..*) echo "ERROR: invalid map dest: $dest" >&2; exit 1 ;;
+    esac
+    if [ ! -f "$SRC/$src" ]; then
+      echo "ERROR: mapped source missing: $SRC/$src" >&2
+      exit 1
+    fi
+    echo "copy $src -> $dest"
+    copy_file "$SRC/$src" "$dest"
+  done < <(python3 - "$MAP_FILE" <<PY
+import json, sys
+$DEST_REMAP_PY
+with open(sys.argv[1], encoding="utf-8") as fh:
+    data = json.load(fh)
+for item in data.get("mirrored", []):
+    src, dest = item.get("src"), item.get("dest")
+    if not src or not dest:
+        sys.exit("gitbook-sync-map.json entry missing src or dest")
+    if not isinstance(src, str) or not isinstance(dest, str):
+        sys.exit("gitbook-sync-map.json src and dest must be strings")
+    if any(c in src or c in dest for c in "\\t\\n\\r"):
+        sys.exit(f"invalid map path characters: {src!r} -> {dest!r}")
+    dest = DEST_REMAP.get(dest, dest)
+    print(f"{src}\\t{dest}")
+PY
+)
+}
+
+# Warn when a copied page is missing from docs.json (Mintlify) or SUMMARY.md (GitBook leftover).
+check_nav_coverage() {
+  local missing
+  missing=$(python3 - "$MAP_FILE" <<PY
+import json, pathlib, sys
+$DEST_REMAP_PY
+map_path = sys.argv[1]
+summary = pathlib.Path("SUMMARY.md").read_text(encoding="utf-8") if pathlib.Path("SUMMARY.md").exists() else ""
+docs = pathlib.Path("docs.json").read_text(encoding="utf-8") if pathlib.Path("docs.json").exists() else ""
+nav = summary + "\\n" + docs
+
+with open(map_path, encoding="utf-8") as fh:
+    data = json.load(fh)
+
+extra = [
+    "developers/how-to/stellar-sponsoring-getting-started.md",
+    "developers/how-to/quick-sponsoring-stellar-guide.md",
+]
+dests = []
+for item in data.get("mirrored", []):
+    dest = item.get("dest") or ""
+    dests.append(DEST_REMAP.get(dest, dest))
+for dest in extra:
+    if pathlib.Path(dest).is_file():
+        dests.append(dest)
+
+missing = []
+seen = set()
+for dest in dests:
+    if dest in seen:
+        continue
+    seen.add(dest)
+    stem = dest[:-3] if dest.endswith(".md") else dest
+    candidates = [dest, stem]
+    if dest.endswith("/README.md"):
+        prefix = dest[: -len("/README.md")]
+        candidates.extend((prefix, prefix + "/index", prefix + ".md"))
+    if dest.endswith("/index.md"):
+        prefix = dest[: -len("/index.md")]
+        candidates.extend((prefix + "/README.md", prefix))
+    if dest.endswith(".md") and not dest.endswith("/index.md"):
+        candidates.append(dest[:-3])
+    if not any(c in nav for c in candidates):
+        missing.append(dest)
+print("\\n".join(missing))
+PY
+)
+  if [ -z "$missing" ]; then
+    echo "All mapped dests are listed in SUMMARY.md or docs.json."
+    return 0
+  fi
+
+  echo "WARNING: mapped dests copied but not in SUMMARY.md or docs.json:" >&2
+  echo "$missing" >&2
+  echo "Add a sidebar entry in this sync PR or the page will not appear on docs.sodax.com." >&2
+
+  if [ -n "${GITHUB_OUTPUT:-}" ]; then
+    {
+      echo "nav_missing<<EOF"
+      echo "$missing"
+      echo "EOF"
+    } >> "$GITHUB_OUTPUT"
+  fi
+}
+
+# Skip overlays when the mapped destination moved.
+require_or_skip() {
+  if [ ! -f "$1" ]; then
+    echo "skip overlay (not in tree — map dest may have moved): $1"
+    return 1
+  fi
+  return 0
+}
+
+# Print FILE with a leading YAML frontmatter block removed.
+# Pass a second argument of "h1" to also drop a duplicated top-level heading.
+strip_overlay_body() {
+  python3 - "$1" "${2:-}" <<'PY'
+import re, sys
+from pathlib import Path
+
+text = Path(sys.argv[1]).read_text(encoding="utf-8")
+match = re.match(r"^---\r?\n.*?\r?\n---\r?\n?", text, re.DOTALL)
+if match:
+    text = text[match.end():].lstrip("\r\n")
+if sys.argv[2] == "h1" and text.startswith("# "):
+    text = text.split("\n", 1)[1] if "\n" in text else ""
+    text = text.lstrip("\r\n")
+sys.stdout.write(text)
+PY
+}
+
+# Prepend Mintlify frontmatter (title, optional icon, optional description, optional sidebarTitle).
 # Usage: inject_frontmatter <file> <icon> <title> [description] [sidebarTitle]
 inject_frontmatter() {
+  require_or_skip "$1" || return 0
   local file="$1" icon="$2" title="$3" desc="${4:-}" sidebar="${5:-}"
-  local tmp
+  local tmp body
   tmp=$(mktemp)
+  body=$(mktemp)
+  strip_overlay_body "$file" h1 > "$body"
   {
     echo "---"
     echo "title: \"$title\""
@@ -46,20 +224,21 @@ inject_frontmatter() {
     fi
     echo "---"
     echo ""
-    # Strip first line if it's a top-level heading (avoids duplicating the frontmatter title)
-    sed '1{/^# /d;}' "$file"
+    cat "$body"
   } > "$tmp"
   mv "$tmp" "$file"
+  rm -f "$body"
 }
 
-# Helper: prepend Mintlify frontmatter (title + description, optional icon).
-# Strips any existing top-level heading (# ...) from the source to avoid duplicating
-# the frontmatter title in the page body.
+# Replace description-only frontmatter and a single page title.
 # Usage: inject_description_frontmatter <file> <description> <title> [icon]
 inject_description_frontmatter() {
+  require_or_skip "$1" || return 0
   local file="$1" desc="$2" title="$3" icon="${4:-}"
-  local tmp
+  local tmp body
   tmp=$(mktemp)
+  body=$(mktemp)
+  strip_overlay_body "$file" h1 > "$body"
   {
     echo "---"
     echo "title: \"$title\""
@@ -69,14 +248,15 @@ inject_description_frontmatter() {
     fi
     echo "---"
     echo ""
-    # Strip first line if it's a top-level heading
-    sed '1{/^# /d;}' "$file"
+    cat "$body"
   } > "$tmp"
   mv "$tmp" "$file"
+  rm -f "$body"
 }
 
-# Helper: fix relative CONTRIBUTING.md and LICENSE links that GitBook mis-resolves
+# Rewrite repo-root links GitBook mis-resolves.
 fix_relative_repo_links() {
+  require_or_skip "$1" || return 0
   local file="$1"
   local tmp
   tmp=$(mktemp)
@@ -87,12 +267,13 @@ fix_relative_repo_links() {
   mv "$tmp" "$file"
 }
 
-# Helper: fix known broken links in synced files so they resolve correctly in GitBook.
+# Rewrite known broken links in synced pages.
 # Also rewrite <https://...> autolinks — Mintlify compiles Markdown as MDX, so those
 # tags 404 the whole page instead of rendering a link.
 # Strip top-of-page "Error handling conventions" banners (SDK-internal; Error
 # Handling sections already cover this).
 fix_synced_links() {
+  require_or_skip "$1" || return 0
   local file="$1"
   local tmp
   tmp=$(mktemp)
@@ -109,44 +290,46 @@ fix_synced_links() {
     -e 's|https://docs.sodax.com/developers/packages/sdk/intent_relay_api|https://docs.sodax.com/developers/packages/foundation/sdk/tooling-modules/intent_relay_api|g' \
     -e 's|https://docs.sodax.com/developers/packages/intent_relay_api|https://docs.sodax.com/developers/packages/foundation/sdk/tooling-modules/intent_relay_api|g' \
     -e 's|https://github.com/icon-project/sodax-frontend/|https://github.com/icon-project/sodax-sdks/|g' \
+    -e 's|\[`docs/quick-sponsoring-stellar-guide.md`\](https://github.com/icon-project/sodax-sdks/blob/main/docs/quick-sponsoring-stellar-guide.md)|[Sponsored Stellar account activation](/developers/how-to/quick-sponsoring-stellar-guide)|g' \
     -e 's|<\(https://[^>]*\)>|[\1](\1)|g' \
     -e '/^> \*\*Error handling conventions:/d' \
     "$file" > "$tmp"
   mv "$tmp" "$file"
 }
 
-# 3) Remove stale files from old flat-copy sync (not in SUMMARY.md, not from sodax-sdks)
+# Remove leftovers from the old flat-copy layout and dual Relayer/Solver dests.
 rm -f "$DST/packages/types/README.md"
 rm -f "$DST/packages/RELEASE_INSTRUCTIONS.md"
 rm -rf "$DST/packages/dapp-kit/src"
+rm -f "$DST/packages/sdk/docs/RELAYER_API_ENDPOINTS.md"
+rm -f "$DST/packages/sdk/docs/SOLVER_API_ENDPOINTS.md"
+rm -f "$DST/ai-integration/README.md"
 
-# 4) SDK README → Foundation layer
-# Lives at index.md, not README.md — Mintlify's file-based routing needs index.md/index.mdx
-# to serve as a directory's default page; docs.json's nav entry expects that path.
-copy_file "$SRC/packages/sdk/README.md" "$DST/packages/foundation/sdk/index.md"
+# Copy mapped pages first, then apply local overlays.
+copy_mapped_docs
+
+# Pages already on GitBook / sodax-sdks#383 but not yet on sodax-sdks main's map.
+copy_if_missing "$SRC/docs/stellar-sponsoring-getting-started.md" \
+  "$DST/how-to/stellar-sponsoring-getting-started.md"
+copy_if_missing "$SRC/docs/quick-sponsoring-stellar-guide.md" \
+  "$DST/how-to/quick-sponsoring-stellar-guide.md"
+
+# Foundation layer
 inject_frontmatter "$DST/packages/foundation/sdk/index.md" "cup-straw" "@sodax/sdk" \
   "The SODAX SDK provides a comprehensive interface for interacting with the SODAX protocol, enabling cross-chain swaps, money market, cross-chain bridging, migration and staking SODA token."
 fix_synced_links "$DST/packages/foundation/sdk/index.md"
 # Solver ownership language: module label is "Swaps", not "Swaps (Solver)"
-_swaps_label_tmp=$(mktemp)
-sed 's/Swaps (Solver)/Swaps/g' "$DST/packages/foundation/sdk/index.md" > "$_swaps_label_tmp"
-mv "$_swaps_label_tmp" "$DST/packages/foundation/sdk/index.md"
+if [ -f "$DST/packages/foundation/sdk/index.md" ]; then
+  _swaps_label_tmp=$(mktemp)
+  sed 's/Swaps (Solver)/Swaps/g' "$DST/packages/foundation/sdk/index.md" > "$_swaps_label_tmp"
+  mv "$_swaps_label_tmp" "$DST/packages/foundation/sdk/index.md"
+fi
 
-# 4b) swaps-api README → Foundation layer (standalone Swaps API v2 wire client)
-copy_file "$SRC/packages/swaps-api/README.md" "$DST/packages/foundation/swaps-api.md"
 inject_frontmatter "$DST/packages/foundation/swaps-api.md" "plug" "@sodax/swaps-api" \
   "Minimal, type-safe HTTP client for the SODAX backend Swaps API v2 — the wire client that @sodax/sdk's sodax.api.swaps wraps."
 fix_synced_links "$DST/packages/foundation/swaps-api.md"
 
-# 5) Functional modules (sdk/docs → foundation/sdk/functional-modules, lowercased)
-copy_file "$SRC/packages/sdk/docs/SWAPS.md"        "$DST/packages/foundation/sdk/functional-modules/swaps.md"
-copy_file "$SRC/packages/sdk/docs/MONEY_MARKET.md"  "$DST/packages/foundation/sdk/functional-modules/money_market.md"
-copy_file "$SRC/packages/sdk/docs/BRIDGE.md"        "$DST/packages/foundation/sdk/functional-modules/bridge.md"
-copy_file "$SRC/packages/sdk/docs/STAKING.md"       "$DST/packages/foundation/sdk/functional-modules/staking.md"
-copy_file "$SRC/packages/sdk/docs/MIGRATION.md"     "$DST/packages/foundation/sdk/functional-modules/migration.md"
-copy_file "$SRC/packages/sdk/docs/LEVERAGE_YIELD.md"     "$DST/packages/foundation/sdk/functional-modules/leverage_yield.md"
-copy_file "$SRC/packages/sdk/docs/LEVERAGE_YIELD_APR.md" "$DST/packages/foundation/sdk/functional-modules/leverage_yield_apr.md"
-
+# Functional modules
 inject_frontmatter "$DST/packages/foundation/sdk/functional-modules/swaps.md"        "rotate"             "Swaps" \
   "Quote and execute cross-network intents. SODAX routes and settles; solvers on the marketplace fill."
 inject_frontmatter "$DST/packages/foundation/sdk/functional-modules/money_market.md"  "sack-dollar"         "Money Market"
@@ -160,99 +343,102 @@ for f in swaps.md money_market.md bridge.md staking.md migration.md leverage_yie
   fix_synced_links "$DST/packages/foundation/sdk/functional-modules/$f"
 done
 
-# 6) Tooling modules (sdk/docs → foundation/sdk/tooling-modules, lowercased)
-copy_file "$SRC/packages/sdk/docs/BACKEND_API.md"      "$DST/packages/foundation/sdk/tooling-modules/backend_api.md"
-copy_file "$SRC/packages/sdk/docs/INTENT_RELAY_API.md"  "$DST/packages/foundation/sdk/tooling-modules/intent_relay_api.md"
-
+# Tooling modules
 inject_frontmatter "$DST/packages/foundation/sdk/tooling-modules/backend_api.md"      "plug"     "Backend API"
 inject_frontmatter "$DST/packages/foundation/sdk/tooling-modules/intent_relay_api.md"  "envelope" "Intent Relay API"
 
-# 7) How-to guides (stay at sdk/docs/, preserve names)
-# Note: HOW_TO_CREATE_A_SPOKE_PROVIDER.md is no longer present in sodax-sdks.
-for f in CONFIGURE_SDK ESTIMATE_GAS HOW_TO_MAKE_A_SWAP \
-         MONETIZE_SDK WALLET_PROVIDERS STELLAR_TRUSTLINE \
-         RELAYER_API_ENDPOINTS SOLVER_API_ENDPOINTS; do
-  copy_file "$SRC/packages/sdk/docs/${f}.md" "$DST/packages/sdk/docs/${f}.md"
-done
-copy_file "$SRC/packages/sdk/docs/installation/nextjs.md" "$DST/packages/sdk/docs/installation/nextjs.md"
-
+# How-to guides (stay at sdk/docs/, preserve names)
 inject_frontmatter "$DST/packages/sdk/docs/CONFIGURE_SDK.md"          "sliders"    "Configure SDK"
 inject_frontmatter "$DST/packages/sdk/docs/ESTIMATE_GAS.md"           "gauge-high" "Estimate Gas"
 inject_frontmatter "$DST/packages/sdk/docs/HOW_TO_MAKE_A_SWAP.md"     "rotate"     "How to Make a Swap"
 inject_frontmatter "$DST/packages/sdk/docs/MONETIZE_SDK.md"           "coins"      "Monetize SDK"
 inject_frontmatter "$DST/packages/sdk/docs/WALLET_PROVIDERS.md"       "wallet"     "Wallet Providers"
 inject_frontmatter "$DST/packages/sdk/docs/STELLAR_TRUSTLINE.md"      "link"       "Stellar Trustline Requirements"
-inject_frontmatter "$DST/packages/sdk/docs/RELAYER_API_ENDPOINTS.md"  "envelope"   "Relayer API Endpoints"
-inject_frontmatter "$DST/packages/sdk/docs/SOLVER_API_ENDPOINTS.md"   "server"     "Solver API Endpoints"
 inject_frontmatter "$DST/packages/sdk/docs/installation/nextjs.md"    "box"        "Installing @sodax/sdk with Next.js"
 
-# 7b) Bitcoin Integration (sdk/docs/BITCOIN_INTEGRATION.md → how-to/bitcoin-integration.md)
-# Lives under how-to/ to preserve the public docs.sodax.com URL.
-copy_file "$SRC/packages/sdk/docs/BITCOIN_INTEGRATION.md" "$DST/how-to/bitcoin-integration.md"
+# Relayer / Solver — remapped onto Deployments (single dest).
+inject_frontmatter "$DST/deployments/relayer-api-endpoints.md" "envelope" "Relayer API Endpoints" \
+  "Intent relay hosts and SDK integration for submitting spoke-chain transactions to the SODAX hub."
+inject_frontmatter "$DST/deployments/solver-api-endpoints.md" "server" "Solver API Endpoints" \
+  "REST API endpoints for requesting quotes and tracking intent fills on the solver marketplace."
+fix_synced_links "$DST/deployments/relayer-api-endpoints.md"
+fix_synced_links "$DST/deployments/solver-api-endpoints.md"
+
+# Keep Bitcoin Integration under how-to/ for its public URL.
 inject_description_frontmatter "$DST/how-to/bitcoin-integration.md" \
   "This guide is a step-by-step walkthrough for integrating Bitcoin as a source or destination chain in a SODAX-powered dApp." \
   "Bitcoin Integration" \
   "bitcoin"
 fix_synced_links "$DST/how-to/bitcoin-integration.md"
 
-# 7c) AI Integration (sodax-sdks/docs/ai-integration-guide.md → developers/ai-integration.md)
-# Flat .md (not a folder/index) so Mintlify picks up frontmatter icon + sidebarTitle in the nav.
-# sidebarTitle keeps "AI" capitalized (path-derived title would be "Ai integration").
-copy_file "$SRC/docs/ai-integration-guide.md" "$DST/ai-integration.md"
+inject_description_frontmatter "$DST/how-to/stellar-sponsoring-getting-started.md" \
+  "A getting-started guide for activating sponsored Stellar accounts and integrating the SODAX Sponsoring API via dapp-kit, the SDK, or raw HTTP." \
+  "Stellar Sponsoring" \
+  "star"
+fix_synced_links "$DST/how-to/stellar-sponsoring-getting-started.md"
+
+inject_frontmatter "$DST/how-to/quick-sponsoring-stellar-guide.md" "bolt" "Sponsored Stellar account activation" \
+  "Short reference for Stellar account activation: ordered steps, SDK surface, React hooks, and gotchas." \
+  "Stellar sponsoring (quick)"
+fix_synced_links "$DST/how-to/quick-sponsoring-stellar-guide.md"
+
+# AI Integration — flat .md so Mintlify picks up frontmatter icon + sidebarTitle.
 inject_frontmatter "$DST/ai-integration.md" "robot" "AI Integration" \
   "Install @sodax/skills (CLI or npm) so Cursor, Claude Code, Copilot, and other agents write v2-correct @sodax/* code instead of stale training-data APIs." \
   "AI Integration"
-# Normalize Install subsection titles for TOC consistency (sentence case).
-_ai_tmp=$(mktemp)
-sed \
-  -e 's/^### skills CLI/### Skills CLI/' \
-  -e 's/^### npm from the registry/### Install from npm/' \
-  "$DST/ai-integration.md" > "$_ai_tmp"
-mv "$_ai_tmp" "$DST/ai-integration.md"
+if [ -f "$DST/ai-integration.md" ]; then
+  _ai_tmp=$(mktemp)
+  sed \
+    -e 's/^### skills CLI/### Skills CLI/' \
+    -e 's/^### npm from the registry/### Install from npm/' \
+    "$DST/ai-integration.md" > "$_ai_tmp"
+  mv "$_ai_tmp" "$DST/ai-integration.md"
+fi
 
-# 8) Connection layer
-copy_file "$SRC/packages/wallet-sdk-core/README.md"  "$DST/packages/connection/wallet-sdk-core.md"
-copy_file "$SRC/packages/wallet-sdk-react/README.md" "$DST/packages/connection/wallet-sdk-react.md"
-
+# Connection layer
 inject_frontmatter "$DST/packages/connection/wallet-sdk-core.md"  "wallet" "@sodax/wallet-sdk-core"
 inject_frontmatter "$DST/packages/connection/wallet-sdk-react.md" "react"  "@sodax/wallet-sdk-react"
-
 fix_relative_repo_links "$DST/packages/connection/wallet-sdk-react.md"
 
-# 9) Experience layer
-copy_file "$SRC/packages/dapp-kit/README.md" "$DST/packages/experience/dapp-kit.md"
-
+# Experience layer
 inject_frontmatter "$DST/packages/experience/dapp-kit.md" "browser" "@sodax/dapp-kit"
-
 fix_relative_repo_links "$DST/packages/experience/dapp-kit.md"
 
-# 9b) skills README → Experience layer (AI-agent skills bundle)
-copy_file "$SRC/packages/skills/README.md" "$DST/packages/experience/skills.md"
 inject_frontmatter "$DST/packages/experience/skills.md" "robot" "@sodax/skills" \
   "Consumer-facing AI skills and knowledge so coding agents (Claude Code, Cursor, Copilot, Codex) write v2-correct @sodax/* SDK code."
 fix_relative_repo_links "$DST/packages/experience/skills.md"
 
-# 10) Audits — PDFs only. Landing page (developers/audits/index.md) is
+# Audits — PDFs only. Landing page (developers/audits/index.md) is
 # hand-maintained in sodax-document (firm names + trust narrative); do not
 # overwrite it from Audits/Readme.md.
 AUDITS_SRC="$SRC/Audits"
 AUDITS_DST="$DST/audits"
 find "$AUDITS_SRC" -type f -name '*.pdf' -print0 | while IFS= read -r -d '' filepath; do
   relpath="${filepath#"$AUDITS_SRC"/}"
+  case "$relpath" in
+    *..*) echo "ERROR: refusing audit path: $relpath" >&2; exit 1 ;;
+  esac
   copy_file "$filepath" "$AUDITS_DST/$relpath"
 done
 
-# 11) GitHub Wiki pages → Deployments
-WIKI_TMP=$(mktemp -d)
-trap 'rm -rf "$WIKI_TMP"' EXIT
+# Wiki-backed deployment pages stay manual in CI.
+# Local runs can refresh them with SSH access to the private wikis.
+if [ "${SKIP_WIKI_SYNC:-0}" = "1" ]; then
+  echo "SKIP_WIKI_SYNC=1 — skipping wiki-sourced deployments pages (mainnet.md, solver-compatible-assets.md)"
+else
+  WIKI_TMP=$(mktemp -d)
+  trap 'rm -rf "$WIKI_TMP"' EXIT
 
-git clone --depth 1 git@github.com:icon-project/sodax-contracts.wiki.git "$WIKI_TMP/sodax-contracts-wiki"
-git clone --depth 1 git@github.com:icon-project/sodax-solver.wiki.git   "$WIKI_TMP/sodax-solver-wiki"
+  git clone --depth 1 git@github.com:icon-project/sodax-contracts.wiki.git "$WIKI_TMP/sodax-contracts-wiki"
+  git clone --depth 1 git@github.com:icon-project/sodax-solver.wiki.git   "$WIKI_TMP/sodax-solver-wiki"
 
-copy_file "$WIKI_TMP/sodax-contracts-wiki/Mainnet.md"                "$DST/deployments/mainnet.md"
-copy_file "$WIKI_TMP/sodax-solver-wiki/Solver:-Compatible-Assets.md" "$DST/deployments/solver-compatible-assets.md"
+  copy_file "$WIKI_TMP/sodax-contracts-wiki/Mainnet.md"                "$DST/deployments/mainnet.md"
+  copy_file "$WIKI_TMP/sodax-solver-wiki/Solver:-Compatible-Assets.md" "$DST/deployments/solver-compatible-assets.md"
 
-inject_description_frontmatter "$DST/deployments/mainnet.md" \
-  "Mainnet smart contract deployments." "Mainnet" "globe"
-inject_description_frontmatter "$DST/deployments/solver-compatible-assets.md" \
-  "Assets (tokens) supported for swaps by solvers on mainnet." "Swap: Compatible Assets" "coins"
+  inject_description_frontmatter "$DST/deployments/mainnet.md" \
+    "Mainnet smart contract deployments." "Mainnet" "globe"
+  inject_description_frontmatter "$DST/deployments/solver-compatible-assets.md" \
+    "Assets (tokens) supported for swaps by solvers on mainnet." "Swap: Compatible Assets" "coins"
+fi
+
+check_nav_coverage

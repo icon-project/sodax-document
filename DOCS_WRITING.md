@@ -12,7 +12,7 @@ Use this file when editing hand-maintained Mintlify pages in `sodax-document`. K
 | Area | Job | Owners |
 |------|-----|--------|
 | Solution hubs (Swap / Money Market / Bridge / Yield) | Outcome first — hub overview with cards to HTTP / SDK / how-tos | Engineering / docs |
-| Get Started | Onboarding + network guides (Solana, Bitcoin) | Engineering / docs |
+| Get Started | Onboarding + network guides (Solana, Bitcoin, Stellar) | Engineering / docs |
 | Reference | Canonical deep docs: HTTP API, SDKs, How To, architecture, deployments | Engineering |
 | Resources (always last tab) | Videos, blog, changelog, FAQ, audits | DevRel / community (Hazy, John); eng registers new pages in `docs.json` |
 
@@ -29,7 +29,7 @@ List each page in **exactly one** tab in `docs.json`, with one exception below. 
 | Solution overview (`swap`, `money-market`, …) | That solution tab (hub only) | Link from Home / Get Started cards |
 | HTTP API, SDK modules, deployments, architecture | Reference | Link from solution hub cards |
 | Featured task guides (make a swap, configure, monetize) | Home (also listed under Reference → How To) | Remaining How To pages stay Reference-only |
-| Solana / Bitcoin network guides | Get Started → Network guides | Link from hubs (do not re-list in Reference or solution sidebars) |
+| Solana / Bitcoin / Stellar network guides | Get Started → Network guides | Stellar sponsoring is also under Reference → How To (GitBook parity). Do not re-list Bitcoin or Solana in Reference. |
 | DevRel (videos, blog, changelog) | Home (also listed under Resources) | FAQ and audits stay Resources-only |
 
 Solution tabs stay thin on purpose: the hub page is the router; deep pages live once under Reference (or Get Started for networks).

@@ -95,7 +95,7 @@ Once wired, describe the task in plain language.
 
 > "Swap 100 USDC on Ethereum for SOL on Solana using `@sodax/sdk`."
 
-For v1 → v2 ports, say something like “migrate my project to Sodax v2” — each skill auto-gates into its **migration mode** when it sees v1 fingerprints (`useSpokeProvider`, `*_MAINNET_CHAIN_ID`, `useXWagmiStore`, etc.), and `AGENTS.md` (or frontmatter discovery, on CLI installs) handles skill selection.
+For v1 → v2 ports, say something like “migrate my project to SODAX v2” — each skill auto-gates into its **migration mode** when it sees v1 fingerprints (`useSpokeProvider`, `*_MAINNET_CHAIN_ID`, `useXWagmiStore`, etc.), and `AGENTS.md` (or frontmatter discovery, on CLI installs) handles skill selection.
 
 ## Tips
 

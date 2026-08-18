@@ -20,6 +20,9 @@ Task guides for common integration work. For product pickers, start from a [solu
   <Card title="Configure the SDK" icon="sliders" href="/developers/packages/sdk/docs/CONFIGURE_SDK">
     Networks, RPCs, and partner settings.
   </Card>
+  <Card title="Install with Next.js" icon="box" href="/developers/packages/sdk/docs/installation/nextjs">
+    Create a Next.js app and install `@sodax/sdk`.
+  </Card>
   <Card title="Monetize" icon="coins" href="/developers/packages/sdk/docs/MONETIZE_SDK">
     Partner fees and claiming.
   </Card>
@@ -31,6 +34,9 @@ Task guides for common integration work. For product pickers, start from a [solu
   </Card>
   <Card title="Stellar trustline" icon="link" href="/developers/packages/sdk/docs/STELLAR_TRUSTLINE">
     Trustline setup for Stellar assets.
+  </Card>
+  <Card title="Stellar sponsoring" icon="star" href="/developers/how-to/stellar-sponsoring-getting-started">
+    Activate a new Stellar account with the Sponsoring API.
   </Card>
   <Card title="Bitcoin integration" icon="bitcoin" href="/developers/how-to/bitcoin-integration">
     Use Bitcoin as a source or destination network.

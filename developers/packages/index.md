@@ -14,6 +14,7 @@ This is the core logic layer that powers the entire ecosystem. It provides the r
 * **Functional Modules:**
   * `Swaps`: Quote and execute cross-network intents. SODAX routes and settles; solvers fill.
   * `Lend/Borrow`: Interact directly with the SODAX money market logic.
+  * `Leverage Yield`: Leveraged yield vaults on the Sonic hub.
   * `Bridge`: Core bridging primitives for asset transfer.
   * `Staking`: Management of SODA staking and governance positions.
   * `Migration`: Utilities for migrating ICX to SODA tokens.

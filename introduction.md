@@ -36,6 +36,9 @@ Pick a solution first. Inside each hub you’ll choose the **HTTP API** or the *
   <Card title="Bitcoin integration" icon="bitcoin" href="/developers/how-to/bitcoin-integration">
     Use Bitcoin as a source or destination network.
   </Card>
+  <Card title="Stellar sponsoring" icon="star" href="/developers/how-to/stellar-sponsoring-getting-started">
+    Activate a new Stellar account so it can receive assets.
+  </Card>
   <Card title="HTTP API overview" icon="server" href="/developers/http-api">
     Shared conventions, oracle, stats, and route map.
   </Card>

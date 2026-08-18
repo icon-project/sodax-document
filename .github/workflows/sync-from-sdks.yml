@@ -1,0 +1,94 @@
+name: Sync docs from sodax-sdks
+
+on:
+  schedule:
+    # Daily catch-up; use the manual button if cron pauses.
+    - cron: "0 6 * * *"
+  # Manual runs for testing and ad-hoc syncs.
+  workflow_dispatch: {}
+  # Reserved fast path; do not back it with a write PAT.
+  repository_dispatch:
+    types: [sdks-docs-updated]
+
+permissions:
+  contents: write
+  pull-requests: write
+
+# Queue close-together runs onto the same sync branch.
+concurrency:
+  group: sync-from-sdks
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      # Pin third-party actions to immutable SHAs.
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+        with:
+          # Always start from main so a workflow_dispatch from another
+          # branch cannot land that branch's files in sync/sodax-sdks.
+          ref: main
+          # Give follow-up git operations a full baseline.
+          fetch-depth: 0
+          submodules: true
+          # create-pull-request authenticates separately.
+          persist-credentials: false
+
+      # CI skips wiki-backed pages; the runner has no SSH key.
+      - name: Run sync script
+        id: sync
+        run: bash sync-sodax-sdks.sh
+        env:
+          SKIP_WIKI_SYNC: "1"
+          # The copy step does not need the write token in env.
+          GITHUB_TOKEN: ""
+
+      - name: Record synced SDK commit
+        id: sdk
+        run: echo "sha=$(git -C linked-repositories/sodax-sdks rev-parse --short HEAD)" >> "$GITHUB_OUTPUT"
+
+      # Reuse one branch so each run updates the same sync PR.
+      - name: Open sync PR
+        uses: peter-evans/create-pull-request@84ae59a2cdc2258d6fa0732dd66352dddae2a412 # v7.0.9
+        with:
+          branch: sync/sodax-sdks
+          base: main
+          add-paths: |
+            developers/**
+            linked-repositories/sodax-sdks
+          commit-message: "docs: sync from sodax-sdks ${{ steps.sdk.outputs.sha }}"
+          title: "docs: sync from sodax-sdks"
+          body: |
+            Automated sync of upstream docs sources
+            (icon-project/sodax-sdks @ ${{ steps.sdk.outputs.sha }})
+            via `sync-sodax-sdks.sh`, driven by `scripts/gitbook-sync-map.json`.
+
+            Mintlify dest remaps (README.md → index.md, Relayer/Solver under
+            Deployments) live in the sync script until sodax-sdks map dests
+            are rewritten at docs.sodax.com cutover.
+
+            Not included: the wiki-sourced deployments pages (`mainnet.md`,
+            `solver-compatible-assets.md`) — those repos are private, so
+            refresh them with a local run of the script.
+
+            Audits PDFs (`developers/audits/**/*.pdf`) are copied from
+            `sodax-sdks/Audits/` outside the map. The landing page
+            `developers/audits/index.md` is hand-maintained.
+
+            ${{ steps.sync.outputs.nav_missing && '## Action required: add nav entries' || '' }}
+
+            ${{ steps.sync.outputs.nav_missing }}
+
+            Before merging, review:
+            - frontmatter injection (titles, icons, descriptions)
+            - MDX rendering of any new or heavily edited pages
+            - that every new page is in `docs.json` (Mintlify)
+
+            If nav entries are missing, add them in this PR and merge before the
+            next daily run — the next sync rebuilds `sync/sodax-sdks` from `main`
+            and will drop extra commits on that branch.
+
+            Nothing reaches docs.sodax.com until this PR is merged.
+          labels: docs-sync

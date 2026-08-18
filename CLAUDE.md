@@ -10,34 +10,47 @@ This is being developed on a migration branch (`docs/complete-mintlify-migration
 
 ## Content Sync Workflow
 
-Most content is **auto-synced from external sources** and should not be manually edited here. The sync script handles three sources:
+Most content is **auto-synced from external sources** and should not be manually edited here.
 
-1. **`sodax-sdks` submodule** (`linked-repositories/sodax-sdks`) — SDK docs, how-to guides, wallet/dapp-kit READMEs, Bitcoin Integration guide, and audit reports.
-2. **`sodax-contracts.wiki`** GitHub wiki — `developers/deployments/mainnet.md`
-3. **`sodax-solver.wiki`** GitHub wiki — `developers/deployments/solver-compatible-assets.md`
+A GitHub Action (`.github/workflows/sync-from-sdks.yml`) runs `sync-sodax-sdks.sh` daily (and on demand via **Run workflow**) and opens a `docs-sync` PR on `sync/sodax-sdks`. Nothing reaches docs.sodax.com until that PR is merged (and this Mintlify branch has not merged yet). The script copies every file listed in `sodax-sdks` `scripts/gitbook-sync-map.json`, then remaps a few GitBook dests to Mintlify paths (`README.md` → `index.md`, Relayer/Solver under Deployments). A new feature page that is on the map is copied automatically; it still needs a sidebar entry in `docs.json` or it will not appear in nav.
 
-To sync all sources:
+Sources:
+
+1. **`sodax-sdks` submodule** (`linked-repositories/sodax-sdks`) — SDK docs, how-to guides, wallet/dapp-kit READMEs, Bitcoin Integration, Stellar sponsoring, and audit PDFs (copied in CI).
+2. **`sodax-contracts.wiki`** GitHub wiki — `developers/deployments/mainnet.md` (skipped in CI; `SKIP_WIKI_SYNC=1`).
+3. **`sodax-solver.wiki`** GitHub wiki — `developers/deployments/solver-compatible-assets.md` (skipped in CI).
+
+To sync all sources locally (including wikis; needs SSH access to the private wiki repos):
 
 ```bash
 bash sync-sodax-sdks.sh
 ```
 
-This pulls the latest `origin/main` of the submodule and clones the wikis (requires SSH access to `icon-project/sodax-contracts.wiki` and `icon-project/sodax-solver.wiki`). It also injects frontmatter (icons, descriptions — same keys Mintlify reads) into copied files.
+CI / dry-run without wikis:
+
+```bash
+SKIP_WIKI_SYNC=1 bash sync-sodax-sdks.sh
+```
+
+It pulls the latest `origin/main` of the submodule, copies mapped files, remaps dests, and injects Mintlify frontmatter (`title`, `icon`, `description`, optional `sidebarTitle`).
 
 ### What NOT to edit (synced content, will be overwritten)
 
 - `developers/packages/**` — all SDK, wallet, and dapp-kit docs
 - `developers/how-to/bitcoin-integration.md` — from `sodax-sdks/packages/sdk/docs/BITCOIN_INTEGRATION.md`
+- `developers/how-to/stellar-sponsoring-getting-started.md` — from `sodax-sdks/docs/stellar-sponsoring-getting-started.md`
+- `developers/how-to/quick-sponsoring-stellar-guide.md` — from `sodax-sdks/docs/quick-sponsoring-stellar-guide.md`
 - `developers/ai-integration.md` — from `sodax-sdks/docs/ai-integration-guide.md`
 - `developers/deployments/mainnet.md` — from contracts wiki
 - `developers/deployments/solver-compatible-assets.md` — from solver wiki
+- `developers/deployments/relayer-api-endpoints.md` and `solver-api-endpoints.md` — remapped from `packages/sdk/docs/RELAYER_API_ENDPOINTS.md` / `SOLVER_API_ENDPOINTS.md`
 - `developers/audits/**/*.pdf` — PDFs from sodax-sdks `Audits/` (synced). The landing page `developers/audits/index.md` is **hand-maintained** here (do not replace from upstream `Audits/Readme.md`).
 
 Edit the source in the respective upstream repo instead.
 
 ### What IS safe to edit directly
 
-- **`docs.json`** — Mintlify config: sidebar navigation (`navigation.tabs`), theme colors, contextual AI menu, logo/favicon, and `redirects`. Must be updated when adding/removing pages.
+- **`docs.json`** — Mintlify config: sidebar navigation (`navigation.tabs`), theme colors, contextual AI menu, logo/favicon, `seo.metatags.canonical`, and `redirects`. Must be updated when adding/removing pages.
 - **`DOCS_WRITING.md`** — clarity / no-repeat writing rules for hand-edited Mintlify pages (keep style guidance here, not in this file).
 - **`index.mdx`** — Product overview / Mintlify homepage (solution-led Tabs).
 - **`quickstart.mdx`** — 5-minute install → quote → execute (Get Started).
@@ -47,8 +60,8 @@ Edit the source in the respective upstream repo instead.
 - `developers/http-api/` — Partner HTTP API reference (hand-maintained; not synced from the SDK submodule).
 - `developers/technical-overview/` — Architecture deep-dives (Asset Manager, Vault Token, Hub Wallet Abstraction, Intents, GMP).
 - `developers/audits/index.md` — Audit landing narrative (PDFs still sync from sodax-sdks).
-- `developers/deployments/README.md` and `developers/deployments/sodaxscan.md`
-- `developers/how-to/README.md` — wrapper page for the How-to section.
+- `developers/deployments/index.md` and `developers/deployments/sodaxscan.md`
+- `developers/how-to/index.md` — wrapper page for the How-to section.
 - `developers/faq.md`
 - `contact-form.md` — Contact form page.
 - `solana/` — Solana-specific quickstart, swaps, wallets, money market, and FAQ pages.

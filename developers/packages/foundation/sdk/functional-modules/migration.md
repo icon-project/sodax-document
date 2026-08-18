@@ -3,6 +3,7 @@ title: "Migration"
 icon: truck
 ---
 
+
 Migration part of the SDK provides abstractions to assist you with migrating tokens between ICON and the hub chain (Sonic). The service supports multiple migration types including ICX/wICX → SODA, bnUSD legacy → new bnUSD, BALN → SODA, and their reverse operations.
 
 ## Using SDK Config and Constants
@@ -123,6 +124,13 @@ if (!isAllowedRevert.ok) {
 ### Approve Tokens
 
 For reverse migrations, if the allowance check returns false, you need to approve the tokens before creating the revert migration intent.
+
+**Some tokens take two transactions.** A few ERC-20s of the 2017 TetherToken lineage — Ethereum USDT
+is the only one in the SODAX token list today — reject an allowance change from one non-zero value to
+another, so `approve` sends `approve(0)` first and waits for it to be mined before the real approval.
+The user signs twice; the returned value is still a single transaction hash, the **last** one's.
+Detection simulates the approval rather than consulting a token list, so a token listed later behaves
+the same way.
 
 **Note**: For Stellar-based operations, the approval system works differently:
 - **Source Chain (Stellar)**: The standard `approve` method works as expected for EVM chains, but for Stellar as the source chain, this method establishes trustlines instead.

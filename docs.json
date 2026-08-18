@@ -105,7 +105,8 @@
                   "solana/faq"
                 ]
               },
-              "developers/how-to/bitcoin-integration"
+              "developers/how-to/bitcoin-integration",
+              "developers/how-to/stellar-sponsoring-getting-started"
             ]
           }
         ]
@@ -204,10 +205,13 @@
               "developers/how-to/index",
               "developers/packages/sdk/docs/HOW_TO_MAKE_A_SWAP",
               "developers/packages/sdk/docs/CONFIGURE_SDK",
+              "developers/packages/sdk/docs/installation/nextjs",
               "developers/packages/sdk/docs/MONETIZE_SDK",
               "developers/packages/sdk/docs/WALLET_PROVIDERS",
               "developers/packages/sdk/docs/ESTIMATE_GAS",
               "developers/packages/sdk/docs/STELLAR_TRUSTLINE",
+              "developers/how-to/stellar-sponsoring-getting-started",
+              "developers/how-to/quick-sponsoring-stellar-guide",
               "developers/how-to/testnet"
             ]
           },
@@ -326,7 +330,15 @@
       "destination": "/developers/deployments/relayer-api-endpoints"
     },
     {
+      "source": "/developers/packages/sdk/docs/RELAYER_API_ENDPOINTS",
+      "destination": "/developers/deployments/relayer-api-endpoints"
+    },
+    {
       "source": "/developers/deployments/solver_api_endpoints",
+      "destination": "/developers/deployments/solver-api-endpoints"
+    },
+    {
+      "source": "/developers/packages/sdk/docs/SOLVER_API_ENDPOINTS",
       "destination": "/developers/deployments/solver-api-endpoints"
     },
     {
@@ -402,6 +414,11 @@
       "destination": "/developers/deployments/swaps-compatible-assets"
     }
   ],
+  "seo": {
+    "metatags": {
+      "canonical": "https://docs.sodax.com"
+    }
+  },
   "contextual": {
     "options": ["copy", "view", "assistant", "chatgpt", "claude", "cursor", "vscode", "mcp", "add-mcp"]
   },
