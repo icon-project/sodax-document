@@ -414,6 +414,13 @@
       "destination": "/developers/deployments/swaps-compatible-assets"
     }
   ],
+  "thumbnails": {
+    "background": "/images/og/docs-page-background.png",
+    "appearance": "dark",
+    "fonts": {
+      "family": "Inter"
+    }
+  },
   "seo": {
     "metatags": {
       "canonical": "https://docs.sodax.com"

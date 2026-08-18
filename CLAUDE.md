@@ -66,6 +66,7 @@ Edit the source in the respective upstream repo instead.
 - `contact-form.md` — Contact form page.
 - `solana/` — Solana-specific quickstart, swaps, wallets, money market, and FAQ pages.
 - `.gitbook/assets/` — image assets (path is a holdover from GitBook; still the asset location on this branch).
+- `images/og/` — social-preview (Open Graph) assets: `docs-home-card.png` (static homepage card, set via `og:image` / `twitter:image` in `index.mdx` frontmatter) and `docs-page-background.png` (background Mintlify draws every other page's title + description over, set via `thumbnails.background` in `docs.json`).
 
 ### Navigation model
 
