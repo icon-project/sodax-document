@@ -2,8 +2,7 @@
 description: A getting-started guide for activating sponsored Stellar accounts and integrating the SODAX Sponsoring API via dapp-kit, the SDK, or raw HTTP.
 ---
 
-# Stellar Sponsoring — Getting Started
-
+# Stellar Sponsoring - Getting Started
 
 A brand-new Stellar account holds 0 XLM, and Stellar accounts must exist on-chain before they can hold or receive anything. SODAX's sponsor account pays that account's base reserve, so activation costs the user nothing. The user's wallet still signs — only the account being created can authorize ending its own sponsorship — and the SODAX backend co-signs as sponsor and submits.
 

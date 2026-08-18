@@ -2,15 +2,11 @@ name: Sync docs from sodax-sdks
 
 on:
   schedule:
-    # Daily catch-up at 06:00 UTC. Public-repo cron can pause after ~60 days
-    # of inactivity — use the manual button if a run is missed.
+    # Daily catch-up; use the manual button if cron pauses.
     - cron: "0 6 * * *"
-  # Manual button in the Actions tab for testing and ad-hoc syncs.
+  # Manual runs for testing and ad-hoc syncs.
   workflow_dispatch: {}
-  # Dormant fast path. A sender only needs permission to create
-  # repository_dispatch events — not contents:write on this repo. Leave
-  # unused until a GitHub App (or fine-grained token) with that single
-  # permission exists in sodax-sdks. Do not store a write PAT here.
+  # Reserved fast path; do not back it with a write PAT.
   repository_dispatch:
     types: [sdks-docs-updated]
 
@@ -18,8 +14,7 @@ permissions:
   contents: write
   pull-requests: write
 
-# Cron and a dispatch firing close together queue instead of racing;
-# both funnel into the same sync/sodax-sdks PR branch anyway.
+# Queue close-together runs onto the same sync branch.
 concurrency:
   group: sync-from-sdks
   cancel-in-progress: false
@@ -29,42 +24,32 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
-      # Pinned to commit SHAs (not mutable tags) per supply-chain hardening
-      # guidance for third-party actions.
+      # Pin third-party actions to immutable SHAs.
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
         with:
-          # Keep full history so follow-up git operations and PR-creation logic
-          # have the same baseline on manual runs, cron, and branch tests.
+          # Always start from main so a workflow_dispatch from another
+          # branch cannot land that branch's files in sync/sodax-sdks.
+          ref: main
+          # Give follow-up git operations a full baseline.
           fetch-depth: 0
           submodules: true
-          # Don't leave GITHUB_TOKEN in .git/config: the sync copies files
-          # from the upstream submodule, and nothing sensitive should be on
-          # disk where copied content could reach it. create-pull-request
-          # authenticates via its own token input, not persisted credentials.
+          # create-pull-request authenticates separately.
           persist-credentials: false
 
-      # The script advances the sodax-sdks submodule to origin/main itself,
-      # then copies every file in scripts/gitbook-sync-map.json into
-      # developers/. Wiki-sourced deployments pages are skipped: those
-      # source repos are private and the runner has no SSH key, so
-      # mainnet.md / solver-compatible-assets.md stay on manual local syncs.
+      # CI skips wiki-backed pages; the runner has no SSH key.
       - name: Run sync script
         id: sync
         run: bash sync-sodax-sdks.sh
         env:
           SKIP_WIKI_SYNC: "1"
-          # Sync step does not need the write token on disk or in env while
-          # untrusted submodule files are present.
+          # The copy step does not need the write token in env.
           GITHUB_TOKEN: ""
 
       - name: Record synced SDK commit
         id: sdk
         run: echo "sha=$(git -C linked-repositories/sodax-sdks rev-parse --short HEAD)" >> "$GITHUB_OUTPUT"
 
-      # Opens a PR only if the sync produced changes; otherwise exits quietly.
-      # Reuses one branch, so successive syncs update the same open PR
-      # instead of stacking new ones. Always targets main, even when this
-      # workflow is dispatched from a non-default branch for testing.
+      # Reuse one branch so each run updates the same sync PR.
       - name: Open sync PR
         uses: peter-evans/create-pull-request@84ae59a2cdc2258d6fa0732dd66352dddae2a412 # v7.0.9
         with:
@@ -83,6 +68,10 @@ jobs:
             Not included: the wiki-sourced deployments pages (`mainnet.md`,
             `solver-compatible-assets.md`) — those repos are private, so
             refresh them with a local run of the script.
+
+            Audits (`developers/audits/**`) are copied from
+            `sodax-sdks/Audits/` outside the map. Nav coverage does not
+            warn for those files.
 
             ${{ steps.sync.outputs.nav_missing && '## Action required: add nav entries' || '' }}
 

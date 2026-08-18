@@ -30,6 +30,7 @@ It pulls the latest `origin/main` of the submodule, copies mapped files, and inj
 
 - `developers/packages/**` — all SDK, wallet, and dapp-kit docs
 - `developers/how-to/bitcoin-integration.md` — from `sodax-sdks/packages/sdk/docs/BITCOIN_INTEGRATION.md`
+- `developers/how-to/stellar-sponsoring-getting-started.md` — from `sodax-sdks/docs/stellar-sponsoring-getting-started.md`
 - `developers/ai-integration/README.md` — from `sodax-sdks/docs/ai-integration-guide.md`
 - `developers/deployments/mainnet.md` — from contracts wiki
 - `developers/deployments/solver-compatible-assets.md` — from solver wiki
