@@ -81,6 +81,10 @@ jobs:
 
             ${{ steps.sync.outputs.nav_missing }}
 
+            ${{ steps.sync.outputs.titles_defaulted && '## Titles taken from the page H1' || '' }}
+
+            ${{ steps.sync.outputs.titles_defaulted }}
+
             Before merging, review:
             - frontmatter injection (titles, icons, descriptions)
             - MDX rendering of any new or heavily edited pages

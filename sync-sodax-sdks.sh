@@ -16,6 +16,9 @@ SRC="linked-repositories/sodax-sdks"
 DST="developers"
 MAP_FILE="$SRC/scripts/gitbook-sync-map.json"
 
+# Icon given to a mapped page that no inject_frontmatter call below claims.
+DEFAULT_SYNC_ICON="file-lines"
+
 # GitBook dests in gitbook-sync-map.json → Mintlify paths on this branch.
 # Drop this table at cutover once the map dests in sodax-sdks are rewritten.
 # README.md → index.md (Mintlify folder indexes)
@@ -297,6 +300,92 @@ fix_synced_links() {
   mv "$tmp" "$file"
 }
 
+# Print every mapped destination, remapped for Mintlify, one per line.
+map_dests() {
+  python3 - "$MAP_FILE" <<PY
+import json, pathlib, sys
+$DEST_REMAP_PY
+with open(sys.argv[1], encoding="utf-8") as fh:
+    data = json.load(fh)
+extra = [
+    "developers/how-to/stellar-sponsoring-getting-started.md",
+    "developers/how-to/quick-sponsoring-stellar-guide.md",
+]
+seen = set()
+for item in data.get("mirrored", []):
+    dest = DEST_REMAP.get(item.get("dest") or "", item.get("dest") or "")
+    if dest and dest not in seen:
+        seen.add(dest)
+        print(dest)
+for dest in extra:
+    if dest not in seen and pathlib.Path(dest).is_file():
+        seen.add(dest)
+        print(dest)
+PY
+}
+
+# Title any mapped page that no inject_frontmatter call above claimed, taking the
+# title from the page's own H1. Without this a new page on sodax-sdks' map lands
+# with no frontmatter at all: it renders, but Mintlify has no sidebar label for
+# it until someone adds an overlay call here. Explicit calls always win — this
+# only fills the gap, so adding a page upstream needs no edit in this repo.
+title_unclaimed_pages() {
+  local dest title first
+  local defaulted="" untitled=""
+
+  while IFS= read -r dest; do
+    [ -n "$dest" ] || continue
+    case "$dest" in *.md) ;; *) continue ;; esac
+    [ -f "$dest" ] || continue
+
+    # An overlay call above already wrote frontmatter for this page.
+    first=$(head -n 1 "$dest")
+    [ "$first" = "---" ] && continue
+
+    title=$(python3 - "$dest" <<'PY'
+import re, sys
+from pathlib import Path
+
+title = ""
+for line in Path(sys.argv[1]).read_text(encoding="utf-8").splitlines():
+    if line.startswith("# "):
+        title = line[2:]
+        break
+# chr(96) is a backtick: literal ones break the enclosing $( ) in bash.
+# Backticks and double quotes would both break the YAML title this becomes.
+title = title.replace(chr(96), "").replace(chr(34), "'")
+sys.stdout.write(re.sub(r"\s+", " ", title).strip())
+PY
+)
+
+    if [ -z "$title" ]; then
+      untitled="$untitled$dest"$'\n'
+      continue
+    fi
+
+    inject_frontmatter "$dest" "$DEFAULT_SYNC_ICON" "$title"
+    defaulted="$defaulted$dest -> \"$title\""$'\n'
+  done < <(map_dests)
+
+  if [ -n "$defaulted" ]; then
+    echo "Titled from each page's own H1 (no overlay call in this script):"
+    printf '%s' "$defaulted"
+    if [ -n "${GITHUB_OUTPUT:-}" ]; then
+      {
+        echo "titles_defaulted<<EOF"
+        printf '%s' "$defaulted"
+        echo "EOF"
+      } >> "$GITHUB_OUTPUT"
+    fi
+  fi
+
+  if [ -n "$untitled" ]; then
+    echo "WARNING: mapped page has neither frontmatter nor an H1 - it will land untitled:" >&2
+    printf '%s' "$untitled" >&2
+    echo "Add a '# Heading' to the source in sodax-sdks, or an inject_frontmatter call here." >&2
+  fi
+}
+
 # Remove leftovers from the old flat-copy layout and dual Relayer/Solver dests.
 rm -f "$DST/packages/types/README.md"
 rm -f "$DST/packages/RELEASE_INSTRUCTIONS.md"
@@ -440,5 +529,8 @@ else
   inject_description_frontmatter "$DST/deployments/solver-compatible-assets.md" \
     "Assets (tokens) supported for swaps by solvers on mainnet." "Swap: Compatible Assets" "coins"
 fi
+
+# Fill in titles for mapped pages no overlay above claimed.
+title_unclaimed_pages
 
 check_nav_coverage
