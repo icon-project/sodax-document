@@ -10,7 +10,7 @@ This is a **GitBook documentation repository** for the SODAX SDK ecosystem, publ
 
 Most content is **auto-synced from external sources** and should not be manually edited here. The sync script handles three sources:
 
-1. **`sodax-sdks` submodule** (`linked-repositories/sodax-sdks`) — SDK docs, how-to guides, wallet/dapp-kit READMEs, Bitcoin Integration guide, and audit reports.
+1. **`sodax-sdks` submodule** (`linked-repositories/sodax-sdks`) — package READMEs, `packages/sdk/docs/` how-to/feature guides, Bitcoin Integration, Oracle API, and audit reports. **Do not copy from `sodax-sdks/docs/`** — that tree is the Mintlify site and can be Mintlify-only (MDX, `title`/`sidebarTitle` frontmatter).
 2. **`sodax-contracts.wiki`** GitHub wiki — `developers/deployments/mainnet.md`
 3. **`sodax-solver.wiki`** GitHub wiki — `developers/deployments/solver-compatible-assets.md`
 
@@ -26,7 +26,7 @@ This pulls the latest `origin/main` of the submodule and clones the wikis (requi
 
 - `developers/packages/**` — all SDK, wallet, and dapp-kit docs
 - `developers/how-to/bitcoin-integration.md` — from `sodax-sdks/packages/sdk/docs/BITCOIN_INTEGRATION.md`
-- `developers/ai-integration/README.md` — from `sodax-sdks/docs/ai-integration-guide.md`
+- `developers/how-to/oracle.md` — from `sodax-sdks/packages/sdk/docs/ORACLE.md` (not the Mintlify `docs/developers/http-api/oracle.mdx`)
 - `developers/deployments/mainnet.md` — from contracts wiki
 - `developers/deployments/solver-compatible-assets.md` — from solver wiki
 - `developers/audits/**` — from sodax-sdks repo
@@ -40,6 +40,7 @@ Edit the source in the respective upstream repo instead.
 - `developers/technical-overview/` — Architecture deep-dives (Asset Manager, Vault Token, Hub Wallet Abstraction, Intents, GMP).
 - `developers/deployments/README.md` and `developers/deployments/xcall-scanner.md`
 - `developers/how-to/README.md` — wrapper page for the How-to section.
+- `developers/how-to/stellar-sponsoring-getting-started.md` and `developers/ai-integration/README.md` — no longer synced; upstream sources moved into Mintlify-only `sodax-sdks/docs/`.
 - `developers/faq.md`
 - `README (1).md` — Contact form page.
 - `.gitbook/` — Platform assets and images.

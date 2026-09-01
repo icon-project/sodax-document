@@ -92,6 +92,7 @@ fix_synced_links() {
     -e 's|https://docs.sodax.com/developers/packages/sdk/backend_api|https://docs.sodax.com/developers/packages/foundation/sdk/tooling-modules/backend_api|g' \
     -e 's|https://docs.sodax.com/developers/packages/sdk/intent_relay_api|https://docs.sodax.com/developers/packages/foundation/sdk/tooling-modules/intent_relay_api|g' \
     -e 's|https://docs.sodax.com/developers/packages/intent_relay_api|https://docs.sodax.com/developers/packages/foundation/sdk/tooling-modules/intent_relay_api|g' \
+    -e 's|https://docs.sodax.com/developers/http-api/swaps|https://docs.sodax.com/developers/packages/foundation/swaps-api|g' \
     -e 's|https://github.com/icon-project/sodax-frontend/|https://github.com/icon-project/sodax-sdks/|g' \
     "$file" > "$tmp"
   mv "$tmp" "$file"
@@ -159,17 +160,22 @@ inject_description_frontmatter "$DST/how-to/bitcoin-integration.md" \
   "Bitcoin Integration"
 fix_synced_links "$DST/how-to/bitcoin-integration.md"
 
-# 7c) AI Integration (sodax-sdks/docs/ai-integration-guide.md → developers/ai-integration/README.md)
-copy_file "$SRC/docs/ai-integration-guide.md" "$DST/ai-integration/README.md"
-inject_frontmatter "$DST/ai-integration/README.md" "robot" \
-  "Every @sodax/* package on npm ships AI-readable docs at ai-exported/. Point Cursor, Claude Code, Copilot, or another coding agent at those files for v2-correct SDK code on the first try."
+# 7c) Oracle API (packages/sdk/docs/ORACLE.md → how-to/oracle.md)
+# Source is the SDK package doc, not the Mintlify page at docs/developers/http-api/oracle.mdx.
+copy_file "$SRC/packages/sdk/docs/ORACLE.md" "$DST/how-to/oracle.md"
+inject_description_frontmatter "$DST/how-to/oracle.md" \
+  "Unauthenticated candle (OHLC) and live USD mark endpoints for charts, display, and solver-aligned prices — via HTTP or @sodax/sdk." \
+  "Oracle API"
+fix_synced_links "$DST/how-to/oracle.md"
 
-# 7d) Stellar Sponsoring getting-started guide (sodax-sdks/docs/ → how-to/)
-copy_file "$SRC/docs/stellar-sponsoring-getting-started.md" "$DST/how-to/stellar-sponsoring-getting-started.md"
-inject_description_frontmatter "$DST/how-to/stellar-sponsoring-getting-started.md" \
-  "A getting-started guide for activating sponsored Stellar accounts and integrating the SODAX Sponsoring API via dapp-kit, the SDK, or raw HTTP." \
-  "Stellar Sponsoring — Getting Started"
-fix_synced_links "$DST/how-to/stellar-sponsoring-getting-started.md"
+# sodax-sdks/docs/ is the Mintlify site. Pages there can be Mintlify-only (title/sidebarTitle
+# frontmatter, MDX). Do not copy them into GitBook. GitBook sources are packages/*/ and
+# packages/sdk/docs/. Leave existing GitBook pages in place when the old shared source is gone.
+#
+# 7d) AI Integration — previously copied from docs/ai-integration-guide.md, now Mintlify-only.
+# 7e) Stellar Sponsoring — previously copied from docs/stellar-sponsoring-getting-started.md,
+#     which moved to docs/developers/how-to/ (Mintlify). packages/sdk/docs/SPONSORING.md is a
+#     different SDK service doc, not this getting-started guide.
 
 # 8) Connection layer
 copy_file "$SRC/packages/wallet-sdk-core/README.md"  "$DST/packages/connection/wallet-sdk-core.md"

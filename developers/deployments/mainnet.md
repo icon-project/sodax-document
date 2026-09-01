@@ -200,7 +200,7 @@ RLUSD asset note - 0x52D94FFC0EEfdc8B6521b19ff2C8c5ddF6E842B3
 |-------|---------|
 | ETH(18) | [0xdcd9578b51ef55239b6e68629d822a8d97c95b86](https://sonicscan.org/address/0xdcd9578b51ef55239b6e68629d822a8d97c95b86) |
 | [bnUSD(18)](https://arbiscan.io/address/0xA256dd181C3f6E5eC68C6869f5D50a712d47212e) | [0x419cA9054E44E94ceAb52846eCdC3997439BBcA6](https://sonicscan.org/address/0x419cA9054E44E94ceAb52846eCdC3997439BBcA6) |
-| [Soda(18)](https://arbiscan.io/address/0x5bda87f18109CA85fa7ADDf1D48B97734e9dc6F5) | [0x66be65dd6d2401c179a2f7ab2d5cdfb040567727](https://sonicscan.org/address/0x93a367e5b37a1b9e8d04ef25a6af40d181a3dfff) |
+| [Soda(18)](https://arbiscan.io/address/0x5bda87f18109CA85fa7ADDf1D48B97734e9dc6F5) | [0x66be65dd6d2401c179a2f7ab2d5cdfb040567727](https://sonicscan.org/address/0x66be65dd6d2401c179a2f7ab2d5cdfb040567727) |
 | [wBTC(8)](https://arbiscan.io/address/0x2f2a2543B76A4166549F7aaB2e75Bef0aefC5B0f) | [0xfB0ACB1b2720B620935F50a6dd3F7FEA52b2FCBe](https://sonicscan.org/address/0xfB0ACB1b2720B620935F50a6dd3F7FEA52b2FCBe) |
 | [weETH(18)](https://arbiscan.io/address/0x35751007a407ca6FEFfE80b3cB397736D2cf4dbe) | [0x08D5cf039De35627fD5C0f48B8AF4a1647a462E8](https://sonicscan.org/address/0x08D5cf039De35627fD5C0f48B8AF4a1647a462E8) |
 | [wstETH(18)](https://arbiscan.io/address/0x5979D7b546E38E414F7E9822514be443A4800529) | [0x2D5A7837D68b0c2CC4b14C2af2a1F0Ef420DDDc5](https://sonicscan.org/address/0x2D5A7837D68b0c2CC4b14C2af2a1F0Ef420DDDc5) |
