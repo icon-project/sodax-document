@@ -58,6 +58,7 @@
   * [Handle Stellar Trustline](developers/packages/sdk/docs/STELLAR_TRUSTLINE.md)
   * [Stellar Sponsoring](developers/how-to/stellar-sponsoring-getting-started.md)
   * [Bitcoin Integration](developers/how-to/bitcoin-integration.md)
+  * [Oracle API](developers/how-to/oracle.md)
   * [Is SODAX on Testnet?](developers/how-to/testnet.md)
 * [AI Integration](developers/ai-integration/README.md)
 * [FAQ](developers/faq.md)
