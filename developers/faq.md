@@ -155,7 +155,3 @@ See [AI Integration](https://docs.sodax.com/developers/ai-integration).
 The hub generates a deterministic user wallet on Sonic for every spoke address. For spoke chains with limited calldata, the SDK supports hashed calls: send a 32-byte `keccak256` payload to the hub, then execute the stored call later with the same data. The relayer handles this in normal flows. You only touch it directly when building custom orchestration or recovering stuck cross-chain executions.
 
 See [Hub Wallet Abstraction](https://docs.sodax.com/developers/technical-overview/hub-wallet-abstraction).
-
-***
-
-Workshop notes: rewrite, cut, or expand any of these. Once locked, the answers can drop straight into the existing FAQ page on [docs.sodax.com](http://docs.sodax.com) (currently a TODO stub).
